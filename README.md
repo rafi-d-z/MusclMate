@@ -14,3 +14,6 @@ The tools that are installed with this devcontainer are:
 
 # For Students
 If you are a student in the class you can create a new repository using this template. Once you've created a repository of your own replace the content of this file with the description or you project idea.
+
+## Workout Planner (project idea)
+A workout planner webpage that has a database of exercises categorized by muscle group. Webpage will have a feature that will allow you to create a workout plan by adding exercises featured in the database. The database will have a description of how to perform the exercise as well as a video demonstration. Exercises also have tags that may categorize it further into groups such as 'compound lifts' or 'explosiveness'. There will be public workouts posted by other users for everyone to incorporate into their own routine. 
