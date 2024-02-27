@@ -1,0 +1,33 @@
+# User Stories
+- new gym-goers who want structure to their workout
+- keeping it fresh: user wants new workouts
+- user wants to track how their fitness journey is going
+    - protien intake
+    - hydration 
+        - based on reccomended intake for activity (ie. cross-country)
+    - time spent at gym
+    - gains (quantify)
+- as an athlete
+    - improve certain sport-related activities
+    - progress-tracker
+    - generate schedules
+        - suggested
+        - user-created
+- user wants to create more healthy habbits in their life 
+    - track progress with app
+    - make plans 
+- create plans based on calendar integration
+- network with fellow fitness enuthuaists
+- app will craete motivation like duolingo (times 10 intensity O(n^n) violence)
+- see influencer branded workout plans
+    - community/ other people's fitness plans
+- user wants to know how to do certain excerises properly
+- user wants to know how to use equipment properly
+- user wants to get better at an excersise (ie. pull up) wants ways to get better
+    - proper form
+- user wants to see how many calories burned
+    - track calories consumed
+    - track muscles "engaged"
+        - possible "recovery"
+- as a new gym-goer, want to know gym lingo
+    - "gym-tionary"
