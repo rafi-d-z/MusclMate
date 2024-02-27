@@ -1,5 +1,5 @@
 # User Stories
-- new gym-goers who want structure to their workout
+- new gym-goers who want structure to their workout 
 - keeping it fresh: user wants new workouts
 - user wants to track how their fitness journey is going
     - protien intake
