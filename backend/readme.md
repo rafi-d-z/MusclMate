@@ -13,5 +13,5 @@
 
 ## PS
 - you can view this `markdown` file in better quality by hitting
-    - `windows`: `cntrl` + `shift` + `v`
-    - `mac`: `cmd` + `shift` + `v`
+    - `windows`: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>v</kbd>
+    - `mac`: <kbd>&#8984;</kbd> + <kbd>Shift</kbd> + <kbd>v</kbd>
