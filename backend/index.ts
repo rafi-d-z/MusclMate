@@ -7,6 +7,13 @@ app.get('/', (_req, _res) => {
 	_res.send("TypeScript With Express");
 });
 
+app.get('/common_excerises', (_req, _res) => {
+  _res.send("excercises");
+})
+
+app.get('/user_data', (_req, _res) => {
+  _res.send("user's data");
+})
 
 // Server setup
 app.listen(port, () => {
