@@ -11,7 +11,7 @@
 - `index.ts` is the app that will be run (using `nodemon`)
     - if you're ever confused about the required inputs and ouputs from an api, you can check there
 
-## PS
+## PS 👀
 - you can view this `markdown` file in better quality by hitting
     - `windows`: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>v</kbd>
     - `mac`: <kbd>&#8984;</kbd> + <kbd>Shift</kbd> + <kbd>v</kbd>
