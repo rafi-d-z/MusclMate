@@ -1,5 +1,5 @@
 import express from 'express';
-
+// doc: https://expressjs.com/en/4x/api.html
 const app: express.Application = express();
 const port: number = 3000;
 
