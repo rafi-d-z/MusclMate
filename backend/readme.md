@@ -10,3 +10,8 @@
     - this will run the server on your local network 
 - `index.ts` is the app that will be run (using `nodemon`)
     - if you're ever confused about the required inputs and ouputs from an api, you can check there
+
+## PS
+- you can view this `markdown` file in better quality by hitting
+    - `windows`: `cntrl` + `shift` + `v`
+    - `mac`: `cmd` + `shift` + `v`
