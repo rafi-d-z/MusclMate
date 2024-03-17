@@ -18,6 +18,6 @@
 	},
 	"scripts": {
 		"start": "nodemon index.ts",
-		"test": "jest"
+		"test": "jest --json --outputFile=test_output.json"
 	}
 }
