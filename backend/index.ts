@@ -19,3 +19,5 @@ app.get('/user_data', (_req, _res) => {
 app.listen(port, () => {
 	console.log(`Server up at: http://localhost:${port}/`);
 });
+
+export { app };
