@@ -19,6 +19,7 @@
 - it will run all scripts in the `/tests` directory
 - on each run, all outputs are saved to `test_output.json`
     - it might not save in a human-readable format so use `Beautify JSON` (<kbd>Ctrl</kbd>/<kbd>&#8984;</kbd> + <kbd>Shift</kbd> + <kbd>j</kbd>)
+    
 ## PS 👀
 - you can view this `markdown` file in better quality by hitting
     - `windows`: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>v</kbd>
