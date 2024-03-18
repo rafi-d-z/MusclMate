@@ -1,6 +1,6 @@
 import supertest from "supertest"
 import {app} from "../index"
-import { describe } from "node:test";
+import { describe, it } from "node:test";
 
 describe('Server Works', () => {
     describe('Get /', () => {
