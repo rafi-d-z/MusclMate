@@ -8,6 +8,7 @@ const client = new Client({
     password: process.env.POSTGRESQL_DB_PASSWORD,
     database: process.env.POSTGRESQL_DB,
     port: process.env.POSTGRESQL_DB_PORT ? parseInt(process.env.POSTGRESQL_DB_PORT) : 5432,
+    ssl: true
 });
 
 async function run() {
