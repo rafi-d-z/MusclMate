@@ -5,7 +5,7 @@ dotenv.config();
 
 // postgres aws db
 async function activate_db() {
-    console.log("Running ...")
+    console.log("Connecting to Database ...");
     try {
         await client.connect();
 
@@ -16,6 +16,7 @@ async function activate_db() {
     } finally {
         await client.end();
     }
+    console.log("Database connected");
 }
 activate_db();
 
