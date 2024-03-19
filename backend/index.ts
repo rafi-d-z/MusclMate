@@ -122,7 +122,19 @@ app.post('/create_exercise', (_req, _res) => {
 });
 
 app.post('/edit_exercise', (_req, _res) => {
-  
+  const uid = _req.body.uid;
+  const e_name = _req.body.exercise_name;
+  const e_target = _req.body.exercise_target;
+  const n_reps = _req.body.n_reps;
+  const n_sets = _req.body.n_sets;
+  const keywords = _req.body.arr_keywords;
+  const lbs = _req.body.weight;
+
+  if(client_instance !== undefined){
+    try{
+      const query_str: string = "UPDATE public.exercises "
+    }
+  }
 });
 
 // Server setup
