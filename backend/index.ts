@@ -3,6 +3,7 @@ import client from './db.config';
 import dotenv from 'dotenv';
 import { Client } from 'pg';
 dotenv.config();
+import cors from 'cors';
 
 // postgres aws db
 async function activate_db() {
@@ -27,8 +28,16 @@ let client_instance: Client | undefined;
 const app: express.Application = express();
 const port: number = 3000;
 
+app.use(cors({
+  origin: 'http://localhost:5173/'
+}));
+
+// Enable CORS for all routes
+app.use(cors());
+
 app.get('/', (_req, _res) => {
 	_res.status(200).send("TypeScript With Express");
+  console.log("request recieved");
 });
 
 app.get('/get_exercise', async (_req, _res) => {
@@ -79,8 +88,6 @@ app.get('/get_exercise', async (_req, _res) => {
       _res.status(404).send("Database not connected");
       return null;
     }
-
-    _res.status(200).send("Proper Query Recieved");
   } else if (target_is_string){
     _res.status(404).send("Invalid Input\n`keywords` not an array!");
     return null;
@@ -102,8 +109,8 @@ app.post('/edit_exercise', (_req, _res) => {
 });
 
 // Server setup
-app.listen(port, () => {
+let server = app.listen(port, () => {
 	console.log(`Server up at: http://localhost:${port}/`);
 });
 
-export { app };
+export { app, server };
