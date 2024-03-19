@@ -7,7 +7,7 @@ describe('Database Actions', () => {
         const keywords = ['calves'];
         const keywordsString = encodeURIComponent(JSON.stringify(keywords));
         
-        it("should return proper keywords is an array", async () => {
+        it("should return correct output on get_exercise", async () => {
             await supertest(app).get(`/get_exercise?target=abs&keywords=${keywordsString}`).expect(200);        
         });
     });
