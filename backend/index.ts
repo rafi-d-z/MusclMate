@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { Client } from 'pg';
 dotenv.config();
 import cors from 'cors';
+import {toArray, isString} from './bi';
 
 // postgres aws db
 async function activate_db() {
@@ -43,59 +44,47 @@ app.get('/', (_req, _res) => {
 app.get('/get_exercise', async (_req, _res) => {
   // checking to see if input is valid or nah
   const query = _req.query;
-  const target_is_string: Boolean = (
-    typeof query.target === 'string' && 
-    query.target.trim() !== '' &&
-    isNaN(Number(query.target))
-  );
-  let keywords;
-  let keywords_is_array: Boolean = false;
-  if (typeof query.keywords === 'string') {
-    try {
-      keywords = JSON.parse(decodeURIComponent(query.keywords));
-      keywords_is_array = Array.isArray(keywords);
-    } catch (err) {
-      _res.status(404).send('Failed to parse keywords');
-      return null;
-    }
-  }
+  const target_is_string: Boolean = isString(query.target);
+  const keywords: any = toArray(query.keywords);
+  const keywords_is_array = Array.isArray(keywords);
 
-  if (target_is_string && keywords_is_array) {
-    // query the database
-    if(client_instance !== undefined) {
-      try{
-        const query_str: string = `SELECT * FROM public.exercises WHERE exercise_target = '${query.target}'`;
-        let keywords_str: string = keywords.length>0 ? 'AND (' : '';
-
-        if(keywords.length > 0) {
-          for (let i = 0; i < keywords.length; i++) {
-            keywords_str += `'${keywords[i]}' = ANY(arr_keywords)`;
-            if (i < keywords.length - 1) {
-              keywords_str += ' OR ';
-            }
-          }
-          keywords_str += ');';
-        }
-        const res = await client_instance.query(`${query_str} ${keywords_str}`);
-
-        _res.status(200).send(res.rows);
-        return;
-      } catch (err) {
-        _res.status(404).send("Failed to query database");
-        return null;
-      }
-    } else{
-      _res.status(404).send("Database not connected");
-      return null;
-    }
-  } else if (target_is_string){
+  if (!target_is_string && keywords_is_array){
     _res.status(404).send("Invalid Input\n`keywords` not an array!");
     return null;
-  } else if (keywords_is_array){
+  } else if (target_is_string && !keywords_is_array){
     _res.status(404).send("Invalid Input\n`target` not a string!");
     return null;
-  } else {
-    _res.status(404).send('Invalid input\nExpected `target` as string and `keywords` as array!');
+  } else if (!target_is_string && !keywords_is_array) {
+    _res.status(404).send('Invalid input\nExpected `target` as an alphanumeric string and `keywords` as array!');
+    return null;
+  }
+  try{ 
+    let query_str: string = `SELECT * FROM public.exercises WHERE exercise_target = $1`;
+    let params = [query.target];
+
+    if(keywords.length > 0) {
+      let keywords_str: string = 'AND (';
+      for (let i = 2; i < keywords.length + 2; i++) {
+        keywords_str += `$${i} = ANY(arr_keywords)`;
+        if (i < keywords.length + 1) {
+          keywords_str += ' OR ';
+        }
+        params.push(keywords[i]);
+      }
+
+      keywords_str += ')';
+      query_str += ' ' + keywords_str;
+    }
+    if (client_instance !== undefined){
+      const res = await client_instance.query(query_str, params);
+      _res.status(200).send(res.rows);
+      return;
+    } else{
+      _res.status(500).send("Database is currently unavaliable at the moment, please try again later.");
+      return;
+    }
+  } catch (err) {
+    _res.status(500).send("Failed to query database");
     return null;
   }
 });
