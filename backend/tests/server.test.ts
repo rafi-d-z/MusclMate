@@ -1,6 +1,18 @@
 import supertest from "supertest"
-import {app} from "../index"
+import {app, server} from "../index"
 import { describe, it } from "node:test";
+
+beforeAll(done => {
+    server.listen(3000, async () => {
+        done();
+    });
+});
+
+afterAll(done => {
+    server.close(async () => {
+        done();
+    });
+});
 
 describe('Server Works', () => {
     describe('Get /', () => {

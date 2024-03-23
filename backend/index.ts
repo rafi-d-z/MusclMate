@@ -6,20 +6,6 @@ dotenv.config();
 import cors from 'cors';
 import {toArray, isString} from './bi';
 
-// postgres aws db
-async function activate_db() {
-    console.log("Connecting to Database ...");
-    try {
-      await client.connect();
-      console.log("Database connected");
-      return client;
-    } catch (err: any) {
-      console.error('Database connection error', err.stack);
-    } 
-    // finally {
-    //     await client.end();
-    // }
-}
 let client_instance: Client | undefined;
 (async () => {
   client_instance = await activate_db();
@@ -98,8 +84,24 @@ app.post('/edit_exercise', (_req, _res) => {
 });
 
 // Server setup
-let server = app.listen(port, () => {
-	console.log(`Server up at: http://localhost:${port}/`);
-});
+// let server = app.listen(port, () => {
+// 	console.log(`Server up at: http://localhost:${port}/`);
+// });
 
-export { app, server };
+// postgres aws db
+async function activate_db() {
+    console.log("Connecting to Database ...");
+    try {
+      await client.connect();
+      console.log("Database connected");
+      
+      app.listen(port, () => {
+        console.log(`Server up at: http://localhost:${port}/`);
+      });
+      return client;
+    } catch (err: any) {
+      console.error('Database connection error', err.stack);
+    } 
+}
+
+export { app, /*server*/ };

@@ -1,6 +1,7 @@
 {
 	"dependencies": {
 		"@types/express": "^4.17.21",
+		"cors": "^2.8.5",
 		"dotenv": "^16.4.5",
 		"express": "^4.18.3",
 		"pg": "^8.11.3",
@@ -8,6 +9,7 @@
 	},
 	"devDependencies": {
 		"@babel/preset-typescript": "^7.23.3",
+		"@types/cors": "^2.8.17",
 		"@types/jest": "^29.5.12",
 		"@types/node": "^20.11.27",
 		"@types/pg": "^8.11.2",
@@ -22,7 +24,7 @@
 	},
 	"scripts": {
 		"start": "nodemon index.ts",
-		"test": "jest --json --outputFile=test_output.json"
+		"test": "jest --json --outputFile=test_output.json --detectOpenHandles"
 	},
 	"author": "Fahad Faruqi"
 }
