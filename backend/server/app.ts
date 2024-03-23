@@ -1,10 +1,10 @@
 import express from 'express';
-import client from './db.config';
+import client from '../db.config';
 import dotenv from 'dotenv';
 import { Client } from 'pg';
-dotenv.config();
 import cors from 'cors';
 import {toArray, isString} from './bi';
+dotenv.config();
 
 let client_instance: Client | undefined;
 (async () => {
@@ -19,12 +19,9 @@ app.use(cors({
   origin: 'http://localhost:5173/'
 }));
 
-// Enable CORS for all routes
-app.use(cors());
-
 app.get('/', (_req, _res) => {
-	_res.status(200).send("TypeScript With Express");
-  console.log("request recieved");
+    _res.status(200).send("TypeScript With Express");
+    console.log("request recieved");
 });
 
 app.get('/get_exercise', async (_req, _res) => {
@@ -83,25 +80,16 @@ app.post('/edit_exercise', (_req, _res) => {
   _res.send("user's data");
 });
 
-// Server setup
-// let server = app.listen(port, () => {
-// 	console.log(`Server up at: http://localhost:${port}/`);
-// });
-
 // postgres aws db
 async function activate_db() {
     console.log("Connecting to Database ...");
     try {
       await client.connect();
       console.log("Database connected");
-      
-      app.listen(port, () => {
-        console.log(`Server up at: http://localhost:${port}/`);
-      });
       return client;
     } catch (err: any) {
       console.error('Database connection error', err.stack);
     } 
 }
 
-export { app, /*server*/ };
+export default app;

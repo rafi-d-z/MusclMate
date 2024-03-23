@@ -1,5 +1,5 @@
-import supertest from "supertest"
-import {app} from "../index"
+import request from "supertest"
+import app from "../server/app"
 import { describe, it } from "node:test";
 
 describe('Database Actions', () => {
@@ -7,8 +7,8 @@ describe('Database Actions', () => {
         const keywords = ['calves'];
         const keywordsString = encodeURIComponent(JSON.stringify(keywords));
         
-        it("should return correct output on get_exercise", async () => {
-            await supertest(app).get(`/get_exercise?target=abs&keywords=${keywordsString}`).expect(200);        
+        test("should return correct output on get_exercise", async () => {
+            await request(app).get(`/get_exercise?target=abs&keywords=${keywordsString}`).expect(200);        
         });
     });
 });
