@@ -1,19 +1,18 @@
 import express from 'express';
-import client from '../db.config';
 import dotenv from 'dotenv';
 import { Client } from 'pg';
 import cors from 'cors';
 import {toArray, isString} from './bi';
+import activate_db from './db';
 dotenv.config();
 
 let client_instance: Client | undefined;
-(async () => {
-  client_instance = await activate_db();
-})();
+// (async () => {
+//   client_instance = await activate_db();
+// })();
 
 // doc: https://expressjs.com/en/4x/api.html
 const app: express.Application = express();
-const port: number = 3000;
 
 app.use(cors({
   origin: 'http://localhost:5173/'
@@ -80,16 +79,4 @@ app.post('/edit_exercise', (_req, _res) => {
   _res.send("user's data");
 });
 
-// postgres aws db
-async function activate_db() {
-    console.log("Connecting to Database ...");
-    try {
-      await client.connect();
-      console.log("Database connected");
-      return client;
-    } catch (err: any) {
-      console.error('Database connection error', err.stack);
-    } 
-}
-
-export default app;
+export { app, activate_db };
