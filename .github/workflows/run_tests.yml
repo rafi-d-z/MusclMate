@@ -3,7 +3,7 @@ name: Run Backend Tests
 on:
   pull_request:
     branches:
-      - add_test_to_git
+      - main
 
 jobs:
   test:
