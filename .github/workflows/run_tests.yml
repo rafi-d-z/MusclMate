@@ -19,7 +19,7 @@ jobs:
           node-version: '21'
 
       - name: Install dependencies
-        run: npm install
+        run: cd backend | npm install
 
       - name: Run Jest tests
-        run: npm test
+        run: cd backedn | npm test
