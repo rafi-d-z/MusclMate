@@ -22,4 +22,4 @@ jobs:
         run: cd backend && npm install
 
       - name: Run Jest tests
-        run: cd backend && npm test --testPathIgnorePattern tests/database.test.ts
+        run: cd backend && npm test --testPathIgnorePatterns tests/database.test.ts
