@@ -1,9 +1,18 @@
-import request from "supertest"
-import {app} from "../server/app"
-import { describe, it } from "node:test";
+import request from "supertest";
+import create_app from "../server/app";
+import express from 'express';
 
+describe('Server Actions', () => {
+  let app: express.Application;
 
-describe('Server Works', () => {
+    beforeAll(async () => {
+        try {
+            app = await create_app();
+        } catch (error) {
+            console.error('Failed to start the server:', error);
+        }
+    });
+
     describe('Get /', () => {
         test("should return 200", async () => {
             await request(app).get('/').expect(200);

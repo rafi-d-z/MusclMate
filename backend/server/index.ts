@@ -1,14 +1,16 @@
-import { app, activate_db } from './app';
+import create_app from './app';
 
-const startServer = async () => {
+async function startServer() {
   try {
-    await activate_db();
+    const app = await create_app(); 
 
     const PORT: number = 3000;
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    app.listen(PORT, () => {
+      console.log(`Server listening on port ${PORT}`);
+    });
   } catch (error) {
-    console.error('Failed to connect to the database', error);
+    console.error('Failed to start the server:', error);
   }
-};
+}
 
 startServer();
