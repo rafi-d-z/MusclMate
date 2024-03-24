@@ -71,12 +71,61 @@ async function create_app(): Promise<express.Application>{
     });
 
     app.post('/create_exercise', (_req, _res) => {
-    _res.send("user's data");
-    });
+        const e_name = _req.body.exercise_name;
+        const e_target = _req.body.exercise_target;
+        const n_reps = _req.body.n_reps;
+        const n_sets = _req.body.n_sets;
+        const keywords = _req.body.arr_keywords;
+        const lbs = _req.body.weight;
+      
+        if(client_instance !== undefined){
+          try{
+            const query_str: string = `INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets, arr_keywords, weight) VALUES 
+            (gen_random_uuid(), ${e_name}, ${e_target}, ${n_reps}, ${n_sets}, ${keywords}, ${lbs}`;
+      
+            client_instance.query(query_str);
+      
+            _res.status(200);
+            return;
+          }
+          catch(err){
+            _res.status(404).send('Failed to query database');
+      
+            return null;
+          }
+        }else{
+          _res.status(404).send('Database not connected');
+        }
+      });
 
-    app.post('/edit_exercise', (_req, _res) => {
-    _res.send("user's data");
-    });
+      app.post('/edit_exercise', (_req, _res) => {
+        const uid = _req.body.uid;
+        const e_name = _req.body.exercise_name;
+        const e_target = _req.body.exercise_target;
+        const n_reps = _req.body.n_reps;
+        const n_sets = _req.body.n_sets;
+        const keywords = _req.body.arr_keywords;
+        const lbs = _req.body.weight;
+      
+        if(client_instance !== undefined){
+          try{
+            const query_str: string = `UPDATE public.exercises 
+            SET exercise_name = ${e_name}, exercise_target = ${e_target}, n_reps = ${n_reps}, n_sets = ${n_sets}, arr_keywords = ${keywords}, weight = ${lbs}
+            WHERE uid = ${uid}`;
+      
+            client_instance.query(query_str);
+      
+            _res.status(200);
+            return;
+          }
+      
+          catch(err){
+            _res.status(404).send('Failed to query database');
+          }
+        }else{
+          _res.status(404).send('Database not connected');
+        }
+      });
     return app;
 }
 export default create_app;
