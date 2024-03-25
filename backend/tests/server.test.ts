@@ -18,7 +18,25 @@ describe('Server Actions', () => {
             await request(app).get('/').expect(200);
         });
     });
-    describe('Get Exercises', () => {
+
+    describe('Post /create_exercise', () => {
+        test('valid input', async () => {
+            await request(app).post('/create_exercise').send({
+                name: 'test',
+                target: 'abs',
+                keywords: ['value1', 'value2']
+            }).expect(200);
+        });
+        test('invalid input', async () => {
+            await request(app).post('/create_exercise').send({
+                name: 'test',
+                target: 'abs',
+                keywords: 'notAnArray'
+            }).expect(404);
+        });
+    });
+    
+    describe('Get /get_exercise', () => {
         const keywords = ['value1', 'value2'];
         const keywordsString = encodeURIComponent(JSON.stringify(keywords));
         

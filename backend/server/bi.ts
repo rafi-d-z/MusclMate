@@ -1,4 +1,9 @@
-export function isString(input: any){
+/**
+ * returns if input is a string - not even a string representation of a number
+ * @param {any} input 
+ * @returns {Boolean} is_string
+ */
+export function isString(input: any): Boolean{
     const is_string: Boolean = (
         typeof input === 'string' && 
         isNaN(Number(input))
@@ -22,4 +27,18 @@ export function toArray(input: any): Array<string> | null {
         }
     }
     return null;
+}
+
+/**
+ * returns number representation of input
+ * @param {any} input 
+ * @returns {number} number
+ */
+export function toNumber(input: any): Number | null {
+    try{
+        const num: Number = Number(input);
+        return num;
+    } catch{
+        return null;
+    }
 }
