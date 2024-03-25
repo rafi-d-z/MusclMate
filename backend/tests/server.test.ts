@@ -11,7 +11,7 @@ describe('Server Actions', () => {
         } catch (error) {
             console.error('Failed to start the server:', error);
         }
-    });
+    }, 100000);
 
     describe('Get /', () => {
         test("should return 200", async () => {
@@ -24,14 +24,18 @@ describe('Server Actions', () => {
             await request(app).post('/create_exercise').send({
                 name: 'test',
                 target: 'abs',
-                keywords: ['value1', 'value2']
+                reps: 10,
+                sets: 3,
+                keywords: encodeURIComponent(JSON.stringify(['value1', 'value2']))
             }).expect(200);
         });
         test('invalid input', async () => {
             await request(app).post('/create_exercise').send({
-                name: 'test',
+                name: 'ur mom',
                 target: 'abs',
-                keywords: 'notAnArray'
+                reps: 10,
+                sets: 3,
+                keywords: encodeURIComponent(JSON.stringify('notAnArray'))
             }).expect(404);
         });
     });

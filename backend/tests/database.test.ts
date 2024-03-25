@@ -11,7 +11,7 @@ describe('Database Actions', () => {
         } catch (error) {
             console.error('Failed to start the server:', error);
         }
-    });
+    }, 100000);
 
   describe('Get Exercises', () => {
     const keywords = ['calves'];

@@ -14,13 +14,16 @@ export function isString(input: any): Boolean{
 /**
  * assumes input is encoded JSON of an array
  * @param {String} input 
- * @returns {Array | Boolean} array if array, else false
+ * @returns {Array | Boolean} array if array, else null
  */
 export function toArray(input: any): Array<string> | null {
     let keywords;
     if (typeof input === 'string') {
         try {
             keywords = JSON.parse(decodeURIComponent(input));
+            if (!Array.isArray(keywords)) {
+                return null;
+            }
             return keywords;
         } catch (err) {
             return null;

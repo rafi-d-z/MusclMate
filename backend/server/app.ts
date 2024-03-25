@@ -9,16 +9,16 @@ dotenv.config();
 
 async function create_app(): Promise<express.Application>{
     let client_instance: Client | undefined;
-    try{
-        client_instance = await activate_db(); // will be undefined if IP blocked
-    } catch{
-        console.error('Failed to connect to database');
-        client_instance = undefined;
-    }
+    // try{
+    //     client_instance = await activate_db(); // will be undefined if IP blocked
+    // } catch{
+    //     console.error('Failed to connect to database');
+    //     client_instance = undefined;
+    // }
 
     // doc: https://expressjs.com/en/4x/api.html
     const app: express.Application = express();
-
+    app.use(express.json()); 
     app.use(cors({
         origin: 'http://localhost:5173/'
     }));
@@ -85,7 +85,7 @@ async function create_app(): Promise<express.Application>{
      * Parameters: name (str), target (str), reps (int), sets (int), keywords (array)
      */
     app.post('/create_exercise', (_req, _res) => {
-        const query = _req.query;
+        const query = _req.body;
         const name: string | undefined = isString(query.name) ? String(query.name) : undefined;
         const target: string | undefined = isString(query.target) ? String(query.target) : undefined;
         const reps: Number | null = toNumber(query.reps);
@@ -94,12 +94,12 @@ async function create_app(): Promise<express.Application>{
 
         if(name === undefined || target === undefined || reps === null || sets === null || keywords === null){
             let error_message = "";
-            error_message += name === undefined ? "name is not a string " : "";
-            error_message += target === undefined ? "target is not a string " : "";
-            error_message += reps === null ? "reps is not a number " : "";
-            error_message += sets === null ? "sets is not a number " : "";
-            error_message += keywords === null ? "keywords is not an array " : "";
-            _res.send("Invalid Input " + error_message).status(404);
+            error_message += name === undefined ? ", name is not a string" : "";
+            error_message += target === undefined ? ", target is not a string" : "";
+            error_message += reps === null ? ", reps is not a number" : "";
+            error_message += sets === null ? ", sets is not a number" : "";
+            error_message += keywords === null ? ", keywords is not an array" : "";
+            _res.status(404).send("Invalid Input" + error_message+ "!");
         } else {
             _res.send("user's data");
         }
