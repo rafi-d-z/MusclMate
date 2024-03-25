@@ -35,6 +35,23 @@ describe('Server Actions', () => {
             }).expect(404);
         });
     });
+
+    describe('Post /edit_exercise', () => {
+        test('valid input', async () => {
+            await request(app).post('/edit_exercise').send({
+                name: 'test',
+                target: 'abs',
+                reps: 10
+            }).expect(200);
+        });
+        test('invalid input', async () => {
+            await request(app).post('/edit_exercise').send({
+                name: 'test',
+                target: 'abs',
+                reps: 'ten'
+            }).expect(404);
+        });
+    });
     
     describe('Get /get_exercise', () => {
         const keywords = ['value1', 'value2'];

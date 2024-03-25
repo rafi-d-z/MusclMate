@@ -106,7 +106,24 @@ async function create_app(): Promise<express.Application>{
     });
 
     app.post('/edit_exercise', (_req, _res) => {
-        _res.send("user's data");
+        const query = _req.query;
+        const name: string | undefined = isString(query.name) ? String(query.name) : undefined;
+        const target: string | undefined = isString(query.target) ? String(query.target) : undefined;
+        const reps: Number | null = toNumber(query.reps);
+        const sets: Number | null = toNumber(query.sets);
+        const keywords: string[] | null = toArray(query.keywords);
+
+        if(name === undefined || target === undefined || reps === null || sets === null || keywords === null){
+            let error_message = "";
+            error_message += name === undefined ? "name is not a string " : "";
+            error_message += target === undefined ? "target is not a string " : "";
+            error_message += reps === null ? "reps is not a number " : "";
+            error_message += sets === null ? "sets is not a number " : "";
+            error_message += keywords === null ? "keywords is not an array " : "";
+            _res.send("Invalid Input " + error_message).status(404);
+        } else {
+            _res.send("user's data");
+        }
     });
     return app;
 }
