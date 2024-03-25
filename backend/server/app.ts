@@ -20,7 +20,7 @@ async function create_app(): Promise<express.Application>{
     const app: express.Application = express();
     app.use(express.json()); 
     app.use(cors({
-        origin: 'http://localhost:5173/'
+        origin: 'http://localhost:5173'
     }));
 
     app.get('/', (_req, _res) => {
