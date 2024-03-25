@@ -9,12 +9,12 @@ dotenv.config();
 
 async function create_app(): Promise<express.Application>{
     let client_instance: Client | undefined;
-    // try{
-    //     client_instance = await activate_db(); // will be undefined if IP blocked
-    // } catch{
-    //     console.error('Failed to connect to database');
-    //     client_instance = undefined;
-    // }
+    try{
+        client_instance = await activate_db(); // will be undefined if IP blocked
+    } catch{
+        console.error('Failed to connect to database');
+        client_instance = undefined;
+    }
 
     // doc: https://expressjs.com/en/4x/api.html
     const app: express.Application = express();
