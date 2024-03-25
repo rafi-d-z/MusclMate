@@ -24,8 +24,7 @@ async function create_app(): Promise<express.Application>{
     }));
 
     app.get('/', (_req, _res) => {
-        _res.status(200).send("TypeScript With Express");
-        console.log("request recieved");
+        _res.status(200).send("Skibbidi Toilet");
     });
 
     /**
