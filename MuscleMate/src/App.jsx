@@ -25,13 +25,19 @@ function App() {
 
   async function onClick(){
     try{
-      const response = await axios.get('http://localhost:3000/UI_Test');
+      const response = await axios.get('http://localhost:3000/get_exercise', {
+        params:{
+          target: "lats",
+          keywords: ['pull day', 'lats', 'hypertrophy', 'barbell']
+        }
+      });
       if (response.status === 200){
         console.log(response);
         return response.data;
       }
     }catch(error){
       console.error(error);
+      console.log(response)
     }
   } 
 
@@ -54,7 +60,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <button onClick={onClick()}>End-to-end test</button>
+      <button onClick={() => onClick()}>End-to-end test</button>
     </>
   )
 }
