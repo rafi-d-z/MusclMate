@@ -23,7 +23,8 @@
 		"typescript": "^5.4.2"
 	},
 	"scripts": {
-		"start": "nodemon server/index.ts",
+		"start": "nodemon index.ts",
+		"temp": "nodemon temp.ts",
 		"test": "jest --json --outputFile=test_output.json"
 	},
 	"author": "Fahad Faruqi"
