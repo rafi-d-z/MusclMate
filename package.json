@@ -1,0 +1,16 @@
+{
+  "name": "musclmate",
+  "version": "1.0.0",
+  "description": "This is a template repository for the topics in software engineering class I teach at CCNY.\r It comes with a pre-configured devcontainer that includes most of the tools you'll need during this semester. \r If you start with this repository as a template you will have a ready to go development environment that you'll be able to \r share with your team mates. Additionally, a demo github action workflow has been setup to help you with your first assignment.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.2",
+    "axios": "^1.6.8"
+  }
+}
