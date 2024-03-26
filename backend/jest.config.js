@@ -1,8 +1,8 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  preset: 'jest',
+  preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/*.test.js'],
+  testMatch: ['**/*.test.ts'],
   verbose: true,
   forceExit: true,
   // clearMocks: true,
