@@ -14,11 +14,24 @@ describe('Database Actions', () => {
     }, 100000);
 
   describe('Get Exercises', () => {
-    const keywords = ['calves'];
-    const keywordsString = encodeURIComponent(JSON.stringify(keywords));
-
-    it("should return correct output on get_exercise", async () => {
-      await request(app).get(`/get_exercise?target=abs&keywords=${keywordsString}`).expect(200);
+    test("should return correct output on get_exercise", async () => {
+      await request(app).get('/get_exercise').send({
+        target: 'abs',
+        keywords: encodeURIComponent(JSON.stringify(['calves']))
+      }).expect(200);
     });
   });
+
+  describe('Create Exercise', () => {
+    test("testing paramaterized query", async () => {(
+      await request(app).post('/create_exercise').send({
+        name: 'test',
+        target: 'test',
+        reps: 10,
+        sets: 3,
+        keywords: encodeURIComponent(JSON.stringify(['test', 'test'])),
+        weight: 160
+      }).expect(200)
+    )})
+  })
 });

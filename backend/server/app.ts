@@ -4,7 +4,7 @@ import { Client } from 'pg';
 import cors from 'cors';
 import {toArray, isString, toNumber} from './bi';
 import activate_db from './db';
-import { error } from 'console';
+import {create_exercise, get} from './dbBI';
 dotenv.config();
 
 async function create_app(): Promise<express.Application>{
@@ -53,24 +53,24 @@ async function create_app(): Promise<express.Application>{
             let params = [query.target];
 
             if(keywords.length > 0) {
-            let keywords_str: string = 'AND (';
-            for (let i = 2; i < keywords.length + 2; i++) {
-                keywords_str += `$${i} = ANY(arr_keywords)`;
-                if (i < keywords.length + 1) {
-                keywords_str += ' OR ';
+                let keywords_str: string = 'AND (';
+                for (let i = 2; i < keywords.length + 2; i++) {
+                    keywords_str += `$${i} = ANY(arr_keywords)`;
+                    if (i < keywords.length + 1) {
+                    keywords_str += ' OR ';
+                    }
+                    params.push(keywords[i]);
                 }
-                params.push(keywords[i]);
-            }
 
-            keywords_str += ')';
-            query_str += ' ' + keywords_str;
+                keywords_str += ')';
+                query_str += ' ' + keywords_str;
             }
             if (client_instance !== undefined){
-            const res = await client_instance.query(query_str, params);
-            _res.status(200).send(res.rows);
-            return;
+                const res = await client_instance.query(query_str, params);
+                _res.status(200).send(res.rows);
+                return;
             } else{
-            _res.status(500).send("Database is currently unavaliable at the moment, please try again later.");
+                _res.status(500).send("Database is currently unavaliable at the moment, please try again later.");
             return;
             }
         } catch (err) {
@@ -83,15 +83,16 @@ async function create_app(): Promise<express.Application>{
      * Create an exercise
      * Parameters: name (str), target (str), reps (int), sets (int), keywords (array)
      */
-    app.post('/create_exercise', (_req, _res) => {
+    app.post('/create_exercise', async (_req, _res) => {
         const query = _req.body;
         const name: string | undefined = isString(query.name) ? String(query.name) : undefined;
         const target: string | undefined = isString(query.target) ? String(query.target) : undefined;
         const reps: Number | null = toNumber(query.reps);
         const sets: Number | null = toNumber(query.sets);
         const keywords: string[] | null = toArray(query.keywords);
+        const weight: Number | null = toNumber(query.weight);
 
-        if(name === undefined || target === undefined || reps === null || sets === null || keywords === null){
+        if(name === undefined || target === undefined || reps === null || sets === null || keywords === null || weight === null){
             let error_message = "";
             error_message += name === undefined ? ", name is not a string" : "";
             error_message += target === undefined ? ", target is not a string" : "";
@@ -100,7 +101,14 @@ async function create_app(): Promise<express.Application>{
             error_message += keywords === null ? ", keywords is not an array" : "";
             _res.status(404).send("Invalid Input" + error_message+ "!");
         } else {
-            _res.send("user's data");
+            if(client_instance != undefined){
+                const res = await create_exercise(client_instance, name, target, reps, sets, keywords, weight);
+                if(res !== false){
+                    _res.status(200).send(res);
+                    return;
+                }
+                _res.status(404).send(res);
+            }
         }
     });
 
