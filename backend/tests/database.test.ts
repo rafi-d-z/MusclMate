@@ -4,7 +4,8 @@ import express from 'express';
 
 describe('Database Actions', () => {
   let app: express.Application;
-
+  let uid: string;
+  
     beforeAll(async () => {
         try {
             app = await create_app();
@@ -23,7 +24,7 @@ describe('Database Actions', () => {
   });
 
   describe('Create Exercise', () => {
-    test("testing paramaterized query", async () => {(
+    test("create via paramaterized query", async () => {(
       await request(app).post('/create_exercise').send({
         name: 'test',
         target: 'test',
@@ -31,6 +32,13 @@ describe('Database Actions', () => {
         sets: 3,
         keywords: encodeURIComponent(JSON.stringify(['test', 'test'])),
         weight: 160
+      }).expect(200)
+    )})
+
+    test("delete via parameterized query", async () => {(
+      await request(app).post('/delete').send({
+        db_name: "exercises",
+        uid: '4fdaa2ae-8016-417c-9718-6bc474f0387c'
       }).expect(200)
     )})
   })

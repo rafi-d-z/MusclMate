@@ -4,7 +4,7 @@ import { Client } from 'pg';
 import cors from 'cors';
 import {toArray, isString, toNumber} from './bi';
 import activate_db from './db';
-import {create_exercise, get} from './dbBI';
+import {create_exercise, delete_from, get} from './dbBI';
 dotenv.config();
 
 async function create_app(): Promise<express.Application>{
@@ -107,6 +107,38 @@ async function create_app(): Promise<express.Application>{
                 return;
             }
         } else{_res.status(404).send(false);}
+        return;
+    });
+
+    app.post('/delete', async (_req, _res) => {
+        const query = _req.body;
+        const db_name: String | null = isString(query.db_name) ? String(query.db_name) : null;
+        const uid: String | null = isString(query.uid) ? String(query.uid) : null;
+
+        if (db_name === null || uid === null){
+            let error_message = "";
+            error_message += db_name === undefined ? ", db_name is not a string" : "";
+            error_message += uid === undefined ? ", uid is not a number" : "";
+            _res.status(400).send("Invalid Input" + error_message+ "!");
+            return;
+        } 
+
+        if(client_instance !== undefined){
+            try {
+                const res: Boolean = await delete_from(client_instance, db_name, uid);
+                if(res){
+                    _res.status(200).send({ success: true });
+                } else {
+                    _res.status(500).send({ success: false });
+                }
+            } catch(err) {
+                console.error(err);
+                _res.status(500).send({ success: false });
+            }
+            return;
+        } 
+
+        _res.status(404).send({ success: false });
     });
 
     app.post('/edit_exercise', (_req, _res) => {
