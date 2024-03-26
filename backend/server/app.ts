@@ -100,16 +100,13 @@ async function create_app(): Promise<express.Application>{
             error_message += sets === null ? ", sets is not a number" : "";
             error_message += keywords === null ? ", keywords is not an array" : "";
             _res.status(404).send("Invalid Input" + error_message+ "!");
-        } else {
-            if(client_instance != undefined){
-                const res = await create_exercise(client_instance, name, target, reps, sets, keywords, weight);
-                if(res !== false){
-                    _res.status(200).send(res);
-                    return;
-                }
-                _res.status(404).send(res);
+        } else if (client_instance != undefined){
+            const res = await create_exercise(client_instance, name, target, reps, sets, keywords, weight);
+            if(res !== false){
+                _res.status(200).send(res);
+                return;
             }
-        }
+        } else{_res.status(404).send(false);}
     });
 
     app.post('/edit_exercise', (_req, _res) => {
