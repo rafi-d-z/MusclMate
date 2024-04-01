@@ -6,19 +6,19 @@ describe('Database Actions', () => {
   let app: express.Application;
   let uid: string;
   
-    beforeAll(async () => {
-        try {
-            app = await create_app();
-        } catch (error) {
-            console.error('Failed to start the server:', error);
-        }
-    }, 100000);
+  beforeAll(async () => {
+      try {
+          app = await create_app();
+      } catch (error) {
+          console.error('Failed to start the server:', error);
+      }
+  }, 100000);
 
   describe('Get Exercises', () => {
     test("should return correct output on get_exercise", async () => {
       await request(app).get('/get_exercise').send({
         target: 'abs',
-        keywords: encodeURIComponent(JSON.stringify(['calves']))
+        keywords: encodeURIComponent(JSON.stringify(['calves'])) // what would happen if i didn't do this?
       }).expect(200);
     });
   });
