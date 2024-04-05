@@ -21,7 +21,7 @@ async function connectToDatabase() {
         console.log("Database connected");
         return client;
     } catch (err) {
-        console.error('Database connection error\n', err.stack);
+        console.error('Database connection error\n', err);
         return undefined;
     }
 }
