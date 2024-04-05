@@ -13,4 +13,4 @@ jobs:
           node-version: '21'
       - name: install all backend dependencies
       - run: cd backend && npm install
-      - run: npm server/index.ts
+      - run: node server/index.ts
