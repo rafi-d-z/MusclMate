@@ -16,5 +16,6 @@ jobs:
       
       - name: testing
         run: ls
-      # - name: Run Jest tests
-      #   run: cd backened && npm test
+
+      - name: Run Jest tests
+        run: cd backend && npm test
