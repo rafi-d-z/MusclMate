@@ -11,5 +11,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '21'
-      - run: npm install -g bats
-      - run: bats -v
+      - name: install all backend dependencies
+      - run: cd backend && npm install
+      - run: npm server/index.ts
