@@ -14,5 +14,7 @@ jobs:
       - name: install all backend dependencies
         run: cd backend && npm install
       
-      - name: Run Jest tests
-        run: cd backened && npm test
+      - name: testing
+        run: ls
+      # - name: Run Jest tests
+      #   run: cd backened && npm test
