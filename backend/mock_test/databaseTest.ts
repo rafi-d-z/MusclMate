@@ -34,12 +34,3 @@ connectToDatabase().then(client => {
         console.log("not all good")
     }
 });
-
-try {
-    await client.connect();
-    console.log("Database connected");
-    return client;
-  } catch (err: any) {
-    console.error('Database connection error\n', err.stack);
-    return undefined;
-  } 
