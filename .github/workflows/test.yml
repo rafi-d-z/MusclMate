@@ -1,5 +1,4 @@
-name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: running backend tests
 
 on: [push]
 
@@ -16,4 +15,4 @@ jobs:
         run: cd backend && npm install
       
       - name: Run Jest tests
-        run: npm test
+        run: cd backened && npm test
