@@ -11,6 +11,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '21'
+          
       - name: install all backend dependencies
-      - run: cd backend && npm install
-      - run: node server/index.ts
+        run: cd backend && npm install
+      
