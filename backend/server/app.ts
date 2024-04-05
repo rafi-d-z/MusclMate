@@ -24,7 +24,7 @@ async function create_app(): Promise<express.Application>{
     }));
 
     app.get('/', (_req, _res) => {
-        _res.status(200).send("Skibbidi Toilet");
+        _res.status(200).send("THE SERVER FUCKING WORKS AHAHAHAHAAHH FUCK YEAH");
     });
 
     /**
