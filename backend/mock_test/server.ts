@@ -2,9 +2,6 @@ import express from 'express';
 
 const app: express.Application = express();
 app.use(express.json()); 
-app.use(cors({
-    origin: 'http://localhost:5173'
-}));
 
 app.get('/', (_req, _res) => {
     _res.status(200).send("Skibbidi Toilet");
