@@ -6,6 +6,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 import { Label } from "@/components/ui/label"
 import {
   Card,
@@ -135,21 +143,66 @@ function MainMenu() {
             <Card className="w-[200px]">
               <CardHeader>
                 <CardTitle>Exercise ..</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
+                <CardDescription></CardDescription>
               </CardHeader>
               <CardContent>
                 <Popover>
-                  <PopoverTrigger>Open</PopoverTrigger>
-                  <PopoverContent>Place content for the popover here.</PopoverContent>
-                </Popover>
-              </CardContent>
-              <CardFooter>
-                    <div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="terms" />
-                        <Label htmlFor="terms">Add exercise</Label>
+                <PopoverTrigger asChild>
+                  <Button variant="outline">Add Exercise</Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80">
+                  <div className="grid gap-4">
+                    <div className="space-y-2">
+                      <h4 className="font-medium leading-none">Dimensions</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Set the dimensions for the layer.
+                      </p>
+                     </div>
+                    <div className="grid gap-2">
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <Label htmlFor="width">Catagory</Label>
+                        <Select>
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Theme" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="light">Light</SelectItem>
+                            <SelectItem value="dark">Dark</SelectItem>
+                            <SelectItem value="system">System</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <Label htmlFor="maxWidth">Exercise1</Label>
+                        <Input
+                          id="maxWidth"
+                          defaultValue="300px"
+                          className="col-span-2 h-8"
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <Label htmlFor="height">Exercise2</Label>
+                        <Input
+                          id="height"
+                          defaultValue="25px"
+                          className="col-span-2 h-8"
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <Label htmlFor="maxHeight">Exercise3</Label>
+                        <Input
+                          id="maxHeight"
+                          defaultValue="none"
+                          className="col-span-2 h-8"
+                        />
                       </div>
                     </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              </CardContent>
+              <CardFooter>
+                   
               </CardFooter>
             </Card>
 
