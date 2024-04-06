@@ -1,25 +1,38 @@
-name: Run Backend Tests
-
-on:
-  pull_request:
-    branches:
-      - main
+on: [push]
 
 jobs:
-  test:
+  run_jest_tests:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '21'
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '21'
+    - name: Get Github action IP
+      id: ip
+      uses: haythem/public-ip@v1.2
 
-      - name: Install dependencies
-        run: cd backend && npm install
+    - name: Add Github Actions IP to Security group
+      run: |
+        aws rds authorize-security-group-ingress --group-name ${{ env.AWS_SG_NAME }} --protocol tcp --port 5432 --cidr ${{ steps.ip.outputs.ipv4 }}/32    
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION }}
 
-      - name: Run Jest tests
-        run: cd backend && npm test
+    - name: install all backend dependencies
+      run: cd backend && npm install
+
+    - name: Run Jest tests
+      run: cd backend && npm test
+
+    - name: Remove Github Actions IP from security group
+      run: |
+        aws ec2 revoke-security-group-ingress --group-name ${{ env.AWS_SG_NAME }} --protocol tcp --port 5432 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION }}
+      if: always()
+
