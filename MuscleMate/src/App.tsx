@@ -1,5 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
 import { Label } from "@/components/ui/label"
 import {
   Card,
@@ -78,15 +84,15 @@ function MainMenu() {
                 <CardDescription>Trends For You</CardDescription>
               </CardHeader>
               <CardContent>
+                <p>Card Content</p>
+              </CardContent>
+              <CardFooter>
                     <div>
                       <div className="flex items-center space-x-2">
                         <Checkbox id="terms" />
-                        <Label htmlFor="terms">Accept terms and conditions</Label>
+                        <Label htmlFor="terms">Add exercise</Label>
                       </div>
                     </div>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
               </CardFooter>
             </Card>
 
@@ -99,7 +105,12 @@ function MainMenu() {
                 <p>Card Content</p>
               </CardContent>
               <CardFooter>
-               <p>Card Footer</p>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <Label htmlFor="terms">Add exercise</Label>
+                      </div>
+                    </div>
               </CardFooter>
             </Card>
 
@@ -112,7 +123,33 @@ function MainMenu() {
                 <p>Card Content</p>
               </CardContent>
               <CardFooter>
-                <p>Card Footer</p>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <Label htmlFor="terms">Add exercise</Label>
+                      </div>
+                    </div>
+              </CardFooter>
+            </Card>
+
+            <Card className="w-[200px]">
+              <CardHeader>
+                <CardTitle>Exercise ..</CardTitle>
+                <CardDescription>Trends For You</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Popover>
+                  <PopoverTrigger>Open</PopoverTrigger>
+                  <PopoverContent>Place content for the popover here.</PopoverContent>
+                </Popover>
+              </CardContent>
+              <CardFooter>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <Label htmlFor="terms">Add exercise</Label>
+                      </div>
+                    </div>
               </CardFooter>
             </Card>
 
@@ -127,7 +164,12 @@ function MainMenu() {
                 <p>Card Content</p>
               </CardContent>
               <CardFooter>
-                <p>Card Footer</p>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <Label htmlFor="terms">Add exercise</Label>
+                      </div>
+                    </div>
               </CardFooter>
             </Card>
 
@@ -140,7 +182,12 @@ function MainMenu() {
                 <p>Card Content</p>
               </CardContent>
               <CardFooter>
-                <p>Card Footer</p>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <Label htmlFor="terms">Add exercise</Label>
+                      </div>
+                    </div>
               </CardFooter>
             </Card>
 
@@ -153,7 +200,12 @@ function MainMenu() {
                 <p>Card Content</p>
               </CardContent>
               <CardFooter>
-                <p>Card Footer</p>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <Label htmlFor="terms">Add exercise</Label>
+                      </div>
+                    </div>
               </CardFooter>
             </Card>
 
@@ -168,7 +220,12 @@ function MainMenu() {
                 <p>Card Content</p>
               </CardContent>
               <CardFooter>
-                <p>Card Footer</p>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <Label htmlFor="terms">Add exercise</Label>
+                      </div>
+                    </div>
               </CardFooter>
             </Card>
 
@@ -181,7 +238,12 @@ function MainMenu() {
                 <p>Card Content</p>
               </CardContent>
               <CardFooter>
-                <p>Card Footer</p>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <Label htmlFor="terms">Add exercise</Label>
+                      </div>
+                    </div>
               </CardFooter>
             </Card>
 
@@ -196,7 +258,12 @@ function MainMenu() {
                   <p>Card Content</p>
                 </CardContent>
                 <CardFooter>
-                  <p>Card Footer</p>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <Label htmlFor="terms">Add exercise</Label>
+                      </div>
+                    </div>
                 </CardFooter>
               </Card>
               <Card className="w-[200px]">
@@ -208,7 +275,12 @@ function MainMenu() {
                   <p>Card Content</p>
                 </CardContent>
                 <CardFooter>
-                  <p>Card Footer</p>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <Label htmlFor="terms">Add exercise</Label>
+                      </div>
+                    </div>
                 </CardFooter>
               </Card>
           </TabsContent>
