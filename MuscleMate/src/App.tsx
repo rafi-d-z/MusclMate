@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 import {
   Card,
   CardContent,
@@ -76,7 +78,12 @@ function MainMenu() {
                 <CardDescription>Trends For You</CardDescription>
               </CardHeader>
               <CardContent>
-                <p>Card Content</p>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <Label htmlFor="terms">Accept terms and conditions</Label>
+                      </div>
+                    </div>
               </CardContent>
               <CardFooter>
                 <p>Card Footer</p>
