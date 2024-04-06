@@ -92,7 +92,7 @@ function MainMenu() {
                 <p>Card Content</p>
               </CardContent>
               <CardFooter>
-                <p>Card Footer</p>
+               <p>Card Footer</p>
               </CardFooter>
             </Card>
 
