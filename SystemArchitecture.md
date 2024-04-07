@@ -17,6 +17,7 @@ Docker and Github actions are being explored to add continous devliery to the EC
 ![Relationship Diagram](images/er_diagram.png)
 
 As of this moment, we have three tables: exercises, user, workout_plans. The three represent the basic information we need on the site as of this moment, the exercises table contains all of the exercises and relevant information related to them. The user table contains basic user information that we can use in their session to show them their favorite exercises and workouts. This is done via arrays of unique IDs that correlate to a specific element in either table. The workout_plans table contains the UUIDs (in order) of the list of exercises contained within a workout. 
+
 The exercises and workout tables all contain a "keywords" array which is a planned feature that allows us to search more efficiently based on semenatic meaning (embeddings, etc.). Currently they will only represent a certain topic that will be displayed on the user's interface. 
 
 ## Flow Diagram
