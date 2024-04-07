@@ -23,4 +23,4 @@ The exercises and public playlists all contain a "keywords" array which is a pla
 
 ![Flow Diagram](images/sequence_diagram.jpeg)
 
-CoRise Stretch: replace the diagram image, and add a text description
+The above flow diargam represents the sequence of events that undergo given all inputs are correct. The user's input will be sent to the server where the inputs are validated. This is done because we cannot send incorrect types to the "strongly typed" postgresql database. If a user's input violates this validation, a 400 response is sent back and they are asked to try again. Assuming the inputs were valid, the information is stored to the database of workouts, which has it's UID updated on the user's favorite workout list. 
