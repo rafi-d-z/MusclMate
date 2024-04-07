@@ -14,12 +14,13 @@ Docker and Github actions are being explored to add continous devliery to the EC
 
 ## Relationship Diagram
 
-![Relationship Diagram](relationship_diagram.jpg)
+![Relationship Diagram](images/er_diagram.png)
 
-CoRise Stretch: replace the diagram image, and add a text description
+As of this moment, we have three tables, they are: exercises, user, workout_plans. The three represent the basic information we need on the site as of this moment, the exercises table contains all of the exercises and relevant information related to them. The user table contains basic user information that we can use in their session to show them their favorite exercises and workouts. The workout_plans table just contains (in order) the list of exercises contained within a playlist. 
+The exercises and public playlists all contain a "keywords" array which is a planned feature that allows us to search more efficiently based on semenatic meaning (embeddings, etc.). Currently they will only represent a certain topic that will be displayed on the user's webpage. 
 
 ## Flow Diagram
 
-![Flow Diagram](flow_diagram.jpg)
+![Flow Diagram](images/sequence_diagram.jpeg)
 
 CoRise Stretch: replace the diagram image, and add a text description
