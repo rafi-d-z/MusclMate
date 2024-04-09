@@ -13,12 +13,41 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-
+import { useState, useEffect } from "react"
 import './App.css'
 import muscleLogo from './assets/MuscleLogo.png'
 import { MenuBar } from "./components/ui/menuBar"
+import axios from 'axios';
+
+interface CardData{
+  name: string,
+  uid: number,
+  type: string,
+  reps: number
+  sets: number,
+  url:string
+}
 
 function MainMenu() {
+  const [selectedCard, setSelectedCard] = useState("");
+  const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
+
+  useEffect(() => {
+      const fetchData = async () => {
+        console.log("Type:", selectedCard)
+        axios({
+          method: 'get',
+          url: 'http://localhost:3000/get_mock_exercise',
+          params: {
+            type: selectedCard
+          }
+        }).then(function (response) {
+            setSelectedCardData(response.data);
+          });
+      };
+
+      fetchData();
+  }, [selectedCard]);
 
   return (
     <>
@@ -31,111 +60,33 @@ function MainMenu() {
         </div>
       </div>
 
-      <Tabs defaultValue="trending" className="w-[1200px]">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="trending">Trending</TabsTrigger>
-          <TabsTrigger value="abs">Abs</TabsTrigger>
-          <TabsTrigger value="swimming">Swimming</TabsTrigger>
-          <TabsTrigger value="running">Running</TabsTrigger>
+      <Tabs defaultValue={selectedCard} className="w-[1200px]">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="" onClick={() => setSelectedCard('')}>Trending</TabsTrigger>
+          <TabsTrigger value="arms" onClick={() => setSelectedCard('arms')}>Arms</TabsTrigger>
+          <TabsTrigger value="legs" onClick={() => setSelectedCard('legs')}>Legs</TabsTrigger>
+          <TabsTrigger value="chest" onClick={() => setSelectedCard('chest')}>Chest</TabsTrigger>
+          <TabsTrigger value="back" onClick={() => setSelectedCard('back')}>Back</TabsTrigger>        
         </TabsList>
 
-        <TabsContent value="trending" className="grid grid-cols-5 gap-10">
-          <Card>
-            <CardHeader>
-              <CardTitle>Exercise 1</CardTitle>
-              <CardDescription>Trends For You</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Exercise 2</CardTitle>
-              <CardDescription>Trends For You</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter>
-          </Card>   
+        <TabsContent value={selectedCard} className="grid grid-cols-5 gap-10">
+          {selectedCardData.map((data, index) => (
+              <Card key={index}>
+                  <CardHeader>
+                      <CardTitle>{data.name}</CardTitle>
+                      <CardDescription>{data.type}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <img src={data.url}></img>
+                  </CardContent>
+                  <CardFooter>
+                      {data.reps}/{data.sets}
+                  </CardFooter>
+              </Card>
+          ))}
         </TabsContent>
 
-          <TabsContent value="abs" className="grid grid-cols-5 gap-10">
-            <Card>
-              <CardHeader>
-                <CardTitle>Trending</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-          </TabsContent>
-            
-          <TabsContent value="swimming" className="grid grid-cols-5 gap-10">
-            <Card>
-              <CardHeader>
-                <CardTitle>Trending</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Trending</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Trending</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-
-          </TabsContent>
-
-          <TabsContent value="running" className="grid grid-cols-5 gap-10">
-            <Card>
-              <CardHeader>
-                <CardTitle>Trending</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-          </TabsContent>
-        </Tabs>
+      </Tabs>
     </>
   )
 }
