@@ -1,0 +1,12 @@
+.bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 60vh;
+    width: 100%;
+    overflow: auto;
+}
+.icons{
+    size: 100%;
+}
