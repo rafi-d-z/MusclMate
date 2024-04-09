@@ -22,6 +22,7 @@ function MainMenu() {
 
   return (
     <>
+    {/* top bar components */}
       <div className="flex items-center justify-between p-8 lg:px-8">
         <img src={muscleLogo} width={200} height={200}/>
         <div className="mt-5 flex lg:ml-4 gap-20">
@@ -30,7 +31,7 @@ function MainMenu() {
         </div>
       </div>
 
-      <Tabs defaultValue="exercises" className="w-[1200px]">
+      <Tabs defaultValue="trending" className="w-[1200px]">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="trending">Trending</TabsTrigger>
           <TabsTrigger value="abs">Abs</TabsTrigger>
