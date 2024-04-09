@@ -15,7 +15,7 @@ async function create_app(): Promise<express.Application>{
     const app: express.Application = express();
 
     app.use(cors({
-    origin: 'http://localhost:5173/'
+    origin: 'http://localhost:5173'
     }));
 
     app.get('/', (_req, _res) => {
@@ -135,7 +135,7 @@ async function create_app(): Promise<express.Application>{
       const type: string | undefined = isString(query.type) ? String(query.type) : undefined;
       
       if(type != undefined){
-        let new_data: { [key: string]: any } = {};
+        let new_data: any[] = [];
 
         for (const key in data) {
           if (data.hasOwnProperty(key)) {
@@ -143,7 +143,7 @@ async function create_app(): Promise<express.Application>{
               
               for (const subKey in subObject) {
                   if (subObject.hasOwnProperty(subKey) && subKey === "type" && subObject[subKey] === type) {
-                    new_data[key] = subObject;
+                    new_data.push(subObject);
                   }
               }
           }
