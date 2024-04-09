@@ -1,0 +1,6 @@
+.my-label {
+    overflow:scroll !important;
+    display: block !important;
+    width: 100vw;
+    font-size: 40px;
+}
