@@ -148,7 +148,6 @@ async function create_app(): Promise<express.Application>{
               }
           }
         }
-        console.log(new_data)
         _res.send(new_data)
       }
       else{
