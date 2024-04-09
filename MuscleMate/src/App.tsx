@@ -28,6 +28,7 @@ import {
 
 import './App.css'
 import muscleLogo from './assets/MuscleLogo.png'
+import { MenuBar } from "./components/ui/menuBar";
 
 function MainMenu() {
 
@@ -37,27 +38,7 @@ function MainMenu() {
         <img src={muscleLogo} width={200} height={200}/>
         <div className="mt-5 flex lg:ml-4 gap-20">
           <Input placeholder="Search" className="w-[200px] "/>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" className ="text-sm font-semibold leading-6 text-gray-900">Dashboard</Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Edit profile</SheetTitle>
-                <SheetDescription>
-                  Make changes to your profile here. Click save when you're done.
-                </SheetDescription>
-              </SheetHeader>
-              <div className="grid gap-4 py-4">
-                This is where we will have the buttons.
-              </div>
-              <SheetFooter>
-                <SheetClose asChild>
-                  <Button type="submit">Save changes</Button>
-                </SheetClose>
-              </SheetFooter>
-            </SheetContent>
-          </Sheet>
+          <MenuBar />
         </div>
       </div>
 
