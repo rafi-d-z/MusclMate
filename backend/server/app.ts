@@ -135,7 +135,7 @@ async function create_app(): Promise<express.Application>{
       const type: string | undefined = isString(query.type) ? String(query.type) : undefined;
       
       if(type != undefined){
-        let new_data: { [key: string]: any } = {};
+        let new_data: any[] = [];
 
         for (const key in data) {
           if (data.hasOwnProperty(key)) {
@@ -143,11 +143,12 @@ async function create_app(): Promise<express.Application>{
               
               for (const subKey in subObject) {
                   if (subObject.hasOwnProperty(subKey) && subKey === "type" && subObject[subKey] === type) {
-                    new_data[key] = subObject;
+                    new_data.push(subObject);
                   }
               }
           }
         }
+        console.log(new_data)
         _res.send(new_data)
       }
       else{
