@@ -23,7 +23,7 @@
 		"typescript": "^5.4.2"
 	},
 	"scripts": {
-		"start": "nodemon index.ts",
+		"start": "nodemon server/index.ts",
 		"temp": "nodemon temp.ts",
 		"test": "jest --json --outputFile=test_output.json"
 	},
