@@ -4,6 +4,7 @@ import { Client } from 'pg';
 import cors from 'cors';
 import {toArray, isString} from './bi';
 import activate_db from './db';
+import fs from 'fs';
 dotenv.config();
 
 async function create_app(): Promise<express.Application>{
@@ -18,8 +19,7 @@ async function create_app(): Promise<express.Application>{
     }));
 
     app.get('/', (_req, _res) => {
-        _res.status(200).send("TypeScript With Express");
-        console.log("request recieved");
+      _res.status(200).send("TypeScript With Express");
     });
 
     app.get('/get_exercise', async (_req, _res) => {
@@ -126,6 +126,35 @@ async function create_app(): Promise<express.Application>{
         _res.status(404).send('Database not connected');
       }
     });
+
+    app.get('/get_mock_exercise', (_req, _res) => {
+      const fake_data: string = fs.readFileSync("mock_data.json", 'utf-8');
+      const data: { [key: string]: any } = JSON.parse(fake_data);
+      const query = _req.query;
+
+      const type: string | undefined = isString(query.type) ? String(query.type) : undefined;
+      
+      if(type != undefined){
+        let new_data: { [key: string]: any } = {};
+
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+              const subObject = data[key];
+              
+              for (const subKey in subObject) {
+                  if (subObject.hasOwnProperty(subKey) && subKey === "type" && subObject[subKey] === type) {
+                    new_data[key] = subObject;
+                  }
+              }
+          }
+        }
+        _res.send(new_data)
+      }
+      else{
+        _res.send(data);
+      }
+    })
+
     return app;
 }
 export default create_app;

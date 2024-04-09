@@ -1,0 +1,146 @@
+[
+    {
+        "name": "barbell raise",
+        "uid": 1,
+        "type": "arms",
+        "reps": 12,
+        "sets": 3,
+        "url": "https://www.dmoose.com/cdn/shop/articles/1_15dec176-3b06-4102-9e53-e78214478bc9.jpg?v=1647871392"
+    },
+    {
+        "name": "barbell curl",
+        "uid": 2,
+        "type": "arms",
+        "reps": 12,
+        "sets": 3,
+        "url": "https://weighttraining.guide/wp-content/uploads/2016/05/barbell-curl-resized.png"
+    },
+    {
+        "name": "kettlebell swing",
+        "uid": 3,
+        "type": "legs",
+        "reps": 15,
+        "sets": 4,
+        "url": "https://cdn.oxygenmag.com/wp-content/uploads/2015/02/kettlebell-swing-1.jpg?width=730"
+    },
+    {
+        "name": "dumbbell press",
+        "uid": 4,
+        "type": "chest",
+        "reps": 10,
+        "sets": 3,
+        "url": "https://www.dmoose.com/cdn/shop/articles/1_71d97192-f77f-47fa-a059-87456a2c1fb1.jpg?v=1647872386"
+    },
+    {
+        "name": "lat pulldown",
+        "uid": 5,
+        "type": "back",
+        "reps": 12,
+        "sets": 4,
+        "url": "https://www.bellsofsteel.us/wp-content/uploads/2022/10/LAT-PULLDOWN-BAR-5.webp"
+    },
+    {
+        "name": "leg raises",
+        "uid": 6,
+        "type": "abs",
+        "reps": 20,
+        "sets": 3,
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmQuBcj0vAP9p9141ByZSu5B5vnuXPeCJSL4CgXdc1hQ&s"
+    },
+    {
+        "name": "squat jumps",
+        "uid": 7,
+        "type": "legs",
+        "reps": 15,
+        "sets": 3,
+        "url": "https://gethealthyu.com/wp-content/uploads/2014/08/Squat-Jump_Exercise.jpg"
+    },
+    {
+        "name": "plank",
+        "uid": 8,
+        "type": "abs",
+        "reps": 1,
+        "sets": 3,
+        "url": "https://hips.hearstapps.com/hmg-prod/images/hdm119918mh15842-1545237096.png?crop=0.668xw:1.00xh;0.117xw,0&resize=1200:*"
+    },
+        {
+        "name": "bicycle crunches",
+        "uid": 9,
+        "type": "abs",
+        "reps": 20,
+        "sets": 3,
+        "url": "https://cdn.media.amplience.net/i/thegymgroup/The_Gym_Group-Exercises-How_To_Do_A_Bicycle_Crunch-Step_By_Step_6?fmt=auto&h=545&w=1440&sm=c&qlt=default&$qlt$&$poi$"
+    },
+    {
+        "name": "tricep dips",
+        "uid": 10,
+        "type": "arms",
+        "reps": 15,
+        "sets": 4,
+        "url": "https://www.verywellfit.com/thmb/L8ErPvWV1_VqdZiD_GlGhUw1IuA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/About-2A15-TricepDips-935-e3cd3eddc0c149fc91299b420aa6b236.jpg"
+    },
+    {
+        "name": "lunges",
+        "uid": 11,
+        "type": "legs",
+        "reps": 12,
+        "sets": 3,
+        "url": "https://hips.hearstapps.com/hmg-prod/images/reverse-lunges-1544222100.jpg?crop=0.6235xw:1xh;center,top&resize=640:*"
+    },
+    {
+        "name": "push-ups",
+        "uid": 12,
+        "type": "chest",
+        "reps": 15,
+        "sets": 3,
+        "url": "https://cdn.mos.cms.futurecdn.net/oYDbf5hQAePHEBNZTQMXRA.jpg"
+    },
+    {
+        "name": "deadlifts",
+        "uid": 13,
+        "type": "back",
+        "reps": 10,
+        "sets": 3,
+        "url": "https://i.ytimg.com/vi/1ZXobu7JvvE/maxresdefault.jpg"
+    },
+    {
+        "name": "side planks",
+        "uid": 14,
+        "type": "abs",
+        "reps": 1,
+        "sets": 3,
+        "url": "https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/11/Side_Plank_732x549-thumbnail.jpg?h=1152"
+    },
+    {
+        "name": "calf raises",
+        "uid": 15,
+        "type": "legs",
+        "reps": 20,
+        "sets": 4,
+        "url": "https://hips.hearstapps.com/hmg-prod/images/calf-raises-1610550932.jpg"
+    },
+    {
+        "name": "shoulder press",
+        "uid": 16,
+        "type": "shoulders",
+        "reps": 12,
+        "sets": 3,
+        "url": "https://i.ytimg.com/vi/5yWaNOvgFCM/maxresdefault.jpg"
+    },
+    {
+        "name": "bent-over rows",
+        "uid": 17,
+        "type": "back",
+        "reps": 12,
+        "sets": 4,
+        "url": "https://hips.hearstapps.com/hmg-prod/images/bent-over-row-1579627763.jpg?crop=0.862xw:0.576xh;0.0374xw,0.289xh&resize=980:*"
+    },
+    {
+        "name": "mountain climbers",
+        "uid": 18,
+        "type": "cardio",
+        "reps": 30,
+        "sets": 3,
+        "url": "https://rejuvage.com/wp-content/uploads/2019/07/iStock-957699448.jpg"
+    }
+]
