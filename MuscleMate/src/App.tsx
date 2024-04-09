@@ -13,23 +13,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-
-import {
-  Sheet,
-  // SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  // SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
 
 import './App.css'
 import muscleLogo from './assets/MuscleLogo.png'
-import {Menu} from "lucide-react"
-import {Settings} from "lucide-react"
+import { MenuBar } from "./components/ui/menuBar"
 
 function MainMenu() {
 
@@ -39,28 +26,7 @@ function MainMenu() {
         <img src={muscleLogo} width={200} height={200}/>
         <div className="mt-5 flex lg:ml-4 gap-20">
           <Input placeholder="Search" className="w-[200px] "/>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon">
-                <Menu className="h-8 w-8" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetDescription className="flex flex-col space-y-4">
-                  <Button>Home</Button>
-                  <Button>My Exercises</Button>
-                  <Button>My Workout</Button>
-                  <Button>My Progress</Button>
-                </SheetDescription>
-              </SheetHeader>
-              <SheetFooter>
-                <Button variant="outline" size="icon">
-                  <Settings className="h-8 w-8" />
-                </Button>
-              </SheetFooter>
-            </SheetContent>
-          </Sheet>
+          <MenuBar />
         </div>
       </div>
 
