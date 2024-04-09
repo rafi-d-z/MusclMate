@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetFooter,
   SheetHeader,
@@ -22,9 +21,11 @@ interface MyLabelProps {
 
 const MyLabel: React.FC<MyLabelProps> = ({ labelName }) => {
     return (
-        <Label htmlFor="name" className="text-right my-label">
+      <Button>
+        <Label htmlFor="name" className="text-right">
             {labelName}
         </Label>
+      </Button>
     )
 }
 
@@ -37,28 +38,24 @@ export const MenuBar: React.FC = () => {
 
             <SheetContent>
               <SheetHeader>
-                <SheetTitle>Home</SheetTitle>
+                <SheetTitle>Get Pumped</SheetTitle>
               </SheetHeader>
 
-                <div className="grid gap-4 py-4">
-                    <div id="sideBar" className="grid grid-cols-4 items-center gap-4">
-                        <MyLabel labelName='My Workouts'/>
-                        <MyLabel labelName='My Exercises' />
-                        <MyLabel labelName='Exercises' />
-                        <MyLabel labelName='Favorites' />
-                        <MyLabel labelName='My Progress' />
-                        <FaGear />
-                        <CgProfile />
-                    </div>
+                <div className="flex flex-col space-y-4">
+                  <MyLabel labelName='My Workouts'/>
+                  <MyLabel labelName='My Exercises' />
+                  <MyLabel labelName='Exercises' />
+                  <MyLabel labelName='Favorites' />
+                  <MyLabel labelName='My Progress' />
                 </div>
 
+                <SheetFooter>
+                  <div className='bottom'>
+                    <a><FaGear size={40}/></a>
+                    <a><CgProfile size={40} /></a>
+                  </div>
+                </SheetFooter>
 
-              <SheetFooter>
-                made by Farquaad
-              </SheetFooter>
-              {/* <SheetClose>
-                ... back to page
-              </SheetClose> */}
             </SheetContent>
         </Sheet>
     );
