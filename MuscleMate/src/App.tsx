@@ -37,7 +37,7 @@ function MainMenu() {
         console.log("Type:", selectedCard)
         axios({
           method: 'get',
-          url: 'http://localhost:3000/get_mock_exercise',
+          url: 'http://18.188.202.206:3000/get_mock_exercise',
           params: {
             type: selectedCard
           }
