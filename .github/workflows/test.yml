@@ -24,6 +24,6 @@ jobs:
         run: cd backend && npm install
 
       - name: Echo env keys
-        run: echo $env.AWS_SG_NAME
+        run: echo ${{ secrets.AWS_SG_NAME }}
       # - name: Run Jest tests
       #   run: cd backend && npm test
