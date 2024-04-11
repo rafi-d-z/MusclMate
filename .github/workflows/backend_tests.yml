@@ -1,7 +1,13 @@
+# on:
+#   pull_request:
+#     branches:
+#       - main
+
+# event
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - add_test_to_git
       
 jobs:
   run_jest_tests:
@@ -18,11 +24,11 @@ jobs:
 
     - name: Add Github Actions IP to Security group
       run: |
-        aws rds authorize-db-security-group-ingress --db-security-group-name ${{ env.AWS_SG_NAME }} --protocol tcp --port 5432 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        aws rds authorize-db-security-group-ingress --db-security-group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 5432 --cidr ${{ steps.ip.outputs.ipv4 }}/32
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
     - name: install all backend dependencies
       run: cd backend && npm install
@@ -32,7 +38,7 @@ jobs:
 
     - name: Remove Github Actions IP from security group
       run: |
-        aws ec2 revoke-security-group-ingress --group-name ${{ env.AWS_SG_NAME }} --protocol tcp --port 5432 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 5432 --cidr ${{ steps.ip.outputs.ipv4 }}/32
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
