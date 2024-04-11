@@ -1,0 +1,29 @@
+name: run-backend-tests
+
+# event
+on:
+  push:
+    branches:
+      - add_test_to_git
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21'
+
+      - name: Install dependencies
+        run: cd backend && npm install
+
+      - name: Echo env keys
+        run: echo $env.AWS_SG_NAME
+      # - name: Run Jest tests
+      #   run: cd backend && npm test
