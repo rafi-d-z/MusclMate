@@ -1,4 +1,4 @@
-name: run-backend-tests
+name: check-dependencies-install
 
 # event
 on:
@@ -22,8 +22,3 @@ jobs:
 
       - name: Install dependencies
         run: cd backend && npm install
-
-      - name: Echo env keys
-        run: echo ${{ secrets.AWS_SG_NAME }}
-      # - name: Run Jest tests
-      #   run: cd backend && npm test
