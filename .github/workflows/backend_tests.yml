@@ -40,7 +40,7 @@ jobs:
     - name: Remove Github Actions IP from security group
     # documentation: https://awscli.amazonaws.com/v2/documentation/api/latest/reference/rds/revoke-db-security-group-ingress.html
       run: |
-        aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --cidrip ${{ steps.ip.outputs.ipv4 }}/32
+        aws rds revoke-db-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --cidrip ${{ steps.ip.outputs.ipv4 }}/32
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
