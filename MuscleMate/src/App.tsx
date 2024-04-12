@@ -1,4 +1,3 @@
-import React from "react"
 import {
   Card,
   CardContent,
@@ -14,237 +13,82 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-"use client"
-
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Check, ChevronsUpDown } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { Toast } from "@/components/ui/toast"
-
-
+import { useState, useEffect } from "react"
 import './App.css'
 import muscleLogo from './assets/MuscleLogo.png'
-import ReactDOMServer from 'react-dom/server';
+import { Menubar } from "./components/ui/menubar"
+import axios from 'axios';
 
-
-const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
-] as const
-
-const FormSchema = z.object({
-  language: z.string({
-    required_error: "Please select a workout.",
-  }),
-})
-
+interface CardData{
+  name: string,
+  uid: number,
+  type: string,
+  reps: number
+  sets: number,
+  url:string
+}
 
 function MainMenu() {
+  const [selectedCard, setSelectedCard] = useState("");
+  const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-  })
+  useEffect(() => {
+      const fetchData = async () => {
+        console.log("Type:", selectedCard)
+        axios({
+          method: 'get',
+          url: 'http://18.188.202.206:3000/get_mock_exercise',
+          params: {
+            type: selectedCard
+          }
+        }).then(function (response) {
+            setSelectedCardData(response.data);
+          });
+      };
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    Toast({
-      title: "You submitted the following values:",
-      content: ReactDOMServer.renderToString(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
-  }
+      fetchData();
+  }, [selectedCard]);
 
   return (
     <>
-      <div className="flex items-center justify-between p-6 lg:px-8">
-        <img src={muscleLogo} width={200} height={200} />
-        <h1>My Workouts</h1>
+    {/* top bar components */}
+      <div className="flex items-center justify-between p-8 lg:px-8">
+        <img src={muscleLogo} width={200} height={200}/>
         <div className="mt-5 flex lg:ml-4 gap-20">
-          <Input placeholder="Search" className="w-[200px] " />
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" className="text-sm font-semibold leading-6 text-gray-900">Dashboard</Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Edit profile</SheetTitle>
-                <SheetDescription>
-                  Make changes to your profile here. Click save when you're done.
-                </SheetDescription>
-              </SheetHeader>
-              <div className="grid gap-4 py-4">
-                This is where we will have the buttons.
-              </div>
-              <SheetFooter>
-                <SheetClose asChild>
-                  <Button type="submit">Save changes</Button>
-                </SheetClose>
-              </SheetFooter>
-            </SheetContent>
-          </Sheet>
+          <Input placeholder="Search" className="w-[200px] "/>
+          <Menubar/>
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '360px' }}>
-        <div>
-          <Card className="w-[200px]">
-            <CardHeader>
-              <CardTitle>Exercise 1</CardTitle>
-              <CardDescription>Trends For You</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter>
-          </Card>
-        </div>
-        <div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline">Add Workouts</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Choose Workout</DialogTitle>
-                <DialogDescription>
-                  Choose the workout to be add.
-                </DialogDescription>
-              </DialogHeader>
-              <div><Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <FormField
-                    control={form.control}
-                    name="language"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel>Workout</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant="outline"
-                                role="combobox"
-                                className={cn(
-                                  "w-[200px] justify-between",
-                                  !field.value && "text-muted-foreground"
-                                )}
-                              >
-                                {field.value
-                                  ? languages.find(
-                                    (language) => language.value === field.value
-                                  )?.label
-                                  : "Select workout"}
-                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-[200px] p-0">
-                            <Command>
-                              <CommandInput placeholder="Search workout..." />
-                              <CommandEmpty>No workout found.</CommandEmpty>
-                              <CommandGroup>
-                                {languages.map((language) => (
-                                  <CommandItem
-                                    value={language.label}
-                                    key={language.value}
-                                    onSelect={() => {
-                                      form.setValue("language", language.value)
-                                    }}
-                                  >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
-                                        language.value === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                    {language.label}
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </Command>
-                          </PopoverContent>
-                        </Popover>
-                        <FormDescription>
-                          This is the workout that will be added.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit">Submit</Button>
-                </form>
-              </Form>
-              </div>
-              <DialogFooter className="flex justify-between">
-                <DialogClose>
-                  <Button variant="outline">
-                    Close
-                  </Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div>
+
+      <Tabs defaultValue={selectedCard} className="w-[1200px]">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="" onClick={() => setSelectedCard('')}>Trending</TabsTrigger>
+          <TabsTrigger value="arms" onClick={() => setSelectedCard('arms')}>Arms</TabsTrigger>
+          <TabsTrigger value="legs" onClick={() => setSelectedCard('legs')}>Legs</TabsTrigger>
+          <TabsTrigger value="chest" onClick={() => setSelectedCard('chest')}>Chest</TabsTrigger>
+          <TabsTrigger value="back" onClick={() => setSelectedCard('back')}>Back</TabsTrigger>        
+        </TabsList>
+
+        <TabsContent value={selectedCard} className="grid grid-cols-5 gap-10">
+          {selectedCardData.map((data, index) => (
+              <Card key={index}>
+                  <CardHeader>
+                      <CardTitle>{data.name}</CardTitle>
+                      <CardDescription>{data.type}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <img src={data.url}></img>
+                  </CardContent>
+                  <CardFooter>
+                      {data.reps}/{data.sets}
+                  </CardFooter>
+              </Card>
+          ))}
+        </TabsContent>
+
+      </Tabs>
     </>
   )
 }
+
 export default MainMenu
