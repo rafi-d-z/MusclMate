@@ -25,6 +25,13 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+
 import { Checkbox } from "@/components/ui/checkbox"
  
 const formSchema = z.object({
@@ -32,9 +39,11 @@ const formSchema = z.object({
       message: "Username must be at least 6 characters.",
     }),
     password: z.string().min(6, {
-        message: "Password must be at least 6 characters.",
-      }),
+      message: "Password must be at least 6 characters.",
+    }),
     remember: z.boolean().default(false).optional(),
+    confirmPwd: z.string(),
+    email: z.string().email({ message: "Invalid email address" })
   })
 
 function Login() {
@@ -44,6 +53,8 @@ function Login() {
           username: "",
           password: "",
           remember: true,
+          confirmPwd: "",
+          email: "",
         },
       })
      
@@ -54,9 +65,16 @@ function Login() {
     return (
         <>
         <div className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4">
-            <Card className="w-[700px]">
+          <Tabs className="w-[700px]">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="login">Login</TabsTrigger>
+              <TabsTrigger value="signup">Signup</TabsTrigger>       
+            </TabsList>
+
+            <TabsContent value="login">
+              <Card className="w-[700px]">
                 <CardHeader>
-                    <CardTitle>Log In</CardTitle>
+                  <CardTitle>Log In</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Form {...form}>
@@ -103,13 +121,79 @@ function Login() {
                                 </div>
                               </FormItem>
                             )}
-                            />
-                                
-                            <Button type="submit">Submit</Button>
+                            />                             
+                            <Button type="submit">Login</Button>
                         </form>
-                    </Form>
-                </CardContent>
-            </Card>
+                      </Form>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="signup">
+                <Card className="w-[700px]">
+                  <CardHeader>
+                    <CardTitle>Sign Up</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                          <FormField
+                          control={form.control}
+                          name="username"
+                          render={({ field }) => (
+                              <FormItem>
+                              <FormControl>
+                                  <Input type="username" placeholder="Username" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                              </FormItem>
+                          )}
+                          />
+                          <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                              <FormItem>
+                              <FormControl>
+                                <Input type="email" placeholder="Email" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                              </FormItem>
+                          )}
+                          />
+                          <FormField
+                          control={form.control}
+                          name="password"
+                          render={({ field }) => (
+                              <FormItem>
+                              <FormControl>
+                                <Input type="password" placeholder="Password" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                              </FormItem>
+                          )}
+                          />
+                          <FormField
+                          control={form.control}
+                          name="confirmPwd"
+                          render={({ field }) => (
+                              <FormItem>
+                              <FormControl>
+                                <Input type="password" placeholder="Confirm Password" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                              </FormItem>
+                          )}
+                          />
+                                                    
+                          <Button type="submit">Sign Up</Button>
+                        </form>
+                      </Form>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+            </Tabs>
         </div>
         </>
     )
