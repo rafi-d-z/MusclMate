@@ -1,6 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Label } from "./label";
 import { Input } from "./input";
 
@@ -33,11 +40,17 @@ export const NewExerciseCard: React.FC = () => {
                 </div>
                 <div className="grid grid-cols-3 items-center gap-4">
                   <Label htmlFor="maxWidth">Target Muscles: </Label>
-                  <Input
-                    id="maxWidth"
-                    defaultValue="none"
-                    className="col-span-2 h-8"
-                  />
+                  <Select>
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Theme" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="light">Arms</SelectItem>
+                            <SelectItem value="dark">Legs</SelectItem>
+                            <SelectItem value="system">Chest</SelectItem>
+                            <SelectItem value="system">Back</SelectItem>
+                          </SelectContent>
+                        </Select>
                 </div>
                 <div className="grid grid-cols-3 items-center gap-4">
                   <Label htmlFor="height">Reps: </Label>
