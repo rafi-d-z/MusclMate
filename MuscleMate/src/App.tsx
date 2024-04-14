@@ -87,6 +87,79 @@ function MainMenu() {
           <TabsTrigger value="back" onClick={() => setSelectedCard('back')}>Back</TabsTrigger>        
         </TabsList>
 
+
+        <Card className="w-[210px]">
+              <CardHeader>
+                <CardTitle></CardTitle>
+                <CardDescription></CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Popover>
+                <PopoverTrigger asChild>
+                <button style={{ width: '170px', height: '190', fontSize: '150px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>+</button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80">
+                  <div className="grid gap-4">
+                    <div className="space-y-2">
+                      <h4 className="font-medium leading-none">Create Exercise</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Add in exercise details here
+                      </p>
+                     </div>
+                    <div className="grid gap-2">
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <Label htmlFor="width">Exercise name: </Label>
+                        <Input
+                          id="maxWidth"
+                          defaultValue="Pull ups"
+                          className="col-span-2 h-8"
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <Label htmlFor="maxWidth">Exercise target: </Label>
+                        <Input
+                          id="maxWidth"
+                          defaultValue="none"
+                          className="col-span-2 h-8"
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <Label htmlFor="height">Reps: </Label>
+                        <Input
+                          id="height"
+                          defaultValue="12"
+                          className="col-span-2 h-8"
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <Label htmlFor="height">Sets: </Label>
+                        <Input
+                          id="height"
+                          defaultValue="3"
+                          className="col-span-2 h-8"
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <Label htmlFor="maxHeight">Weight: </Label>
+                        <Input
+                          id="maxHeight"
+                          defaultValue="none"
+                          className="col-span-2 h-8"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              </CardContent>
+              <CardFooter>
+                <div>
+                    
+                    </div>
+              </CardFooter>
+            </Card>
+
+
         <TabsContent value={selectedCard} className="grid grid-cols-5 gap-10">
           {selectedCardData.map((data, index) => (
               <Card key={index}>
