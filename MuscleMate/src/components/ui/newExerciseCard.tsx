@@ -1,4 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
+
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { Label } from "./label";
 import { Input } from "./input";
@@ -61,6 +64,9 @@ export const NewExerciseCard: React.FC = () => {
                     defaultValue="none"
                     className="col-span-2 h-8"
                   />
+                  <Button variant="outline">Cancel</Button>
+                  <button style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}></button>
+                  <Button>Submit</Button>
                 </div>
               </div>
             </div>
