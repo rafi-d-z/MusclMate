@@ -16,7 +16,6 @@ import {
 import { useState, useEffect } from "react"
 import { NewExerciseCard } from "./components/ui/newExerciseCard"
 import { MenuBar } from "./components/ui/menuBar"
-import { z } from "zod"
 import muscleLogo from './assets/MuscleLogo.png'
 import axios from 'axios';
 import './App.css'
