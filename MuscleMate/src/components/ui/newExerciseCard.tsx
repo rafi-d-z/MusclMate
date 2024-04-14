@@ -42,7 +42,7 @@ export const NewExerciseCard: React.FC = () => {
                   <Label htmlFor="maxWidth">Target Muscles: </Label>
                   <Select>
                           <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Theme" />
+                            <SelectValue placeholder="Arms" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="light">Arms</SelectItem>
