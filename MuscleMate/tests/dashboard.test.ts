@@ -1,9 +1,8 @@
 // This is where the dashboard tests will go
 import  { test,describe } from "node:test";
-import MainMenu from "./App";
+import MainMenu from "../src/App";
 import {render, screen} from '@testing-library/react'
 import React from "react";
-import { expect } from '@jest/globals';
 
 describe("dashboard tests", () => {
     test('renders dashboard', () => {
