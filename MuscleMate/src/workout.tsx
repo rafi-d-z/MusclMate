@@ -143,8 +143,8 @@ function Workout() {
                         </div>
                         <div className="flex flex-col items-center justify-between p-6 lg:px-8">
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <Dialog>
-                                    <DialogTrigger>
+                                <Dialog >
+                                    <DialogTrigger >
                                         <Button variant="link" size="icon">
                                             <Plus className="h-4 w-4" />
                                         </Button>
@@ -211,7 +211,7 @@ function Workout() {
                                         </DialogFooter>
                                     </DialogContent>
                                 </Dialog>
-                                <h1>Workout 1</h1>
+                                <h1>Workout 1   </h1>
                                 <Button variant="link" size="icon">
                                     <Minus className="h-4 w-4" />
                                 </Button>
