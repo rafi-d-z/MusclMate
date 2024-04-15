@@ -2,7 +2,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/*.test.tsx'],
+  testMatch: ['**/*.test.tsx', '**/*.test.tsx'],
   verbose: true,
   forceExit: true,
   moduleNameMapper: {
