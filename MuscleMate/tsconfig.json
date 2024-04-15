@@ -29,6 +29,6 @@
     },
     "esModuleInterop": true
   },
-  "include": ["src", "tests/dashboard.test.ts", "tests/tabs.test.ts"],
+  "include": ["src", "tests/*.test.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }],
 }
