@@ -14,7 +14,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { useState, useEffect } from "react"
-import './App.css'
+/* import './App.css' */
 import muscleLogo from './assets/MuscleLogo.png'
 import { MenuBar } from "./components/ui/menuBar"
 import axios from 'axios';

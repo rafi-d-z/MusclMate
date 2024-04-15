@@ -3,12 +3,13 @@ import  { test,describe } from "node:test";
 import MainMenu from "../src/App";
 import {render, screen} from '@testing-library/react'
 import React from "react";
-import { expect } from '@jest/globals';
+import '@testing-library/jest-dom';
+
 
 describe("dashboard tests", () => {
     test('renders dashboard', () => {
         render(React.createElement(typeof MainMenu, null));
-        const menuElem = screen.getByRole("menu");
-        expect(menuElem).toBeTruthy();
+        const menuElem = screen.getByRole("menu") as HTMLElement;
+        expect(menuElem).toBeVisible();
     })
 })
