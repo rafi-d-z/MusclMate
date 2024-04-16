@@ -12,6 +12,30 @@ import { Label } from "./label";
 import { Input } from "./input";
 
 export const NewExerciseCard: React.FC = () => {
+  const handleAddNewExercise = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log('Submitting exercise form...');
+
+  
+    const exerciseNameInput = document.getElementById('exerciseName') as HTMLInputElement;
+    const targetMusclesInput = document.getElementById('targetMuscles') as HTMLSelectElement;
+    const repsInput = document.getElementById('reps') as HTMLInputElement;
+    const setsInput = document.getElementById('sets') as HTMLInputElement;
+    const weightInput = document.getElementById('weight') as HTMLInputElement;
+
+    console.log('Exercise Name:', exerciseNameInput.value);
+    console.log('Target Muscles:', targetMusclesInput.value);
+    console.log('Reps:', repsInput.value);
+    console.log('Sets:', setsInput.value);
+    console.log('Weight:', weightInput.value);
+
+    exerciseNameInput.value = '';
+    targetMusclesInput.value = '';
+    repsInput.value = '';
+    setsInput.value = '';
+    weightInput.value = '';
+  };
+
     return (
       <>
       <Card className="w-[210px]">
@@ -31,7 +55,7 @@ export const NewExerciseCard: React.FC = () => {
                 </div>
               <div className="grid gap-2">
                 <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="width">Name: </Label>
+                  <Label htmlFor="height">Name: </Label>
                   <Input
                     id="maxWidth"
                     defaultValue="Pull ups"
@@ -87,4 +111,5 @@ export const NewExerciseCard: React.FC = () => {
       </Card>
       </>
     );
-}
+};
+export default NewExerciseCard;
