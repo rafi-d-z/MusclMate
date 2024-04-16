@@ -38,7 +38,7 @@ export const NewExerciseCard: React.FC = () => {
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="name">Name: </Label>
                 <Input
-                  id="maxWidth"
+                  id="exerciseName"
                   defaultValue="Pull ups"
                   className="col-span-2 h-8"
                 />
@@ -60,7 +60,7 @@ export const NewExerciseCard: React.FC = () => {
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="reps">Reps: </Label>
                 <Input
-                  id="height"
+                  id="reps"
                   defaultValue="12"
                   className="col-span-2 h-8"
                 />
@@ -68,7 +68,7 @@ export const NewExerciseCard: React.FC = () => {
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="sets">Sets: </Label>
                 <Input
-                  id="height"
+                  id="sets"
                   defaultValue="3"
                   className="col-span-2 h-8"
                 />
@@ -76,7 +76,7 @@ export const NewExerciseCard: React.FC = () => {
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="weight">Weight: </Label>
                 <Input
-                  id="maxHeight"
+                  id="weight"
                   defaultValue="none"
                   className="col-span-2 h-8"
                 />
