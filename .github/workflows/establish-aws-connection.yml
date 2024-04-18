@@ -13,10 +13,6 @@ jobs:
   connect-to-aws:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        node-version: '21'
-
     - name: Get Github action IP
       id: ip
       uses: haythem/public-ip@v1.2
