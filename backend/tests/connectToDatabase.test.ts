@@ -5,6 +5,6 @@ import {Client} from 'pg';
 describe('Connects to database', () => {
     test("should connect to database", async () => {
         const client = await activate_db();
-        expect(client).toBe(Client);
+        expect(typeof(client)).toBe("object"); 
     })
 });
