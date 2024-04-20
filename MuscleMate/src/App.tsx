@@ -16,7 +16,7 @@ import {
 import { useState, useEffect } from "react"
 /* import './App.css' */
 import muscleLogo from './assets/MuscleLogo.png'
-import { MenuBar } from "./components/ui/menuBar"
+import { MenuBar } from "./components/ui/menubar"
 import axios from 'axios';
 
 interface CardData{
