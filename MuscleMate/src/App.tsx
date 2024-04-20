@@ -14,9 +14,9 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { useState, useEffect } from "react"
-import './App.css'
+/* import './App.css' */
 import muscleLogo from './assets/MuscleLogo.png'
-import { Menubar } from "./components/ui/menubar"
+import { MenuBar } from "./components/ui/menuBar"
 import axios from 'axios';
 
 interface CardData{
@@ -56,7 +56,7 @@ function MainMenu() {
         <img src={muscleLogo} width={200} height={200}/>
         <div className="mt-5 flex lg:ml-4 gap-20">
           <Input placeholder="Search" className="w-[200px] "/>
-          <Menubar/>
+          <MenuBar />
         </div>
       </div>
 
