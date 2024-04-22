@@ -2,10 +2,8 @@
  * THIS TEST IS MEANT TO BE RUN MANUALLY ON EC2 INSTANCE
 */
 
-import dotenv from 'dotenv';
 import {Client} from 'pg';
 import fs from 'fs';
-dotenv.config();
 
 const client = new Client({
     host: process.env.POSTGRESQL_DB_HOST,
@@ -36,7 +34,6 @@ const activate_db = async () => {
 async function main() {
     try {
         const client = await activate_db();
-        // You can now use 'client' here
     } catch (error) {
         console.error('Error activating database', error);
     }
