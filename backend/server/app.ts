@@ -179,13 +179,13 @@ async function create_app(): Promise<express.Application>{
 
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
-            const subObject = data[key];
-            
-            for (const subKey in subObject) {
-                if (subObject.hasOwnProperty(subKey) && subKey === "type" && subObject[subKey] === type) {
-                  new_data.push(subObject);
-                }
+          const subObject = data[key];
+          
+          for (const subKey in subObject) {
+            if (subObject.hasOwnProperty(subKey) && subKey === "type" && subObject[subKey] === type) {
+              new_data.push(subObject);
             }
+          }
         }
       }
       _res.send(new_data)
