@@ -6,6 +6,7 @@ import {toArray, isString, toNumber} from './bi';
 import activate_db from './db';
 import fs from 'fs';
 dotenv.config();
+import { create_exercise, delete_from } from './dbBI';
 
 async function create_app(): Promise<express.Application>{
     let client_instance: Client | undefined;
