@@ -101,7 +101,7 @@ async function create_app(): Promise<express.Application>{
     } else if (client_instance != undefined){
       const res = await create_exercise(client_instance, name, target, reps, sets, query.keywords, weight);
       if(res !== null){
-        _res.status(200).send(res);
+        _res.status(200).send({"uid": res});
         return;
       }
   } else{_res.status(404).send(false);}

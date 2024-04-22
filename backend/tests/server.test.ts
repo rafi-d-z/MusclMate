@@ -3,7 +3,8 @@ import create_app from "../server/app";
 import express from 'express';
 
 describe('Server Actions', () => {
-  let app: express.Application;
+    let app: express.Application;
+    let uid: number | null = null;
 
     beforeAll(async () => {
         try {
@@ -20,7 +21,7 @@ describe('Server Actions', () => {
     });
 
     describe('Post /create_exercise', () => {
-        test('valid input', async () => {
+        test('valid input in exercises table', async () => {
             await request(app).post('/create_exercise').send({
                 name: 'test',
                 target: 'abs',
@@ -28,7 +29,9 @@ describe('Server Actions', () => {
                 sets: 3,
                 keywords: ['value1', 'value2'],
                 weight: 10
-            }).expect(200);
+            }).expect(200).then(res => {
+                uid = res.body.uid;
+            });
         });
         test('invalid input', async () => {
             await request(app).post('/create_exercise').send({
@@ -40,6 +43,15 @@ describe('Server Actions', () => {
                 weight: "poo poo"
             }).expect(404);
         });
+    });
+
+    describe('Post /delete', () => {
+        test('delete valid uid from exercises table', async () => {
+            await request(app).post('/delete').send({
+                db_name: 'exercises',
+                uid: uid
+            }).expect(200);
+        })
     });
     
     describe('Get /get_exercise', () => {        

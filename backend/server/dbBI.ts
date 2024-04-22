@@ -13,19 +13,19 @@ export async function get(client: Client, column_name: string, get_items: string
     }
 }
 
-export async function create_exercise(client: Client, item_name: string, target: string, reps: Number, sets: Number, keywords: string[], weight: Number): Promise<Boolean>{
+export async function create_exercise(client: Client, item_name: string, target: string, reps: Number, sets: Number, keywords: string[], weight: Number): Promise<string | null>{
     const sql: string = `INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets,` +
                         ` arr_keywords, weight) VALUES (uuid_generate_v4(), $1, $2,` +
-                        ` $3, $4, $5, $6)`;
+                        ` $3, $4, $5, $6) RETURNING uid`;
     const values = [item_name, target, reps.toString(), sets.toString(), keywords, weight.toString()]
-    console.log(values)
 
     try{
-        await client.query(sql, values);
-        return true;
+        const result = await client.query(sql, values);
+        const uid = result.rows[0].uid;
+        return uid;
     } catch(err) {
         console.error("Problem creating new exercise\n", err);
-        return false;
+        return null;
     }
 }
 
@@ -37,7 +37,7 @@ export async function delete_from(client: Client, table_name: String, uid: Strin
         await client.query(sql, values);
         return true;
     } catch(err){
-        console.error("Problem creating new exercise\n", err);
+        console.error("Problem deleting new exercise\n", err);
         return false;
     }
 }
