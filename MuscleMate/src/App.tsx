@@ -18,7 +18,6 @@ import { useState, useEffect } from "react"
 import muscleLogo from './assets/MuscleLogo.png'
 import { MenuBar } from "./components/ui/menuBar"
 import axios from 'axios';
-import React from "react";
 
 interface CardData{
   name: string,
