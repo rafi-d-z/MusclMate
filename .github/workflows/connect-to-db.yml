@@ -15,9 +15,12 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-      run: npm i ts-node -g
       working-directory: backend
+
+    - name: Install ts-node
+      run: npm i ts-node -g
+      working-director: backend
     
-    - name: Build
+    - name: Run testDatabase.ts
       run: ts-node tests/testDatabase.ts
       working-directory: backend
