@@ -1,11 +1,8 @@
 name: check-dependencies-install
-
-# event
 on:
   push:
-    branches:
-      - add_test_to_git
-
+  pull_request:
+    branches: main
 
 jobs:
   test:

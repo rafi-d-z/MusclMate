@@ -1,13 +1,9 @@
-# on:
-#   pull_request:
-#     branches:
-#       - main
-
-# event
+name: establish-aws-connection
 on:
   push:
-    branches:
-      - add_test_to_git
+  pull_request:
+    branches: main
+
 
 jobs:
   connect-to-aws:
