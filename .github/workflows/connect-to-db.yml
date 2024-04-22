@@ -1,0 +1,23 @@
+name: connect-to-db
+on:
+  push:
+  pull_request:
+    branches: main
+
+jobs:
+  run-npm-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '21'
+
+    - name: Install dependencies
+      run: npm install
+      run: npm i ts-node -g
+      working-directory: backend
+    
+    - name: Build
+      run: ts-node tests/testDatabase.ts
+      working-directory: backend
