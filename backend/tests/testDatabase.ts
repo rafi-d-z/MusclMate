@@ -20,22 +20,21 @@ const client = new Client({
 export default client;
 
 // postgres aws db
+// postgres aws db
 const activate_db = async () => {
     console.log("Connecting to Database ...");
-    try {
-      await client.connect();
-      console.log("Database connected");
-      return client;
-    } catch (err: any) {
-      console.error('Database connection error', err.stack);
-    } 
-}
+    await client.connect();
+    console.log("Database connected");
+    return client;
+};
 
 async function main() {
     try {
-        const client = await activate_db();
+        await activate_db();
+        process.exit(0);
     } catch (error) {
         console.error('Error activating database', error);
+        process.exit(1);
     }
 }
 
