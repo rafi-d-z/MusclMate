@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { Client } from 'pg';
 import cors from 'cors';
-import {toArray, isString, toNumber} from './bi';
+import {isArray, isString, toNumber} from './bi';
 import activate_db from './db';
 import fs from 'fs';
 dotenv.config();
@@ -87,19 +87,19 @@ async function create_app(): Promise<express.Application>{
         const target: string | undefined = isString(query.target) ? String(query.target) : undefined;
         const reps: Number | null = toNumber(query.reps);
         const sets: Number | null = toNumber(query.sets);
-        const keywords: string[] | null = toArray(query.keywords);
+        const isKeywords: boolean = isArray(query.keywords);
         const weight: Number | null = toNumber(query.weight);
 
-        if(name === undefined || target === undefined || reps === null || sets === null || keywords === null || weight === null){
+        if(name === undefined || target === undefined || reps === null || sets === null || isKeywords === false || weight === null){
             let error_message = "";
             error_message += name === undefined ? ", name is not a string" : "";
             error_message += target === undefined ? ", target is not a string" : "";
             error_message += reps === null ? ", reps is not a number" : "";
             error_message += sets === null ? ", sets is not a number" : "";
-            error_message += keywords === null ? ", keywords is not an array" : "";
+            error_message += isKeywords === false ? ", keywords is not an array" : "";
             _res.status(404).send("Invalid Input" + error_message+ "!");
         } else if (client_instance != undefined){
-            const res = await create_exercise(client_instance, name, target, reps, sets, keywords, weight);
+            const res = await create_exercise(client_instance, name, target, reps, sets, query.keywords, weight);
             if(res !== false){
                 _res.status(200).send(res);
                 return;

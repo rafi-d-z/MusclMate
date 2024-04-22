@@ -26,7 +26,8 @@ describe('Server Actions', () => {
                 target: 'abs',
                 reps: 10,
                 sets: 3,
-                keywords: encodeURIComponent(JSON.stringify(['value1', 'value2']))
+                keywords: ['value1', 'value2'],
+                weight: 10
             }).expect(200);
         });
         test('invalid input', async () => {
@@ -35,7 +36,8 @@ describe('Server Actions', () => {
                 target: 'abs',
                 reps: 10,
                 sets: 3,
-                keywords: encodeURIComponent(JSON.stringify('notAnArray'))
+                keywords: encodeURIComponent(JSON.stringify('notAnArray')),
+                weight: "poo poo"
             }).expect(404);
         });
     });

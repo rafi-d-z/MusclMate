@@ -17,7 +17,8 @@ export async function create_exercise(client: Client, item_name: string, target:
     const sql: string = `INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets,` +
                         ` arr_keywords, weight) VALUES (uuid_generate_v4(), $1, $2,` +
                         ` $3, $4, $5, $6)`;
-    const values: string[] = [item_name, target, reps.toString(), sets.toString(), keywords.toString(), weight.toString()]
+    const values = [item_name, target, reps.toString(), sets.toString(), keywords, weight.toString()]
+    console.log(values)
 
     try{
         await client.query(sql, values);
