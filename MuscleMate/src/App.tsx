@@ -37,7 +37,7 @@ function MainMenu() {
         console.log("Type:", selectedCard)
         axios({
           method: 'get',
-          url: 'http://18.188.202.206:3000/get_mock_exercise',
+          url: 'https://api-muscleman.com/get_mock_exercise',
           params: {
             type: selectedCard
           }
