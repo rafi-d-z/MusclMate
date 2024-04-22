@@ -1,7 +1,6 @@
 name: connect-to-db
 on:
   push:
-    branches: git-action-connect-to-db
   pull_request:
     branches: main
 
@@ -14,7 +13,7 @@ jobs:
       POSTGRESQL_DB_PASSWORD: ${{ secrets.POSTGRESQL_DB_PASSWORD }}
       POSTGRESQL_DB: ${{ secrets.POSTGRESQL_DB }}
       POSTGRESQL_DB_PORT: ${{ secrets.POSTGRESQL_DB_PORT }}
-      # ... you can add more custom or secret environment variables here.
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
