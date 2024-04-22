@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -14,199 +13,80 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-
-import './App.css'
+import { useState, useEffect } from "react"
+/* import './App.css' */
 import muscleLogo from './assets/MuscleLogo.png'
+import { MenuBar } from "./components/ui/menuBar"
+import axios from 'axios';
+
+interface CardData{
+  name: string,
+  uid: number,
+  type: string,
+  reps: number
+  sets: number,
+  url:string
+}
 
 function MainMenu() {
+  const [selectedCard, setSelectedCard] = useState("");
+  const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
+
+  useEffect(() => {
+      const fetchData = async () => {
+        console.log("Type:", selectedCard)
+        axios({
+          method: 'get',
+          url: 'http://18.188.202.206:3000/get_mock_exercise',
+          params: {
+            type: selectedCard
+          }
+        }).then(function (response) {
+            setSelectedCardData(response.data);
+          });
+      };
+
+      fetchData();
+  }, [selectedCard]);
 
   return (
     <>
-      <div className="flex items-center justify-between p-6 lg:px-8">
+    {/* top bar components */}
+      <div className="flex items-center justify-between p-8 lg:px-8">
         <img src={muscleLogo} width={200} height={200}/>
         <div className="mt-5 flex lg:ml-4 gap-20">
           <Input placeholder="Search" className="w-[200px] "/>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" className ="text-sm font-semibold leading-6 text-gray-900">Dashboard</Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Edit profile</SheetTitle>
-                <SheetDescription>
-                  Make changes to your profile here. Click save when you're done.
-                </SheetDescription>
-              </SheetHeader>
-              <div className="grid gap-4 py-4">
-                This is where we will have the buttons.
-              </div>
-              <SheetFooter>
-                <SheetClose asChild>
-                  <Button type="submit">Save changes</Button>
-                </SheetClose>
-              </SheetFooter>
-            </SheetContent>
-          </Sheet>
+          <MenuBar />
         </div>
       </div>
 
-      <div>
-        <Tabs defaultValue="trending" className="w-[1200px]">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="trending">Trending</TabsTrigger>
-            <TabsTrigger value="abs">Abs</TabsTrigger>
-            <TabsTrigger value="swimming">Swimming</TabsTrigger>
-            <TabsTrigger value="running">Running</TabsTrigger>
-          </TabsList>
-          <TabsContent value="trending" className = "grid grid-cols-5">
-            <Card className="w-[200px]">
-              <CardHeader>
-                <CardTitle>Exercise 1</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
+      <Tabs defaultValue={selectedCard} className="w-[1200px]">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="" onClick={() => setSelectedCard('')}>Trending</TabsTrigger>
+          <TabsTrigger value="arms" onClick={() => setSelectedCard('arms')}>Arms</TabsTrigger>
+          <TabsTrigger value="legs" onClick={() => setSelectedCard('legs')}>Legs</TabsTrigger>
+          <TabsTrigger value="chest" onClick={() => setSelectedCard('chest')}>Chest</TabsTrigger>
+          <TabsTrigger value="back" onClick={() => setSelectedCard('back')}>Back</TabsTrigger>        
+        </TabsList>
 
-            <Card className="w-[200px]">
-              <CardHeader>
-                <CardTitle>Exercise 2</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-
-            <Card className="w-[200px]">
-              <CardHeader>
-                <CardTitle>Exercise 3</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-
-          </TabsContent>
-          <TabsContent value="abs" className = "grid grid-cols-5">
-            <Card className="w-[200px]">
-              <CardHeader>
-                <CardTitle>Trending</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-
-            <Card className="w-[200px]">
-              <CardHeader>
-                <CardTitle>Trending</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-
-            <Card className="w-[200px]">
-              <CardHeader>
-                <CardTitle>Trending</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-
-          </TabsContent>
-          <TabsContent value="swimming" className = "grid grid-cols-5">
-            <Card className="w-[200px]">
-              <CardHeader>
-                <CardTitle>Trending</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-
-            <Card className="w-[200px]">
-              <CardHeader>
-                <CardTitle>Trending</CardTitle>
-                <CardDescription>Trends For You</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Card Content</p>
-              </CardContent>
-              <CardFooter>
-                <p>Card Footer</p>
-              </CardFooter>
-            </Card>
-
-          </TabsContent>
-          <TabsContent value="running" className = "grid grid-cols-5">
-            <Card className="w-[200px]">
-                <CardHeader>
-                  <CardTitle>Trending</CardTitle>
-                  <CardDescription>Trends For You</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p>Card Content</p>
-                </CardContent>
-                <CardFooter>
-                  <p>Card Footer</p>
-                </CardFooter>
+        <TabsContent value={selectedCard} className="grid grid-cols-5 gap-10">
+          {selectedCardData.map((data, index) => (
+              <Card key={index}>
+                  <CardHeader>
+                      <CardTitle>{data.name}</CardTitle>
+                      <CardDescription>{data.type}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <img src={data.url}></img>
+                  </CardContent>
+                  <CardFooter>
+                      {data.reps}/{data.sets}
+                  </CardFooter>
               </Card>
-              <Card className="w-[200px]">
-                <CardHeader>
-                  <CardTitle>Trending</CardTitle>
-                  <CardDescription>Trends For You</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p>Card Content</p>
-                </CardContent>
-                <CardFooter>
-                  <p>Card Footer</p>
-                </CardFooter>
-              </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
+          ))}
+        </TabsContent>
+
+      </Tabs>
     </>
   )
 }
