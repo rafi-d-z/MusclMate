@@ -55,20 +55,28 @@ describe('Server Actions', () => {
     });
     
     describe('Get /get_exercise', () => {        
-        test("should return invalid keywords is not an array", async () => {
-            await request(app).get('/get_exercise').send({
-                target: 'abs',
-                keywords: 'notAnArray'
-            }).expect(404);
-        });
-        test("should return invalid target is not a string", async () => {
-            await request(app).get('/get_exercise').send({
-                target: 123,
-                keywords: encodeURIComponent(JSON.stringify(['value1', 'value2']))
-            }).expect(404);
-        });
-        // test("should return proper keywords is an array", async () => {
-        //     await request(app).get(`/get_exercise?target=abs&keywords=${keywordsString}`).expect(200);        
+        // these test inputs are depricated
+        // test("should return invalid keywords is not an array", async () => {
+        //     await request(app).get('/get_exercise').send({
+        //         target: 'abs',
+        //         keywords: 'notAnArray'
+        //     }).expect(404);
         // });
+        // test("should return invalid target is not a string", async () => {
+        //     await request(app).get('/get_exercise').send({
+        //         target: 123,
+        //         keywords: ['value1', 'value2']
+        //     }).expect(404);
+        // });
+        test("should return invalid uid is not a string", async () => {
+            await request(app).get('/get_exercise').send({
+                uid: 123
+            }).expect(404);
+        })
+        test("should return information given proper input", async () => {
+            await request(app).get(`/get_exercise`).send({
+                uid: "33628bab-142e-49cd-b752-30d5dfd8f093"
+            }).expect(200);
+        });
     });
 });

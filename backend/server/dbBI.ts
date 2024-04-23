@@ -1,8 +1,8 @@
 import { Client } from "pg";
 
-export async function get(client: Client, column_name: string, get_items: string, db_name: string): Promise<Array<any> | undefined>{
-    const sql: string = `SELECT ${column_name} FROM ${db_name} WHERE ${column_name} LIKE $1 ORDER BY uid ASC`; 
-    const values = [`%${get_items}%`];
+export async function get_exercise_by_uid(client: Client, uid: string): Promise<Array<any> | undefined>{
+    const sql: string = "SELECT * FROM public.exercises WHERE uid = $1;"; 
+    const values = [uid];
 
     try{
         const res = await client.query(sql, values);
