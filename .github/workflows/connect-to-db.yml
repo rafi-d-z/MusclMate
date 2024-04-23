@@ -1,6 +1,5 @@
 name: connect-to-db
 on:
-  push:
   pull_request:
     branches: main
 
