@@ -127,14 +127,8 @@ export async function create_workout(client: Client, new_workout: workout): Prom
         values: values
     }
 
-    try{
-        const result = await client.query(query);
-        const uid = result.rows[0].uid;
-        return uid;
-    } catch(err) {
-        console.error("Problem creating new workout\n", err);
-    return undefined;
-    }
+    const result = await query_db(client, query);
+    return result[0].uid;
 }
 
 export async function edit_workout(client: Client, updated_workout: workout): Promise<string | undefined> {
@@ -146,12 +140,17 @@ export async function edit_workout(client: Client, updated_workout: workout): Pr
         values: values
     };
 
+    const result = await query_db(client, query);
+    return result[0].uid;
+}
+
+async function query_db(client: Client, query: any){
     try {
         const result = await client.query(query);
-        const uid = result.rows[0].uid; 
-        return uid;
-    } catch (err) {
-        console.error("Problem updating workout\n", err);
+        const res = result.rows; 
+        return res;
+    } catch (err: any) {
+        console.error("Problem querying database\n", err.stack);
         return undefined;
     }
 }
