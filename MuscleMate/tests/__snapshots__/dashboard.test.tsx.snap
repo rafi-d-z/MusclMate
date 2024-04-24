@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`changes the class when hovered 1`] = `
+[
+  <div
+    className="flex items-center justify-between p-8 lg:px-8"
+  >
+    <img
+      height={200}
+      src={{}}
+      width={200}
+    />
+    <div
+      className="mt-5 flex lg:ml-4 gap-20"
+    >
+      <input
+        className="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[200px]"
+        placeholder="Search"
+      />
+      <button
+        aria-controls="radix-:r0:"
+        aria-expanded={false}
+        aria-haspopup="dialog"
+        className="inline-flex items-center justify-center whitespace-nowrap rounded-md ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-sm font-semibold leading-6 text-gray-900"
+        data-state="closed"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          strokeWidth="0"
+          style={
+            {
+              "color": undefined,
+            }
+          }
+          viewBox="0 0 512 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M32 96v64h448V96H32zm0 128v64h448v-64H32zm0 128v64h448v-64H32z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>,
+  <div
+    className="w-[1200px]"
+    data-orientation="horizontal"
+    dir="ltr"
+  >
+    <div
+      aria-orientation="horizontal"
+      className="h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground grid w-full grid-cols-5"
+      data-orientation="horizontal"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseDown={[Function]}
+      role="tablist"
+      style={
+        {
+          "outline": "none",
+        }
+      }
+      tabIndex={0}
+    >
+      <button
+        aria-controls="radix-:r3:-content-"
+        aria-selected={true}
+        className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+        data-orientation="horizontal"
+        data-radix-collection-item=""
+        data-state="active"
+        disabled={false}
+        id="radix-:r3:-trigger-"
+        onClick={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        role="tab"
+        tabIndex={-1}
+        type="button"
+      >
+        Trending
+      </button>
+      <button
+        aria-controls="radix-:r3:-content-arms"
+        aria-selected={false}
+        className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+        data-orientation="horizontal"
+        data-radix-collection-item=""
+        data-state="inactive"
+        disabled={false}
+        id="radix-:r3:-trigger-arms"
+        onClick={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        role="tab"
+        tabIndex={-1}
+        type="button"
+      >
+        Arms
+      </button>
+      <button
+        aria-controls="radix-:r3:-content-legs"
+        aria-selected={false}
+        className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+        data-orientation="horizontal"
+        data-radix-collection-item=""
+        data-state="inactive"
+        disabled={false}
+        id="radix-:r3:-trigger-legs"
+        onClick={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        role="tab"
+        tabIndex={-1}
+        type="button"
+      >
+        Legs
+      </button>
+      <button
+        aria-controls="radix-:r3:-content-chest"
+        aria-selected={false}
+        className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+        data-orientation="horizontal"
+        data-radix-collection-item=""
+        data-state="inactive"
+        disabled={false}
+        id="radix-:r3:-trigger-chest"
+        onClick={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        role="tab"
+        tabIndex={-1}
+        type="button"
+      >
+        Chest
+      </button>
+      <button
+        aria-controls="radix-:r3:-content-back"
+        aria-selected={false}
+        className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+        data-orientation="horizontal"
+        data-radix-collection-item=""
+        data-state="inactive"
+        disabled={false}
+        id="radix-:r3:-trigger-back"
+        onClick={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        role="tab"
+        tabIndex={-1}
+        type="button"
+      >
+        Back
+      </button>
+    </div>
+    <div
+      aria-labelledby="radix-:r3:-trigger-"
+      className="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 grid grid-cols-5 gap-10"
+      data-orientation="horizontal"
+      data-state="active"
+      hidden={false}
+      id="radix-:r3:-content-"
+      role="tabpanel"
+      style={
+        {
+          "animationDuration": "0s",
+        }
+      }
+      tabIndex={0}
+    />
+  </div>,
+]
+`;
