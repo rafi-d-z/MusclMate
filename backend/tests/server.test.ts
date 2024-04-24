@@ -1,18 +1,26 @@
 import request from "supertest";
 import create_app from "../server/app";
 import express from 'express';
+import { Client } from "pg";
 
 describe('Server Actions', () => {
+    let appClient: Array<any>;
     let app: express.Application;
+    let client: Client;
     let uid: number | null = null;
 
     beforeAll(async () => {
         try {
-            app = await create_app();
+            appClient = await create_app();
+            app = appClient[0];
         } catch (error) {
             console.error('Failed to start the server:', error);
         }
-    }, 100000);
+    });
+    
+    afterAll(async () => {
+        client.end();
+    })
 
     describe('Get /', () => {
         test("should return 200", async () => {
