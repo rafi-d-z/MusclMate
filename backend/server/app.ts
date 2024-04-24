@@ -11,10 +11,10 @@ import { create_exercise, delete_from, get_exercise_by_uid } from './dbBI';
 async function create_app(): Promise<express.Application>{
   let client_instance: Client | undefined;
   try{
-      client_instance = await activate_db(); // will be undefined if IP blocked
+    client_instance = await activate_db(); // will be undefined if IP blocked
   } catch{
-      console.error('Failed to connect to database');
-      client_instance = undefined;
+    console.error('Failed to connect to database');
+    client_instance = undefined;
   }
 
   // doc: https://expressjs.com/en/4x/api.html
@@ -169,6 +169,8 @@ async function create_app(): Promise<express.Application>{
       _res.send(data);
     }
   })
+
+
 
   return app;
 }
