@@ -1,4 +1,6 @@
 import { Client } from "pg";
+import { exercise } from "./DAO/exercise";
+import { workout } from "./DAO/workout";
 
 export async function get_exercise_by_uid(client: Client, uid: string): Promise<Array<any> | undefined>{
     const sql: string = "SELECT * FROM public.exercises WHERE uid = $1;"; 
@@ -65,7 +67,6 @@ export async function get_exercises(client: Client, exercise_name: string = '', 
     return results.rows;
 }
 
-
 export async function create_exercise(client: Client, item_name: string, target: string, reps: Number, sets: Number, keywords: string[], weight: Number): Promise<string | null>{
     const sql: string = `INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets,` +
                         ` arr_keywords, weight) VALUES (uuid_generate_v4(), $1, $2,` +
@@ -114,5 +115,24 @@ export async function edit_exercise(client: Client, uid: String, new_value: Obje
         console.error("Problem creating new exercise\n", err);
         return false;
     }
+}
 
+export async function create_workout(client: Client, new_workout: workout){
+    const sql: string = `INSERT INTO public.workout_plans (uid, exercise_arr, keywords, workout_name,` +
+                        ` VALUES (uuid_generate_v4(), $1, $2 RETURNING uid`;
+    const values = [new_workout.workout_name, new_workout.exercise_arr, new_workout.keywords]
+    const query = {
+        name: "create-workout",
+        text: sql,
+        values: values
+    }
+
+    try{
+        const result = await client.query(query);
+        const uid = result.rows[0].uid;
+        return uid;
+    } catch(err) {
+        console.error("Problem creating new workout\n", err);
+    return null;
+    }
 }
