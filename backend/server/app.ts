@@ -11,7 +11,7 @@ import { create_exercise, delete_from, get_exercise_by_uid } from './dbBI';
 async function create_app(): Promise<Array<any>>{
   let client_instance: Client | undefined;
   try{
-    client_instance = await activate_db(); // will be undefined if IP blocked
+    client_instance = await activate_db();
   } catch{
     console.error('Failed to connect to database');
     client_instance = undefined;
