@@ -2,20 +2,26 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { Client } from 'pg';
 import cors from 'cors';
-import {toArray, isString} from './bi';
+import {toArray, isString, toNumber} from './bi';
 import activate_db from './db';
 import fs from 'fs';
 dotenv.config();
+import { create_exercise, delete_from } from './dbBI';
 
 async function create_app(): Promise<express.Application>{
     let client_instance: Client | undefined;
-    client_instance = await activate_db();
+    try{
+        client_instance = await activate_db(); // will be undefined if IP blocked
+    } catch{
+        console.error('Failed to connect to database');
+        client_instance = undefined;
+    }
 
     // doc: https://expressjs.com/en/4x/api.html
     const app: express.Application = express();
-
+    app.use(express.json()); 
     app.use(cors({
-    origin: 'http://localhost:5173'
+    origin: 'https://muscl-mate-26j1.vercel.app/'
     }));
 
     app.get('/', (_req, _res) => {
@@ -71,7 +77,69 @@ async function create_app(): Promise<express.Application>{
     //   }
     // });
 
-    app.post('/create_exercise', (_req, _res) => {
+    /**
+     * Create an exercise
+     * Parameters: name (str), target (str), reps (int), sets (int), keywords (array)
+     */
+    app.post('/create_exercise', async (_req, _res) => {
+        const query = _req.body;
+        const name: string | undefined = isString(query.name) ? String(query.name) : undefined;
+        const target: string | undefined = isString(query.target) ? String(query.target) : undefined;
+        const reps: Number | null = toNumber(query.reps);
+        const sets: Number | null = toNumber(query.sets);
+        const keywords: string[] | null = toArray(query.keywords);
+        const weight: Number | null = toNumber(query.weight);
+
+        if(name === undefined || target === undefined || reps === null || sets === null || keywords === null || weight === null){
+            let error_message = "";
+            error_message += name === undefined ? ", name is not a string" : "";
+            error_message += target === undefined ? ", target is not a string" : "";
+            error_message += reps === null ? ", reps is not a number" : "";
+            error_message += sets === null ? ", sets is not a number" : "";
+            error_message += keywords === null ? ", keywords is not an array" : "";
+            _res.status(404).send("Invalid Input" + error_message+ "!");
+        } else if (client_instance != undefined){
+            const res = await create_exercise(client_instance, name, target, reps, sets, keywords, weight);
+            if(res !== false){
+                _res.status(200).send(res);
+                return;
+            }
+        } else{_res.status(404).send(false);}
+        return;
+    });
+
+    app.post('/delete', async (_req, _res) => {
+        const query = _req.body;
+        const db_name: String | null = isString(query.db_name) ? String(query.db_name) : null;
+        const uid: String | null = isString(query.uid) ? String(query.uid) : null;
+
+        if (db_name === null || uid === null){
+            let error_message = "";
+            error_message += db_name === undefined ? ", db_name is not a string" : "";
+            error_message += uid === undefined ? ", uid is not a number" : "";
+            _res.status(400).send("Invalid Input" + error_message+ "!");
+            return;
+        } 
+
+        if(client_instance !== undefined){
+            try {
+                const res: Boolean = await delete_from(client_instance, db_name, uid);
+                if(res){
+                    _res.status(200).send({ success: true });
+                } else {
+                    _res.status(500).send({ success: false });
+                }
+            } catch(err) {
+                console.error(err);
+                _res.status(500).send({ success: false });
+            }
+            return;
+        } 
+
+        _res.status(404).send({ success: false });
+    });
+
+    app.post('/edit_exercise', (_req, _res) => {
         const e_name = _req.body.exercise_name;
         const e_target = _req.body.exercise_target;
         const n_reps = _req.body.n_reps;
