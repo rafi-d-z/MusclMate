@@ -12,17 +12,13 @@ describe("get_exercises unit tests", () => {
             console.error(err);
         }
     });
-    afterAll(async () => {
-        await client.end();
-    });
-
 
     test("should get all exercises with a given name", async () => {
         const exercise_name = "calf raises";
         const result: Array<object> | undefined = await get_exercises(client, exercise_name);
 
         if(result === undefined){
-            return;
+            throw new Error("result is undefined");
         }
 
         expect(result[0]).toStrictEqual({

@@ -25,11 +25,4 @@ describe('Server Actions', () => {
             }).expect(200);
         });
     });
-
-    afterAll(async () => {
-    if (client) {
-        await client.end();
-    }
-});
-
 });

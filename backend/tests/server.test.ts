@@ -19,10 +19,6 @@ describe('Server Actions', () => {
         }
     });
     
-    afterAll(async () => {
-        await client.end();
-    })
-
     describe('Get /', () => {
         test("should return 200", async () => {
             await request(app).get('/').expect(200);
