@@ -1,4 +1,5 @@
 export interface exercise {
+    uid: string,
     exercise_name: string,
     exercise_target: string,
     image_url: string,
