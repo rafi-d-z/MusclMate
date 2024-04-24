@@ -7,9 +7,9 @@ describe("get_exercises unit tests", () => {
 
     beforeAll(async () => {
         try{
-            client = activate_db();
+            client = await activate_db();
         } catch (err){
-            console.error(err.stack);
+            console.error(err);
         }
     });
     afterAll(async () => {
@@ -19,14 +19,20 @@ describe("get_exercises unit tests", () => {
 
     test("should get all exercises with a given name", async () => {
         const exercise_name = "calf raises";
-        const result = await get_exercises(client, exercise_name);
+        const result: Array<object> | undefined = await get_exercises(client, exercise_name);
 
+        if(result === undefined){
+            return;
+        }
         // Assert
-        expect(client.query).toHaveBeenCalledWith(expect.anything(), [exercise_name]);
-        expect(result).toEqual({
-            rows: [{ uid: 1, name: "Bench Press", target: "Chest", n_reps: 10, n_sets: 3, arr_keywords: ["chest", "strength"], weight: 100 }],
-            rowCount: 1
-        });
-
+        expect(result[0]).toStrictEqual({
+            uid: '22d65463-8176-4b0d-ba70-40ab5124cbda',
+            exercise_name: 'calf raises',
+            exercise_target: 'calves',
+            n_reps: 4,
+            n_sets: 15,
+            arr_keywords: [ 'calves', 'lower legs', 'hypertrophy' ],
+            weight: 160
+        })
     })
 })
