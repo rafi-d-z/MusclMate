@@ -17,11 +17,6 @@ describe('Server Actions', () => {
             console.error('Failed to start the server:', error);
         }
     });
-    
-    afterAll(async () => {
-        await client.end();
-    })
-
 
     describe('Get /get', () => {
         test("should return information given proper input", async () => {
@@ -30,4 +25,11 @@ describe('Server Actions', () => {
             }).expect(200);
         });
     });
+
+    afterAll(async () => {
+    if (client) {
+        await client.end();
+    }
+});
+
 });
