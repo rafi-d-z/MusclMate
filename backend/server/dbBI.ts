@@ -120,7 +120,7 @@ export async function edit_exercise(client: Client, uid: String, new_value: Obje
 export async function create_workout(client: Client, new_workout: workout): Promise<string | undefined>{
     const sql: string = `INSERT INTO public.workout_plans (uid, exercise_arr, keywords, workout_name)` +
                         ` VALUES (uuid_generate_v4(), $1, $2, $3) RETURNING uid`;
-    const values = [new_workout.workout_name, new_workout.exercise_arr, new_workout.keywords]
+    const values = [new_workout.exercise_arr, new_workout.keywords, new_workout.workout_name]
     const query = {
         name: "create-workout",
         text: sql,
