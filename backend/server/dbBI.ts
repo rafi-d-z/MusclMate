@@ -136,3 +136,22 @@ export async function create_workout(client: Client, new_workout: workout): Prom
     return undefined;
     }
 }
+
+export async function edit_workout(client: Client, updated_workout: workout): Promise<string | undefined> {
+    const sql: string = `UPDATE public.workout_plans SET exercise_arr = $2, keywords = $3, workout_name = $4 WHERE uid = $1 RETURNING uid;`;
+    const values = [updated_workout.uid, updated_workout.exercise_arr, updated_workout.keywords, updated_workout.workout_name];
+    const query = {
+        name: "updated-workout",
+        text: sql,
+        values: values
+    };
+
+    try {
+        const result = await client.query(query);
+        const uid = result.rows[0].uid; 
+        return uid;
+    } catch (err) {
+        console.error("Problem updating workout\n", err);
+        return undefined;
+    }
+}
