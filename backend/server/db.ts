@@ -1,7 +1,8 @@
 import client from './db.config';
+import {Client} from 'pg';
 
 // postgres aws db
-const activate_db = async () => {
+const activate_db: Client | undefined = async () => {
     console.log("Connecting to Database ...");
 
     try {
