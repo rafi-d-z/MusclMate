@@ -117,6 +117,42 @@ export async function edit_exercise(client: Client, uid: String, new_value: Obje
     }
 }
 
+
+/* Workout Functions */
+export async function get_workouts(client: Client, search_criteria: workout): Promise<object | undefined>{
+    let conditions: Array<string> = [];
+    let values: Array<any> = [];
+    let index = 1;
+
+    if (search_criteria.uid) {
+        conditions.push(`uid = $${index++}`);
+        values.push(search_criteria.uid);
+    }
+    if (search_criteria.workout_name) {
+        conditions.push(`workout_name = $${index++}`);
+        values.push(search_criteria.workout_name);
+    }
+    if (search_criteria.exercise_arr.length > 0) {
+        conditions.push(`exercise_arr && $${index++}`);
+        values.push(search_criteria.exercise_arr);
+    }
+    if (search_criteria.keywords.length > 0) {
+        conditions.push(`keywords && $${index++}`);
+        values.push(search_criteria.keywords);
+    }
+
+    const sql: string = `SELECT * FROM public.workout_plans WHERE ${conditions.join(' OR ')}`;
+
+    const query = {
+        name: 'fetch-workouts',
+        text: sql,
+        values: values
+    }
+
+    const result = await query_db(client, query);
+    return result[0];
+}
+
 export async function create_workout(client: Client, new_workout: workout): Promise<string | undefined>{
     const sql: string = `INSERT INTO public.workout_plans (uid, exercise_arr, keywords, workout_name)` +
                         ` VALUES (uuid_generate_v4(), $1, $2, $3) RETURNING uid`;
