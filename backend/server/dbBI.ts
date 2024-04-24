@@ -133,6 +133,6 @@ export async function create_workout(client: Client, new_workout: workout){
         return uid;
     } catch(err) {
         console.error("Problem creating new workout\n", err);
-    return null;
+    return undefined;
     }
 }
