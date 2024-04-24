@@ -144,6 +144,25 @@ export async function edit_workout(client: Client, updated_workout: workout): Pr
     return result[0].uid;
 }
 
+export async function delete_workout(client: Client, workout_to_delete: workout): Promise<boolean | undefined>{
+    const sql: string = `DELETE FROM public.workout_plans WHERE uid = $1;`;
+    const values = [workout_to_delete.uid];
+    const query = {
+        name: "delete-workout",
+        text: sql,
+        values: values
+    };
+
+    try{
+        const result = await query_db(client, query);
+        return true;
+    } catch(err:any){
+        console.error("Problem deleting workout\n", err.stack);
+        return undefined;
+    }
+
+}
+
 async function query_db(client: Client, query: any){
     try {
         const result = await client.query(query);
