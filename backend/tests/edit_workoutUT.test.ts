@@ -28,6 +28,6 @@ describe("create_workout unit tests", () => {
             throw new Error("result is undefined");
         }
 
-        expect(typeof(result)).toStrictEqual("string");
+        expect(result).toStrictEqual("fbd91776-5202-4737-ab90-ac5077b67f8d");
     })
 })
