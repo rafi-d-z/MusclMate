@@ -8,20 +8,20 @@ import fs from 'fs';
 dotenv.config();
 import { create_exercise, delete_from, get_exercise_by_uid } from './dbBI';
 
-async function create_app(): Promise<express.Application>{
+async function create_app(): Promise<Array<any>>{
   let client_instance: Client | undefined;
   try{
-      client_instance = await activate_db(); // will be undefined if IP blocked
+    client_instance = await activate_db(); // will be undefined if IP blocked
   } catch{
-      console.error('Failed to connect to database');
-      client_instance = undefined;
+    console.error('Failed to connect to database');
+    client_instance = undefined;
   }
 
   // doc: https://expressjs.com/en/4x/api.html
   const app: express.Application = express();
   app.use(express.json()); 
   app.use(cors({
-  origin: 'http://localhost:5173'
+    origin: 'http://localhost:5173'
   }));
 
   app.get('/', (_req, _res) => {
@@ -170,6 +170,6 @@ async function create_app(): Promise<express.Application>{
     }
   })
 
-  return app;
+  return [app, client_instance];
 }
 export default create_app;
