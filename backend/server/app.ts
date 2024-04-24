@@ -17,12 +17,12 @@ async function create_app(): Promise<Array<any>>{
     client_instance = undefined;
   }
 
-  // doc: https://expressjs.com/en/4x/api.html
-  const app: express.Application = express();
-  app.use(express.json()); 
-  app.use(cors({
-    origin: 'http://localhost:5173'
-  }));
+    // doc: https://expressjs.com/en/4x/api.html
+    const app: express.Application = express();
+    app.use(express.json()); 
+    app.use(cors({
+    origin: 'https://muscl-mate-26j1.vercel.app/'
+    }));
 
   app.get('/', (_req, _res) => {
     _res.status(200).send("TypeScript With Express");
