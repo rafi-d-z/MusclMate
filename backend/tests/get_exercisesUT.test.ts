@@ -24,7 +24,7 @@ describe("get_exercises unit tests", () => {
         if(result === undefined){
             return;
         }
-        // Assert
+
         expect(result[0]).toStrictEqual({
             uid: '22d65463-8176-4b0d-ba70-40ab5124cbda',
             exercise_name: 'calf raises',
