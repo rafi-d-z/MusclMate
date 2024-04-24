@@ -1,11 +1,17 @@
-import { Client, query } from "pg";
+import { Client } from "pg";
 
 export async function get_exercise_by_uid(client: Client, uid: string): Promise<Array<any> | undefined>{
     const sql: string = "SELECT * FROM public.exercises WHERE uid = $1;"; 
     const values = [uid];
 
+    const query = {
+        name: "fetch-exercise-uid",
+        text: sql,
+        values: values
+    }
+
     try{
-        const res = await client.query(sql, values);
+        const res = await client.query(query);
         return res.rows;
     } catch(err) {
         console.error("Problem fetching\n", err);
@@ -13,7 +19,7 @@ export async function get_exercise_by_uid(client: Client, uid: string): Promise<
     }
 }
 
-export async function get_exercises(client: Client, exercise_name: string = '', exercise_target: string = '', n_reps: number = 0, n_sets: number = 0, arr_keywords: Array<string> = [], weight: number = 0): Promise<Object | undefined> {
+export async function get_exercises(client: Client, exercise_name: string = '', exercise_target: string = '', n_reps: number = 0, n_sets: number = 0, arr_keywords: Array<string> = [], weight: number = 0): Promise<Array<Object> | undefined> {
     let conditions: Array<string> = [];
     let values: Array<any> = [];
     let index = 1;
@@ -46,22 +52,17 @@ export async function get_exercises(client: Client, exercise_name: string = '', 
     const sql_string = `SELECT * FROM public.exercises WHERE ${conditions.join(' OR ')}`;
 
     const query = {
-        name: "get_exercises",
+        name: 'fetch-exercises',
         text: sql_string,
         values: values
     }
+    const results = await client.query(query);
 
-    const results = client.query(query);
-
-    query.on('end', () => {
-        return results;
-    });
-
-    query.on('error', (err) => {
+    client.on('error', (err: any) => {
         console.error(err.stack);
         return undefined;
     });
-    return undefined;
+    return results.rows;
 }
 
 
