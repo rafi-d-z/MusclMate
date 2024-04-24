@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/popover"
 import './App.css'
 import muscleLogo from './assets/MuscleLogo.png'
-import { MenuBar } from "@/components/ui/menubar"
+import { Menubar } from "@/components/ui/menubar"
 
 
 
@@ -70,7 +70,7 @@ function Workout() {
         <img src={muscleLogo} width={200} height={200}/>
         <div className="mt-5 flex lg:ml-4 gap-20">
           <Input placeholder="Search" className="w-[200px] "/>
-          <MenuBar />
+          <Menubar />
         </div>
       </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '360px' }}>
