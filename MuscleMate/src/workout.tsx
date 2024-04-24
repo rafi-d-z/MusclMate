@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/popover"
 import './App.css'
 import muscleLogo from './assets/MuscleLogo.png'
-import { MenuBar } from "./components/ui/menubar"
+import { MenuBar } from "@/components/ui/menubar"
 
 
 
