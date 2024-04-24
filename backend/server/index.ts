@@ -2,7 +2,8 @@ import create_app from './app';
 
 async function startServer() {
   try {
-    const app = await create_app(); 
+    const appClient = await create_app();
+    const app = appClient[0]
 
     const PORT: number = 3000;
     app.listen(PORT, () => {
