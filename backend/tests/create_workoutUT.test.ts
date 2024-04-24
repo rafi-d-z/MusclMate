@@ -21,7 +21,8 @@ describe("get_exercises unit tests", () => {
     test("should create a workout", async () => {
         const new_workout: workout = {
             workout_name: "unit-test",
-            exercise_arr: ["22d65463-8176-4b0d-ba70-40ab5124cbda"]
+            exercise_arr: ["5442fc3c-bcb0-4ba0-87a3-a05e3186b298", "6d481883-a599-44d5-9c45-8e4f57e6d917"],
+            keywords: ["unit-test", "unit-test", "unit-test"],
         }
         const result: Array<object> | undefined = await get_exercises(client, exercise_name);
 
