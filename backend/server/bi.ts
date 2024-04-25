@@ -51,17 +51,16 @@ export function getWorkoutQueries(query: any): workout {
         exercise_arr: [],
         keywords: []
     };
-
-    if(query.workout.uid !== undefined){
+    if(query.uid !== undefined){
         workout_query.uid = query.uid;
     } 
-    if(query.workout.workout_name !== undefined){
+    if(query.workout_name !== undefined){
         workout_query.workout_name = query.workout_name;
     }
-    if(query.workout.exercise_arr !== undefined){
+    if(query.exercise_arr !== undefined){
         workout_query.exercise_arr = query.exercise_arr;
     }
-    if(query.workout.keywords !== undefined){
+    if(query.keywords !== undefined){
         workout_query.keywords = query.keywords;
     }
     return workout_query;
