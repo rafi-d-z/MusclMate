@@ -21,7 +21,7 @@ export function isString(input: any): Boolean{
  * @returns {boolean}
  */
 export function isArray(input: any): boolean {
-    if (typeof input === 'string') {
+    if (typeof input !== 'object') {
         return false;
     }
     return true;
@@ -32,12 +32,12 @@ export function isArray(input: any): boolean {
  * @param {any} input 
  * @returns {number} number
  */
-export function toNumber(input: any): Number | null {
+export function toNumber(input: any): Number {
     try{
         const num: Number = Number(input);
         return num;
     } catch{
-        return null;
+        throw new Error("Input is not a number")
     }
 }
 
