@@ -173,23 +173,22 @@ async function create_app(): Promise<Array<any>>{
 
   app.get("/get_workouts", async (_req, _res) => {
     const query = _req.body;
-    console.log(query);
-
     let workoutQuery: workout = {
-        uid: "",
-        workout_name: "",
-        exercise_arr: [],
-        keywords: []
+      uid: "",
+      workout_name: "",
+      exercise_arr: [],
+      keywords: []
     };
+
     try{
       workoutQuery = getWorkoutQueries(query);
     } catch(err){
-      console.error(err);
-      _res.send(undefined).status(400);
+      _res.send(err).status(400);
     }
     let res;
 
     if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
       throw new Error("Database not connected");
     }
     try{

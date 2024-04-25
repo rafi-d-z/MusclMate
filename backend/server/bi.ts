@@ -9,7 +9,6 @@ export function isString(input: any): Boolean{
     const regex = /^[^\w\s]+$/;
     const is_string: Boolean = (
         typeof(input) === 'string' && 
-        isNaN(Number(input)) &&
         regex.test(input) === false
     );
     return is_string;
@@ -53,32 +52,34 @@ export function getWorkoutQueries(query: any): workout {
         exercise_arr: [],
         keywords: []
     };
+    const empty_workout_query: workout = {
+        uid: "",
+        workout_name: "",
+        exercise_arr: [],
+        keywords: []
+    };
 
-    if(query.uid !== undefined){
-        if(!isString(query.uid)){
-            throw new Error("The 'uid' property of the query object is not a string")
-        }
-        workout_query.uid = query.uid;
-    } 
-    if(query.workout_name !== undefined){
-        if(!isString(query.workout_name)){
-            throw new Error("The 'workout_name' property of the query object is not a string")
-        }
-        workout_query.workout_name = query.workout_name;
+
+    // if the workout body does not contain the fields (as incomplete body) - throw error
+    if(query.uid === undefined || query.workout_name === undefined || query.exercise_arr === undefined || query.keywords === undefined){
+        throw new Error("Malformed input! Workout subobject either missing or incomplete");
+    } else if(!isString(query.uid)){
+        throw new Error("The 'uid' property of the query object is not a string")
+    } else if(!isString(query.workout_name)){
+        throw new Error("The 'workout_name' property of the query object is not a string")
+    } else if(!isArray(query.exercise_arr)){
+        throw new Error("The 'exercise_arr' property of the query object is not an array")
+    } else if(!isArray(query.keywords)){
+        throw new Error("The 'keywords' property of the query object is not an array")
     }
-    if(query.exercise_arr !== undefined){
-        if(!isArray(query.exercise_arr)){
-            throw new Error("The 'exercise_arr' property of the query object is not an array")
-        }
-        workout_query.exercise_arr = query.exercise_arr;
-    }
-    if(query.keywords !== undefined){
-        if(!isArray(query.keywords)){
-            throw new Error("The 'keywords' property of the query object is not an array")
-        }
-        workout_query.keywords = query.keywords;
-    }
-    if(!query.uid && !query.workout_name && !query.exercise_arr && !query.keywords){
+
+    // save new data if not empty
+    workout_query.uid = query.uid;
+    workout_query.workout_name = query.workout_name;
+    workout_query.exercise_arr = query.exercise_arr;
+    workout_query.keywords = query.keywords;
+
+    if(JSON.stringify(workout_query) === JSON.stringify(empty_workout_query)){
         throw new Error("No workout object found in query")
     }
 
