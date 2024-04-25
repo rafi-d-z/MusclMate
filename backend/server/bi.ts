@@ -1,3 +1,5 @@
+import { workout } from './DAO/workout';
+
 /**
  * returns if input is a string - not even a string representation of a number
  * @param {any} input 
@@ -35,4 +37,32 @@ export function toNumber(input: any): Number | null {
     } catch{
         return null;
     }
+}
+
+/**
+ * takes query object - parses through for workout object and returns workout object
+ * @param query must contain workout object
+ * @returns workout object
+ */
+export function getWorkoutQueries(query: any): workout {
+    let workout_query: workout = {
+        uid: "",
+        workout_name: "",
+        exercise_arr: [],
+        keywords: []
+    };
+
+    if(query.workout.uid !== undefined){
+        workout_query.uid = query.uid;
+    } 
+    if(query.workout.workout_name !== undefined){
+        workout_query.workout_name = query.workout_name;
+    }
+    if(query.workout.exercise_arr !== undefined){
+        workout_query.exercise_arr = query.exercise_arr;
+    }
+    if(query.workout.keywords !== undefined){
+        workout_query.keywords = query.keywords;
+    }
+    return workout_query;
 }
