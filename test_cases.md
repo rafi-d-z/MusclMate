@@ -68,3 +68,38 @@
      2. Access the "gym-tionary" section.
      3. Explore and search for gym-related terms.
    - Expected Result: The app should provide clear definitions and explanations for gym-related terms, aiding new gym-goers in understanding gym lingo.
+
+9. **User Authentication**:
+   - Verify that users can successfully register/sign up for an account.
+   - Verify that users can log in with valid credentials.
+   - Verify that users cannot log in with invalid credentials.
+   - Verify that users can reset their password if forgotten.
+
+10. **User Profile Management**:
+   - Verify that users can update their profile information (e.g., name, email, profile picture).
+   - Verify that users can change their password.
+   - Verify that users can delete their account.
+
+11. **Search Functionality**:
+   - Verify that users can search for content using relevant keywords.
+   - Verify that search results are accurate and relevant.
+   - Verify that users can filter search results based on various criteria (e.g., date, category).
+
+12. **Content Viewing**:
+   - Verify that users can view different types of content (e.g., articles, videos, images).
+   - Verify that content is displayed correctly and formatted appropriately.
+   - Verify that users can navigate between different pages/screens smoothly.
+
+13. **Interaction with Content**:
+   - Verify that users can like, share, or bookmark content.
+   - Verify that users can leave comments or feedback on content.
+   - Verify that users can rate content if applicable (e.g., rating a product, rating an article).
+
+14. **Settings and Preferences**:
+   - Verify that users can customize app settings (e.g., language, theme).
+   - Verify that users can manage notification preferences (e.g., opt-in/out of push notifications).
+   - Verify that changes to settings/preferences are applied correctly.
+
+15. **Error Handling**:
+   - Verify that appropriate error messages are displayed when users encounter errors (e.g., network error, server error).
+   - Verify that users are guided to recover from errors gracefully (e.g., retrying an action, contacting support).
