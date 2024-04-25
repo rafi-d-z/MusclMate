@@ -1,0 +1,17 @@
+name: deploy backend to EC2 instance
+on:
+  push:
+    branches:
+      - deploy-backend
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:      
+      - name: Execute pull scripts on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: sudo su -c 'run-server.sh'
