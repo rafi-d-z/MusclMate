@@ -2,6 +2,7 @@ import request from "supertest";
 import create_app from "../server/app";
 import express from 'express';
 import { Client } from "pg";
+import { workout } from "../server/DAO/workout";
 
 describe('Server Actions', () => {
     let appClient: Array<any>;
@@ -84,4 +85,17 @@ describe('Server Actions', () => {
             }).expect(200);
         });
     });
+
+    describe("Get /get_workouts", () => {
+        test("should return information given proper input", async () => {
+            const workout: workout = {
+                uid: "fbd91776-5202-4737-ab90-ac5077b67f8d",
+                workout_name: "unit_test-EDITED",
+                exercise_arr: ["5442fc3c-bcb0-4ba0-87a3-a05e3186b298", "6d481883-a599-44d5-9c45-8e4f57e6d917"],
+                keywords: ["unit-test", "unit-test", "unit-test", "edited-unit-test"],
+            }
+
+            await request(app).get(`/get_workouts`).send(workout).expect(200);
+        })
+    })
 });
