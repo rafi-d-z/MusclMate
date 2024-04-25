@@ -2,7 +2,7 @@ import { Client } from "pg";
 import { exercise } from "./DAO/exercise";
 import { workout } from "./DAO/workout";
 
-/* Exercise Functions */
+/* Exercise Functions -- old (have no unit tests) */
 export async function get_exercise_by_uid(client: Client, uid: string): Promise<Array<any> | undefined>{
     const sql: string = "SELECT * FROM public.exercises WHERE uid = $1;"; 
     const values = [uid];
@@ -119,7 +119,7 @@ export async function edit_exercise(client: Client, uid: String, new_value: Obje
 }
 
 
-/* Workout Functions */
+/* Workout Functions - passes all unit tests */
 export async function get_workouts(client: Client, search_criteria: workout): Promise<object | undefined>{
     let conditions: Array<string> = [];
     let values: Array<any> = [];

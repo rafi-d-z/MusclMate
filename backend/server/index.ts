@@ -7,8 +7,6 @@ async function startServer() {
   try {
     const appClient = await create_app();
     const app = appClient[0]
-
-    const PORT: number = 3000;
   
     const privateKey = fs.readFileSync('../../../../etc/letsencrypt/live/api-muscleman.com/privkey.pem', 'utf8');
     const certificate = fs.readFileSync('../../../../etc/letsencrypt/live/api-muscleman.com/cert.pem', 'utf8');
