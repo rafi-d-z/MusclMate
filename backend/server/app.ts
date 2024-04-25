@@ -2,11 +2,12 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { Client } from 'pg';
 import cors from 'cors';
-import {isArray, isString, toNumber} from './bi';
+import { isArray, isString, toNumber, getWorkoutQueries } from './bi';
 import activate_db from './db';
 import fs from 'fs';
 dotenv.config();
-import { create_exercise, delete_from, get_exercise_by_uid } from './dbBI';
+import { create_exercise, delete_from, get_exercise_by_uid, get_workouts } from './dbBI';
+import { workout } from './DAO/workout';
 
 async function create_app(): Promise<Array<any>>{
   let client_instance: Client | undefined;
@@ -169,6 +170,23 @@ async function create_app(): Promise<Array<any>>{
       _res.send(data);
     }
   })
+
+  app.get("/get_workouts", async (_req, _res) => {
+    const query = _req.body;
+    const workoutQuery: workout = getWorkoutQueries(query);
+    let res;
+
+    if(client_instance === undefined){
+      throw new Error("Database not connected");
+    }
+    try{
+      res = await get_workouts(client_instance, workoutQuery);
+      _res.send(res).status(200);
+    } catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+    }
+  });
 
   return [app, client_instance];
 }
