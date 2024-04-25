@@ -173,7 +173,20 @@ async function create_app(): Promise<Array<any>>{
 
   app.get("/get_workouts", async (_req, _res) => {
     const query = _req.body;
-    const workoutQuery: workout = getWorkoutQueries(query);
+    console.log(query);
+
+    let workoutQuery: workout = {
+        uid: "",
+        workout_name: "",
+        exercise_arr: [],
+        keywords: []
+    };
+    try{
+      workoutQuery = getWorkoutQueries(query);
+    } catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+    }
     let res;
 
     if(client_instance === undefined){
