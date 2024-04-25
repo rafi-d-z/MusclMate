@@ -14,4 +14,4 @@ jobs:
           host: ${{ secrets.AWS_HOST }}
           username: ${{ secrets.AWS_USERNAME }}
           key: ${{ secrets.AWS_KEY }}
-          script: sudo -S su -c "source 'run-server.sh'"
+          script: sudo -S su -c "ls"
