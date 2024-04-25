@@ -19,6 +19,18 @@ describe("isString unit tests", () => {
             const result: Boolean = isString(input);
             expect(result).toStrictEqual(true);
         });
+
+        test("uid (string)", () => {
+            const input: string = "fbd91776-5202-4737-ab90-ac5077b67f8d";
+            const result: Boolean = isString(input);
+            expect(result).toStrictEqual(true);
+        });
+
+        test("empty string", () => {
+            const input: string = "";
+            const result: Boolean = isString(input);
+            expect(result).toStrictEqual(true);
+        })
     });
 
     describe("should return false on incorrect input", () => {
