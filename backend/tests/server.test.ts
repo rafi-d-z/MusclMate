@@ -120,7 +120,6 @@ describe('Server Actions', () => {
                 }
 
                 await request(app).get("/get_workouts").send(workout).expect(200).then(res => {
-                    console.log("Proper response body:", res.body)
                     expect(typeof(res.body)).toBe("object"); 
                 });
             });
