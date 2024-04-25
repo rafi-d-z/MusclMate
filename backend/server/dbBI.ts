@@ -205,7 +205,6 @@ async function query_db(client: Client, query: any){
         const res = result.rows; 
         return res;
     } catch (err: any) {
-        console.error("Problem querying database\n", err.stack);
-        return undefined;
+        throw new Error("Problem querying database, possible malformed input", err.stack);
     }
 }
