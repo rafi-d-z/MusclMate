@@ -2,6 +2,7 @@ import { Client } from "pg";
 import { exercise } from "./DAO/exercise";
 import { workout } from "./DAO/workout";
 
+/* Exercise Functions */
 export async function get_exercise_by_uid(client: Client, uid: string): Promise<Array<any> | undefined>{
     const sql: string = "SELECT * FROM public.exercises WHERE uid = $1;"; 
     const values = [uid];
@@ -144,13 +145,12 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
     const sql: string = `SELECT * FROM public.workout_plans WHERE ${conditions.join(' OR ')}`;
 
     const query = {
-        name: 'fetch-workouts',
         text: sql,
         values: values
     }
 
     const result = await query_db(client, query);
-    return result[0];
+    return result;
 }
 
 export async function create_workout(client: Client, new_workout: workout): Promise<string | undefined>{
