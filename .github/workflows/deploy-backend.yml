@@ -2,7 +2,7 @@ name: deploy backend to EC2 instance
 on:
   push:
     branches:
-      - deploy-backend
+      - main
 
 jobs:
   deploy:
