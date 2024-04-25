@@ -1,5 +1,3 @@
-import activate_db from "../server/db"
-import { Client } from "pg";
 import { isString } from "../server/bi";
 
 describe("isString unit tests", () => {
