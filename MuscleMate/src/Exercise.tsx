@@ -15,7 +15,7 @@ import {
   } from "@/components/ui/tabs"
   import { useState, useEffect } from "react"
   import { NewExerciseCard } from "./components/ui/newExerciseCard"
-  import { MenuBar } from "./components/ui/menuBar"
+  import { Menubar } from "./components/ui/menubar"
   import muscleLogo from './assets/MuscleLogo.png'
   import axios from 'axios';
   import './App.css'
@@ -56,7 +56,7 @@ import {
           <img src={muscleLogo} width={200} height={200}/>
           <div className="mt-5 flex lg:ml-4 gap-20">
             <Input placeholder="Search" className="w-[200px] "/>
-            <MenuBar/>
+            <Menubar/>
           </div>
         </div>
   
