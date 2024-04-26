@@ -14,11 +14,10 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { useState, useEffect } from "react"
-import { NewExerciseCard } from "./components/ui/newExerciseCard"
-import { MenuBar } from "./components/ui/menuBar"
+/* import './App.css' */
 import muscleLogo from './assets/MuscleLogo.png'
+import {MenuBar} from "@/components/ui/menuBar"
 import axios from 'axios';
-import './App.css'
 
 interface CardData{
   name: string,
@@ -46,6 +45,7 @@ function MainMenu() {
             setSelectedCardData(response.data);
           });
       };
+
       fetchData();
   }, [selectedCard]);
 
@@ -56,7 +56,7 @@ function MainMenu() {
         <img src={muscleLogo} width={200} height={200}/>
         <div className="mt-5 flex lg:ml-4 gap-20">
           <Input placeholder="Search" className="w-[200px] "/>
-          <MenuBar/>
+          <MenuBar />
         </div>
       </div>
 
@@ -70,20 +70,19 @@ function MainMenu() {
         </TabsList>
 
         <TabsContent value={selectedCard} className="grid grid-cols-5 gap-10">
-          <NewExerciseCard/>
           {selectedCardData.map((data, index) => (
-              <Card key={index}>
-                  <CardHeader>
-                      <CardTitle>{data.name}</CardTitle>
-                      <CardDescription>{data.type}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <img src={data.url}></img>
-                  </CardContent>
-                  <CardFooter>
-                      {data.reps}/{data.sets}
-                  </CardFooter>
-              </Card>
+            <Card key={index}>
+                <CardHeader>
+                  <CardTitle>{data.name}</CardTitle>
+                  <CardDescription>{data.type}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <img src={data.url}></img>
+                </CardContent>
+                <CardFooter>
+                    {data.reps}/{data.sets}
+                </CardFooter>
+            </Card>
           ))}
         </TabsContent>
 
