@@ -19,10 +19,11 @@ async function create_app(): Promise<express.Application>{
 
     // doc: https://expressjs.com/en/4x/api.html
     const app: express.Application = express();
-    app.use(express.json()); 
     app.use(cors({
-    origin: 'https://muscl-mate-26j1.vercel.app/'
+      origin: 'https://muscl-mate.vercel.app' 
     }));
+    app.use(express.json()); 
+
 
     app.get('/', (_req, _res) => {
       _res.status(200).send("TypeScript With Express");
