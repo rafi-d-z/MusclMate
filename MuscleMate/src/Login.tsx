@@ -42,18 +42,18 @@ const formSchema = z.object({
 
 function Login() {
     const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-          username: "",
-          password: "",
-          remember: true,
-          confirmPwd: "",
-          email: "",
-        },
-      })
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+        username: "",
+        password: "",
+        remember: true,
+        confirmPwd: "",
+        email: "",
+      },
+    })
      
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+      console.log(values)
     } 
 
     return (
@@ -80,22 +80,24 @@ function Login() {
                       render={({ field }) => (
                         <FormItem>
                         <FormControl>
-                            <Input type="username" placeholder="Username" {...field} />
+                          <Input type="username" placeholder="Username" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
-                    )}/>
+                      )}
+                    />
                     <FormField
                       control={form.control}
                       name="password"
                       render={({ field }) => (
                         <FormItem>
                         <FormControl>
-                            <Input type="password" placeholder="Password" {...field} />
+                          <Input type="password" placeholder="Password" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
-                    )}/>
+                      )}
+                    />
                     <FormField
                       control={form.control}
                       name="remember"
@@ -136,7 +138,7 @@ function Login() {
                       render={({ field }) => (
                         <FormItem>
                         <FormControl>
-                            <Input type="username" placeholder="Username" {...field} />
+                          <Input type="username" placeholder="Username" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
