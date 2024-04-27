@@ -1,8 +1,8 @@
 import { Client } from "pg";
 
-export async function get(client: Client, column_name: string, get_items: string, db_name: string): Promise<Array<any> | undefined>{
-    const sql: string = `SELECT ${column_name} FROM ${db_name} WHERE ${column_name} LIKE $1 ORDER BY uid ASC`; 
-    const values = [`%${get_items}%`];
+export async function get_exercise_by_uid(client: Client, uid: string): Promise<Array<any> | undefined>{
+    const sql: string = "SELECT * FROM public.exercises WHERE uid = $1;"; 
+    const values = [uid];
 
     try{
         const res = await client.query(sql, values);
@@ -13,18 +13,19 @@ export async function get(client: Client, column_name: string, get_items: string
     }
 }
 
-export async function create_exercise(client: Client, item_name: string, target: string, reps: Number, sets: Number, keywords: string[], weight: Number): Promise<Boolean>{
+export async function create_exercise(client: Client, item_name: string, target: string, reps: Number, sets: Number, keywords: string[], weight: Number): Promise<string | null>{
     const sql: string = `INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets,` +
                         ` arr_keywords, weight) VALUES (uuid_generate_v4(), $1, $2,` +
-                        ` $3, $4, $5, $6)`;
-    const values: string[] = [item_name, target, reps.toString(), sets.toString(), keywords.toString(), weight.toString()]
+                        ` $3, $4, $5, $6) RETURNING uid`;
+    const values = [item_name, target, reps.toString(), sets.toString(), keywords, weight.toString()]
 
     try{
-        await client.query(sql, values);
-        return true;
+        const result = await client.query(sql, values);
+        const uid = result.rows[0].uid;
+        return uid;
     } catch(err) {
         console.error("Problem creating new exercise\n", err);
-        return false;
+        return null;
     }
 }
 
@@ -36,7 +37,7 @@ export async function delete_from(client: Client, table_name: String, uid: Strin
         await client.query(sql, values);
         return true;
     } catch(err){
-        console.error("Problem creating new exercise\n", err);
+        console.error("Problem deleting new exercise\n", err);
         return false;
     }
 }
