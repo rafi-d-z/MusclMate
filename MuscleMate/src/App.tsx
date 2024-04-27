@@ -16,7 +16,7 @@ import {
 import { useState, useEffect } from "react"
 /* import './App.css' */
 import muscleLogo from './assets/MuscleLogo.png'
-import { MenuBar } from "./components/ui/menuBar"
+import {Menubar} from "@/components/ui/menubar"
 import axios from 'axios';
 
 interface CardData{
@@ -56,7 +56,7 @@ function MainMenu() {
         <img src={muscleLogo} width={200} height={200}/>
         <div className="mt-5 flex lg:ml-4 gap-20">
           <Input placeholder="Search" className="w-[200px] "/>
-          <MenuBar />
+          <Menubar />
         </div>
       </div>
 
@@ -71,18 +71,18 @@ function MainMenu() {
 
         <TabsContent value={selectedCard} className="grid grid-cols-5 gap-10">
           {selectedCardData.map((data, index) => (
-              <Card key={index}>
-                  <CardHeader>
-                      <CardTitle>{data.name}</CardTitle>
-                      <CardDescription>{data.type}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <img src={data.url}></img>
-                  </CardContent>
-                  <CardFooter>
-                      {data.reps}/{data.sets}
-                  </CardFooter>
-              </Card>
+            <Card key={index}>
+                <CardHeader>
+                  <CardTitle>{data.name}</CardTitle>
+                  <CardDescription>{data.type}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <img src={data.url}></img>
+                </CardContent>
+                <CardFooter>
+                    {data.reps}/{data.sets}
+                </CardFooter>
+            </Card>
           ))}
         </TabsContent>
 

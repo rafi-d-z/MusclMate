@@ -29,7 +29,7 @@ const MyLabel: React.FC<MyLabelProps> = ({ labelName }) => {
     )
 }
 
-export const MenuBar: React.FC = () => {
+export const Menubar: React.FC = () => {
     return (
         <Sheet>
             <SheetTrigger asChild>
