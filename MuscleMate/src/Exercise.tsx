@@ -12,15 +12,6 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
-  import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
-  import { Button } from "@/components/ui/button"
-  import { Label } from "@/components/ui/label"
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
   import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
