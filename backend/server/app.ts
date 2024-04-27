@@ -20,7 +20,7 @@ async function create_app(): Promise<express.Application>{
     // doc: https://expressjs.com/en/4x/api.html
     const app: express.Application = express();
     app.use(cors({
-      origin: 'https://muscl-mate.vercel.app' 
+      origin: ['https://muscl-mate.vercel.app', 'http://localhost:5173']
     }));
     app.use(express.json()); 
 
