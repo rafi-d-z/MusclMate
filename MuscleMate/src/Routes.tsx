@@ -1,10 +1,8 @@
-import {
-    createBrowserRouter,
-  } from "react-router-dom";
-  import MainMenu from "./App";
-  import Workout from "./workout";
-  import Login from "./Login";
-  import Exercise from "./Exercise";
+import { createBrowserRouter } from "react-router-dom";
+import MainMenu from "./App";
+import Workout from "./workout";
+import Login from "./Login";
+import Exercise from "./Exercise";
   
   const Routes = createBrowserRouter([
     {
@@ -15,12 +13,12 @@ import {
       path: "/Workout",
       element: <Workout />
     },
-      {
+    {
       path: "/login",
       element: <Login />
     },
     {
-      path: "/Exercise",
+      path: "/exercise",
       element: <Exercise />
     }
   ]);
