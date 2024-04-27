@@ -183,7 +183,7 @@ async function create_app(): Promise<Array<any>>{
     try{
       workoutQuery = getWorkoutQueries(query);
     } catch(err){
-      _res.send(err).status(400);
+      _res.status(400).send(err);
     }
     let res;
 
