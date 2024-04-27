@@ -29,7 +29,7 @@ import {
     url:string
   }
   
-  function MainMenu() {
+  function Exercise() {
     const [selectedCard, setSelectedCard] = useState("");
     const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
   
@@ -92,4 +92,4 @@ import {
     )
   }
   
-  export default MainMenu
+  export default Exercise
