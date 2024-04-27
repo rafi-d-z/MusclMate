@@ -4,7 +4,7 @@ import http from 'http';
 import fs from 'fs';
 
 async function startServer() {
-  try {
+  try {  
     const appClient = await create_app();
     const app = appClient[0]
   

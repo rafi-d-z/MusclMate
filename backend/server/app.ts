@@ -13,17 +13,21 @@ async function create_app(): Promise<Array<any>>{
   let client_instance: Client | undefined;
   try{
     client_instance = await activate_db();
+    client_instance = await activate_db(); // will be undefined if IP blocked
   } catch{
+    console.error('Failed to connect to database');
+    client_instance = undefined;
     console.error('Failed to connect to database');
     client_instance = undefined;
   }
 
   // doc: https://expressjs.com/en/4x/api.html
   const app: express.Application = express();
-  app.use(express.json()); 
   app.use(cors({
-    origin: 'https://muscl-mate-26j1.vercel.app/'
+    origin: ['https://muscl-mate.vercel.app', 'http://localhost:5173']
   }));
+  app.use(express.json()); 
+
 
   app.get('/', (_req, _res) => {
     _res.status(200).send("TypeScript With Express");
@@ -170,6 +174,8 @@ async function create_app(): Promise<Array<any>>{
       _res.send(data);
     }
   })
+
+
 
   app.get("/get_workouts", async (_req, _res) => {
     const query = _req.body;
