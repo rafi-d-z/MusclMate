@@ -13,10 +13,7 @@ async function create_app(): Promise<Array<any>>{
   let client_instance: Client | undefined;
   try{
     client_instance = await activate_db();
-    client_instance = await activate_db(); // will be undefined if IP blocked
   } catch{
-    console.error('Failed to connect to database');
-    client_instance = undefined;
     console.error('Failed to connect to database');
     client_instance = undefined;
   }
