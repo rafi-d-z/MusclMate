@@ -12,8 +12,18 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
+  import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
   import { Button } from "@/components/ui/button"
   import { Label } from "@/components/ui/label"
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+
   import {
     Tabs,
     TabsContent,
@@ -35,25 +45,25 @@ import {
     sets: number,
     url:string
   }
-  
+    
   function Exercise() {
     const [selectedCard, setSelectedCard] = useState("");
     const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
   
     useEffect(() => {
-        const fetchData = async () => {
-          console.log("Type:", selectedCard)
-          axios({
-            method: 'get',
-            url: 'https://api-muscleman.com/get_mock_exercise',
-            params: {
-              type: selectedCard
-            }
-          }).then(function (response) {
-              setSelectedCardData(response.data);
-            });
-        };
-        fetchData();
+      const fetchData = async () => {
+        console.log("Type:", selectedCard)
+        axios({
+          method: 'get',
+          url: 'https://api-muscleman.com/get_mock_exercise',
+          params: {
+            type: selectedCard
+          }
+        }).then(function (response) {
+          setSelectedCardData(response.data);
+        });
+      };
+      fetchData();
     }, [selectedCard]);
   
     return (
@@ -75,77 +85,39 @@ import {
             <TabsTrigger value="chest" onClick={() => setSelectedCard('chest')}>Chest</TabsTrigger>
             <TabsTrigger value="back" onClick={() => setSelectedCard('back')}>Back</TabsTrigger>        
           </TabsList>
-  
+
           <TabsContent value={selectedCard} className="grid grid-cols-5 gap-10">
-            <NewExerciseCard/>
-            {selectedCardData.map((data, index) => (
-                <Card key={index}>
-                    <CardHeader>
-                    <CardTitle>{data.name}</CardTitle>
+          <NewExerciseCard/>
+          {selectedCardData.map((data, index) => (
+            <Card key={index}>
+                <CardHeader>
+                  <CardTitle>{data.name}</CardTitle>
                   <CardDescription>{data.type}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <img src={data.url}></img>
+                </CardContent>
+                <CardFooter className="relative">
+                  <div className="absolute bottom-0 right-0 mb-2 mr-2">
                     <Popover>
-      <PopoverTrigger asChild>
-      <button className="absolute top-0 left-0 mt-2 ml-2">Edit</button>
-      </PopoverTrigger>
-      <PopoverContent className="w-80">
-        <div className="grid gap-4">
-          <div className="space-y-2">
-            <h4 className="font-medium leading-none">Dimensions</h4>
-            <p className="text-sm text-muted-foreground">
-              Set the dimensions for the layer.
-            </p>
-          </div>
-          <div className="grid gap-2">
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="width">Width</Label>
-              <Input
-                id="width"
-                defaultValue="100%"
-                className="col-span-2 h-8"
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="maxWidth">Max. width</Label>
-              <Input
-                id="maxWidth"
-                defaultValue="300px"
-                className="col-span-2 h-8"
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="height">Height</Label>
-              <Input
-                id="height"
-                defaultValue="25px"
-                className="col-span-2 h-8"
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="maxHeight">Max. height</Label>
-              <Input
-                id="maxHeight"
-                defaultValue="none"
-                className="col-span-2 h-8"
-              />
-            </div>
-          </div>
-        </div>
-      </PopoverContent>
-    </Popover>
-              </CardHeader>
-                    <CardContent>
-                      <img src={data.url}></img>
-                    </CardContent>
-                    <CardFooter>
-                        {data.reps}/{data.sets}
-                    </CardFooter>
-                </Card>
-            ))}
-          </TabsContent>
+                      <PopoverTrigger asChild>
+                        <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
+                      </PopoverTrigger>
+                      <PopoverContent className="w-80">
+                        {/* Popover content */}
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  {data.reps}/{data.sets}
+                </CardFooter>
+
+            </Card>
+          ))}
+        </TabsContent>
+
+      </Tabs>
+    </>
+  )
+}
   
-        </Tabs>
-      </>
-    )
-  }
-  
-  export default Exercise
+export default Exercise
