@@ -6,7 +6,7 @@ import { isArray, isString, toNumber, getWorkoutQueries } from './bi';
 import activate_db from './db';
 import fs from 'fs';
 dotenv.config();
-import { create_exercise, delete_from, get_exercise_by_uid, get_workouts } from './dbBI';
+import { create_exercise, delete_from, get_exercise_by_uid, get_workouts, create_workout } from './dbBI';
 import { workout } from './DAO/workout';
 
 async function create_app(): Promise<Array<any>>{
@@ -202,6 +202,28 @@ async function create_app(): Promise<Array<any>>{
       _res.send(undefined).status(400);
     }
   });
+
+  app.post("/create_workout", async (_req, _res) => {
+    const query = _req.body;
+    const wrkoutName: string | undefined = isString(query.workout_name) ? String(query.workout_name) : undefined;
+    const e_arr: string | undefined = isString(query.exercise_arr) ? String(query.exercise_arr) : undefined;
+    const keywords: string | undefined = isString(query.keywords) ? String(query.keywords) : undefined;
+
+    let workoutQuery: workout = {
+      uid: "",
+      workout_name: "",
+      exercise_arr: [],
+      keywords: []
+    };
+
+    try{
+      workoutQuery = create_workout()
+    }
+
+
+
+  
+  })
 
   return [app, client_instance];
 }
