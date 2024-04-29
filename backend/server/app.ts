@@ -174,6 +174,7 @@ async function create_app(): Promise<Array<any>>{
 
 
 
+  //* workout routes *//
   app.get("/get_workouts", async (_req, _res) => {
     const query = _req.body;
     let workoutQuery: workout = {
@@ -205,10 +206,6 @@ async function create_app(): Promise<Array<any>>{
 
   app.post("/create_workout", async (_req, _res) => {
     const query = _req.body;
-    const wrkoutName: string | undefined = isString(query.workout_name) ? String(query.workout_name) : undefined;
-    const e_arr: string | undefined = isString(query.exercise_arr) ? String(query.exercise_arr) : undefined;
-    const keywords: string | undefined = isString(query.keywords) ? String(query.keywords) : undefined;
-
     let workoutQuery: workout = {
       uid: "",
       workout_name: "",
@@ -217,13 +214,24 @@ async function create_app(): Promise<Array<any>>{
     };
 
     try{
-      workoutQuery = create_workout()
+      workoutQuery = getWorkoutQueries(query);
+    } catch(err){
+      _res.status(400).send(err);
     }
+    let res;
 
-
-
-  
-  })
+    if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      throw new Error("Database not connected");
+    }
+    try{
+      res = await create_workout(client_instance, workoutQuery);
+      _res.send(res).status(200);
+    } catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+    }
+  });
 
   return [app, client_instance];
 }
