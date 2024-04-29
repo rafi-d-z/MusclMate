@@ -120,7 +120,7 @@ export async function edit_exercise(client: Client, uid: String, new_value: Obje
 
 
 /* Workout Functions - passes all unit tests */
-export async function get_workouts(client: Client, search_criteria: workout): Promise<object | undefined>{
+export async function get_workouts(client: Client, search_criteria: workout): Promise<object>{
     let conditions: Array<string> = [];
     let values: Array<any> = [];
     let index = 1;
@@ -153,7 +153,7 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
     return result;
 }
 
-export async function create_workout(client: Client, new_workout: workout): Promise<string | undefined>{
+export async function create_workout(client: Client, new_workout: workout): Promise<string>{
     const sql: string = `INSERT INTO public.workout_plans (uid, exercise_arr, keywords, workout_name)` +
                         ` VALUES (uuid_generate_v4(), $1, $2, $3) RETURNING uid`;
     const values = [new_workout.exercise_arr, new_workout.keywords, new_workout.workout_name]
@@ -167,7 +167,7 @@ export async function create_workout(client: Client, new_workout: workout): Prom
     return result[0].uid;
 }
 
-export async function edit_workout(client: Client, updated_workout: workout): Promise<string | undefined> {
+export async function edit_workout(client: Client, updated_workout: workout): Promise<string> {
     const sql: string = `UPDATE public.workout_plans SET exercise_arr = $2, keywords = $3, workout_name = $4 WHERE uid = $1 RETURNING uid;`;
     const values = [updated_workout.uid, updated_workout.exercise_arr, updated_workout.keywords, updated_workout.workout_name];
     const query = {
@@ -180,7 +180,7 @@ export async function edit_workout(client: Client, updated_workout: workout): Pr
     return result[0].uid;
 }
 
-export async function delete_workout(client: Client, workout_to_delete: workout): Promise<boolean | undefined>{
+export async function delete_workout(client: Client, workout_to_delete: workout): Promise<boolean>{
     const sql: string = `DELETE FROM public.workout_plans WHERE uid = $1;`;
     const values = [workout_to_delete.uid];
     const query = {
@@ -189,16 +189,16 @@ export async function delete_workout(client: Client, workout_to_delete: workout)
         values: values
     };
 
-    try{
-        const result = await query_db(client, query);
-        return true;
-    } catch(err:any){
-        console.error("Problem deleting workout\n", err.stack);
-        return undefined;
-    }
-
+    await query_db(client, query);
+    return true;
 }
 
+/**
+ * throws an error if the query is malformed
+ * @param client postgres client
+ * @param query object of name, text and values
+ * @returns query result
+ */
 async function query_db(client: Client, query: any){
     try {
         const result = await client.query(query);
