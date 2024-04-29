@@ -15,7 +15,6 @@ describe('Server Actions', () => {
         try {
             appClient = await create_app();
             app = appClient[0];
-            client = appClient[1];
         } catch (error) {
             console.error('Failed to start the server:', error);
         }
