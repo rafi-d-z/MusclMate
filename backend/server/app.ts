@@ -6,7 +6,7 @@ import { isArray, isString, toNumber, getWorkoutQueries } from './bi';
 import activate_db from './db';
 import fs from 'fs';
 dotenv.config();
-import { create_exercise, delete_from, get_exercise_by_uid, get_workouts, create_workout } from './dbBI';
+import { create_exercise, delete_from, get_exercise_by_uid, get_workouts, create_workout, edit_workout, delete_workout } from './dbBI';
 import { workout } from './DAO/workout';
 
 async function create_app(): Promise<Array<any>>{
@@ -236,6 +236,70 @@ async function create_app(): Promise<Array<any>>{
       return;
     }
   });
+
+  app.post("/edit_workout", async (_req, _res) => {
+    const query = _req.body;
+    let workoutQuery: workout = {
+      uid: "",
+      workout_name: "",
+      exercise_arr: [],
+      keywords: []
+    };
+
+    try{
+      workoutQuery = getWorkoutQueries(query);
+    } catch(err){
+      _res.status(400).send(err);
+      return;
+    }
+    let res;
+
+    if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      throw new Error("Database not connected");
+    }
+    try{
+      res = await edit_workout(client_instance, workoutQuery);
+      _res.send(res).status(200);
+    } catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+      return;
+    }
+  });
+
+  app.post("/delete_workout", async (_req, _res) => {
+    const query = _req.body;
+    let workoutQuery: workout = {
+      uid: "",
+      workout_name: "",
+      exercise_arr: [],
+      keywords: []
+    };
+
+    try{
+      workoutQuery = getWorkoutQueries(query);
+    } catch(err){
+      _res.status(400).send(err);
+      return;
+    }
+    let res;
+
+    if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      throw new Error("Database not connected");
+    }
+    try{
+      res = await delete_workout(client_instance, workoutQuery);
+      _res.send(res).status(200);
+    } catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+      return;
+    }
+  });
+
+
 
   return [app, client_instance];
 }
