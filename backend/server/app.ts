@@ -188,6 +188,7 @@ async function create_app(): Promise<Array<any>>{
       workoutQuery = getWorkoutQueries(query);
     } catch(err){
       _res.status(400).send(err);
+      return;
     }
     let res;
 
@@ -201,6 +202,7 @@ async function create_app(): Promise<Array<any>>{
     } catch(err){
       console.error(err);
       _res.send(undefined).status(400);
+      return;
     }
   });
 
@@ -217,6 +219,7 @@ async function create_app(): Promise<Array<any>>{
       workoutQuery = getWorkoutQueries(query);
     } catch(err){
       _res.status(400).send(err);
+      return;
     }
     let res;
 
@@ -230,6 +233,7 @@ async function create_app(): Promise<Array<any>>{
     } catch(err){
       console.error(err);
       _res.send(undefined).status(400);
+      return;
     }
   });
 
