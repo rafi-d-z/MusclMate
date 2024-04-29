@@ -242,96 +242,37 @@ async function create_app(): Promise<Array<any>> {
 
   app.post("/create_workout", async (_req, _res) => {
     const query = _req.body;
-    let workoutQuery: workout = {
-      uid: "",
-      workout_name: "",
-      exercise_arr: [],
-      keywords: [],
-    };
+    const wrkoutName: string | undefined = isString(query.workout_name) ? String(query.workout_name) : undefined;
+    const e_arr: boolean = isArray(query.exercise_arr);
+    const keywords: boolean = isArray(query.keywords);
 
-    try {
-      workoutQuery = getWorkoutQueries(query);
-    } catch (err) {
-      _res.status(400).send(err);
+    if(wrkoutName === undefined || e_arr === false || keywords === false){
+      let error_message = "";
+      error_message += wrkoutName === undefined ? ", workout_name is not a string" : "";
+      error_message += e_arr === false ? ", exercise_arr is not an array" : "";
+      error_message += keywords === false ? ", keywords is not an array" : "";
+      _res.status(400).send("Invalid Input" + error_message+ "!");
+    } else if (client_instance != undefined){
+      const new_workout: workout = {
+        uid: "",
+        workout_name: wrkoutName,
+        exercise_arr: query.exercise_arr,
+        keywords: query.keywords
+      }
+      const res = await create_workout(client_instance, new_workout);
+      if(res !== null){
+        _res.status(200).send({"uid": res});
+        return;
+      } else{_res.status(404).send(false);}
       return;
-    }
-    let res;
-
-    if (client_instance === undefined) {
-      _res.send("Database not connected").status(500);
-      throw new Error("Database not connected");
-    }
-    try {
-      res = await create_workout(client_instance, workoutQuery);
-      _res.send(res).status(200);
-    } catch (err) {
-      console.error(err);
-      _res.send(undefined).status(400);
-      return;
-    }
+      }
   });
 
-  app.post("/edit_workout", async (_req, _res) => {
+  /* app.post('edit_workout', async (_req, _res) => {
     const query = _req.body;
-    let workoutQuery: workout = {
-      uid: "",
-      workout_name: "",
-      exercise_arr: [],
-      keywords: [],
-    };
-
-    try {
-      workoutQuery = getWorkoutQueries(query);
-    } catch (err) {
-      _res.status(400).send(err);
-      return;
-    }
-    let res;
-
-    if (client_instance === undefined) {
-      _res.send("Database not connected").status(500);
-      throw new Error("Database not connected");
-    }
-    try {
-      res = await edit_workout(client_instance, workoutQuery);
-      _res.send(res).status(200);
-    } catch (err) {
-      console.error(err);
-      _res.send(undefined).status(400);
-      return;
-    }
-  });
-
-  app.post("/delete_workout", async (_req, _res) => {
-    const query = _req.body;
-    let workoutQuery: workout = {
-      uid: "",
-      workout_name: "",
-      exercise_arr: [],
-      keywords: [],
-    };
-
-    try {
-      workoutQuery = getWorkoutQueries(query);
-    } catch (err) {
-      _res.status(400).send(err);
-      return;
-    }
-    let res;
-
-    if (client_instance === undefined) {
-      _res.send("Database not connected").status(500);
-      throw new Error("Database not connected");
-    }
-    try {
-      res = await delete_workout(client_instance, workoutQuery);
-      _res.send(res).status(200);
-    } catch (err) {
-      console.error(err);
-      _res.send(undefined).status(400);
-      return;
-    }
-  });
+    
+  }) */
+  //TODO: add edit workout
 
   return [app, client_instance];
 }
