@@ -206,24 +206,36 @@ async function create_app(): Promise<Array<any>>{
   app.post("/create_workout", async (_req, _res) => {
     const query = _req.body;
     const wrkoutName: string | undefined = isString(query.workout_name) ? String(query.workout_name) : undefined;
-    const e_arr: string | undefined = isString(query.exercise_arr) ? String(query.exercise_arr) : undefined;
-    const keywords: string | undefined = isString(query.keywords) ? String(query.keywords) : undefined;
+    const e_arr: boolean = isArray(query.exercise_arr);
+    const keywords: boolean = isArray(query.keywords);
 
-    let workoutQuery: workout = {
-      uid: "",
-      workout_name: "",
-      exercise_arr: [],
-      keywords: []
-    };
+    if(wrkoutName === undefined || e_arr === false || keywords === false){
+      let error_message = "";
+      error_message += wrkoutName === undefined ? ", workout_name is not a string" : "";
+      error_message += e_arr === false ? ", exercise_arr is not an array" : "";
+      error_message += keywords === false ? ", keywords is not an array" : "";
+      _res.status(400).send("Invalid Input" + error_message+ "!");
+    } else if (client_instance != undefined){
+      const new_workout: workout = {
+        uid: "",
+        workout_name: wrkoutName,
+        exercise_arr: query.exercise_arr,
+        keywords: query.keywords
+      }
+      const res = await create_workout(client_instance, new_workout);
+      if(res !== null){
+        _res.status(200).send({"uid": res});
+        return;
+      } else{_res.status(404).send(false);}
+      return;
+      }
+  });
 
-    try{
-      workoutQuery = create_workout()
-    }
-
-
-
-  
-  })
+  /* app.post('edit_workout', async (_req, _res) => {
+    const query = _req.body;
+    
+  }) */
+  //TODO: add edit workout
 
   return [app, client_instance];
 }
