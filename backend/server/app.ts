@@ -2,27 +2,28 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { Client } from 'pg';
 import cors from 'cors';
-import {isArray, isString, toNumber} from './bi';
+import { isArray, isString, toNumber, getWorkoutQueries } from './bi';
 import activate_db from './db';
 import fs from 'fs';
 dotenv.config();
-import { create_exercise, delete_from, get_exercise_by_uid } from './dbBI';
+import { create_exercise, delete_from, get_exercise_by_uid, get_workouts, create_workout, edit_workout, delete_workout } from './dbBI';
+import { workout } from './DAO/workout';
 
-async function create_app(): Promise<express.Application>{
+async function create_app(): Promise<Array<any>>{
   let client_instance: Client | undefined;
   try{
-    client_instance = await activate_db(); // will be undefined if IP blocked
+    client_instance = await activate_db();
   } catch{
     console.error('Failed to connect to database');
     client_instance = undefined;
   }
 
-    // doc: https://expressjs.com/en/4x/api.html
-    const app: express.Application = express();
-    app.use(cors({
-      origin: ['https://muscl-mate.vercel.app', 'http://localhost:5173']
-    }));
-    app.use(express.json()); 
+  // doc: https://expressjs.com/en/4x/api.html
+  const app: express.Application = express();
+  app.use(cors({
+    origin: ['https://muscl-mate.vercel.app', 'http://localhost:5173']
+  }));
+  app.use(express.json()); 
 
 
   app.get('/', (_req, _res) => {
@@ -173,6 +174,133 @@ async function create_app(): Promise<express.Application>{
 
 
 
-  return app;
+  //* workout routes *//
+  app.get("/get_workouts", async (_req, _res) => {
+    const query = _req.body;
+    let workoutQuery: workout = {
+      uid: "",
+      workout_name: "",
+      exercise_arr: [],
+      keywords: []
+    };
+
+    try{
+      workoutQuery = getWorkoutQueries(query);
+    } catch(err){
+      _res.status(400).send(err);
+      return;
+    }
+    let res;
+
+    if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      throw new Error("Database not connected");
+    }
+    try{
+      res = await get_workouts(client_instance, workoutQuery);
+      _res.send(res).status(200);
+    } catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+      return;
+    }
+  });
+
+  app.post("/create_workout", async (_req, _res) => {
+    const query = _req.body;
+    let workoutQuery: workout = {
+      uid: "",
+      workout_name: "",
+      exercise_arr: [],
+      keywords: []
+    };
+
+    try{
+      workoutQuery = getWorkoutQueries(query);
+    } catch(err){
+      _res.status(400).send(err);
+      return;
+    }
+    let res;
+
+    if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      throw new Error("Database not connected");
+    }
+    try{
+      res = await create_workout(client_instance, workoutQuery);
+      _res.send(res).status(200);
+    } catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+      return;
+    }
+  });
+
+  app.post("/edit_workout", async (_req, _res) => {
+    const query = _req.body;
+    let workoutQuery: workout = {
+      uid: "",
+      workout_name: "",
+      exercise_arr: [],
+      keywords: []
+    };
+
+    try{
+      workoutQuery = getWorkoutQueries(query);
+    } catch(err){
+      _res.status(400).send(err);
+      return;
+    }
+    let res;
+
+    if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      throw new Error("Database not connected");
+    }
+    try{
+      res = await edit_workout(client_instance, workoutQuery);
+      _res.send(res).status(200);
+    } catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+      return;
+    }
+  });
+
+  app.post("/delete_workout", async (_req, _res) => {
+    const query = _req.body;
+    let workoutQuery: workout = {
+      uid: "",
+      workout_name: "",
+      exercise_arr: [],
+      keywords: []
+    };
+
+    try{
+      workoutQuery = getWorkoutQueries(query);
+    } catch(err){
+      _res.status(400).send(err);
+      return;
+    }
+    let res;
+
+    if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      throw new Error("Database not connected");
+    }
+    try{
+      res = await delete_workout(client_instance, workoutQuery);
+      _res.send(res).status(200);
+    } catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+      return;
+    }
+  });
+
+
+
+  return [app, client_instance];
 }
 export default create_app;

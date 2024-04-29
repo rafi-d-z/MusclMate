@@ -1,19 +1,25 @@
 import request from "supertest";
 import create_app from "../server/app";
 import express from 'express';
+import { Client } from "pg";
+import { workout } from "../server/DAO/workout";
+import { isString } from "../server/bi";
 
 describe('Server Actions', () => {
+    let appClient: Array<any>;
     let app: express.Application;
+    let client: Client;
     let uid: number | null = null;
 
     beforeAll(async () => {
         try {
-            app = await create_app();
+            appClient = await create_app();
+            app = appClient[0];
         } catch (error) {
             console.error('Failed to start the server:', error);
         }
-    }, 100000);
-
+    });
+    
     describe('Get /', () => {
         test("should return 200", async () => {
             await request(app).get('/').expect(200);
@@ -77,6 +83,60 @@ describe('Server Actions', () => {
             await request(app).get(`/get_exercise`).send({
                 uid: "33628bab-142e-49cd-b752-30d5dfd8f093"
             }).expect(200);
+        });
+    });
+
+    describe("Get /get_workouts", () => {
+        describe("should return information given proper input", () => {
+            test("entire workout body inputted", async (): Promise<void> => {
+                const workout: workout = {
+                    uid: "fbd91776-5202-4737-ab90-ac5077b67f8d",
+                    workout_name: "unit_test-EDITED",
+                    exercise_arr: ["5442fc3c-bcb0-4ba0-87a3-a05e3186b298", "6d481883-a599-44d5-9c45-8e4f57e6d917"],
+                    keywords: ["unit-test", "unit-test", "unit-test", "edited-unit-test"],
+                }
+
+                await request(app).get(`/get_workouts`).send(workout).expect(200);
+            })
+            
+            test("only uid provided", async (): Promise<void> => {
+                const workout: workout = {
+                    uid: "fbd91776-5202-4737-ab90-ac5077b67f8d",
+                    workout_name: "",
+                    exercise_arr: [],
+                    keywords: []
+                }
+
+                await request(app).get("/get_workouts").send(workout).expect(200);
+            });
+
+            test("only workout_name provided", async (): Promise<void> => {
+                const workout: workout = {
+                    uid: "",
+                    workout_name: "unit_test",
+                    exercise_arr: [],
+                    keywords: []
+                }
+
+                await request(app).get("/get_workouts").send(workout).expect(200).then(res => {
+                    expect(typeof(res.body)).toBe("object"); 
+                });
+            });
+        });
+
+        describe("should return 400 given improper input", () => {
+            test("no input", async (): Promise<void> => {
+                await request(app).get("/get_workouts").send({}).expect(400);
+            });
+
+            test("invalid input", async (): Promise<void> => {
+                await request(app).get("/get_workouts").send({
+                    uid: 123,
+                    workout_name: 123,
+                    exercise_arr: 123,
+                    keywords: 123
+                }).expect(400);
+            });
         });
     });
 });

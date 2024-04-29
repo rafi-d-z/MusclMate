@@ -1,5 +1,7 @@
 # event
 on:
+  push: 
+    branches: database-functions
   pull_request:
     branches: main
 
