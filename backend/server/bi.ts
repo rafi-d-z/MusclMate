@@ -1,4 +1,5 @@
 import { workout } from './DAO/workout';
+import { exercise } from './DAO/exercise';
 
 /**
  * returns if input is a string - not even a string representation of a number
@@ -25,6 +26,10 @@ export function isArray(input: any): boolean {
     }
     return true;
 }
+
+export function isNumber(input: any): boolean {
+    return typeof input === 'number';
+  }
 
 /**
  * returns number representation of input
@@ -84,4 +89,71 @@ export function getWorkoutQueries(query: any): workout {
     }
 
     return workout_query;
+}
+
+export function getExerciseQueries(query: any): exercise {
+    let exercise_query: exercise = {
+        uid: "",
+        exercise_name: "",
+        exercise_target: "",
+        image_url: "",
+        n_reps: 0,
+        n_sets: 0,
+        weight: 0,
+        arr_keywords: []
+    };
+
+    const empty_exercise_query: exercise = {
+        uid: "",
+        exercise_name: "",
+        exercise_target: "",
+        image_url: "",
+        n_reps: 0,
+        n_sets: 0,
+        weight: 0,
+        arr_keywords: []
+    };
+    // if the exercise body does not contain the fields (as incomplete body) - throw error
+    if(
+        query.uid === undefined ||
+        query.exercise_name === undefined ||
+        query.exercise_target === undefined ||
+        query.image_url === undefined ||
+        query.n_reps === undefined ||
+        query.n_sets === undefined ||
+        query.weight === undefined ||
+        query.arr_keywords === undefined){
+        throw new Error("Malformed input! Exercise subobject either missing or incomplete");
+    } else if(!isString(query.uid)){
+        throw new Error("The 'uid' property of the query object is not a string")
+    } else if(!isString(query.exercise_name)){
+        throw new Error("The 'exercise_name' property of the query object is not a string")
+    } else if(!isString(query.exercise_target)){
+        throw new Error("The 'exercise_target' property of the query object is not a string")
+    } else if(!isString(query.image_url)){
+        throw new Error("The 'image_url' property of the query object is not a string")
+    } else if(!isNumber(query.n_reps)){
+        throw new Error("The 'n_reps' property of the query object is not a number")
+    } else if(!isNumber(query.n_sets)){
+        throw new Error("The 'n_sets' property of the query object is not a number")
+    } else if(!isNumber(query.weight)){
+        throw new Error("The 'weight' property of the query object is not a number")
+    } else if(!isArray(query.arr_keywords)){
+        throw new Error("The 'arr_keywords' property of the query object is not an array")
+    }
+    
+    // save new data if not empty
+    exercise_query.uid = query.uid;
+    exercise_query.exercise_name = query.exercise_name;
+    exercise_query.exercise_target = query.exercise_target;
+    exercise_query.image_url = query.image_url;
+    exercise_query.n_reps = query.n_reps;
+    exercise_query.n_sets = query.n_sets;
+    exercise_query.weight = query.weight;
+    exercise_query.arr_keywords = query.arr_keywords;
+
+    if(JSON.stringify(exercise_query) === JSON.stringify(empty_exercise_query)){
+        throw new Error("No exercise object found in query")}
+
+    return exercise_query;
 }

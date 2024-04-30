@@ -2,12 +2,13 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { Client } from 'pg';
 import cors from 'cors';
-import { isArray, isString, toNumber, getWorkoutQueries } from './bi';
+import { isArray, isString, toNumber, getWorkoutQueries, getExerciseQueries } from './bi';
 import activate_db from './db';
 import fs from 'fs';
 dotenv.config();
-import { create_exercise, delete_from, get_exercise_by_uid, get_workouts, create_workout, edit_workout, delete_workout } from './dbBI';
+import { create_exercise, delete_from, get_exercise_by_uid, get_workouts, create_workout, edit_workout, delete_workout, get_exercises } from './dbBI';
 import { workout } from './DAO/workout';
+import { exercise } from './DAO/exercise';
 
 async function create_app(): Promise<Array<any>>{
   let client_instance: Client | undefined;
@@ -30,7 +31,7 @@ async function create_app(): Promise<Array<any>>{
     _res.status(200).send("TypeScript With Express");
   });
 
-  app.get('/get_exercise', async (_req, _res) => {
+  /* app.get('/get_exercise', async (_req, _res) => {
     // checking to see if input is valid or nah
     const query: any = _req.body;
     const uid: string | null = isString(query.uid) ? String(query.uid) : null;
@@ -52,13 +53,52 @@ async function create_app(): Promise<Array<any>>{
         _res.status(500).send("Failed to query database");
       }
     }
-  });
+  }); */
+
+  app.get('/get_exercises', async (_req, _res) => {
+    // checking to see if input is valid or nah
+
+    const query = _req.body;
+    let exerciseQuery: exercise = {
+      uid: "",
+      exercise_name: "",
+      exercise_target: "",
+      image_url: "",
+      n_reps: 0,
+      n_sets: 0,
+      weight: 0,
+      arr_keywords: []
+    }
+
+    try{
+      exerciseQuery = await getExerciseQueries(query);
+    }catch(err){
+      _res.status(400).send(err);
+      return;
+    }
+
+    let res;
+
+    if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      throw new Error("Database not connected");
+    }
+
+    try{
+      res = await get_exercises(client_instance, exerciseQuery.exercise_name, exerciseQuery.exercise_target, exerciseQuery.n_reps, exerciseQuery.n_sets, exerciseQuery.arr_keywords, exerciseQuery.weight);
+      _res.send(res).status(200);
+    }catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+      return;
+    }
+})
 
   /**
    * Create an exercise
    * Parameters: name (str), target (str), reps (int), sets (int), keywords (array)
    */
-  app.post('/create_exercise', async (_req, _res) => {
+  /* app.post('/create_exercise', async (_req, _res) => {
     const query = _req.body;
     const name: string | undefined = isString(query.name) ? String(query.name) : undefined;
     const target: string | undefined = isString(query.target) ? String(query.target) : undefined;
@@ -83,7 +123,44 @@ async function create_app(): Promise<Array<any>>{
       }
   } else{_res.status(404).send(false);}
     return;
-  });
+  }); */
+
+  app.post('/create_exercise', async (_req, _res) => {
+    const query = _req.body;
+    let exerciseQuery: exercise = {
+      uid: "",
+      exercise_name: "",
+      exercise_target: "",
+      image_url: "",
+      n_reps: 0,
+      n_sets: 0,
+      weight: 0,
+      arr_keywords: []
+    }
+
+    try{
+      exerciseQuery = await getExerciseQueries(query);
+    }catch(err){
+      _res.status(400).send(err);
+      return;
+    }
+
+    let res;
+
+    if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      throw new Error("Database not connected");
+    }
+
+    try{
+      res = await create_exercise(client_instance, exerciseQuery.exercise_name, exerciseQuery.exercise_target, exerciseQuery.n_reps, exerciseQuery.n_sets, exerciseQuery.arr_keywords, exerciseQuery.weight);
+      _res.send(res).status(200);
+    }catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+      return;
+    }
+  })
 
   app.post('/delete', async (_req, _res) => {
     const query = _req.body;
