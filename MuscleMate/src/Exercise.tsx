@@ -46,7 +46,7 @@ import {
         console.log("Type:", selectedCard)
         axios({
           method: 'get',
-          url: 'https://api-muscleman.com/get_mock_exercise',
+          url: 'https://muscl-mate.vercel.app',
           params: {
             type: selectedCard
           }
@@ -59,7 +59,6 @@ import {
   
     return (
       <>
-      {/* top bar components */}
         <div className="flex items-center justify-between p-8 lg:px-8">
           <img src={muscleLogo} width={200} height={200}/>
           <div className="mt-5 flex lg:ml-4 gap-20">
