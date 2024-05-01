@@ -46,7 +46,7 @@ import {
         console.log("Type:", selectedCard)
         axios({
           method: 'get',
-          url: 'https://muscl-mate.vercel.app',
+          url: 'https://api-muscleman.com/get_mock_exercise.',
           params: {
             type: selectedCard
           }
