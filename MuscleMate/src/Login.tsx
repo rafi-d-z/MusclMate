@@ -146,7 +146,7 @@ function SignIn(){
 
 function SignUp() {
   const nav = useNavigate();
-  const goHome = () => nav("/workout");
+  const goHome = () => nav("/");
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
