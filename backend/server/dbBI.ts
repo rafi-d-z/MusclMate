@@ -187,7 +187,6 @@ export async function get_workouts(
     text: sql,
     values: values,
   };
-  console.log(query);
 
   const result = await query_db(client, query);
   return result;
