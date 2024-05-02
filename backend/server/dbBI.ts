@@ -181,12 +181,13 @@ export async function get_workouts(
 
   const sql: string =
     "SELECT * FROM public.workout_plans" +
-    (conditions.length > 0 ? `WHERE ${conditions.join(" OR ")}` : "");
+    (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "");
 
   const query = {
     text: sql,
     values: values,
   };
+  console.log(query);
 
   const result = await query_db(client, query);
   return result;
