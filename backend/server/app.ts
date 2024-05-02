@@ -235,7 +235,7 @@ async function create_app(): Promise<Array<any>> {
       _res.send(res).status(200);
     } catch (err) {
       console.error(err);
-      _res.send(undefined).status(400);
+      _res.send(err).status(400);
       return;
     }
   });
