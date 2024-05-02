@@ -6,6 +6,16 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
+  import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
+  import { Label } from "@/components/ui/label"
+
+  import { Button } from "@/components/ui/button"
   import { Input } from "@/components/ui/input"
   import {
     Popover,
@@ -46,7 +56,7 @@ import {
         console.log("Type:", selectedCard)
         axios({
           method: 'get',
-          url: 'https://api-muscleman.com/get_mock_exercise.',
+          url: 'https://api-muscleman.com/get_mock_exercise',
           params: {
             type: selectedCard
           }
@@ -57,6 +67,65 @@ import {
       fetchData();
     }, [selectedCard]);
   
+
+    const [exerciseName, setExerciseName] = useState('data.name');
+    const [reps, setReps] = useState('data.reps');
+    const [sets, setSets] = useState('data.sets');
+    const [weight, setWeight] = useState('none');
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+
+
+    const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      let value = e.target.value;
+      value = value.replace(/\D/g, '');
+      setReps(value);
+    };
+
+
+    const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      let value = e.target.value;
+      value = value.replace(/\D/g, '');
+      setSets(value);
+    };
+
+
+    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      let value = e.target.value;
+      value = value.replace(/\D/g, '');
+      value = value + ' lbs';
+      setWeight(value);
+    };
+
+
+    const handleAddNewExercise = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+  
+   
+      const exercise = {
+        name: exerciseName,
+        reps: reps,
+        sets: sets,
+        weight: weight
+      };
+  
+      console.log('New Exercise:', exercise);
+      setIsPopoverOpen(false);
+  
+    };
+
+
+    const handleCancel = () => {
+
+      setExerciseName('Pull ups');
+      setReps('3');
+      setSets('12');
+      setWeight('none');
+  
+      setIsPopoverOpen(false);
+    };
+
+
     return (
       <>
         <div className="flex items-center justify-between p-8 lg:px-8">
@@ -78,7 +147,7 @@ import {
 
           <TabsContent value={selectedCard} className="grid grid-cols-5 gap-10">
           <NewExerciseCard/>
-          {selectedCardData.map((data, index) => (
+          {Array.isArray(selectedCardData) && selectedCardData.map((data, index) => (
             <Card key={index}>
                 <CardHeader>
                   <CardTitle>{data.name}</CardTitle>
@@ -94,7 +163,49 @@ import {
                         <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
                       </PopoverTrigger>
                       <PopoverContent className="w-80">
-                        {/* Popover content */}
+                      <div className="grid gap-4">
+                        <div className="space-y-2">
+                          <h4 className="font-medium leading-none">Edit Exercise</h4>
+                          <p className="text-sm text-muted-foreground">Add exercise details here</p>
+                        </div>
+                        <div className="grid gap-2">
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <Label htmlFor="exerciseName">Name: </Label>
+                            <Input id="exerciseName" value={data.name} onChange={(e) => setExerciseName(e.target.value)} className="col-span-2 h-8" />
+
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <Label htmlFor="targetMuscles">Target Muscles:</Label>
+                            <Select>
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder= {data.type} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="light">Arms</SelectItem>
+                              <SelectItem value="dark">Legs</SelectItem>
+                              <SelectItem value="system">Chest</SelectItem>
+                              <SelectItem value="part">Back</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                  <Label htmlFor="reps">Reps:</Label>
+                  <Input id="reps" value={data.reps} onChange={handleRepsChange} className="col-span-2 h-8" />
+                </div>
+                <div className="grid grid-cols-3 items-center gap-4">
+                  <Label htmlFor="sets">Sets:</Label>
+                  <Input id="sets" value={data.sets} onChange={handleSetsChange} className="col-span-2 h-8" />
+                </div>
+                <div className="grid grid-cols-3 items-center gap-4">
+                  <Label htmlFor="weight">Weight:</Label>
+                  <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
+                </div>
+                <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+                <Button onClick={handleAddNewExercise}>Submit</Button>
+
+
+                          </div>
+                      </div>
                       </PopoverContent>
                     </Popover>
                   </div>
