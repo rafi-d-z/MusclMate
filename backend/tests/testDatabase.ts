@@ -2,10 +2,8 @@
  * THIS TEST IS MEANT TO BE RUN MANUALLY ON EC2 INSTANCE
 */
 
-import dotenv from 'dotenv';
 import {Client} from 'pg';
 import fs from 'fs';
-dotenv.config();
 
 const client = new Client({
     host: process.env.POSTGRESQL_DB_HOST,
@@ -22,23 +20,21 @@ const client = new Client({
 export default client;
 
 // postgres aws db
+// postgres aws db
 const activate_db = async () => {
     console.log("Connecting to Database ...");
-    try {
-      await client.connect();
-      console.log("Database connected");
-      return client;
-    } catch (err: any) {
-      console.error('Database connection error', err.stack);
-    } 
-}
+    await client.connect();
+    console.log("Database connected");
+    return client;
+};
 
 async function main() {
     try {
-        const client = await activate_db();
-        // You can now use 'client' here
+        await activate_db();
+        process.exit(0);
     } catch (error) {
         console.error('Error activating database', error);
+        process.exit(1);
     }
 }
 

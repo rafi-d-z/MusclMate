@@ -71,18 +71,18 @@ function MainMenu() {
 
         <TabsContent value={selectedCard} className="grid grid-cols-5 gap-10">
           {selectedCardData.map((data, index) => (
-              <Card key={index}>
-                  <CardHeader>
-                      <CardTitle>{data.name}</CardTitle>
-                      <CardDescription>{data.type}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <img src={data.url}></img>
-                  </CardContent>
-                  <CardFooter>
-                      {data.reps}/{data.sets}
-                  </CardFooter>
-              </Card>
+            <Card key={index}>
+                <CardHeader>
+                  <CardTitle>{data.name}</CardTitle>
+                  <CardDescription>{data.type}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <img src={data.url}></img>
+                </CardContent>
+                <CardFooter>
+                    {data.reps}/{data.sets}
+                </CardFooter>
+            </Card>
           ))}
         </TabsContent>
 

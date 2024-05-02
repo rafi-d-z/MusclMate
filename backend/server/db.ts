@@ -1,4 +1,5 @@
 import client from './db.config';
+import {Client} from 'pg';
 
 // postgres aws db
 const activate_db = async () => {
@@ -9,8 +10,7 @@ const activate_db = async () => {
       console.log("Database connected");
       return client;
     } catch (err: any) {
-      console.error('Database connection error\n', err.stack);
-      return undefined;
+      throw new Error('Database connection error\n', err.stack);
     } 
 }
 
