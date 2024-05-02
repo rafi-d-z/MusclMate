@@ -1,6 +1,6 @@
 "use client"
-import React from "react"
-import { Plus, Minus, Check, ChevronsUpDown } from "lucide-react"
+import React, { useState } from "react"
+import { Plus, Minus, Check, ChevronsUpDown, Pencil } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
     Card,
@@ -38,8 +38,40 @@ import {
 import './App.css'
 import muscleLogo from './assets/MuscleLogo.png'
 import { Menubar } from "@/components/ui/menubar"
+import { NewExerciseCard } from "./components/ui/newExerciseCard"
+import { Label } from "@/components/ui/label"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 
-
+const listOfExercise = [
+    {
+        name: "INV001",
+        Reps: "Paid",
+        Weight: "$250.00",
+        Sets: "Credit Card",
+    },
+    {
+        name: "INV001",
+        Reps: "Paid",
+        Weight: "$250.00",
+        Sets: "Credit Card",
+    },
+]
 
 const exercises = [
     {
@@ -56,23 +88,73 @@ const exercises = [
     },
 ]
 
-
 function Workout() {
 
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
 
 
+    const [exerciseName, setExerciseName] = useState('Pull ups');
+    const [reps, setReps] = useState('12');
+    const [sets, setSets] = useState('3');
+    const [weight, setWeight] = useState('none');
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+    const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        value = value.replace(/\D/g, '');
+        setReps(value);
+    };
+
+    const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        value = value.replace(/\D/g, '');
+        setSets(value);
+    };
+
+    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        value = value.replace(/\D/g, '');
+        value = value + ' lbs';
+        setWeight(value);
+    };
+
+    const handleAddNewExercise = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+
+        const exercise = {
+            name: exerciseName,
+            reps: reps,
+            sets: sets,
+            weight: weight
+        };
+
+        console.log('New Exercise:', exercise);
+        setIsPopoverOpen(false);
+
+    };
+
+    const handleCancel = () => {
+
+        setExerciseName('Pull ups');
+        setReps('3');
+        setSets('12');
+        setWeight('none');
+
+        setIsPopoverOpen(false);
+    };
+
     return (
-    <>
+        <>
             {/* top bar components */}
-      <div className="flex items-center justify-between p-8 lg:px-8">
-        <img src={muscleLogo} width={200} height={200}/>
-        <div className="mt-5 flex lg:ml-4 gap-20">
-          <Input placeholder="Search" className="w-[200px] "/>
-          <Menubar />
-        </div>
-      </div>
+            <div className="flex items-center justify-between p-8 lg:px-8">
+                <img src={muscleLogo} width={200} height={200} />
+                <div className="mt-5 flex lg:ml-4 gap-20">
+                    <Input placeholder="Search" className="w-[200px] " />
+                    <Menubar />
+                </div>
+            </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '360px' }}>
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '800px' }}>
@@ -117,62 +199,52 @@ function Workout() {
                                 <Dialog >
                                     <DialogTrigger >
                                         <Button variant="link" size="icon">
-                                            <Plus className="h-4 w-4" />
+                                            <Pencil className="h-4 w-4" />
                                         </Button>
                                     </DialogTrigger>
                                     <DialogContent>
                                         <DialogHeader>
-                                            <DialogTitle>Choose Exercise</DialogTitle>
+                                            <DialogTitle>Edit Exercise</DialogTitle>
                                             <DialogDescription>
-                                                Select the exercise you would like to add to the workout.
+                                                Select existing execrise to edit or add new exercise.
                                             </DialogDescription>
                                         </DialogHeader>
-                                        <div className="flex w-full max-w-sm items-center space-x-2">
-                                            <Popover open={open} onOpenChange={setOpen}>
-                                                <PopoverTrigger asChild>
-                                                    <Button
-                                                        variant="outline"
-                                                        role="combobox"
-                                                        aria-expanded={open}
-                                                        className="w-[200px] justify-between"
-                                                    >
-                                                        {value
-                                                            ? exercises.find((exercise) => exercise.value === value)?.label
-                                                            : "Select exercise..."}
-                                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                    </Button>
-                                                </PopoverTrigger>
-                                                <PopoverContent className="w-[200px] p-0">
-                                                    <Command>
-                                                        <CommandInput placeholder="Search exercise..." />
-                                                        <CommandList>
-                                                            <CommandEmpty>No exercise found.</CommandEmpty>
-                                                            <CommandGroup>
-                                                                {exercises.map((exercise) => (
-                                                                    <CommandItem
-                                                                        key={exercise.value}
-                                                                        value={exercise.value}
-                                                                        onSelect={(currentValue) => {
-                                                                            setValue(currentValue === value ? "" : currentValue)
-                                                                            setOpen(false)
-                                                                        }}
-                                                                    >
-                                                                        <Check
-                                                                            className={cn(
-                                                                                "mr-2 h-4 w-4",
-                                                                                value === exercise.value ? "opacity-100" : "opacity-0"
-                                                                            )}
-                                                                        />
-                                                                        {exercise.label}
-                                                                    </CommandItem>
-                                                                ))}
-                                                            </CommandGroup>
-                                                        </CommandList>
-                                                    </Command>
-                                                </PopoverContent>
-                                            </Popover>
-                                            <Button type="submit">Submit</Button>
-                                        </div>
+                                        <Table>
+                                            <TableCaption>The list of exercises in this workout</TableCaption>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead className="w-[100px]">Exercise Name</TableHead>
+                                                    <TableHead>Reps</TableHead>
+                                                    <TableHead>Sets</TableHead>
+                                                    <TableHead>Weight</TableHead>
+                                                    <TableHead className="text-right">Edit</TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {listOfExercise.map((listOfExercise) => (
+                                                    <TableRow key={listOfExercise.name}>
+                                                        <TableCell className="font-medium">{listOfExercise.name}</TableCell>
+                                                        <TableCell>{listOfExercise.Sets}</TableCell>
+                                                        <TableCell>{listOfExercise.Reps}</TableCell>
+                                                        <TableCell>{listOfExercise.Weight}</TableCell>
+                                                        <TableCell>
+                                                            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                                                <Button variant="link" size="icon">
+                                                                    <Pencil className="h-4 w-4" />
+                                                                </Button>
+                                                            </div>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                            <TableFooter>
+                                                <TableRow>
+                                                    <TableCell colSpan={4}>Table footer</TableCell>
+                                                    <TableCell className="text-right">table footer</TableCell>
+                                                </TableRow>
+                                            </TableFooter>
+                                        </Table>
+                                        <Button type="submit">Submit</Button>
                                         <DialogFooter className="flex justify-between">
                                             <DialogClose>
                                                 <Button variant="outline">
@@ -196,6 +268,57 @@ function Workout() {
                                     <p>Card Content</p>
                                 </CardContent>
                                 <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button variant="link" size="icon">
+                                                <Pencil className="h-4 w-4" />
+                                            </Button>
+                                        </PopoverTrigger>
+                                        {isPopoverOpen && (
+                                            <PopoverContent className="w-80">
+                                                <div className="grid gap-4">
+                                                    <div className="space-y-2">
+                                                        <h4 className="font-medium leading-none">Create Exercise</h4>
+                                                        <p className="text-sm text-muted-foreground">Add exercise details here</p>
+                                                    </div>
+                                                    <div className="grid gap-2">
+                                                        <div className="grid grid-cols-3 items-center gap-4">
+                                                            <Label htmlFor="exerciseName">Name: </Label>
+                                                            <Input id="exerciseName" value={exerciseName} onChange={(e) => setExerciseName(e.target.value)} className="col-span-2 h-8" />
+                                                        </div>
+                                                        <div className="grid grid-cols-3 items-center gap-4">
+                                                            <Label htmlFor="targetMuscles">Target Muscles:</Label>
+                                                            <Select>
+                                                                <SelectTrigger className="w-[180px]">
+                                                                    <SelectValue placeholder="Arms" />
+                                                                </SelectTrigger>
+                                                                <SelectContent>
+                                                                    <SelectItem value="light">Arms</SelectItem>
+                                                                    <SelectItem value="dark">Legs</SelectItem>
+                                                                    <SelectItem value="system">Chest</SelectItem>
+                                                                    <SelectItem value="part">Back</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                        <div className="grid grid-cols-3 items-center gap-4">
+                                                            <Label htmlFor="reps">Reps:</Label>
+                                                            <Input id="reps" value={reps} onChange={handleRepsChange} className="col-span-2 h-8" />
+                                                        </div>
+                                                        <div className="grid grid-cols-3 items-center gap-4">
+                                                            <Label htmlFor="sets">Sets:</Label>
+                                                            <Input id="sets" value={sets} onChange={handleSetsChange} className="col-span-2 h-8" />
+                                                        </div>
+                                                        <div className="grid grid-cols-3 items-center gap-4">
+                                                            <Label htmlFor="weight">Weight:</Label>
+                                                            <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
+                                                        </div>
+                                                        <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+                                                        <Button onClick={handleAddNewExercise}>Submit</Button>
+                                                    </div>
+                                                </div>
+                                            </PopoverContent>
+                                        )}
+                                    </Popover>
                                     <Button variant="link" size="icon">
                                         <Minus className="h-4 w-4" />
                                     </Button>
@@ -221,6 +344,7 @@ function Workout() {
                                     <p>Card Content</p>
                                 </CardContent>
                                 <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
+
                                     <Button variant="link" size="icon">
                                         <Minus className="h-4 w-4" />
                                     </Button>
@@ -268,7 +392,7 @@ function Workout() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
