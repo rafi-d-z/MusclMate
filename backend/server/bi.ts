@@ -50,12 +50,6 @@ export function getWorkoutQueries(query: any): workout {
     exercise_arr: [],
     keywords: [],
   };
-  const empty_workout_query: workout = {
-    uid: "",
-    workout_name: "",
-    exercise_arr: [],
-    keywords: [],
-  };
 
   // if the workout body does not contain the fields (as incomplete body) - throw error
   if (
