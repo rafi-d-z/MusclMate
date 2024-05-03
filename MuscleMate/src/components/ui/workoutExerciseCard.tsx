@@ -45,7 +45,6 @@ import {
 } from "@/components/ui/table"
 
 interface WorkoutExerciseCardProps {
-    listOfExercise: any[];
     isPopoverOpen: boolean;
     exerciseName: string;
     setExerciseName: (value: any) => void;
@@ -60,7 +59,6 @@ interface WorkoutExerciseCardProps {
 }
 
 export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
-    listOfExercise,
     isPopoverOpen,
     exerciseName,
     setExerciseName,
@@ -74,71 +72,6 @@ export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
     handleAddNewExercise,
 }) => {
     return (
-        <>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Dialog>
-                    <DialogTrigger>
-                        <Button variant="link" size="icon">
-                            <Pencil className="h-4 w-4" />
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogHeader>
-                            <DialogTitle>Edit Exercise</DialogTitle>
-                            <DialogDescription>
-                                Select existing exercise to edit or add new exercise.
-                            </DialogDescription>
-                        </DialogHeader>
-                        <Table>
-                            <TableCaption>The list of exercises in this workout</TableCaption>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead className="w-[100px]">Exercise Name</TableHead>
-                                    <TableHead>Reps</TableHead>
-                                    <TableHead>Sets</TableHead>
-                                    <TableHead>Weight</TableHead>
-                                    <TableHead className="text-right">Edit</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {listOfExercise.map((listOfExercise) => (
-                                    <TableRow key={listOfExercise.name}>
-                                        <TableCell className="font-medium">{listOfExercise.name}</TableCell>
-                                        <TableCell>{listOfExercise.Sets}</TableCell>
-                                        <TableCell>{listOfExercise.Reps}</TableCell>
-                                        <TableCell>{listOfExercise.Weight}</TableCell>
-                                        <TableCell>
-                                            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                                <Button variant="link" size="icon">
-                                                    <Pencil className="h-4 w-4" />
-                                                </Button>
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                            <TableFooter>
-                                <TableRow>
-                                    <TableCell colSpan={4}>Table footer</TableCell>
-                                    <TableCell className="text-right">table footer</TableCell>
-                                </TableRow>
-                            </TableFooter>
-                        </Table>
-                        <Button type="submit">Submit</Button>
-                        <DialogFooter className="flex justify-between">
-                            <DialogClose>
-                                <Button variant="outline">
-                                    Close
-                                </Button>
-                            </DialogClose>
-                        </DialogFooter>
-                    </DialogContent>
-                </Dialog>
-                <h1>Workout 1   </h1>
-                <Button variant="link" size="icon">
-                    <Minus className="h-4 w-4" />
-                </Button>
-            </div>
             <Card className="w-[200px] m-4">
                 <CardHeader>
                     <CardTitle>Exercise 1</CardTitle>
@@ -204,7 +137,6 @@ export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
                     </Button>
                 </CardFooter>
             </Card>
-        </>
     );
 };
 
