@@ -162,6 +162,7 @@ import {
                       <PopoverTrigger asChild>
                         <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
                       </PopoverTrigger>
+                      {isPopoverOpen && (
                       <PopoverContent className="w-80">
                       <div className="grid gap-4">
                         <div className="space-y-2">
@@ -207,6 +208,7 @@ import {
                           </div>
                       </div>
                       </PopoverContent>
+                       )}
                     </Popover>
                   </div>
                   {data.reps}/{data.sets}
