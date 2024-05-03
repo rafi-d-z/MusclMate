@@ -1,7 +1,0 @@
-INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets, arr_keywords, weight) VALUES 
-(gen_random_uuid(), 'shoulder press', 'shoulders', 4, 10, ARRAY['shoulders', 'deltoids', 'hypertrophy'], 80),
-(gen_random_uuid(), 'lat pulldown', 'back', 4, 10, ARRAY['back', 'lats', 'width', 'hypertrophy'], 100),
-(gen_random_uuid(), 'leg extension', 'quads', 4, 12, ARRAY['quads', 'hypertrophy'], 150),
-(gen_random_uuid(), 'leg curl', 'hamstrings', 4, 12, ARRAY['hamstrings', 'leg biceps', 'hypertrophy'], 90),
-(gen_random_uuid(), 'calf raises', 'calves', 4, 15, ARRAY['calves', 'lower legs', 'hypertrophy'], 160),
-(gen_random_uuid(), 'squat', 'legs', 5, 5, ARRAY['legs', 'quads', 'glutes', 'strength'], 225);
