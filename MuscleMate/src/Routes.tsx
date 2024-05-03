@@ -25,10 +25,6 @@ const useAuth = () => {
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const isLoggedIn = useAuth();
 
-  if (isLoggedIn === null) {
-    return null;
-  }
-
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
