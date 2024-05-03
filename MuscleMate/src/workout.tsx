@@ -57,38 +57,40 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-
-const listOfExercise = [
-    {
-        name: "INV001",
-        Reps: "Paid",
-        Weight: "$250.00",
-        Sets: "Credit Card",
-    },
-    {
-        name: "INV001",
-        Reps: "Paid",
-        Weight: "$250.00",
-        Sets: "Credit Card",
-    },
-]
-
-const exercises = [
-    {
-        value: "pushup",
-        label: "Pushup",
-    },
-    {
-        value: "squat",
-        label: "Sqaut",
-    },
-    {
-        value: "deadlift",
-        label: "Deadlift",
-    },
-]
+import { WorkoutExerciseCard } from "@/components/ui/workoutExerciseCard"
+import { CreateWorkoutCard } from "./components/ui/createWorkoutCard"
 
 function Workout() {
+
+    const listOfExercise = [
+        {
+            name: "INV001",
+            Reps: "Paid",
+            Weight: "$250.00",
+            Sets: "Credit Card",
+        },
+        {
+            name: "INV001",
+            Reps: "Paid",
+            Weight: "$250.00",
+            Sets: "Credit Card",
+        },
+    ]
+
+    const exercises = [
+        {
+            value: "pushup",
+            label: "Pushup",
+        },
+        {
+            value: "squat",
+            label: "Sqaut",
+        },
+        {
+            value: "deadlift",
+            label: "Deadlift",
+        },
+    ]
 
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
@@ -159,241 +161,93 @@ function Workout() {
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '800px' }}>
                         <div className="flex flex-col items-start justify-between p-6 lg:px-8">
-                            <Card className="w-[200px] h-[600px] m-4 bg-gray-200">
-                                <CardHeader style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <CardTitle><h1>Create Workout</h1></CardTitle>
-                                    <CardDescription></CardDescription>
-                                </CardHeader>
-                                <CardContent style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Dialog>
-                                        <DialogTrigger><Button variant="ghost" size="icon">
-                                            <Plus className="h-20 w-20" />
-                                        </Button></DialogTrigger>
-                                        <DialogContent>
-                                            <DialogHeader>
-                                                <DialogTitle>Input Workout Name</DialogTitle>
-                                                <DialogDescription>
-                                                    Enter the name of the workout.
-                                                </DialogDescription>
-                                            </DialogHeader>
-                                            <div className="flex w-full max-w-sm items-center space-x-2">
-                                                <Input type="Name" placeholder="Name" />
-                                                <Button type="submit">Submit</Button>
-                                            </div>
-                                            <DialogFooter className="flex justify-between">
-                                                <DialogClose>
-                                                    <Button variant="outline">
-                                                        Close
-                                                    </Button>
-                                                </DialogClose>
-                                            </DialogFooter>
-                                        </DialogContent>
-                                    </Dialog>
-                                </CardContent>
-                                <CardFooter>
-                                </CardFooter>
-                            </Card>
+                            <CreateWorkoutCard />
                         </div>
                         <div className="flex flex-col items-center justify-between p-6 lg:px-8">
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <Dialog >
-                                    <DialogTrigger >
-                                        <Button variant="link" size="icon">
-                                            <Pencil className="h-4 w-4" />
-                                        </Button>
-                                    </DialogTrigger>
-                                    <DialogContent>
-                                        <DialogHeader>
-                                            <DialogTitle>Edit Exercise</DialogTitle>
-                                            <DialogDescription>
-                                                Select existing execrise to edit or add new exercise.
-                                            </DialogDescription>
-                                        </DialogHeader>
-                                        <Table>
-                                            <TableCaption>The list of exercises in this workout</TableCaption>
-                                            <TableHeader>
-                                                <TableRow>
-                                                    <TableHead className="w-[100px]">Exercise Name</TableHead>
-                                                    <TableHead>Reps</TableHead>
-                                                    <TableHead>Sets</TableHead>
-                                                    <TableHead>Weight</TableHead>
-                                                    <TableHead className="text-right">Edit</TableHead>
-                                                </TableRow>
-                                            </TableHeader>
-                                            <TableBody>
-                                                {listOfExercise.map((listOfExercise) => (
-                                                    <TableRow key={listOfExercise.name}>
-                                                        <TableCell className="font-medium">{listOfExercise.name}</TableCell>
-                                                        <TableCell>{listOfExercise.Sets}</TableCell>
-                                                        <TableCell>{listOfExercise.Reps}</TableCell>
-                                                        <TableCell>{listOfExercise.Weight}</TableCell>
-                                                        <TableCell>
-                                                            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                                                <Button variant="link" size="icon">
-                                                                    <Pencil className="h-4 w-4" />
-                                                                </Button>
-                                                            </div>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                            <TableFooter>
-                                                <TableRow>
-                                                    <TableCell colSpan={4}>Table footer</TableCell>
-                                                    <TableCell className="text-right">table footer</TableCell>
-                                                </TableRow>
-                                            </TableFooter>
-                                        </Table>
-                                        <Button type="submit">Submit</Button>
-                                        <DialogFooter className="flex justify-between">
-                                            <DialogClose>
-                                                <Button variant="outline">
-                                                    Close
-                                                </Button>
-                                            </DialogClose>
-                                        </DialogFooter>
-                                    </DialogContent>
-                                </Dialog>
-                                <h1>Workout 1   </h1>
-                                <Button variant="link" size="icon">
-                                    <Minus className="h-4 w-4" />
-                                </Button>
+                                <WorkoutExerciseCard
+                                    listOfExercise={listOfExercise}
+                                    isPopoverOpen={isPopoverOpen}
+                                    exerciseName={exerciseName}
+                                    setExerciseName={setExerciseName}
+                                    reps={reps}
+                                    sets={sets}
+                                    weight={weight}
+                                    handleWeightChange={handleWeightChange}
+                                    handleRepsChange={handleRepsChange}
+                                    handleSetsChange={handleSetsChange}
+                                    handleCancel={handleCancel}
+                                    handleAddNewExercise={handleAddNewExercise}
+                                />
                             </div>
-                            <Card className="w-[200px] m-4">
-                                <CardHeader>
-                                    <CardTitle>Exercise 1</CardTitle>
-                                    <CardDescription>Trends For You</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <p>Card Content</p>
-                                </CardContent>
-                                <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <Button variant="link" size="icon">
-                                                <Pencil className="h-4 w-4" />
-                                            </Button>
-                                        </PopoverTrigger>
-                                        {isPopoverOpen && (
-                                            <PopoverContent className="w-80">
-                                                <div className="grid gap-4">
-                                                    <div className="space-y-2">
-                                                        <h4 className="font-medium leading-none">Create Exercise</h4>
-                                                        <p className="text-sm text-muted-foreground">Add exercise details here</p>
-                                                    </div>
-                                                    <div className="grid gap-2">
-                                                        <div className="grid grid-cols-3 items-center gap-4">
-                                                            <Label htmlFor="exerciseName">Name: </Label>
-                                                            <Input id="exerciseName" value={exerciseName} onChange={(e) => setExerciseName(e.target.value)} className="col-span-2 h-8" />
-                                                        </div>
-                                                        <div className="grid grid-cols-3 items-center gap-4">
-                                                            <Label htmlFor="targetMuscles">Target Muscles:</Label>
-                                                            <Select>
-                                                                <SelectTrigger className="w-[180px]">
-                                                                    <SelectValue placeholder="Arms" />
-                                                                </SelectTrigger>
-                                                                <SelectContent>
-                                                                    <SelectItem value="light">Arms</SelectItem>
-                                                                    <SelectItem value="dark">Legs</SelectItem>
-                                                                    <SelectItem value="system">Chest</SelectItem>
-                                                                    <SelectItem value="part">Back</SelectItem>
-                                                                </SelectContent>
-                                                            </Select>
-                                                        </div>
-                                                        <div className="grid grid-cols-3 items-center gap-4">
-                                                            <Label htmlFor="reps">Reps:</Label>
-                                                            <Input id="reps" value={reps} onChange={handleRepsChange} className="col-span-2 h-8" />
-                                                        </div>
-                                                        <div className="grid grid-cols-3 items-center gap-4">
-                                                            <Label htmlFor="sets">Sets:</Label>
-                                                            <Input id="sets" value={sets} onChange={handleSetsChange} className="col-span-2 h-8" />
-                                                        </div>
-                                                        <div className="grid grid-cols-3 items-center gap-4">
-                                                            <Label htmlFor="weight">Weight:</Label>
-                                                            <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
-                                                        </div>
-                                                        <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-                                                        <Button onClick={handleAddNewExercise}>Submit</Button>
-                                                    </div>
-                                                </div>
-                                            </PopoverContent>
-                                        )}
-                                    </Popover>
+                            <div className="flex flex-col items-center justify-between p-6 lg:px-8">
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <Button variant="link" size="icon">
+                                        <Plus className="h-4 w-4" />
+                                    </Button>
+                                    <h1>Workout 2</h1>
                                     <Button variant="link" size="icon">
                                         <Minus className="h-4 w-4" />
                                     </Button>
-                                </CardFooter>
-                            </Card>
-                        </div>
-                        <div className="flex flex-col items-center justify-between p-6 lg:px-8">
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <Button variant="link" size="icon">
-                                    <Plus className="h-4 w-4" />
-                                </Button>
-                                <h1>Workout 2</h1>
-                                <Button variant="link" size="icon">
-                                    <Minus className="h-4 w-4" />
-                                </Button>
-                            </div>
-                            <Card className="w-[200px] m-4">
-                                <CardHeader>
-                                    <CardTitle>Exercise 1</CardTitle>
-                                    <CardDescription>Trends For You</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <p>Card Content</p>
-                                </CardContent>
-                                <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                </div>
+                                <Card className="w-[200px] m-4">
+                                    <CardHeader>
+                                        <CardTitle>Exercise 1</CardTitle>
+                                        <CardDescription>Trends For You</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p>Card Content</p>
+                                    </CardContent>
+                                    <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
 
-                                    <Button variant="link" size="icon">
-                                        <Minus className="h-4 w-4" />
-                                    </Button>
-                                </CardFooter>
-                            </Card>
-                        </div>
-                        <div className="flex flex-col items-center justify-between p-6 lg:px-8">
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <Button variant="link" size="icon">
-                                    <Plus className="h-4 w-4" />
-                                </Button>
-                                <h1>Workout 3</h1>
-                                <Button variant="link" size="icon">
-                                    <Minus className="h-4 w-4" />
-                                </Button>
+                                        <Button variant="link" size="icon">
+                                            <Minus className="h-4 w-4" />
+                                        </Button>
+                                    </CardFooter>
+                                </Card>
                             </div>
-                            <Card className="w-[200px] m-4">
-                                <CardHeader>
-                                    <CardTitle>Exercise 1</CardTitle>
-                                    <CardDescription>Trends For You</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <p>Card Content</p>
-                                </CardContent>
-                                <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <div className="flex flex-col items-center justify-between p-6 lg:px-8">
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <Button variant="link" size="icon">
+                                        <Plus className="h-4 w-4" />
+                                    </Button>
+                                    <h1>Workout 3</h1>
                                     <Button variant="link" size="icon">
                                         <Minus className="h-4 w-4" />
                                     </Button>
-                                </CardFooter>
-                            </Card>
-                            <Card className="w-[200px] m-4">
-                                <CardHeader>
-                                    <CardTitle>Exercise 2</CardTitle>
-                                    <CardDescription>Trends For You</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <p>Card Content</p>
-                                </CardContent>
-                                <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    <Button variant="link" size="icon">
-                                        <Minus className="h-4 w-4" />
-                                    </Button>
-                                </CardFooter>
-                            </Card>
+                                </div>
+                                <Card className="w-[200px] m-4">
+                                    <CardHeader>
+                                        <CardTitle>Exercise 1</CardTitle>
+                                        <CardDescription>Trends For You</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p>Card Content</p>
+                                    </CardContent>
+                                    <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                        <Button variant="link" size="icon">
+                                            <Minus className="h-4 w-4" />
+                                        </Button>
+                                    </CardFooter>
+                                </Card>
+                                <Card className="w-[200px] m-4">
+                                    <CardHeader>
+                                        <CardTitle>Exercise 2</CardTitle>
+                                        <CardDescription>Trends For You</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p>Card Content</p>
+                                    </CardContent>
+                                    <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                        <Button variant="link" size="icon">
+                                            <Minus className="h-4 w-4" />
+                                        </Button>
+                                    </CardFooter>
+                                </Card>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div >
-        </>
-    )
+            </>
+            )
 }
-export default Workout
+            export default Workout
