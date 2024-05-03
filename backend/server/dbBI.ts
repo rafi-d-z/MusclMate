@@ -154,39 +154,55 @@ export async function edit_exercise(
 }
 
 /* Workout Functions - passes all unit tests */
-export async function get_workouts(client: Client, search_criteria: workout): Promise<object | undefined>{
-    let conditions: Array<string> = [];
-    let values: Array<any> = [];
-    let index = 1;
+export async function get_workouts(client: Client, search_criteria: workout): Promise<workout>{
+  let conditions: Array<string> = [];
+  let values_workout: Array<any> = [];
+  let index = 1;
+  let allowOthers = true;
 
   if (search_criteria.uid != "") {
     conditions.push(`uid = $${index++}`);
-    values.push(search_criteria.uid);
+    values_workout.push(search_criteria.uid);
+    allowOthers = false;
   }
-  if (search_criteria.workout_name != "") {
+  if (search_criteria.workout_name != "" && allowOthers) {
     conditions.push(`workout_name = $${index++}`);
-    values.push(search_criteria.workout_name);
+    values_workout.push(search_criteria.workout_name);
   }
-  if (search_criteria.exercise_arr.length > 0) {
-    conditions.push(`exercise_arr && $${index++}`);
-    values.push(search_criteria.exercise_arr);
+  if (search_criteria.exercise_arr.length > 0 && allowOthers) {
+  conditions.push(`exercise_arr && $${index++}`);
+  values_workout.push(search_criteria.exercise_arr);
   }
-  if (search_criteria.keywords.length > 0) {
+  if (search_criteria.keywords.length > 0 && allowOthers) {
     conditions.push(`keywords && $${index++}`);
-    values.push(search_criteria.keywords);
+    values_workout.push(search_criteria.keywords);
   }
-
-  const sql: string =
+  
+  const sql_workout: string =
     "SELECT * FROM public.workout_plans" +
     (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "");
 
-  const query = {
-    text: sql,
-    values: values,
+  const query_workout = {
+    text: sql_workout,
+    values: values_workout,
   };
 
-  const result = await query_db(client, query);
-  return result;
+  const workout_without_exercises = await query_db(client, query_workout);
+
+  // get all exercises for each workout
+  const sql_exercises: string = "SELECT * FROM public.exercises WHERE uid = ANY($1)";
+  const values_exercises = workout_without_exercises.map((workout: any) => workout.exercise_arr);
+
+  const query_exercises = {
+    text: sql_exercises,
+    values: [values_exercises],
+  };
+
+  const exercises = await query_db(client, query_exercises);
+
+  workout_without_exercises[0].exercise_arr = exercises;
+
+  return workout_without_exercises[0];
 }
 
 export async function create_workout(client: Client, new_workout: workout): Promise<string | undefined>{
