@@ -1,20 +1,61 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import MainMenu from "./App";
 import Workout from "./workout";
-import Login from "./Login";
+import Auth from "./Login";
+import config from "../auth/firebase.config";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useState, useEffect } from 'react';
+import { ReactNode } from 'react';
+
+const useAuth = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  useEffect(() => {
+    const auth = getAuth(config.app);
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      setIsLoggedIn(!!user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  return isLoggedIn;
+};
+
+const ProtectedRoute = ({ children }: { children: ReactNode }) => {
+  const isLoggedIn = useAuth();
+
+  if (isLoggedIn === null) {
+    return null;
+  }
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
 
 const Routes = createBrowserRouter([
   {
     path: "/",
-    element: <MainMenu />,
+    element: (
+      <ProtectedRoute>
+        <MainMenu />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/workout",
-    element: <Workout />,
+    element: (
+      <ProtectedRoute>
+        <Workout />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <Auth />,  
   },
 ]);
 

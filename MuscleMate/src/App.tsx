@@ -13,9 +13,6 @@ import { useState, useEffect } from "react";
 import muscleLogo from "./assets/MuscleLogo.png";
 import { Menubar } from "@/components/ui/menubar";
 import axios from "axios";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import config from "../auth/firebase.config";
-import { useNavigate } from "react-router-dom";
 
 interface CardData {
   name: string;
@@ -29,17 +26,6 @@ interface CardData {
 function MainMenu() {
   const [selectedCard, setSelectedCard] = useState("");
   const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
-  const nav = useNavigate();
-
-  // redirect to login if not logged in
-  useEffect(() => {
-    const auth = getAuth(config.app);
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        nav("/login");
-      }
-    });
-  });
 
   // fetch all data
   useEffect(() => {

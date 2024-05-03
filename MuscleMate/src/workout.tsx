@@ -1,5 +1,5 @@
 "use client" // what's this for?
-import React, { useEffect } from "react"
+import React from "react"
 import { Plus, Minus, Check, ChevronsUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
@@ -38,8 +38,6 @@ import {
 import './App.css'
 import muscleLogo from './assets/MuscleLogo.png'
 import { Menubar } from "@/components/ui/menubar"
-import { getAuth } from "firebase/auth"
-import config from "../auth/firebase.config"
 
 const exercises = [
     {
@@ -61,11 +59,6 @@ function Workout() {
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
     
-    useEffect(() =>{
-        const auth = getAuth(config.app)
-        console.log(auth.currentUser)
-    })
-
     return (
     <>
     {/* top bar components */}
