@@ -166,7 +166,7 @@ import {
                       <div className="grid gap-4">
                         <div className="space-y-2">
                           <h4 className="font-medium leading-none">Edit Exercise</h4>
-                          <p className="text-sm text-muted-foreground">Add exercise details here</p>
+                          <p className="text-sm text-muted-foreground">Edit exercise details here</p>
                         </div>
                         <div className="grid gap-2">
                           <div className="grid grid-cols-3 items-center gap-4">
