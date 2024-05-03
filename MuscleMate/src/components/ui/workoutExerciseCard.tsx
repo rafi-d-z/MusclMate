@@ -87,7 +87,6 @@ export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
                                 <Pencil className="h-4 w-4" />
                             </Button>
                         </PopoverTrigger>
-                        {isPopoverOpen && (
                             <PopoverContent className="w-80">
                                 <div className="grid gap-4">
                                     <div className="space-y-2">
@@ -130,7 +129,6 @@ export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
                                     </div>
                                 </div>
                             </PopoverContent>
-                        )}
                     </Popover>
                     <Button variant="link" size="icon">
                         <Minus className="h-4 w-4" />
