@@ -12,8 +12,6 @@ import {
   get_exercise_by_uid,
   get_workouts,
   create_workout,
-  edit_workout,
-  delete_workout,
 } from "./dbBI";
 import { workout } from "./DAO/workout";
 
@@ -37,6 +35,7 @@ async function create_app(): Promise<Array<any>> {
 
   app.get("/", (_req, _res) => {
     _res.status(200).send("TypeScript With Express");
+    return;
   });
 
   app.get("/get_exercise", async (_req, _res) => {
@@ -48,17 +47,21 @@ async function create_app(): Promise<Array<any>> {
       let error_message = "";
       error_message += uid === null ? ", uid is not a string" : "";
       _res.status(404).send("Invalid Input" + error_message + "!");
+      return;
     } else if (client_instance != undefined) {
       try {
         const res = get_exercise_by_uid(client_instance, query.uid);
         if (res !== undefined) {
           _res.status(200).send(res);
+          return;
         } else {
           _res.status(500).send("Failed to query database");
+          return;
         }
       } catch (err) {
         console.error(err);
         _res.status(500).send("Failed to query database");
+        return;
       }
     }
   });
@@ -95,6 +98,7 @@ async function create_app(): Promise<Array<any>> {
       error_message += sets === null ? ", sets is not a number" : "";
       error_message += isKeywords === false ? ", keywords is not an array" : "";
       _res.status(404).send("Invalid Input" + error_message + "!");
+      return;
     } else if (client_instance != undefined) {
       const res = await create_exercise(
         client_instance,
@@ -111,6 +115,7 @@ async function create_app(): Promise<Array<any>> {
       }
     } else {
       _res.status(404).send(false);
+      return;
     }
     return;
   });
@@ -135,12 +140,15 @@ async function create_app(): Promise<Array<any>> {
         const res: Boolean = await delete_from(client_instance, db_name, uid);
         if (res) {
           _res.status(200).send({ success: true });
+          return;
         } else {
           _res.status(500).send({ success: false });
+          return;
         }
       } catch (err) {
         console.error(err);
         _res.status(500).send({ success: false });
+        return;
       }
       return;
     }
@@ -167,11 +175,11 @@ async function create_app(): Promise<Array<any>> {
         return;
       } catch (err) {
         _res.status(404).send("Failed to query database");
-
         return null;
       }
     } else {
       _res.status(404).send("Database not connected");
+      return;
     }
   });
 
@@ -203,8 +211,10 @@ async function create_app(): Promise<Array<any>> {
         }
       }
       _res.send(new_data);
+      return;
     } else {
       _res.send(data);
+      return;
     }
   });
 
@@ -233,44 +243,51 @@ async function create_app(): Promise<Array<any>> {
     try {
       res = await get_workouts(client_instance, workoutQuery);
       _res.send(res).status(200);
+      return;
     } catch (err) {
       console.error(err);
-      _res.send(err).status(400);
+      _res.send(undefined).status(400);
       return;
     }
   });
 
   app.post("/create_workout", async (_req, _res) => {
     const query = _req.body;
-    const wrkoutName: string | undefined = isString(query.workout_name) ? String(query.workout_name) : undefined;
+    const wrkoutName: string | undefined = isString(query.workout_name)
+      ? String(query.workout_name)
+      : undefined;
     const e_arr: boolean = isArray(query.exercise_arr);
     const keywords: boolean = isArray(query.keywords);
 
-    if(wrkoutName === undefined || e_arr === false || keywords === false){
+    if (wrkoutName === undefined || e_arr === false || keywords === false) {
       let error_message = "";
-      error_message += wrkoutName === undefined ? ", workout_name is not a string" : "";
+      error_message +=
+        wrkoutName === undefined ? ", workout_name is not a string" : "";
       error_message += e_arr === false ? ", exercise_arr is not an array" : "";
       error_message += keywords === false ? ", keywords is not an array" : "";
-      _res.status(400).send("Invalid Input" + error_message+ "!");
-    } else if (client_instance != undefined){
+      _res.status(400).send("Invalid Input" + error_message + "!");
+      return;
+    } else if (client_instance != undefined) {
       const new_workout: workout = {
         uid: "",
         workout_name: wrkoutName,
         exercise_arr: query.exercise_arr,
-        keywords: query.keywords
-      }
+        keywords: query.keywords,
+      };
       const res = await create_workout(client_instance, new_workout);
-      if(res !== null){
-        _res.status(200).send({"uid": res});
+      if (res !== null) {
+        _res.status(200).send({ uid: res });
         return;
-      } else{_res.status(404).send(false);}
-      return;
+      } else {
+        _res.status(404).send(false);
+        return;
       }
+    }
   });
 
   /* app.post('edit_workout', async (_req, _res) => {
     const query = _req.body;
-    
+
   }) */
   //TODO: add edit workout
 

@@ -154,13 +154,10 @@ export async function edit_exercise(
 }
 
 /* Workout Functions - passes all unit tests */
-export async function get_workouts(
-  client: Client,
-  search_criteria: workout,
-): Promise<object> {
-  let conditions: Array<string> = [];
-  let values: Array<any> = [];
-  let index = 1;
+export async function get_workouts(client: Client, search_criteria: workout): Promise<object | undefined>{
+    let conditions: Array<string> = [];
+    let values: Array<any> = [];
+    let index = 1;
 
   if (search_criteria.uid != "") {
     conditions.push(`uid = $${index++}`);
@@ -192,80 +189,58 @@ export async function get_workouts(
   return result;
 }
 
-export async function create_workout(
-  client: Client,
-  new_workout: workout,
-): Promise<string> {
-  const sql: string =
-    `INSERT INTO public.workout_plans (uid, exercise_arr, keywords, workout_name)` +
-    ` VALUES (uuid_generate_v4(), $1, $2, $3) RETURNING uid`;
-  const values = [
-    new_workout.exercise_arr,
-    new_workout.keywords,
-    new_workout.workout_name,
-  ];
-  const query = {
-    name: "create-workout",
-    text: sql,
-    values: values,
-  };
+export async function create_workout(client: Client, new_workout: workout): Promise<string | undefined>{
+    const sql: string = `INSERT INTO public.workout_plans (uid, exercise_arr, keywords, workout_name)` +
+                        ` VALUES (uuid_generate_v4(), $1, $2, $3) RETURNING uid`;
+    const values = [new_workout.exercise_arr, new_workout.keywords, new_workout.workout_name]
+    const query = {
+        name: "create-workout",
+        text: sql,
+        values: values
+    }
 
   const result = await query_db(client, query);
   return result[0].uid;
 }
 
-export async function edit_workout(
-  client: Client,
-  updated_workout: workout,
-): Promise<string> {
-  const sql: string = `UPDATE public.workout_plans SET exercise_arr = $2, keywords = $3, workout_name = $4 WHERE uid = $1 RETURNING uid;`;
-  const values = [
-    updated_workout.uid,
-    updated_workout.exercise_arr,
-    updated_workout.keywords,
-    updated_workout.workout_name,
-  ];
-  const query = {
-    name: "updated-workout",
-    text: sql,
-    values: values,
-  };
+export async function edit_workout(client: Client, updated_workout: workout): Promise<string | undefined> {
+    const sql: string = `UPDATE public.workout_plans SET exercise_arr = $2, keywords = $3, workout_name = $4 WHERE uid = $1 RETURNING uid;`;
+    const values = [updated_workout.uid, updated_workout.exercise_arr, updated_workout.keywords, updated_workout.workout_name];
+    const query = {
+        name: "updated-workout",
+        text: sql,
+        values: values
+    };
 
   const result = await query_db(client, query);
   return result[0].uid;
 }
 
-export async function delete_workout(
-  client: Client,
-  workout_to_delete: workout,
-): Promise<boolean> {
-  const sql: string = `DELETE FROM public.workout_plans WHERE uid = $1;`;
-  const values = [workout_to_delete.uid];
-  const query = {
-    name: "delete-workout",
-    text: sql,
-    values: values,
-  };
+export async function delete_workout(client: Client, workout_to_delete: workout): Promise<boolean | undefined>{
+    const sql: string = `DELETE FROM public.workout_plans WHERE uid = $1;`;
+    const values = [workout_to_delete.uid];
+    const query = {
+        name: "delete-workout",
+        text: sql,
+        values: values
+    };
 
-  await query_db(client, query);
-  return true;
+    try{
+        const result = await query_db(client, query);
+        return true;
+    } catch(err:any){
+        console.error("Problem deleting workout\n", err.stack);
+        return undefined;
+    }
+
 }
 
-/**
- * throws an error if the query is malformed
- * @param client postgres client
- * @param query object of name, text and values
- * @returns query result
- */
-async function query_db(client: Client, query: any) {
-  try {
-    const result = await client.query(query);
-    const res = result.rows;
-    return res;
-  } catch (err: any) {
-    throw new Error(
-      "Problem querying database, possible malformed input",
-      err.stack,
-    );
-  }
+async function query_db(client: Client, query: any){
+    try {
+        const result = await client.query(query);
+        const res = result.rows; 
+        return res;
+    } catch (err: any) {
+        throw new Error("Problem querying database, possible malformed input", err.stack);
+    }
 }

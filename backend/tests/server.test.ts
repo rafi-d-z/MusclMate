@@ -11,14 +11,20 @@ describe("Server Actions", () => {
   let client: Client;
   let uid: number | null = null;
 
-  beforeAll(async () => {
-    try {
-      appClient = await create_app();
-      app = appClient[0];
-    } catch (error) {
-      console.error("Failed to start the server:", error);
-    }
-  });
+    beforeAll(async () => {
+        try {
+          appClient = await create_app();
+          client = appClient[1];
+        } catch (error) {
+          console.error('Failed to start the server:', error);
+        }
+    });
+    
+    describe('Get /', () => {
+        test("should return 200", async () => {
+            await request(app).get('/').expect(200);
+        });
+    });
 
   describe("Get /", () => {
     test("should return 200", async () => {
