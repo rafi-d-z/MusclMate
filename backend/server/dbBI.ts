@@ -72,51 +72,44 @@ export async function get_exercises(
 
 export async function create_exercise(
   client: Client,
-  item_name: string,
-  target: string,
-  reps: Number,
-  sets: Number,
-  keywords: string[],
-  weight: Number,
-): Promise<string | null> {
+  exercise: exercise
+  ): Promise<string | null> {
   const sql: string =
     `INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets,` +
     ` arr_keywords, weight) VALUES (uuid_generate_v4(), $1, $2,` +
     ` $3, $4, $5, $6) RETURNING uid`;
   const values = [
-    item_name,
-    target,
-    reps.toString(),
-    sets.toString(),
-    keywords,
-    weight.toString(),
+    exercise.exercise_name,
+    exercise.exercise_target,
+    exercise.n_reps,
+    exercise.n_sets,
+    exercise.arr_keywords,
+    exercise.weight,
   ];
 
-  try {
-    const result = await client.query(sql, values);
-    const uid = result.rows[0].uid;
-    return uid;
-  } catch (err) {
-    console.error("Problem creating new exercise\n", err);
-    return null;
+  const query = {
+    text: sql,
+    values: values
   }
+
+  const result = await query_db(client, query);
+  return result[0].uid;
 }
 
-export async function delete_from(
+export async function delete_exercise(
   client: Client,
-  table_name: String,
-  uid: String,
+  exercise: exercise
 ) {
-  const sql: string = `DELETE FROM public.${table_name} WHERE uid = $1`;
-  const values = [uid];
+  const sql: string = `DELETE FROM public.exercise WHERE uid = $1`;
+  const values = [exercise.uid];
 
-  try {
-    await client.query(sql, values);
-    return true;
-  } catch (err) {
-    console.error("Problem deleting new exercise\n", err);
-    return false;
+  const query = {
+    text: sql,
+    values: values
   }
+
+  const res = await query_db(client, query);
+  return res;
 }
 
 /**
@@ -128,20 +121,20 @@ export async function delete_from(
  */
 export async function edit_exercise(
   client: Client,
-  uid: String,
-  new_value: Object,
-) {
-  const sql: string = `UPDATE? public.exercises (uid, exercise_name, exercise_target,
-                        n_reps, n_sets, arr_keywords, weight) VALUES $1 WHERE uid = $2`;
-  const values = [uid, new_value];
+  exercise: exercise
+  ) {
+  const sql: string = `UPDATE public.exercises SET exercise_name = $2, exercise_target = $3, 
+                        n_reps = $4, n_sets = $5, arr_keywords = $6, weight = $7 WHERE uid = $1 RETURNING uid;`;
+    
+  const values = [exercise.uid, exercise.exercise_name, exercise.exercise_target, exercise.n_reps, exercise.n_sets, exercise.arr_keywords, exercise.weight];
 
-  try {
-    await client.query(sql, values);
-    return true;
-  } catch (err) {
-    console.error("Problem creating new exercise\n", err);
-    return false;
+  const query = {
+    text: sql,
+    values: values
   }
+
+  const res = await query_db(client, query);
+  return res;
 }
 
 /* Workout Functions - passes all unit tests */

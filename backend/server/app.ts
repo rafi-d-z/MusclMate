@@ -9,11 +9,11 @@ import fs from "fs";
 import { exercise } from './DAO/exercise';
 import {
   create_exercise,
-  delete_from,
-  get_exercise_by_uid,
+  delete_exercise,
+  edit_exercise,
+  get_exercises,
   get_workouts,
   create_workout,
-  get_exercises,
   edit_workout,
   delete_workout
 } from "./dbBI";
@@ -72,7 +72,7 @@ async function create_app(): Promise<Array<any>>{
 
   app.get('/get_exercises', async (_req, _res) => {
     const query = _req.query;
-    console.log(query);
+    console.log("Query", query);
     let exerciseQuery: exercise = {
       uid: "",
       exercise_name: "",
@@ -108,38 +108,6 @@ async function create_app(): Promise<Array<any>>{
     }
   })
 
-  /**
-   * Create an exercise
-   * Parameters: name (str), target (str), reps (int), sets (int), keywords (array)
-   */
-  /* app.post('/create_exercise', async (_req, _res) => {
-  app.post("/create_exercise", async (_req, _res) => {
-    const query = _req.body;
-    const name: string | undefined = isString(query.name) ? String(query.name) : undefined;
-    const target: string | undefined = isString(query.target) ? String(query.target) : undefined;
-    const reps: Number | null = toNumber(query.reps);
-    const sets: Number | null = toNumber(query.sets);
-    const isKeywords: boolean = isArray(query.keywords);
-    const weight: Number | null = toNumber(query.weight);
-
-    if(name === undefined || target === undefined || reps === null || sets === null || isKeywords === false || weight === null){
-      let error_message = "";
-      error_message += name === undefined ? ", name is not a string" : "";
-      error_message += target === undefined ? ", target is not a string" : "";
-      error_message += reps === null ? ", reps is not a number" : "";
-      error_message += sets === null ? ", sets is not a number" : "";
-      error_message += isKeywords === false ? ", keywords is not an array" : "";
-      _res.status(404).send("Invalid Input" + error_message+ "!");
-    } else if (client_instance != undefined){
-      const res = await create_exercise(client_instance, name, target, reps, sets, query.keywords, weight);
-      if(res !== null){
-        _res.status(200).send({"uid": res});
-        return;
-      }
-  } else{_res.status(404).send(false);}
-    return;
-  }); */
-
   app.post('/create_exercise', async (_req, _res) => {
     const query = _req.body;
     let exerciseQuery: exercise = {
@@ -168,7 +136,7 @@ async function create_app(): Promise<Array<any>>{
     }
 
     try{
-      res = await create_exercise(client_instance, exerciseQuery.exercise_name, exerciseQuery.exercise_target, exerciseQuery.n_reps, exerciseQuery.n_sets, exerciseQuery.arr_keywords, exerciseQuery.weight);
+      res = await create_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
     }catch(err){
       console.error(err);
@@ -177,62 +145,77 @@ async function create_app(): Promise<Array<any>>{
     }
   })
 
-  app.post("/delete", async (_req, _res) => {
+  app.post("/delete_exercise", async (_req, _res) => {
     const query = _req.body;
-    const db_name: String | null = isString(query.db_name) ? String(query.db_name) : null;
-    const uid: String | null = isString(query.uid) ? String(query.uid) : null;
+    let exerciseQuery: exercise = {
+      uid: "",
+      exercise_name: "",
+      exercise_target: "",
+      image_url: "",
+      n_reps: 0,
+      n_sets: 0,
+      weight: 0,
+      arr_keywords: []
+    }
 
-    if (db_name === null || uid === null){
-      let error_message = "";
-      error_message += db_name === undefined ? ", db_name is not a string" : "";
-      error_message += uid === undefined ? ", uid is not a number" : "";
-      _res.status(400).send("Invalid Input" + error_message+ "!");
+    try{
+      exerciseQuery = await getExerciseQueries(query);
+    }catch(err){
+      _res.status(400).send(err);
       return;
-    } 
+    }
 
-    if(client_instance !== undefined){
-      try {
-        const res: Boolean = await delete_from(client_instance, db_name, uid);
-        if(res){
-          _res.status(200).send({ success: true });
-        } else {
-          _res.status(500).send({ success: false });
-        }
-      } catch(err) {
-        console.error(err);
-        _res.status(500).send({ success: false });
-      }
-    return;
-  } 
+    let res;
 
-  _res.status(404).send({ success: false });
+    if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      throw new Error("Database not connected");
+    }
+
+    try{
+      res = await delete_exercise(client_instance, exerciseQuery);
+      _res.send(res).status(200);
+    }catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+      return;
+    }
   });
 
-  app.post('/edit_exercise', (_req, _res) => {
-    const e_name = _req.body.exercise_name;
-    const e_target = _req.body.exercise_target;
-    const n_reps = _req.body.n_reps;
-    const n_sets = _req.body.n_sets;
-    const keywords = _req.body.arr_keywords;
-    const lbs = _req.body.weight;
-  
-    if(client_instance !== undefined){
-      try{
-        const query_str: string = `INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets, arr_keywords, weight) VALUES 
-        (gen_random_uuid(), ${e_name}, ${e_target}, ${n_reps}, ${n_sets}, ${keywords}, ${lbs}`;
-  
-        client_instance.query(query_str);
-  
-        _res.status(200);
-        return;
-      }
-      catch(err){
-        _res.status(404).send('Failed to query database');
-  
-        return null;
-      }
-    }else{
-      _res.status(404).send('Database not connected');
+  app.post('/edit_exercise', async (_req, _res) => {
+    const query = _req.body;
+    let exerciseQuery: exercise = {
+      uid: "",
+      exercise_name: "",
+      exercise_target: "",
+      image_url: "",
+      n_reps: 0,
+      n_sets: 0,
+      weight: 0,
+      arr_keywords: []
+    }
+
+    try{
+      exerciseQuery = await getExerciseQueries(query);
+    }catch(err){
+      _res.status(400).send(err);
+      return;
+    }
+
+    let res;
+
+    if(client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      throw new Error("Database not connected");
+    }
+
+    try{
+      res = await edit_exercise(client_instance, exerciseQuery);
+      _res.send(res).status(200);
+    }catch(err){
+      console.error(err);
+      _res.send(undefined).status(400);
+      return;
     }
   });
 
