@@ -112,13 +112,6 @@ export async function delete_exercise(
   return res;
 }
 
-/**
- * edit a row in exercise with given value
- * new_value must be the in the same structure as what was returned from get()
- * @param client client instance
- * @param new_value object representing all updated values
- * @param
- */
 export async function edit_exercise(
   client: Client,
   exercise: exercise
