@@ -13,6 +13,9 @@ import {
   get_exercise_by_uid,
   get_workouts,
   create_workout,
+  get_exercises,
+  edit_workout,
+  delete_workout
 } from "./dbBI";
 import { workout } from "./DAO/workout";
 
