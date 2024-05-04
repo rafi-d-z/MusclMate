@@ -177,6 +177,7 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
     text: sql_workout,
     values: values_workout,
   };
+  console.log(query_workout);
 
   const workout_without_exercises = await query_db(client, query_workout);
 
