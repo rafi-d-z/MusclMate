@@ -14,7 +14,7 @@ export function toString(input: any): string {
     input = decodeURIComponent(input)
     if (input === null || input === undefined) {
         throw new Error("Input is not valid");  // Handle null and undefined explicitly if needed
-    } else if (input === "''" || input === '""""'){
+    } else if (input === "''" || input === '""'){
         return '';
     }
     return String(input);  // This converts any input to a string, even objects will be "[object Object]"
