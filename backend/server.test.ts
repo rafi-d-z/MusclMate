@@ -1,9 +1,9 @@
 import request from "supertest";
-import create_app from "../server/app";
+import create_app from "./server/app";
 import express from "express";
 import { Client } from "pg";
-import { workout } from "../server/DAO/workout";
-import { exercise } from "../server/DAO/exercise";
+import { workout } from "./server/DAO/workout";
+import { exercise } from "./server/DAO/exercise";
 
 describe("Server Actions", () => {
   let appClient: Array<any>;
