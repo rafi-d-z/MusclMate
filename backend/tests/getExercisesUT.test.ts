@@ -1,6 +1,7 @@
 import activate_db from "../server/db"
 import { Client } from "pg";
 import { get_exercises } from "../server/dbBI";
+import { exercise } from "../server/DAO/exercise";
 
 describe("get_exercises unit tests", () => {
     let client: Client;
@@ -14,8 +15,17 @@ describe("get_exercises unit tests", () => {
     });
 
     test("should get all exercises with a given name", async () => {
-        const exercise_name = "calf raises";
-        const result: Array<object> | undefined = await get_exercises(client, exercise_name);
+        const exercise: exercise = {
+            uid: '',
+            exercise_name: "calf raises",
+            exercise_target: "",
+            image_url: '',
+            n_reps: 0,
+            n_sets: 0,
+            arr_keywords: [],
+            weight: 0
+        }
+        const result: Array<object> | undefined = await get_exercises(client, exercise);
 
         if(result === undefined){
             throw new Error("result is undefined");
