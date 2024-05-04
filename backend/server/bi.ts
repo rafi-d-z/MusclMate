@@ -103,16 +103,6 @@ export function getExerciseQueries(query: any): exercise {
         arr_keywords: []
     };
 
-    const empty_exercise_query: exercise = {
-        uid: "",
-        exercise_name: "",
-        exercise_target: "",
-        image_url: "",
-        n_reps: 0,
-        n_sets: 0,
-        weight: 0,
-        arr_keywords: []
-    };
     // if the exercise body does not contain the fields (as incomplete body) - throw error
     if(
         query.uid === undefined ||
@@ -151,9 +141,6 @@ export function getExerciseQueries(query: any): exercise {
     exercise_query.n_sets = query.n_sets;
     exercise_query.weight = query.weight;
     exercise_query.arr_keywords = query.arr_keywords;
-
-    if(JSON.stringify(exercise_query) === JSON.stringify(empty_exercise_query)){
-        throw new Error("No exercise object found in query")}
 
     return exercise_query;
 }
