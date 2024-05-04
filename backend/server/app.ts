@@ -1,4 +1,5 @@
 import express from "express";
+import { Request, Response, NextFunction } from 'express';
 import dotenv from "dotenv";
 import { Client } from "pg";
 import cors from "cors";
@@ -34,6 +35,19 @@ async function create_app(): Promise<Array<any>> {
     }),
   );
   app.use(express.json());
+
+  app.use((_req, _res, next) => {
+    console.log(`Incoming Request Method: ${_req.method}, URL: ${_req.url}`);
+    console.log(`Content-Length: ${_req.headers['content-length']}`);
+    next();
+  });
+
+  app.use(express.json({ limit: '10mb' }));  // Adjust based on your expected request size
+  app.use(express.urlencoded({ limit: '10mb', extended: true }));
+  app.use((_err: Error, _req: Request, _res: Response, _next: NextFunction) => {
+    console.error(_err.stack);
+    _res.status(500).send('Server Error: ' + _err.stack);
+  });
 
   app.get("/", (_req, _res) => {
     _res.status(200).send("TypeScript With Express");
