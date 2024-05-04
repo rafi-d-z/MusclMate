@@ -247,8 +247,6 @@ async function create_app(): Promise<Array<any>>{
     }
   })
 
-
-
   //* workout routes *//
   app.get("/get_workouts", async (_req, _res) => {
     const query = _req.query;
