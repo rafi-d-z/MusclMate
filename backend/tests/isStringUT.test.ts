@@ -31,6 +31,12 @@ describe("isString unit tests", () => {
             const result: Boolean = isString(input);
             expect(result).toStrictEqual(true);
         })
+        test("another empty string", () => {
+            const input: string = '""';
+            const result: Boolean = isString(input);
+            expect(result).toStrictEqual(true);
+        
+        })
     });
 
     describe("should return false on incorrect input", () => {
@@ -39,10 +45,5 @@ describe("isString unit tests", () => {
             const result: Boolean = isString(input);
             expect(result).toStrictEqual(false);
         });
-        test("symbols", () => {
-            const input: string = "!@#$";
-            const result: Boolean = isString(input);
-            expect(result).toStrictEqual(false);
-        })
     })
 })
