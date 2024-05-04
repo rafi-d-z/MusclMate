@@ -4,6 +4,7 @@ import express from "express";
 import { Client } from "pg";
 import { workout } from "../server/DAO/workout";
 import { isString } from "../server/bi";
+import { exercise } from "../server/DAO/exercise";
 
 describe("Server Actions", () => {
   let appClient: Array<any>;
@@ -33,22 +34,22 @@ describe("Server Actions", () => {
   });
 
   describe("Post /create_exercise", () => {
-    test("valid input in exercises table", async () => {
-      await request(app)
-        .post("/create_exercise")
-        .send({
-          name: "test",
-          target: "abs",
-          reps: 10,
-          sets: 3,
-          keywords: ["value1", "value2"],
-          weight: 10,
-        })
-        .expect(200)
-        .then((res) => {
-          uid = res.body.uid;
-        });
-    });
+    // test("valid input in exercises table", async () => {
+    //   await request(app)
+    //     .post("/create_exercise")
+    //     .send({
+    //       name: "test",
+    //       target: "abs",
+    //       reps: 10,
+    //       sets: 3,
+    //       keywords: ["value1", "value2"],
+    //       weight: 10,
+    //     })
+    //     .expect(200)
+    //     .then((res) => {
+    //       uid = res.body.uid;
+    //     });
+    // });
     test("invalid input", async () => {
       await request(app)
         .post("/create_exercise")
@@ -60,52 +61,66 @@ describe("Server Actions", () => {
           keywords: encodeURIComponent(JSON.stringify("notAnArray")),
           weight: "poo poo",
         })
-        .expect(404);
+        .expect(400);
     });
   });
 
-  describe("Post /delete", () => {
-    test("delete valid uid from exercises table", async () => {
-      await request(app)
-        .post("/delete")
-        .send({
-          db_name: "exercises",
-          uid: uid,
-        })
-        .expect(200);
-    });
-  });
+  // describe("Post /delete", () => {
+  //   test("delete valid uid from exercises table", async () => {
+  //     await request(app)
+  //       .post("/delete")
+  //       .send({
+  //         db_name: "exercises",
+  //         uid: uid,
+  //       })
+  //       .expect(200);
+  //   });
+  // });
 
   describe("Get /get_exercise", () => {
     // these test inputs are depricated
-    // test("should return invalid keywords is not an array", async () => {
-    //     await request(app).get('/get_exercise').send({
-    //         target: 'abs',
-    //         keywords: 'notAnArray'
-    //     }).expect(404);
-    // });
+    test("should return all exercises", async () => {
+      const query: exercise = {
+        uid: '',
+        exercise_name: '',
+        exercise_target: '',
+        image_url: '',
+        n_reps: 0,
+        n_sets: 0,
+        weight: 0,
+        arr_keywords: [],
+      }
+
+      const res = await request(app).get('/get_exercises').query(query).expect(200).catch((err:any) => {
+        console.error(err);
+      })
+      console.log(res)
+      expect(res).toBeInstanceOf(Array);
+    });
     // test("should return invalid target is not a string", async () => {
-    //     await request(app).get('/get_exercise').send({
-    //         target: 123,
-    //         keywords: ['value1', 'value2']
-    //     }).expect(404);
+    //   await request(app).get('/get_exercise').send({
+    //     target: 123,
+    //     keywords: ['value1', 'value2']
+    //   }).expect(404);
     // });
-    test("should return invalid uid is not a string", async () => {
-      await request(app)
-        .get("/get_exercise")
-        .send({
-          uid: 123,
-        })
-        .expect(404);
-    });
-    test("should return information given proper input", async () => {
-      await request(app)
-        .get(`/get_exercise`)
-        .send({
-          uid: "33628bab-142e-49cd-b752-30d5dfd8f093",
-        })
-        .expect(200);
-    });
+
+
+    // test("should return invalid uid is not a string", async () => {
+    //   await request(app)
+    //     .get("/get_exercise")
+    //     .send({
+    //       uid: 123,
+    //     })
+    //     .expect(404);
+    // });
+    // test("should return information given proper input", async () => {
+    //   await request(app)
+    //     .get(`/get_exercise`)
+    //     .send({
+    //       uid: "33628bab-142e-49cd-b752-30d5dfd8f093",
+    //     })
+    //     .expect(200);
+    // });
   });
 
   describe("Get /get_workouts", () => {

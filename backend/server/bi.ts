@@ -7,10 +7,16 @@ import { exercise } from './DAO/exercise';
  * @returns {Boolean} is_string
  */
 export function isString(input: any): Boolean {
-  const regex = /^[^\w\s]+$/;
-  const is_string: Boolean =
-    typeof input === "string" && regex.test(input) === false;
-  return is_string;
+    return typeof input === "string";
+}
+
+export function toString(input: any): string {
+    if (input === null || input === undefined) {
+        throw new Error("Input is not valid");  // Handle null and undefined explicitly if needed
+    } else if (input === "''"){
+        return '';
+    }
+    return String(input);  // This converts any input to a string, even objects will be "[object Object]"
 }
 
 /**
@@ -19,14 +25,39 @@ export function isString(input: any): Boolean {
  * @returns {boolean}
  */
 export function isArray(input: any): boolean {
-    if (typeof input !== 'object') {
-        return false;
+    let arr;
+    if (Array.isArray(input)){
+        return true;
     }
+    if (typeof input !== 'object') {
+        try{
+            arr = JSON.parse(input);
+            return isArray(arr);
+        } catch {
+            return false;
+        }
+    }
+
     return true;
 }
 
+export function toArray(input: any): string[] {
+    try{ 
+        return JSON.parse(input);
+    } catch {
+        throw new Error("Input is not an array");
+    }
+}
+
 export function isNumber(input: any): boolean {
-    return typeof input === 'number';
+    if (typeof input === 'number') {
+        return true;
+    }
+    if (typeof input === 'string') {
+        const num = toNumber(input);
+        return typeof num === 'number' && !isNaN(num);
+    }
+    return false;
   }
 
 /**
@@ -34,9 +65,9 @@ export function isNumber(input: any): boolean {
  * @param {any} input
  * @returns {number} number
  */
-export function toNumber(input: any): Number {
+export function toNumber(input: any): number {
   try {
-    const num: Number = Number(input);
+    const num: number = Number(input);
     return num;
   } catch {
     throw new Error("Input is not a number");
@@ -92,18 +123,8 @@ export function getWorkoutQueries(query: any): workout {
 }
 
 export function getExerciseQueries(query: any): exercise {
-    let exercise_query: exercise = {
-        uid: "",
-        exercise_name: "",
-        exercise_target: "",
-        image_url: "",
-        n_reps: 0,
-        n_sets: 0,
-        weight: 0,
-        arr_keywords: []
-    };
-
     // if the exercise body does not contain the fields (as incomplete body) - throw error
+    // console.log(query)
     if(
         query.uid === undefined ||
         query.exercise_name === undefined ||
@@ -111,9 +132,10 @@ export function getExerciseQueries(query: any): exercise {
         query.image_url === undefined ||
         query.n_reps === undefined ||
         query.n_sets === undefined ||
-        query.weight === undefined ||
-        query.arr_keywords === undefined){
-        throw new Error("Malformed input! Exercise subobject either missing or incomplete");
+        query.arr_keywords === undefined ||
+        query.weight === undefined){
+        console.log("undefined spotted", query)
+        throw new Error("Malformed input! Exercise object either missing or incomplete");
     } else if(!isString(query.uid)){
         throw new Error("The 'uid' property of the query object is not a string")
     } else if(!isString(query.exercise_name)){
@@ -133,14 +155,18 @@ export function getExerciseQueries(query: any): exercise {
     }
     
     // save new data if not empty
-    exercise_query.uid = query.uid;
-    exercise_query.exercise_name = query.exercise_name;
-    exercise_query.exercise_target = query.exercise_target;
-    exercise_query.image_url = query.image_url;
-    exercise_query.n_reps = query.n_reps;
-    exercise_query.n_sets = query.n_sets;
-    exercise_query.weight = query.weight;
-    exercise_query.arr_keywords = query.arr_keywords;
+    const exercise_query: exercise = {
+        uid: toString(query.uid),
+        exercise_name: toString(query.exercise_name),
+        exercise_target: toString(query.exercise_target),
+        image_url: toString(query.image_url),
+        n_reps: toNumber(query.n_reps),
+        n_sets: toNumber(query.n_sets),
+        weight: toNumber(query.weight),
+        arr_keywords: toArray(query.arr_keywords)
+    };
+
+    console.log("we can save", exercise_query);
 
     return exercise_query;
 }

@@ -27,56 +27,47 @@ export async function get_exercise_by_uid(
 
 export async function get_exercises(
   client: Client,
-  exercise_name: string = "",
-  exercise_target: string = "",
-  n_reps: number = 0,
-  n_sets: number = 0,
-  arr_keywords: Array<string> = [],
-  weight: number = 0,
+  exerciseQuery: exercise
 ): Promise<Array<Object> | undefined> {
   let conditions: Array<string> = [];
   let values: Array<any> = [];
   let index = 1;
 
-  if (exercise_name) {
+  if (exerciseQuery.exercise_name != "") {
     conditions.push(`exercise_name = $${index++}`);
-    values.push(exercise_name);
+    values.push(exerciseQuery.exercise_name);
   }
-  if (exercise_target) {
+  if (exerciseQuery.exercise_target != "") {
     conditions.push(`exercise_target = $${index++}`);
-    values.push(exercise_target);
+    values.push(exerciseQuery.exercise_target);
   }
-  if (n_reps > 0) {
+  if (exerciseQuery.n_reps > 0) {
     conditions.push(`n_reps = $${index++}`);
-    values.push(n_reps);
+    values.push(exerciseQuery.n_reps);
   }
-  if (n_sets > 0) {
+  if (exerciseQuery.n_sets > 0) {
     conditions.push(`n_sets = $${index++}`);
-    values.push(n_sets);
+    values.push(exerciseQuery.n_sets);
   }
-  if (arr_keywords.length > 0) {
-    conditions.push(`arr_keywords && $${index++}`);
-    values.push(arr_keywords);
+  if (exerciseQuery.arr_keywords.length > 0) {
+    conditions.push(`arr_keywords = $${index++}`);
+    values.push(exerciseQuery.arr_keywords);
   }
-  if (weight > 0) {
+  if (exerciseQuery.weight > 0) {
     conditions.push(`weight = $${index++}`);
-    values.push(weight);
+    values.push(exerciseQuery.weight);
   }
 
-  const sql_string = `SELECT * FROM public.exercises WHERE ${conditions.join(" OR ")}`;
-
+  const sql_string = "SELECT * FROM public.exercises" + 
+                      (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "");
+  // console.log(sql_string, values)
   const query = {
-    name: "fetch-exercises",
     text: sql_string,
     values: values,
   };
-  const results = await client.query(query);
 
-  client.on("error", (err: any) => {
-    console.error(err.stack);
-    return undefined;
-  });
-  return results.rows;
+  const res = await query_db(client, query);
+  return res;
 }
 
 export async function create_exercise(
@@ -210,9 +201,9 @@ export async function create_workout(client: Client, new_workout: workout): Prom
                         ` VALUES (uuid_generate_v4(), $1, $2, $3) RETURNING uid`;
     const values = [new_workout.exercise_arr, new_workout.keywords, new_workout.workout_name]
     const query = {
-        name: "create-workout",
-        text: sql,
-        values: values
+      name: "create-workout",
+      text: sql,
+      values: values
     }
 
   const result = await query_db(client, query);
@@ -223,9 +214,9 @@ export async function edit_workout(client: Client, updated_workout: workout): Pr
     const sql: string = `UPDATE public.workout_plans SET exercise_arr = $2, keywords = $3, workout_name = $4 WHERE uid = $1 RETURNING uid;`;
     const values = [updated_workout.uid, updated_workout.exercise_arr, updated_workout.keywords, updated_workout.workout_name];
     const query = {
-        name: "updated-workout",
-        text: sql,
-        values: values
+      name: "updated-workout",
+      text: sql,
+      values: values
     };
 
   const result = await query_db(client, query);
@@ -236,27 +227,27 @@ export async function delete_workout(client: Client, workout_to_delete: workout)
     const sql: string = `DELETE FROM public.workout_plans WHERE uid = $1;`;
     const values = [workout_to_delete.uid];
     const query = {
-        name: "delete-workout",
-        text: sql,
-        values: values
+      name: "delete-workout",
+      text: sql,
+      values: values
     };
 
     try{
-        const result = await query_db(client, query);
-        return true;
+      const _ = await query_db(client, query);
+      return true;
     } catch(err:any){
-        console.error("Problem deleting workout\n", err.stack);
-        return undefined;
+      console.error("Problem deleting workout\n", err.stack);
+      return undefined;
     }
 
 }
 
 async function query_db(client: Client, query: any){
-    try {
-        const result = await client.query(query);
-        const res = result.rows; 
-        return res;
-    } catch (err: any) {
-        throw new Error("Problem querying database, possible malformed input", err.stack);
-    }
+  try {
+    const result = await client.query(query);
+    const res = result.rows; 
+    return res;
+  } catch (err: any) {
+    throw new Error("Problem querying database, possible malformed input", err.stack);
+  }
 }

@@ -5,7 +5,6 @@ import cors from "cors";
 import { isArray, isString, toNumber, getWorkoutQueries, getExerciseQueries } from "./bi";
 import activate_db from "./db";
 import fs from "fs";
-dotenv.config();
 import { exercise } from './DAO/exercise';
 import {
   create_exercise,
@@ -18,6 +17,8 @@ import {
   delete_workout
 } from "./dbBI";
 import { workout } from "./DAO/workout";
+
+dotenv.config();
 
 async function create_app(): Promise<Array<any>>{
   let client_instance: Client | undefined;
@@ -66,9 +67,8 @@ async function create_app(): Promise<Array<any>>{
   }); */
 
   app.get('/get_exercises', async (_req, _res) => {
-    // checking to see if input is valid or nah
-
-    const query = _req.body;
+    const query = _req.query;
+    console.log(query);
     let exerciseQuery: exercise = {
       uid: "",
       exercise_name: "",
@@ -82,8 +82,8 @@ async function create_app(): Promise<Array<any>>{
 
     try{
       exerciseQuery = await getExerciseQueries(query);
-    }catch(err){
-      _res.status(400).send(err);
+    }catch(err: any){
+      _res.status(400).end(err.toString());
       return;
     }
 
@@ -95,14 +95,14 @@ async function create_app(): Promise<Array<any>>{
     }
 
     try{
-      res = await get_exercises(client_instance, exerciseQuery.exercise_name, exerciseQuery.exercise_target, exerciseQuery.n_reps, exerciseQuery.n_sets, exerciseQuery.arr_keywords, exerciseQuery.weight);
+      res = await get_exercises(client_instance, exerciseQuery);
       _res.send(res).status(200);
+      return;
     }catch(err){
-      console.error(err);
       _res.send(undefined).status(400);
       return;
     }
-})
+  })
 
   /**
    * Create an exercise
