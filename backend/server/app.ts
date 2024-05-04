@@ -43,8 +43,9 @@ async function create_app(): Promise<Array<any>>{
     next();
   });
 
-  app.use(express.json({ limit: '10mb' }));  // Adjust based on your expected request size
+  app.use(express.json({ limit: '10mb' })); 
   app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
   app.use((_err: Error, _req: Request, _res: Response, _next: NextFunction) => {
     console.error(_err.stack);
     _res.status(500).send('Server Error: ' + _err.stack);
@@ -53,31 +54,6 @@ async function create_app(): Promise<Array<any>>{
   app.get('/', (_req, _res) => {
     _res.status(200).send("TypeScript With Express");
   });
-
-  /* app.get('/get_exercise', async (_req, _res) => {
-  app.get("/get_exercise", async (_req, _res) => {
-    // checking to see if input is valid or nah
-    const query: any = _req.body;
-    const uid: string | null = isString(query.uid) ? String(query.uid) : null;
-
-    if(uid === null){
-      let error_message = "";
-      error_message += uid === null ? ", uid is not a string" : "";
-      _res.status(404).send("Invalid Input" + error_message+ "!");
-    } else if (client_instance != undefined){
-      try{ 
-        const res = get_exercise_by_uid(client_instance, query.uid);
-        if(res !== undefined){
-          _res.status(200).send(res);
-        } else {
-          _res.status(500).send("Failed to query database");
-        }
-      } catch(err){
-        console.error(err);
-        _res.status(500).send("Failed to query database");
-      }
-    }
-  }); */
 
   app.get('/get_exercises', async (_req, _res) => {
     const query = _req.query;

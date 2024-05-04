@@ -60,7 +60,7 @@ export async function get_exercises(
 
   const sql_string = "SELECT * FROM public.exercises" + 
                       (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "");
-  // console.log(sql_string, values)
+  console.log(sql_string, values)
   const query = {
     text: sql_string,
     values: values,
