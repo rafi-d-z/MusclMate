@@ -1,5 +1,5 @@
-import { getWorkoutQueries } from "../server/bi";
-import { workout } from "../server/DAO/workout";
+import { getWorkoutQueries } from "../../server/bi";
+import { workout } from "../../server/DAO/workout";
 
 describe("getWorkoutQueries unit tests", () => {
   describe("should return on correct input", () => {

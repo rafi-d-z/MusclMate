@@ -1,7 +1,7 @@
-import activate_db from "../server/db"
+import activate_db from "../../server/db"
 import { Client } from "pg";
-import { create_workout, delete_workout } from "../server/dbBI";
-import { workout } from "../server/DAO/workout";
+import { create_workout, delete_workout } from "../../server/dbBI";
+import { workout } from "../../server/DAO/workout";
 
 let uid: string;
 

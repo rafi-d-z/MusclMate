@@ -1,4 +1,4 @@
-import { toArray } from '../server/bi';
+import { toArray } from '../../server/bi';
 
 describe('toArray', () => {
     it('should convert a string to an array', () => {

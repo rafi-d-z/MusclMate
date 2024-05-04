@@ -3,7 +3,6 @@ import create_app from "../server/app";
 import express from "express";
 import { Client } from "pg";
 import { workout } from "../server/DAO/workout";
-import { isString } from "../server/bi";
 import { exercise } from "../server/DAO/exercise";
 
 describe("Server Actions", () => {
@@ -80,7 +79,7 @@ describe("Server Actions", () => {
   describe("Get /get_exercise", () => {
     // these test inputs are depricated
     test("should return all exercises", async () => {
-      const query: exercise = {
+      const query: object = {
         uid: '',
         exercise_name: '',
         exercise_target: '',
@@ -91,8 +90,8 @@ describe("Server Actions", () => {
         arr_keywords: [],
       }
 
-      const res = await request(app).get('/get_exercises').query(query).expect(200).catch((err:any) => {
-        console.error(err);
+      const res = await request(app).get('/get_exercises').query(query).expect(200).catch((err)=>{
+        console.error("Error", err)
       })
       console.log(res)
       expect(res).toBeInstanceOf(Array);

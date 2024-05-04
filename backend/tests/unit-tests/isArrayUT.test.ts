@@ -1,4 +1,4 @@
-import { isArray } from "../server/bi";
+import { isArray } from "../../server/bi";
 
 describe("isArray unit tests", () => {
     describe("should return true on correct input", () => {

@@ -1,7 +1,7 @@
-import activate_db from "../server/db"
+import activate_db from "../../server/db"
 import { Client } from "pg";
-import { get_exercises } from "../server/dbBI";
-import { exercise } from "../server/DAO/exercise";
+import { get_exercises } from "../../server/dbBI";
+import { exercise } from "../../server/DAO/exercise";
 
 describe("get_exercises unit tests", () => {
     let client: Client;

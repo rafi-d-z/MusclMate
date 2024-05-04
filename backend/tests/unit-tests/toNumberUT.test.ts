@@ -1,4 +1,4 @@
-import { toNumber } from "../server/bi";
+import { toNumber } from "../../server/bi";
 
 describe("toNumber unit tests", () => {
     describe("should return true on correct input", () => {
