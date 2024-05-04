@@ -1,6 +1,5 @@
 import express from "express";
 import { Request, Response, NextFunction } from 'express';
-import { Request, Response, NextFunction } from 'express';
 import dotenv from "dotenv";
 import { Client } from "pg";
 import cors from "cors";
