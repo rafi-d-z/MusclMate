@@ -7,6 +7,6 @@ describe('toArray', () => {
     });
 
     it('should throw', () => {
-        expect(() => toArray({ a: 1, b: 2, c: 3 })).toThrow();
+        expect(() => toArray('abc')).toThrow();
     });
 });

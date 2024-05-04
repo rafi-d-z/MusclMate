@@ -44,7 +44,7 @@ export function isArray(input: any): boolean {
 
 export function toArray(input: any): string[] {
   try{ 
-    return Array(input);
+    return Array(JSON.parse(input));
   } catch {
     throw new Error("Input is not an array");
   }
