@@ -57,6 +57,10 @@ export async function get_exercises(
     conditions.push(`weight = $${index++}`);
     values.push(exerciseQuery.weight);
   }
+  if (exerciseQuery.image_url != "") {
+    conditions.push(`image_url = $${index++}`);
+    values.push(exerciseQuery.image_url);
+  }
 
   const sql_string = "SELECT * FROM public.exercises" + 
                       (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "");
