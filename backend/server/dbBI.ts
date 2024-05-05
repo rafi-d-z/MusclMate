@@ -166,7 +166,7 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
   console.log(query_workout);
 
   const workout_without_exercises = await query_db(client, query_workout);
-
+  console.log(workout_without_exercises)
   // get all exercises for each workout
   const sql_exercises: string = "SELECT * FROM public.exercises WHERE uid = ANY($1)";
   const values_exercises = workout_without_exercises.map((workout: any) => workout.exercise_arr);
