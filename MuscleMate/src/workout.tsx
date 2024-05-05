@@ -61,33 +61,33 @@ import { WorkoutExerciseCard } from "@/components/ui/workoutExerciseCard"
 import { CreateWorkoutCard } from "./components/ui/createWorkoutCard"
 import { WorkoutComponent } from "./components/ui/workoutComponent"
 import axios from "axios"
-
-interface workout {
-    uid: string,
-    workout_name: string,
-    exercise_arr: Array<string>,
-    keywords: Array<string>
-}
+import { workout } from "./DAO/workout"
 
 
 function Workout() {
-
-    const [selectedWorkout, setSelectedWorkout] = useState("");
-    const [selectedWorkoutData, setSelectedWorkoutData] = useState<workout[]>([]);
+    const [selectedWorkout, setSelectedWorkout] = useState({
+        uid: "",
+        workout_name: "",
+        exercise_arr: [],
+        keywords: []
+    });
+    const [selectedWorkoutData, setSelectedWorkoutData] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("Type:", selectedWorkout)
             axios({
                 method: 'get',
                 url: 'https://api-muscleman.com/get_workouts',
-                data: {
-                    type: selectedWorkout
+                params: {
+                    uid: JSON.stringify(selectedWorkout.uid),
+                    workout_name: JSON.stringify(selectedWorkout.workout_name),
+                    exercise_arr: JSON.stringify(selectedWorkout.exercise_arr),
+                    keywords: JSON.stringify(selectedWorkout.keywords)
                 }
-            }).then(function (response) {
+            }).then((response) =>  {
                 setSelectedWorkoutData(response.data);
+                console.log(selectedWorkoutData)
             }).catch((error) => {
-                // Handle error
                 console.error('Error fetching data:', error);
             });
         };
@@ -308,9 +308,9 @@ function Workout() {
                                 <Button variant="link" size="icon">
                                     <Plus className="h-4 w-4" />
                                 </Button>
-                                {selectedWorkoutData.map((data, index) => (
+                                {selectedWorkoutData.length > 0 ? selectedWorkoutData.map((data, index) => (
                                     <h1 key={index}>{data.workout_name}</h1>
-                                ))}
+                                )) : <h1>No workout data</h1>}
                                 <Button variant="link" size="icon">
                                     <Minus className="h-4 w-4" />
                                 </Button>
