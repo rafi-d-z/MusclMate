@@ -4,4 +4,4 @@ aws s3 cp "MuscleMate_deploy-$1.zip" s3://cancanneed23-musclemate
 
 aws elasticbeanstalk create-application-version --application-name MuscleMate --source-bundle S3Bucket="cancanneed23-musclemate",S3Key="MuscleMate_deploy-$1.zip" --version-label "v1" --description "for assignment 10" --region "us-east-1"
 
-aws elasticbeanstalk update-environment --environment-name flaskbb-environment --version-label "ver-$1" --region "us-east-1"
+aws elasticbeanstalk update-environment --environment-name flaskbb-environment --version-label "v1" --region "us-east-1"
