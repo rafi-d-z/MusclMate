@@ -10,5 +10,6 @@ aws elasticbeanstalk create-application-version\
  --region "us-east-1"\
 
 aws elasticbeanstalk update-environment \
-    --environment-name flaskbb-environment \
-    --version-label "ver-v1" --region "us-east-1"\
+ --environment-name flaskbb-environment \
+ --version-label "ver-v1" \
+ --region "us-east-1"\
