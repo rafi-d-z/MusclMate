@@ -31,7 +31,7 @@ jobs:
 
             - name: Zip the application
               run: |
-                Compress-Archive -Path ./* -DestinationPath "MuscleMate_deploy-${{github.sha}}.zip"
+                zip -r "MuscleMate_deploy-${{github.sha}}.zip" ./*
 
             - name: Upload application artifact
               uses: actions/upload-artifact@v3
