@@ -49,10 +49,10 @@ jobs:
             - name: Upload application file to AWS
               run: aws s3 cp MuscleMate_deploy-${{github.sha}}.zip s3://cancanneed23-musclemate
 
-           - name: Create new application version
+            - name: Create new application version
               run: |  
                 aws elasticbeanstalk create-application-version \
-                --application-name flaskbb \ 
+                --application-name flaskbb \
                 --source-bundle S3Bucket="cancanneed23-musclemate",S3Key="MuscleMate_deploy-${{github.sha}}.zip" \
                 --version-label "ver-${{ github.sha }}" \
                 --description "commit-sha-${{ github.sha }}"
