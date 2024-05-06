@@ -16,7 +16,7 @@ on:
 
 jobs:
   format:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     name: Format
     
@@ -47,7 +47,7 @@ jobs:
         working-directory: ./terraform
 
   terraform:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     name: Validate, Plan, and Apply
     env:
