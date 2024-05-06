@@ -1,6 +1,6 @@
-zip -r "MuscleMate_deploy-$1.zip" ./*
+zip -r "MuscleMate_deploy-v1.zip" ./*
 
-aws s3 cp "MuscleMate_deploy-$1.zip" s3://cancanneed23-musclemate
+aws s3 cp "MuscleMate_deploy-v1.zip" s3://cancanneed23-musclemate
 
 aws elasticbeanstalk create-application-version --application-name MuscleMate --source-bundle S3Bucket="cancanneed23-musclemate",S3Key="MuscleMate_deploy-$1.zip" --version-label "ver-v1" --description "for assignment 10" --region "us-east-1"
 
