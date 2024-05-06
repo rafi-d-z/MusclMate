@@ -3,10 +3,9 @@
 name: deploy
 
 on:
-    workflow_run:
-        workflows: [test] # Triggered by the test workflow
-        types: [completed] # The test workflow must complete
-        branches: [main] # Only when main is updated
+  push:
+    branches:
+      - main
 
 jobs:
     on-success:
@@ -46,13 +45,13 @@ jobs:
                 aws-region: "us-east-1" 
 
             - name: Upload application file to AWS
-              run: aws s3 cp MuscleMate_deploy-${{github.sha}}.zip s3://terraform-state-musclemate-cancanneed23
+              run: aws s3 cp MuscleMate_deploy-${{github.sha}}.zip s3://cancanneed23-musclemate
 
             - name: Create new application version
               run: |  
                 aws elasticbeanstalk create-application-version \
-                --application-name MuscleMate \
-                --source-bundle S3Bucket="terraform-state-musclemate-cancanneed23",S3Key="MuscleMate_deploy-${{github.sha}}.zip " \
+                --application-name MuscleMate \ 
+                --source-bundle S3Bucket="cancanneed23-musclemate",S3Key="MuscleMate_deploy-${{github.sha}}.zip " \
                 --version-label "ver-${{ github.sha }}" \
                 --description "commit-sha-${{ github.sha }}"
 
