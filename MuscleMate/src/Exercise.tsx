@@ -14,7 +14,7 @@ import {
     SelectValue,
   } from "@/components/ui/select"
   import { Label } from "@/components/ui/label"
-
+  import { useToast } from "@/components/ui/use-toast"
   import { Button } from "@/components/ui/button"
   import { Input } from "@/components/ui/input"
   import {
@@ -37,6 +37,7 @@ import {
   import muscleLogo from './assets/MuscleLogo.png'
   import axios from 'axios';
   import './App.css'
+  
   
   interface CardData{
     name: string,
@@ -73,8 +74,7 @@ import {
     const [sets, setSets] = useState('data.sets');
     const [weight, setWeight] = useState('none');
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
-
+    const { toast } = useToast()
 
     const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       let value = e.target.value;
@@ -162,7 +162,7 @@ import {
                       <PopoverTrigger asChild>
                         <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
                       </PopoverTrigger>
-                      {isPopoverOpen && (
+                      
                       <PopoverContent className="w-80">
                       <div className="grid gap-4">
                         <div className="space-y-2">
@@ -172,7 +172,7 @@ import {
                         <div className="grid gap-2">
                           <div className="grid grid-cols-3 items-center gap-4">
                             <Label htmlFor="exerciseName">Name: </Label>
-                            <Input id="exerciseName" value={data.name} onChange={(e) => setExerciseName(e.target.value)} className="col-span-2 h-8" />
+                            <Input id="exerciseName" defaultValue={data.name} onChange={(e) => setExerciseName(e.target.value)} className="col-span-2 h-8" />
 
                           </div>
                           <div className="grid grid-cols-3 items-center gap-4">
@@ -190,25 +190,27 @@ import {
                           </Select>
                           </div>
                           <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="reps">Reps:</Label>
-                  <Input id="reps" value={data.reps} onChange={handleRepsChange} className="col-span-2 h-8" />
-                </div>
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="sets">Sets:</Label>
-                  <Input id="sets" value={data.sets} onChange={handleSetsChange} className="col-span-2 h-8" />
-                </div>
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="weight">Weight:</Label>
-                  <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
-                </div>
-                <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-                <Button onClick={handleAddNewExercise}>Submit</Button>
-
+                            <Label htmlFor="reps">Reps:</Label>
+                            <Input id="reps" defaultValue={data.reps} onChange={handleRepsChange} className="col-span-2 h-8" />
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <Label htmlFor="sets">Sets:</Label>
+                            <Input id="sets" defaultValue={data.sets} onChange={handleSetsChange} className="col-span-2 h-8" />
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <Label htmlFor="weight">Weight:</Label>
+                            <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
+                          </div>
+                          <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+                          <Button onClick={handleAddNewExercise}>Submit</Button>
+                          <Button onClick={() => { toast({ title: "Scheduled: Catch up", description: "Friday, February 10, 2023 at 5:57 PM", }) }} >
+                            Show Toast
+                          </Button>
 
                           </div>
                       </div>
                       </PopoverContent>
-                       )}
+                       
                     </Popover>
                   </div>
                   {data.reps}/{data.sets}
