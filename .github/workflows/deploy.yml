@@ -19,10 +19,13 @@ jobs:
                 cache: 'npm' # cache the npm dependencies
 
             - name: Install dependencies
+              working-directory: MuscleMate
               run: |
                 npm ci
+                
 
             - name: Build TypeScript
+              working-directory: MuscleMate
               run: |
                 npm run build
 
