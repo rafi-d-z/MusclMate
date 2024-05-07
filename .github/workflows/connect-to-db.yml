@@ -1,0 +1,26 @@
+name: connect-to-db
+on:
+  pull_request:
+    branches: main
+
+jobs:
+  run-db-test:
+    runs-on: ubuntu-latest
+    env:
+      POSTGRESQL_DB_HOST: ${{ secrets.POSTGRESQL_DB_HOST }}
+      POSTGRESQL_DB_USER: ${{ secrets.POSTGRESQL_DB_USER }}
+      POSTGRESQL_DB_PASSWORD: ${{ secrets.POSTGRESQL_DB_PASSWORD }}
+      POSTGRESQL_DB: ${{ secrets.POSTGRESQL_DB }}
+      POSTGRESQL_DB_PORT: ${{ secrets.POSTGRESQL_DB_PORT }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '21'
+      - name: Install dependencies
+        run: npm install
+        working-directory: backend
+      - name: Run testDatabase.ts
+        run: npx ts-node tests/testDatabase.ts
+        working-directory: backend
