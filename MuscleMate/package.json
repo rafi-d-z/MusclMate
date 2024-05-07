@@ -41,6 +41,7 @@
     "react-icons": "^5.0.1",
     "react-router": "^6.22.3",
     "react-router-dom": "^6.22.3",
+    "react-toastify": "^10.0.5",
     "scheme": "^0.0.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",

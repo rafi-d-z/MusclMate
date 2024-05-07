@@ -23,7 +23,7 @@ import {
     PopoverTrigger,
   } from "@/components/ui/popover"
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-  import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+  import { faPencilAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 
   import {
     Tabs,
@@ -73,7 +73,7 @@ import {
     const [reps, setReps] = useState('data.reps');
     const [sets, setSets] = useState('data.sets');
     const [weight, setWeight] = useState('none');
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const [, setIsPopoverOpen] = useState(false);
     const { toast } = useToast()
 
     const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,6 +126,13 @@ import {
     };
 
 
+    const handleDeleteCard = (index:number) => {
+      const updatedData = [...selectedCardData];
+      updatedData.splice(index, 1);
+      setSelectedCardData(updatedData);
+    };
+
+
     return (
       <>
         <div className="flex items-center justify-between p-8 lg:px-8">
@@ -150,6 +157,14 @@ import {
           {Array.isArray(selectedCardData) && selectedCardData.map((data, index) => (
             <Card key={index}>
                 <CardHeader>
+                <div className="relative">
+      <button
+        className="absolute top-0 right-0 -mt-3 -mr-4 text-black focus:outline-none"
+        onClick={() => handleDeleteCard(index)}
+      >
+        <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
+      </button>
+    </div>
                   <CardTitle>{data.name}</CardTitle>
                   <CardDescription>{data.type}</CardDescription>
                 </CardHeader>
