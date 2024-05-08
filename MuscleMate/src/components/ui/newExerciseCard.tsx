@@ -123,4 +123,4 @@ export const NewExerciseCard: React.FC = () => {
   );
 };
 
-export default NewExerciseCard;
+

@@ -14,7 +14,6 @@ import {
     SelectValue,
   } from "@/components/ui/select"
   import { Label } from "@/components/ui/label"
-  import { useToast } from "@/components/ui/use-toast"
   import { Button } from "@/components/ui/button"
   import { Input } from "@/components/ui/input"
   import {
@@ -48,6 +47,7 @@ import {
     url:string
   }
     
+  
   function Exercise() {
     const [selectedCard, setSelectedCard] = useState("");
     const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
@@ -66,6 +66,7 @@ import {
         });
       };
       fetchData();
+      
     }, [selectedCard]);
   
 
@@ -74,7 +75,7 @@ import {
     const [sets, setSets] = useState('data.sets');
     const [weight, setWeight] = useState('none');
     const [, setIsPopoverOpen] = useState(false);
-    const { toast } = useToast()
+   
 
     const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       let value = e.target.value;
@@ -218,9 +219,7 @@ import {
                           </div>
                           <Button variant="outline" onClick={handleCancel}>Cancel</Button>
                           <Button onClick={handleAddNewExercise}>Submit</Button>
-                          <Button onClick={() => { toast({ title: "Scheduled: Catch up", description: "Friday, February 10, 2023 at 5:57 PM", }) }} >
-                            Show Toast
-                          </Button>
+                          
 
                           </div>
                       </div>
