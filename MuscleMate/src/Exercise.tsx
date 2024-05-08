@@ -179,7 +179,9 @@ function Exercise() {
 
         <TabsContent value={selectedCard.exercise_target} className="grid grid-cols-5 gap-10">
           <NewExerciseCard />
-          {Array.isArray(selectedCardData) && selectedCardData.map((data, index) => (
+          {(selectedCard.exercise_target === "" ? selectedCardData // If "Trending" tab is selected, render all cards
+            : selectedCardData.filter(data => data.type === selectedCard.exercise_target)) // Otherwise, filter the data based on the selected exercise target
+            .map((data, index) => (
             <Card key={index}>
               <CardHeader>
                 <div className="relative">
