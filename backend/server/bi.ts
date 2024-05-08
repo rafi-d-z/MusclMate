@@ -168,5 +168,6 @@ export function getExerciseQueries(query: any): exercise {
     weight: toNumber(query.weight),
     // arr_keywords: query.arr_keywords
   };
+  console.log(exercise_query)
   return exercise_query;
 }
