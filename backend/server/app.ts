@@ -271,9 +271,9 @@ async function create_app(): Promise<Array<any>>{
     try{
       res = await get_workouts(client_instance, workoutQuery);
       _res.send(res).status(200);
-    } catch(err){
+    } catch(err: any){
       console.error(err);
-      _res.send(undefined).status(400);
+      _res.send(err.toString()).status(400);
       return;
     }
   });

@@ -117,8 +117,8 @@ export function getWorkoutQueries(query: any): workout {
   // save new data if not empty
   workout_query.uid = toString(query.uid);
   workout_query.workout_name = toString(query.workout_name);
-  workout_query.exercise_arr = (query.exercise_arr);
-  workout_query.keywords = (query.keywords);
+  workout_query.exercise_arr = toArray(query.exercise_arr);
+  workout_query.keywords = toArray(query.keywords);
 
   return workout_query;
 }
