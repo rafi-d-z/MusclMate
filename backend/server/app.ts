@@ -258,8 +258,8 @@ async function create_app(): Promise<Array<any>>{
 
     try{
       workoutQuery = getWorkoutQueries(query);
-    } catch(err){
-      _res.status(400).send(err);
+    } catch(err: any){
+      _res.status(400).send(err.toString());
       return;
     }
     let res;
@@ -268,6 +268,7 @@ async function create_app(): Promise<Array<any>>{
       _res.send("Database not connected").status(500);
       throw new Error("Database not connected");
     }
+
     try{
       res = await get_workouts(client_instance, workoutQuery);
       _res.send(res).status(200);

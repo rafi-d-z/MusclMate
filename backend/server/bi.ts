@@ -43,6 +43,7 @@ export function isArray(input: any): boolean {
 }
 
 export function toArray(input: any): string[] {
+  if (input === "[]") return [];
   try{ 
     return Array(JSON.parse(input));
   } catch {
