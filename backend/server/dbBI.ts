@@ -53,7 +53,7 @@ export async function get_exercises(
     conditions.push(`n_sets = $${index++}`);
     values.push(exerciseQuery.n_sets);
   }
-  if (exerciseQuery.arr_keywords.length > 0) {
+  if (exerciseQuery.arr_keywords != undefined && exerciseQuery.arr_keywords.length > 0) {
     conditions.push(`arr_keywords = $${index++}`);
     values.push(exerciseQuery.arr_keywords);
   }
