@@ -51,7 +51,7 @@ describe("getWorkoutQueries unit tests", () => {
       };
 
       const result: workout = getWorkoutQueries(workout);
-      expect(JSON.stringify(result)).toStrictEqual(JSON.stringify(workout));
+      expect(result).toStrictEqual(workout);
     });
   });
 
