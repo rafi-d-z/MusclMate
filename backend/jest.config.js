@@ -6,4 +6,7 @@ module.exports = {
   verbose: true,
   forceExit: true,
   // clearMocks: true,
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/server/$1',
+  },
 };
