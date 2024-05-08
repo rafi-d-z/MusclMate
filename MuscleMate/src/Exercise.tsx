@@ -1,185 +1,209 @@
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
-  import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
-  import { Label } from "@/components/ui/label"
-  import { Button } from "@/components/ui/button"
-  import { Input } from "@/components/ui/input"
-  import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  } from "@/components/ui/popover"
-  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-  import { faPencilAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-  import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-  } from "@/components/ui/tabs"
-  import { useState, useEffect } from "react"
-  import { NewExerciseCard } from "./components/ui/newExerciseCard"
-  import { Menubar } from "./components/ui/menubar"
-  import muscleLogo from './assets/MuscleLogo.png'
-  import axios from 'axios';
-  import './App.css'
-  
-  
-  interface CardData{
-    name: string,
-    uid: number,
-    type: string,
-    reps: number
-    sets: number,
-    url:string
-  }
-    
-  
-  function Exercise() {
-    const [selectedCard, setSelectedCard] = useState("");
-    const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        console.log("Type:", selectedCard)
-        axios({
-          method: 'get',
-          url: 'https://api-muscleman.com/get_mock_exercise',
-          params: {
-            type: selectedCard
-          }
-        }).then(function (response) {
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+import { useState, useEffect } from "react"
+import { NewExerciseCard } from "./components/ui/newExerciseCard"
+import { Menubar } from "./components/ui/menubar"
+import muscleLogo from './assets/MuscleLogo.png'
+import axios from 'axios';
+import './App.css'
+import {exercise} from "DAO/exercise"
+
+
+interface CardData {
+  name: string,
+  uid: number,
+  type: string,
+  reps: number
+  sets: number,
+  url: string
+}
+
+
+function Exercise() {
+  const [selectedCard, setSelectedCard] = useState( {
+          uid: "",
+          exercise_name: "",
+          exercise_target: "",
+          image_url: "",
+          n_reps: 0,
+          n_sets: 0,
+          weight: 0,
+          arr_keywords: []
+  });
+  const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("Type:", selectedCard);
+
+      axios({
+        method: "get",
+        url: "https://api-muscleman.com/get_mock_exercise",
+        params: {
+          uid: selectedCard.uid,
+          exercise_name: selectedCard.exercise_name,
+          exercise_target: selectedCard.exercise_target,
+          image_url: selectedCard.image_url,
+          n_reps: selectedCard.n_reps,
+          n_sets: selectedCard.n_sets,
+          weight: selectedCard.weight,
+          arr_keywords: selectedCard.arr_keywords
+        },
+      })
+        .then(function (response) {
           setSelectedCardData(response.data);
+        })
+        .catch((res) => {
+          console.error("Error connecting to server,", res);
         });
-      };
-      fetchData();
-      
-    }, [selectedCard]);
-  
-
-    const [exerciseName, setExerciseName] = useState('data.name');
-    const [reps, setReps] = useState('data.reps');
-    const [sets, setSets] = useState('data.sets');
-    const [weight, setWeight] = useState('none');
-    const [, setIsPopoverOpen] = useState(false);
-   
-
-    const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      let value = e.target.value;
-      value = value.replace(/\D/g, '');
-      setReps(value);
     };
 
+    fetchData();
+  }, [selectedCard]);
 
-    const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      let value = e.target.value;
-      value = value.replace(/\D/g, '');
-      setSets(value);
+
+
+  const [exerciseName, setExerciseName] = useState('data.name');
+  const [reps, setReps] = useState('data.reps');
+  const [sets, setSets] = useState('data.sets');
+  const [weight, setWeight] = useState('none');
+  const [, setIsPopoverOpen] = useState(false);
+
+
+  const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
+    setReps(value);
+  };
+
+
+  const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
+    setSets(value);
+  };
+
+
+  const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
+    value = value + ' lbs';
+    setWeight(value);
+  };
+
+
+  const handleAddNewExercise = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+
+    const exercise = {
+      name: exerciseName,
+      reps: reps,
+      sets: sets,
+      weight: weight
     };
 
+    console.log('New Exercise:', exercise);
+    setIsPopoverOpen(false);
 
-    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      let value = e.target.value;
-      value = value.replace(/\D/g, '');
-      value = value + ' lbs';
-      setWeight(value);
-    };
+  };
 
 
-    const handleAddNewExercise = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-  
-   
-      const exercise = {
-        name: exerciseName,
-        reps: reps,
-        sets: sets,
-        weight: weight
-      };
-  
-      console.log('New Exercise:', exercise);
-      setIsPopoverOpen(false);
-  
-    };
+  const handleCancel = () => {
+
+    setExerciseName('Pull ups');
+    setReps('3');
+    setSets('12');
+    setWeight('none');
+
+    setIsPopoverOpen(false);
+  };
 
 
-    const handleCancel = () => {
-
-      setExerciseName('Pull ups');
-      setReps('3');
-      setSets('12');
-      setWeight('none');
-  
-      setIsPopoverOpen(false);
-    };
+  const handleDeleteCard = (index: number) => {
+    const updatedData = [...selectedCardData];
+    updatedData.splice(index, 1);
+    setSelectedCardData(updatedData);
+  };
 
 
-    const handleDeleteCard = (index:number) => {
-      const updatedData = [...selectedCardData];
-      updatedData.splice(index, 1);
-      setSelectedCardData(updatedData);
-    };
-
-
-    return (
-      <>
-        <div className="flex items-center justify-between p-8 lg:px-8">
-          <img src={muscleLogo} width={200} height={200}/>
-          <div className="mt-5 flex lg:ml-4 gap-20">
-            <Input placeholder="Search" className="w-[200px] "/>
-            <Menubar/>
-          </div>
+  return (
+    <>
+      <div className="flex items-center justify-between p-8 lg:px-8">
+        <img src={muscleLogo} width={200} height={200} />
+        <div className="mt-5 flex lg:ml-4 gap-20">
+          <Input placeholder="Search" className="w-[200px] " />
+          <Menubar />
         </div>
-  
-        <Tabs defaultValue={selectedCard} className="w-[1200px]">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="" onClick={() => setSelectedCard('')}>Trending</TabsTrigger>
-            <TabsTrigger value="arms" onClick={() => setSelectedCard('arms')}>Arms</TabsTrigger>
-            <TabsTrigger value="legs" onClick={() => setSelectedCard('legs')}>Legs</TabsTrigger>
-            <TabsTrigger value="chest" onClick={() => setSelectedCard('chest')}>Chest</TabsTrigger>
-            <TabsTrigger value="back" onClick={() => setSelectedCard('back')}>Back</TabsTrigger>        
-          </TabsList>
+      </div>
 
-          <TabsContent value={selectedCard} className="grid grid-cols-5 gap-10">
-          <NewExerciseCard/>
+      <Tabs defaultValue={selectedCard.exercise_target} className="w-[1200px]">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="" onClick={() => setSelectedCard({ ...selectedCard, exercise_target: '' })}>Trending</TabsTrigger>
+          <TabsTrigger value="arms" onClick={() => setSelectedCard({ ...selectedCard, exercise_target: 'arms' })}>Arms</TabsTrigger>
+          <TabsTrigger value="legs" onClick={() => setSelectedCard({ ...selectedCard, exercise_target: 'legs' })}>Legs</TabsTrigger>
+          <TabsTrigger value="chest" onClick={() => setSelectedCard({ ...selectedCard, exercise_target: 'chest' })}>Chest</TabsTrigger>
+          <TabsTrigger value="back" onClick={() => setSelectedCard({ ...selectedCard, exercise_target: 'back' })}>Back</TabsTrigger>
+        </TabsList>
+      
+
+        <TabsContent value={selectedCard.exercise_target} className="grid grid-cols-5 gap-10">
+          <NewExerciseCard />
           {Array.isArray(selectedCardData) && selectedCardData.map((data, index) => (
             <Card key={index}>
-                <CardHeader>
+              <CardHeader>
                 <div className="relative">
-      <button
-        className="absolute top-0 right-0 -mt-3 -mr-4 text-black focus:outline-none"
-        onClick={() => handleDeleteCard(index)}
-      >
-        <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
-      </button>
-    </div>
-                  <CardTitle>{data.name}</CardTitle>
-                  <CardDescription>{data.type}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <img src={data.url}></img>
-                </CardContent>
-                <CardFooter className="relative">
-                  <div className="absolute bottom-0 right-0 mb-2 mr-2">
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
-                      </PopoverTrigger>
-                      
-                      <PopoverContent className="w-80">
+                  <button
+                    className="absolute top-0 right-0 -mt-3 -mr-4 text-black focus:outline-none"
+                    onClick={() => handleDeleteCard(index)}
+                  >
+                    <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
+                  </button>
+                </div>
+                <CardTitle>{data.name}</CardTitle>
+                <CardDescription>{data.type}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <img src={data.url}></img>
+              </CardContent>
+              <CardFooter className="relative">
+                <div className="absolute bottom-0 right-0 mb-2 mr-2">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
+                    </PopoverTrigger>
+
+                    <PopoverContent className="w-80">
                       <div className="grid gap-4">
                         <div className="space-y-2">
                           <h4 className="font-medium leading-none">Edit Exercise</h4>
@@ -194,16 +218,16 @@ import {
                           <div className="grid grid-cols-3 items-center gap-4">
                             <Label htmlFor="targetMuscles">Target Muscles:</Label>
                             <Select>
-                            <SelectTrigger className="w-[180px]">
-                              <SelectValue placeholder= {data.type} />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="light">Arms</SelectItem>
-                              <SelectItem value="dark">Legs</SelectItem>
-                              <SelectItem value="system">Chest</SelectItem>
-                              <SelectItem value="part">Back</SelectItem>
-                            </SelectContent>
-                          </Select>
+                              <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder={data.type} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="light">Arms</SelectItem>
+                                <SelectItem value="dark">Legs</SelectItem>
+                                <SelectItem value="system">Chest</SelectItem>
+                                <SelectItem value="part">Back</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </div>
                           <div className="grid grid-cols-3 items-center gap-4">
                             <Label htmlFor="reps">Reps:</Label>
@@ -219,16 +243,16 @@ import {
                           </div>
                           <Button variant="outline" onClick={handleCancel}>Cancel</Button>
                           <Button onClick={handleAddNewExercise}>Submit</Button>
-                          
 
-                          </div>
+
+                        </div>
                       </div>
-                      </PopoverContent>
-                       
-                    </Popover>
-                  </div>
-                  {data.reps}/{data.sets}
-                </CardFooter>
+                    </PopoverContent>
+
+                  </Popover>
+                </div>
+                {data.reps}/{data.sets}
+              </CardFooter>
 
             </Card>
           ))}
@@ -238,5 +262,5 @@ import {
     </>
   )
 }
-  
+
 export default Exercise
