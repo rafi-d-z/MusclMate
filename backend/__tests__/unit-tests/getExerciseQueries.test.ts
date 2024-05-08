@@ -1,5 +1,5 @@
-import { getExerciseQueries } from "../../server/bi";
-import { exercise } from "../../server/DAO/exercise";
+import { getExerciseQueries } from "@/bi";
+import { exercise } from "@/DAO/exercise";
 
 describe("getExerciseQueries unit tests", () => {
   describe("should return on correct input", () => {
@@ -18,7 +18,7 @@ describe("getExerciseQueries unit tests", () => {
         ],
       };
 
-      const result: exercise = getExerciseQueries(JSON.stringify(exercise));
+      const result: exercise = getExerciseQueries(exercise);
       expect(result).toStrictEqual(exercise);
     });
 
@@ -34,7 +34,7 @@ describe("getExerciseQueries unit tests", () => {
         arr_keywords: [],
       };
 
-      const result: exercise = getExerciseQueries(JSON.stringify(exercise));
+      const result: exercise = getExerciseQueries(exercise);
       expect(result).toStrictEqual(exercise);
     });
 
@@ -50,7 +50,7 @@ describe("getExerciseQueries unit tests", () => {
         arr_keywords: [],
       };
 
-      const result: exercise = getExerciseQueries(JSON.stringify(exercise));
+      const result: exercise = getExerciseQueries(exercise);
       expect(result).toStrictEqual(exercise);
     });
 
@@ -66,7 +66,7 @@ describe("getExerciseQueries unit tests", () => {
         arr_keywords: [],
       };
 
-      const result: exercise = getExerciseQueries(JSON.stringify(exercise));
+      const result: exercise = getExerciseQueries(exercise);
       expect(result).toStrictEqual(exercise);
     });
 
@@ -82,7 +82,7 @@ describe("getExerciseQueries unit tests", () => {
         arr_keywords: [],
       };
 
-      const result: exercise = getExerciseQueries(JSON.stringify(exercise));
+      const result: exercise = getExerciseQueries(exercise);
       expect(result).toStrictEqual(exercise);
     });
 
@@ -98,7 +98,7 @@ describe("getExerciseQueries unit tests", () => {
         arr_keywords: [],
       };
 
-      const result: exercise = getExerciseQueries(JSON.stringify(exercise));
+      const result: exercise = getExerciseQueries(exercise);
       expect(result).toStrictEqual(exercise);
     });
 
@@ -114,7 +114,7 @@ describe("getExerciseQueries unit tests", () => {
         arr_keywords: [],
       };
 
-      const result: exercise = getExerciseQueries(JSON.stringify(exercise));
+      const result: exercise = getExerciseQueries(exercise);
       expect(result).toStrictEqual(exercise);
     });
 
@@ -130,7 +130,7 @@ describe("getExerciseQueries unit tests", () => {
         arr_keywords: [],
       };
 
-      const result: exercise = getExerciseQueries(JSON.stringify(exercise));
+      const result: exercise = getExerciseQueries(exercise);
       expect(result).toStrictEqual(exercise);
     });
 
@@ -146,8 +146,32 @@ describe("getExerciseQueries unit tests", () => {
         arr_keywords: ["i", "have", "something"],
       };
 
-      const result: exercise = getExerciseQueries(encodeURIComponent(JSON.stringify(exercise)));
+      const result: exercise = getExerciseQueries(exercise);
       expect(result).toStrictEqual(exercise);
+    });
+
+    test("not arr_keywords", () => {
+      const exercise: any = {
+        uid: "",
+        exercise_name: "",
+        exercise_target: "",
+        image_url: "",
+        n_reps: 0,
+        n_sets: 0,
+        weight: 0,
+      };
+
+      const result: exercise = getExerciseQueries(exercise);
+      expect(result).toStrictEqual({
+        uid: "",
+        exercise_name: "",
+        exercise_target: "",
+        image_url: "",
+        n_reps: 0,
+        n_sets: 0,
+        weight: 0,
+        arr_keywords: [],
+      });
     });
   });
 
