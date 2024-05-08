@@ -136,7 +136,7 @@ export async function edit_exercise(
 }
 
 /* Workout Functions - passes all unit tests */
-export async function get_workouts(client: Client, search_criteria: workout): Promise<workout>{
+export async function get_workouts(client: Client, search_criteria: workout): Promise<any>{
   let conditions: Array<string> = [];
   let values_workout: Array<any> = [];
   let index = 1;
@@ -176,7 +176,8 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
 
   // get all exercises for each workout
   const sql_exercises: string = "SELECT * FROM public.exercises WHERE uid = ANY($1)";
-  workout_without_exercises.map(async (workout: workout) => {
+
+  const workoutsWithExercises = await Promise.all(workout_without_exercises.map(async (workout: workout) => {
     const query_exercises = {
       text: sql_exercises,
       values: [workout.exercise_arr],
@@ -184,10 +185,10 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
 
     const exercises = await query_db(client, query_exercises);
     workout.exercise_arr = exercises;
-  });
+    return workout;
+  }));
 
-
-  return workout_without_exercises;
+  return workoutsWithExercises;
 }
 
 export async function create_workout(client: Client, new_workout: workout): Promise<string | undefined>{
