@@ -1,7 +1,7 @@
-import activate_db from "../../server/db"
+import activate_db from "@/db"
 import { Client } from "pg";
-import { get_exercises } from "../../server/dbBI";
-import { exercise } from "../../server/DAO/exercise";
+import { get_exercises } from "@/dbBI";
+import { exercise } from "@/DAO/exercise";
 
 describe("get_exercises unit tests", () => {
     let client: Client;
@@ -35,6 +35,7 @@ describe("get_exercises unit tests", () => {
             uid: '22d65463-8176-4b0d-ba70-40ab5124cbda',
             exercise_name: 'calf raises',
             exercise_target: 'calves',
+            image_url: '',
             n_reps: 4,
             n_sets: 15,
             arr_keywords: [ 'calves', 'lower legs', 'hypertrophy' ],
