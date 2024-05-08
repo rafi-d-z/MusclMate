@@ -1,4 +1,4 @@
-import { isString } from "../../server/bi";
+import { isString } from "@/bi";
 
 describe("isString unit tests", () => {
     describe("should return true on correct input", () => {

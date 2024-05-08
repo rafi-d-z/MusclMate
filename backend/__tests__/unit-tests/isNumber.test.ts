@@ -1,4 +1,4 @@
-import { isNumber } from '../../server/bi';
+import { isNumber } from "@/bi";
 
 describe('isNumber', () => {
     test('should return true for valid numbers', () => {
