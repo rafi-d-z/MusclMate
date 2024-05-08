@@ -152,11 +152,11 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
     values_workout.push(search_criteria.workout_name);
   }
   if (search_criteria.exercise_arr.length > 0 && allowOthers) {
-  conditions.push(`exercise_arr && $${index++}`);
+  conditions.push(`exercise_arr = $${index++}`);
   values_workout.push(search_criteria.exercise_arr);
   }
   if (search_criteria.keywords.length > 0 && allowOthers) {
-    conditions.push(`keywords && $${index++}`);
+    conditions.push(`keywords = $${index++}`);
     values_workout.push(search_criteria.keywords);
   }
   
