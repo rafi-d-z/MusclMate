@@ -21,8 +21,8 @@ describe("get_workout unit tests", () => {
             exercise_arr: ["5442fc3c-bcb0-4ba0-87a3-a05e3186b298", "6d481883-a599-44d5-9c45-8e4f57e6d917"],
             keywords: ["unit-test", "unit-test", "unit-test", "edited-unit-test"],
         }
-        const result: workout = await get_workouts(client, new_workout);
-        
-        expect(result.exercise_arr.length).toStrictEqual(2);
+
+        const result: Array<workout> = await get_workouts(client, new_workout);
+        expect(result.length).toStrictEqual(1);
     })
 })
