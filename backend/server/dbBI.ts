@@ -41,6 +41,10 @@ export async function get_exercises(
     conditions.push(`exercise_target = $${index++}`);
     values.push(exerciseQuery.exercise_target);
   }
+  if (exerciseQuery.image_url != "") {
+    conditions.push(`image_url = $${index++}`);
+    values.push(exerciseQuery.image_url);
+  }
   if (exerciseQuery.n_reps > 0) {
     conditions.push(`n_reps = $${index++}`);
     values.push(exerciseQuery.n_reps);
@@ -57,6 +61,7 @@ export async function get_exercises(
     conditions.push(`weight = $${index++}`);
     values.push(exerciseQuery.weight);
   }
+  
 
   const sql_string = "SELECT * FROM public.exercises" + 
                       (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "");
