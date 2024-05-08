@@ -50,12 +50,6 @@ async function create_app(): Promise<Array<any>>{
     _res.status(500).send('Server Error: ' + _err.stack);
   });
 
-  app.use((_req, _res, next) => {
-    console.log(`Incoming Request Method: ${_req.method}, URL: ${_req.url}`);
-    console.log(`Content-Length: ${_req.headers['content-length']}`);
-    next();
-  });
-
   app.use(express.json({ limit: '10mb' })); 
   app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
@@ -70,7 +64,6 @@ async function create_app(): Promise<Array<any>>{
 
   app.get('/get_exercises', async (_req, _res) => {
     const query = _req.query;
-    console.log("incoming query", query);
     let exerciseQuery: exercise = {
       uid: "",
       exercise_name: "",
