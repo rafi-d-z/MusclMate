@@ -79,48 +79,157 @@ describe("Server Actions", () => {
 
   describe("Get /get_exercise", () => {
     // these test inputs are depricated
-    test("should return all exercises on empty body", async () => {
-      const query: object = {
-        uid: '',
-        exercise_name: '',
-        exercise_target: '',
-        image_url: '',
-        n_reps: 0,
-        n_sets: 0,
-        weight: 0,
-        arr_keywords: [],
-      }
+    describe("valid requests", () => {
+      test("should return all exercises on empty body", async () => {
+        const query: exercise = {
+          uid: '',
+          exercise_name: '',
+          exercise_target: '',
+          image_url: '',
+          n_reps: 0,
+          n_sets: 0,
+          weight: 0,
+          arr_keywords: [],
+        }
 
-      await request(app).get('/get_exercises').query(query).expect((res) => {
-        expect(res.body).toBeInstanceOf(Array);
-      }).catch(()=>{
-        console.error("Error in get_exercises empty body")
-      })
+        await request(app).get('/get_exercises').query(query).expect((res) => {
+          expect(res.body).toBeInstanceOf(Array);
+        }).catch(()=>{
+          console.error("Error in get_exercises empty body")
+        })
+      });
+
+      test("should return information given proper input", async () => {
+        await request(app)
+          .get(`/get_exercise`)
+          .send({
+            uid: "33628bab-142e-49cd-b752-30d5dfd8f093",
+          })
+          .expect(200);
+      });
     });
-    // test("should return invalid target is not a string", async () => {
-    //   await request(app).get('/get_exercise').send({
-    //     target: 123,
-    //     keywords: ['value1', 'value2']
-    //   }).expect(404);
-    // });
 
+    describe("invalid requests", () => {
+      test("should return invalid uid is not a string", async () => {
+        const query: object = {
+          uid: 123456,
+          exercise_name: '',
+          exercise_target: '',
+          image_url: '',
+          n_reps: 0,
+          n_sets: 0,
+          weight: 0,
+          arr_keywords: JSON.stringify([]),
+        }
 
-    // test("should return invalid uid is not a string", async () => {
-    //   await request(app)
-    //     .get("/get_exercise")
-    //     .send({
-    //       uid: 123,
-    //     })
-    //     .expect(404);
-    // });
-    // test("should return information given proper input", async () => {
-    //   await request(app)
-    //     .get(`/get_exercise`)
-    //     .send({
-    //       uid: "33628bab-142e-49cd-b752-30d5dfd8f093",
-    //     })
-    //     .expect(200);
-    // });
+        await request(app).get('/get_exercises').query(query).expect(400);
+      });
+
+      test("should return invalid exercise_name is not a string", async () => {
+        const query: any = {
+          uid: '',
+          exercise_name: 1234234234,
+          exercise_target: '',
+          image_url: '',
+          n_reps: 0,
+          n_sets: 0,
+          weight: 0,
+          arr_keywords: JSON.stringify([]),
+        }
+
+        await request(app).get("/get_exercises").query(query).expect(400);
+      });
+
+      test("should return invalid exercise_target is not a string", async () => {
+        const query: any = {
+          uid: '',
+          exercise_name: '',
+          exercise_target: 1234234234,
+          image_url: '',
+          n_reps: 0,
+          n_sets: 0,
+          weight: 0,
+          arr_keywords: JSON.stringify([]),
+        }
+
+        await request(app).get("/get_exercises").query(query).expect(400);
+      });
+
+      test("should return invalid image_url is not a string", async () => {
+        const query: any = {
+          uid: '',
+          exercise_name: '',
+          exercise_target: '',
+          image_url: 1234234234,
+          n_reps: 0,
+          n_sets: 0,
+          weight: 0,
+          arr_keywords: JSON.stringify([]),
+        }
+
+        await request(app).get("/get_exercises").query(query).expect(400);
+      });
+
+      test("should return invalid n_reps is not a number", async () => {
+        const query: any = {
+          uid: '',
+          exercise_name: '',
+          exercise_target: '',
+          image_url: '',
+          n_reps: "not a number",
+          n_sets: 0,
+          weight: 0,
+          arr_keywords: JSON.stringify([]),
+        }
+
+        await request(app).get("/get_exercises").query(query).expect(400);
+      });
+
+      test("should return invalid n_sets is not a number", async () => {
+        const query: any = {
+          uid: '',
+          exercise_name: '',
+          exercise_target: '',
+          image_url: '',
+          n_reps: 0,
+          n_sets: "not a number",
+          weight: 0,
+          arr_keywords: JSON.stringify([]),
+        }
+
+        await request(app).get("/get_exercises").query(query).expect(400);
+      });
+
+      test("should return invalid weight is not a number", async () => {
+        const query: any = {
+          uid: '',
+          exercise_name: '',
+          exercise_target: '',
+          image_url: '',
+          n_reps: 0,
+          n_sets: 0,
+          weight: "not a number",
+          arr_keywords: JSON.stringify([]),
+        }
+
+        await request(app).get("/get_exercises").query(query).expect(400);
+      });
+
+      test("should return invalid arr_keywords is not an array", async () => {
+        const query: any = {
+          uid: '',
+          exercise_name: '',
+          exercise_target: '',
+          image_url: '',
+          n_reps: 0,
+          n_sets: 0,
+          weight: 0,
+          arr_keywords: "not an array",
+        }
+
+        await request(app).get("/get_exercises").query(query).expect(400);
+      });
+    });
   });
 
   describe("Get /get_workouts", () => {
