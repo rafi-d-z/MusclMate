@@ -13,6 +13,12 @@ describe("isArray unit tests", () => {
             const result: Boolean = isArray(input);
             expect(result).toStrictEqual(true);
         });
+
+        test("JSON string array", () => {
+            const input: string = JSON.stringify(["hello", "world"]);
+            const result: Boolean = isArray(input);
+            expect(result).toStrictEqual(true);
+        });
     });
 
     describe("should return false on incorrect input", () => {
