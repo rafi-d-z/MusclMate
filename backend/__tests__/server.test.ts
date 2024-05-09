@@ -9,7 +9,6 @@ import { only } from "node:test";
 describe("Server Actions", () => {
   let appClient: Array<any>;
   let app: express.Application;
-  let client: Client;
   let uid: number | null = null;
 
   beforeAll(async () => {
