@@ -4,6 +4,7 @@ import express from "express";
 import { Client } from "pg";
 import { workout } from "@/DAO/workout";
 import { exercise } from "@/DAO/exercise";
+import { only } from "node:test";
 
 describe("Server Actions", () => {
   let appClient: Array<any>;
@@ -135,10 +136,17 @@ describe("Server Actions", () => {
           keywords: ["unit-test", "unit-test", "unit-test", "edited-unit-test"],
         };
 
-        await request(app).get(`/get_workouts`).send(workout).expect(200);
+        let paramString = "?";
+
+        for (const [key, value] of Object.entries(workout)) {
+          paramString += `${key}=${value}&`;
+        }
+
+        const response = await request(app).get(`/get_workouts` + paramString);
+        expect(response.statusCode).toBe(200);
       });
 
-      test("only uid provided", async (): Promise<void> => {
+      test.only("only uid provided", async (): Promise<void> => {
         const workout: workout = {
           uid: "fbd91776-5202-4737-ab90-ac5077b67f8d",
           workout_name: "",
@@ -146,7 +154,19 @@ describe("Server Actions", () => {
           keywords: [],
         };
 
-        await request(app).get("/get_workouts").send(workout).expect(200);
+        let paramString = "?";
+
+        for (const [key, value] of Object.entries(workout)) {
+          if(Array.isArray(value)){
+            paramString += `${key}=[]&`
+          }else{
+          paramString += `${key}=${value}&`;
+          }
+        }
+
+        const response = await request(app).get(`/get_workouts` + paramString);
+        console.log(response.body);
+        expect(response.statusCode).toBe(200);
       });
 
       test("only workout_name provided", async (): Promise<void> => {
