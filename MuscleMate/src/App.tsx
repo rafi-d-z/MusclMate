@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import muscleLogo from "./assets/MuscleLogo.png";
 import { Menubar } from "@/components/ui/menubar";
 import axios from "axios";
+import exercise from "../DAO/exercise";
 
 interface CardData {
   name: string;
@@ -24,7 +25,15 @@ interface CardData {
 }
 
 function MainMenu() {
-  const [selectedCard, setSelectedCard] = useState("");
+  const [selectedCard, setSelectedCard] = useState<exercise>({
+    uid: "",
+    exercise_name: "",
+    exercise_target: "",
+    image_url: "",
+    n_reps: 0,
+    n_sets: 0,
+    weight: 0,
+  });
   const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
 
   // fetch all data
@@ -34,13 +43,20 @@ function MainMenu() {
 
       axios({
         method: "get",
-        url: "https://api-muscleman.com/get_mock_exercise",
+        url: "https://api-muscleman.com/get_exercises",
         params: {
-          type: selectedCard,
+          uid: selectedCard.uid,
+          exercise_name: selectedCard.exercise_name,
+          exercise_target: selectedCard.exercise_target,
+          image_url: selectedCard.image_url,
+          n_reps: selectedCard.n_reps,
+          n_sets: selectedCard.n_sets,
+          weight: selectedCard.weight,
         },
       })
         .then(function (response) {
           setSelectedCardData(response.data);
+          console.log("Data:", response.data);
         })
         .catch((res) => {
           console.error("Error connecting to server,", res);
