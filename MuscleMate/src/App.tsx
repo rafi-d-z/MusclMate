@@ -34,7 +34,11 @@ function MainMenu() {
     n_sets: 0,
     weight: 0,
   });
+<<<<<<< HEAD
   const [selectedCardData, setSelectedCardData] = useState<exercise[]>([]);
+=======
+  const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
 
   // fetch all data
   useEffect(() => {
@@ -56,7 +60,11 @@ function MainMenu() {
       })
         .then(function (response) {
           setSelectedCardData(response.data);
+<<<<<<< HEAD
           console.log("Data: ", response.data);
+=======
+          console.log("Data:", response.data);
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
         })
         .catch((res) => {
           console.error("Error connecting to server,", res);

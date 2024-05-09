@@ -36,11 +36,29 @@ import { Menubar } from "./components/ui/menubar"
 import muscleLogo from './assets/MuscleLogo.png'
 import axios from 'axios';
 import './App.css'
+<<<<<<< HEAD
 import { exercise } from "DAO/exercise"
 
 
 function Exercise() {
   const [selectedCard, setSelectedCard] = useState<exercise>( {
+=======
+//import {exercise} from "DAO/exercise"
+
+
+interface CardData {
+  name: string,
+  uid: number,
+  type: string,
+  reps: number
+  sets: number,
+  url: string
+}
+
+
+function Exercise() {
+  const [selectedCard, setSelectedCard] = useState( {
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
           uid: "",
           exercise_name: "",
           exercise_target: "",
@@ -50,7 +68,11 @@ function Exercise() {
           weight: 0,
           arr_keywords: []
   });
+<<<<<<< HEAD
   const [selectedCardData, setSelectedCardData] = useState<exercise[]>([]);
+=======
+  const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +80,11 @@ function Exercise() {
 
       axios({
         method: "get",
+<<<<<<< HEAD
         url: "https://api-muscleman.com/get_exercises",
+=======
+        url: "https://api-muscleman.com/get_mock_exercise",
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
         params: {
           uid: selectedCard.uid,
           exercise_name: selectedCard.exercise_name,
@@ -72,7 +98,10 @@ function Exercise() {
       })
         .then(function (response) {
           setSelectedCardData(response.data);
+<<<<<<< HEAD
           console.log("Data: ", response.data)
+=======
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
         })
         .catch((res) => {
           console.error("Error connecting to server,", res);
@@ -82,6 +111,7 @@ function Exercise() {
     fetchData();
   }, [selectedCard]);
 
+<<<<<<< HEAD
   useEffect(() => {
     const fetchData = async () => {
       console.log("Type:", selectedCard);
@@ -107,6 +137,8 @@ function Exercise() {
           console.error("Error connecting to server,", res);
         });
     };
+=======
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
 
     fetchData();
   }, [selectedCard]);
@@ -115,6 +147,7 @@ function Exercise() {
     const fetchData = async () => {
       console.log("Type:", selectedCard);
 
+<<<<<<< HEAD
       axios({
         method: "delete",
         url: "https://api-muscleman.com/delete_exercise",
@@ -136,10 +169,18 @@ function Exercise() {
           console.error("Error connecting to server,", res);
         });
     };
+=======
+  const [exerciseName, setExerciseName] = useState('data.name');
+  const [reps, setReps] = useState('data.reps');
+  const [sets, setSets] = useState('data.sets');
+  const [weight, setWeight] = useState('none');
+  const [, setIsPopoverOpen] = useState(false);
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
 
     fetchData();
   }, [selectedCard]);
 
+<<<<<<< HEAD
   const [exerciseName, setExerciseName] = useState('data.name');
   const [reps, setReps] = useState('data.reps');
   const [sets, setSets] = useState('data.sets');
@@ -167,11 +208,39 @@ function Exercise() {
     value = value + ' lbs';
     setWeight(value);
   };
+=======
+  const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
+    setReps(value);
+  };
 
+
+  const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
+    setSets(value);
+  };
+
+
+  const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
+    value = value + ' lbs';
+    setWeight(value);
+  };
+
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
 
   const handleAddNewExercise = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
+<<<<<<< HEAD
+  const handleAddNewExercise = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+=======
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
 
     const exercise = {
       name: exerciseName,
@@ -202,8 +271,13 @@ function Exercise() {
     updatedData.splice(index, 1);
     setSelectedCardData(updatedData);
   };
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
   return (
     <>
       <div className="flex items-center justify-between p-8 lg:px-8">
@@ -214,7 +288,11 @@ function Exercise() {
         </div>
       </div>
 
+<<<<<<< HEAD
       <Tabs defaultValue="" className="w-[1200px]">
+=======
+      <Tabs defaultValue={selectedCard.exercise_target} className="w-[1200px]">
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="" onClick={() => setSelectedCard({ ...selectedCard, exercise_target: '' })}>Trending</TabsTrigger>
           <TabsTrigger value="arms" onClick={() => setSelectedCard({ ...selectedCard, exercise_target: 'arms' })}>Arms</TabsTrigger>
@@ -222,12 +300,21 @@ function Exercise() {
           <TabsTrigger value="chest" onClick={() => setSelectedCard({ ...selectedCard, exercise_target: 'chest' })}>Chest</TabsTrigger>
           <TabsTrigger value="back" onClick={() => setSelectedCard({ ...selectedCard, exercise_target: 'back' })}>Back</TabsTrigger>
         </TabsList>
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
 
         <TabsContent value={selectedCard.exercise_target} className="grid grid-cols-5 gap-10">
           <NewExerciseCard />
           {(selectedCard.exercise_target === "" ? selectedCardData // If "Trending" tab is selected, render all cards
+<<<<<<< HEAD
             : selectedCardData.filter(data => data.exercise_target === selectedCard.exercise_target)) // Otherwise, filter the data based on the selected exercise target
           .map((data, index) => (
+=======
+            : selectedCardData.filter(data => data.type === selectedCard.exercise_target)) // Otherwise, filter the data based on the selected exercise target
+            .map((data, index) => (
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
             <Card key={index}>
               <CardHeader>
                 <div className="relative">
@@ -238,11 +325,19 @@ function Exercise() {
                     <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
                   </button>
                 </div>
+<<<<<<< HEAD
                 <CardTitle>{data.exercise_name}</CardTitle>
                 <CardDescription>{data.exercise_target}</CardDescription>
               </CardHeader>
               <CardContent>
                 <img src={data.image_url}></img>
+=======
+                <CardTitle>{data.name}</CardTitle>
+                <CardDescription>{data.type}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <img src={data.url}></img>
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
               </CardContent>
               <CardFooter className="relative">
                 <div className="absolute bottom-0 right-0 mb-2 mr-2">
@@ -299,7 +394,11 @@ function Exercise() {
 
                   </Popover>
                 </div>
+<<<<<<< HEAD
                 {data.n_reps}/{data.n_sets}
+=======
+                {data.reps}/{data.sets}
+>>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
               </CardFooter>
 
             </Card>
