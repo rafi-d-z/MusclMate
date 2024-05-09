@@ -23,5 +23,5 @@ jobs:
         working-directory: backend/__tests__
         
       - name: Run testDatabase.ts
-        run: npx ts-node testDatabase.ts
-        working-directory: backend/__tests__
+        run: npx ts-node __tests__/testDatabase.ts
+        working-directory: backend
