@@ -146,7 +146,7 @@ describe("Server Actions", () => {
         expect(response.statusCode).toBe(200);
       });
 
-      test.only("only uid provided", async (): Promise<void> => {
+      test("only uid provided", async (): Promise<void> => {
         const workout: workout = {
           uid: "fbd91776-5202-4737-ab90-ac5077b67f8d",
           workout_name: "",
