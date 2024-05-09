@@ -34,32 +34,142 @@ describe("Server Actions", () => {
   });
 
   describe("Post /create_exercise", () => {
-    // test("valid input in exercises table", async () => {
-    //   await request(app)
-    //     .post("/create_exercise")
-    //     .send({
-    //       name: "test",
-    //       target: "abs",
-    //       reps: 10,
-    //       sets: 3,
-    //       keywords: ["value1", "value2"],
-    //       weight: 10,
-    //     })
-    //     .expect(200)
-    //     .then((res) => {
-    //       uid = res.body.uid;
-    //     });
-    // });
+    test('valid input in exercises table', async () => {
+      await request(app)
+        .post("/create_exercise")
+        .send({
+          "uid": "",
+          "exercise_name": "hip thurst",
+          "exercise_target": "legs",
+          "n_reps": 10,
+          "n_sets": 3,
+          "arr_keywords": [
+              "legs",
+              "quads",
+              "glutes",
+              "strength"
+          ],
+          "weight": 185,
+          "image_url": ""
+         })
+         .expect(200)
+         .then((res) => {
+           uid = res.body.uid;
+         });
+    })
+
+    test('valid input in exercises table without exercise name', async () => {
+      await request(app)
+        .post("/create_exercise")
+        .send({
+          "uid": "",
+          "exercise_name": "",
+          "exercise_target": "legs",
+          "n_reps": 10,
+          "n_sets": 3,
+          "arr_keywords": [
+              "legs",
+              "quads",
+              "glutes",
+              "strength"
+          ],
+          "weight": 185,
+          "image_url": ""
+         })
+         .expect(200)
+         .then((res) => {
+           uid = res.body.uid;
+         });
+    })
+
+    test('valid input in exercises table without exercise target', async () => {
+      await request(app)
+        .post("/create_exercise")
+        .send({
+          "uid": "",
+          "exercise_name": "hip thurst",
+          "exercise_target": "",
+          "n_reps": 10,
+          "n_sets": 3,
+          "arr_keywords": [
+              "legs",
+              "quads",
+              "glutes",
+              "strength"
+          ],
+          "weight": 185,
+          "image_url": ""
+         })
+         .expect(200)
+         .then((res) => {
+           uid = res.body.uid;
+         });
+    })
+
+    test('valid input in exercises table without keywords', async () => {
+      await request(app)
+        .post("/create_exercise")
+        .send({
+          "uid": "",
+          "exercise_name": "hip thurst",
+          "exercise_target": "legs",
+          "n_reps": 10,
+          "n_sets": 3,
+          "arr_keywords": [],
+          "weight": 185,
+          "image_url": ""
+         })
+         .expect(200)
+         .then((res) => {
+           uid = res.body.uid;
+         });
+    })
+
+
     test("invalid input", async () => {
       await request(app)
         .post("/create_exercise")
         .send({
-          name: "ur mom",
-          target: "abs",
-          reps: 10,
-          sets: 3,
-          keywords: encodeURIComponent(JSON.stringify("notAnArray")),
-          weight: "poo poo",
+          "uid": "",
+          "exercise_name": "hip thurst",
+          "exercise_target": "legs",
+          "n_reps": 10,
+          "n_sets": 3,
+          "arr_keywords": encodeURIComponent(JSON.stringify("notAnArray")),
+          "weight": 185,
+          "image_url": ""
+        })
+        .expect(400);
+    });
+
+    test.only("invalid input with numbers", async () => {
+      await request(app)
+        .post("/create_exercise")
+        .send({
+          "uid": "",
+          "exercise_name": "hip thurst",
+          "exercise_target": "legs",
+          "n_reps": 'kendrick lamar',
+          "n_sets": 'k.dot',
+          "arr_keywords": [],
+          "weight": 'kung fu kenny',
+          "image_url": ""
+        })
+        .expect(400);
+    });
+
+    test.only("invalid input for not strings", async () => {
+      await request(app)
+        .post("/create_exercise")
+        .send({
+          "uid": "",
+          "exercise_name": 69,
+          "exercise_target": 69,
+          "n_reps": 10,
+          "n_sets": 3,
+          "arr_keywords": [],
+          "weight": 185,
+          "image_url": ""
         })
         .expect(400);
     });
