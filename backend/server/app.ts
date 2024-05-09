@@ -6,7 +6,8 @@ import cors from "cors";
 import { isArray, isString, toNumber, getWorkoutQueries, getExerciseQueries } from "./bi";
 import activate_db from "./db";
 import fs from "fs";
-import { exercise } from './DAO/exercise';
+import exercise from './DAO/exercise';
+import workout from "./DAO/workout";
 import {
   create_exercise,
   delete_exercise,
@@ -17,7 +18,6 @@ import {
   edit_workout,
   delete_workout
 } from "./dbBI";
-import { workout } from "./DAO/workout";
 
 dotenv.config();
 

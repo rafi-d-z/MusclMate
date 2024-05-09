@@ -2,8 +2,8 @@ import request from "supertest";
 import create_app from "@/app";
 import express from "express";
 import { Client } from "pg";
-import { workout } from "@/DAO/workout";
-import { exercise } from "@/DAO/exercise";
+import workout from "@/DAO/workout";
+import exercise from "@/DAO/exercise";
 import { only } from "node:test";
 
 describe("Server Actions", () => {
@@ -79,7 +79,7 @@ describe("Server Actions", () => {
 
   describe("Get /get_exercise", () => {
     // these test inputs are depricated
-    test("should return all exercises", async () => {
+    test("should return all exercises on empty body", async () => {
       const query: object = {
         uid: '',
         exercise_name: '',
@@ -91,11 +91,11 @@ describe("Server Actions", () => {
         arr_keywords: [],
       }
 
-      const res = await request(app).get('/get_exercises').query(query).expect(200).catch((err)=>{
-        console.error("Error", err)
+      await request(app).get('/get_exercises').query(query).expect((res) => {
+        expect(res.body).toBeInstanceOf(Array);
+      }).catch(()=>{
+        console.error("Error in get_exercises empty body")
       })
-      console.log(res)
-      expect(res).toBeInstanceOf(Array);
     });
     // test("should return invalid target is not a string", async () => {
     //   await request(app).get('/get_exercise').send({

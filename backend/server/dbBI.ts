@@ -1,6 +1,6 @@
 import { Client } from "pg";
-import { exercise } from "./DAO/exercise";
-import { workout } from "./DAO/workout";
+import exercise from "./DAO/exercise";
+import workout from "./DAO/workout";
 
 /* Exercise Functions -- old (have no unit tests) */
 export async function get_exercise_by_uid(

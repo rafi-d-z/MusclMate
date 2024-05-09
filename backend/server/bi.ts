@@ -1,5 +1,5 @@
-import { workout } from './DAO/workout';
-import { exercise } from './DAO/exercise';
+import workout from './DAO/workout';
+import exercise from './DAO/exercise';
 
 /**
  * returns if input is a string - not even a string representation of a number
