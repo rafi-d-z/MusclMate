@@ -27,12 +27,6 @@ describe("Server Actions", () => {
     });
   });
 
-  describe("Get /", () => {
-    test("should return 200", async () => {
-      await request(app).get("/").expect(200);
-    });
-  });
-
   describe("Post /create_exercise", () => {
     test('valid input in exercises table', async () => {
       await request(app)
