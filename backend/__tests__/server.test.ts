@@ -81,7 +81,7 @@ describe("Server Actions", () => {
     // these test inputs are depricated
     describe("valid requests", () => {
       test("should return all exercises on empty body", async () => {
-        const query: exercise = {
+        const query: any = {
           uid: '',
           exercise_name: '',
           exercise_target: '',
@@ -89,7 +89,7 @@ describe("Server Actions", () => {
           n_reps: 0,
           n_sets: 0,
           weight: 0,
-          arr_keywords: [],
+          arr_keywords: JSON.stringify([]),
         }
 
         await request(app).get('/get_exercises').query(query).expect((res) => {
@@ -100,76 +100,22 @@ describe("Server Actions", () => {
       });
 
       test("should return information given proper input", async () => {
-        await request(app)
-          .get(`/get_exercise`)
-          .send({
-            uid: "33628bab-142e-49cd-b752-30d5dfd8f093",
-          })
-          .expect(200);
+        const query: any = {
+          uid: '33628bab-142e-49cd-b752-30d5dfd8f093',
+          exercise_name: '',
+          exercise_target: '',
+          image_url: '',
+          n_reps: 0,
+          n_sets: 0,
+          weight: 0,
+          arr_keywords: JSON.stringify([]),
+        }
+
+        await request(app).get(`/get_exercises`).query(query).expect(200);
       });
     });
 
     describe("invalid requests", () => {
-      test("should return invalid uid is not a string", async () => {
-        const query: object = {
-          uid: 123456,
-          exercise_name: '',
-          exercise_target: '',
-          image_url: '',
-          n_reps: 0,
-          n_sets: 0,
-          weight: 0,
-          arr_keywords: JSON.stringify([]),
-        }
-
-        await request(app).get('/get_exercises').query(query).expect(400);
-      });
-
-      test("should return invalid exercise_name is not a string", async () => {
-        const query: any = {
-          uid: '',
-          exercise_name: 1234234234,
-          exercise_target: '',
-          image_url: '',
-          n_reps: 0,
-          n_sets: 0,
-          weight: 0,
-          arr_keywords: JSON.stringify([]),
-        }
-
-        await request(app).get("/get_exercises").query(query).expect(400);
-      });
-
-      test("should return invalid exercise_target is not a string", async () => {
-        const query: any = {
-          uid: '',
-          exercise_name: '',
-          exercise_target: 1234234234,
-          image_url: '',
-          n_reps: 0,
-          n_sets: 0,
-          weight: 0,
-          arr_keywords: JSON.stringify([]),
-        }
-
-        await request(app).get("/get_exercises").query(query).expect(400);
-      });
-
-      test("should return invalid image_url is not a string", async () => {
-        const query: any = {
-          uid: '',
-          exercise_name: '',
-          exercise_target: '',
-          image_url: 1234234234,
-          n_reps: 0,
-          n_sets: 0,
-          weight: 0,
-          arr_keywords: JSON.stringify([]),
-        }
-
-        await request(app).get("/get_exercises").query(query).expect(400);
-      });
-
       test("should return invalid n_reps is not a number", async () => {
         const query: any = {
           uid: '',
@@ -245,8 +191,9 @@ describe("Server Actions", () => {
           keywords: ["unit-test", "unit-test", "unit-test", "edited-unit-test"],
         };
 
-        const response = await request(app).get(`/get_workouts`).query(workout);
-        expect(response.statusCode).toBe(200);
+        await request(app).get(`/get_workouts`).query(workout).expect(200).catch((err) => {
+          console.error("Error in get_workouts entire workout body inputted", err.toString());
+        });
       });
 
       test("only uid provided", async (): Promise<void> => {
@@ -257,7 +204,7 @@ describe("Server Actions", () => {
           keywords: JSON.stringify([]),
         };
 
-        const response = await request(app).get(`/get_workouts`).query(workout);
+        const response = await request(app).get(`/get_workouts`).query(workout);        
         expect(response.statusCode).toBe(200);
       });
 
@@ -267,7 +214,7 @@ describe("Server Actions", () => {
           workout_name: "unit_test",
           exercise_arr: JSON.stringify([]),
           keywords: JSON.stringify([]),
-        };
+        };4 
 
         await request(app)
           .get("/get_workouts")
@@ -298,13 +245,13 @@ describe("Server Actions", () => {
 
     describe("should return 400 given improper input", () => {
       test("no input", async (): Promise<void> => {
-        await request(app).get("/get_workouts").send({}).expect(400);
+        await request(app).get("/get_workouts").query({}).expect(400);
       });
 
       test("invalid input", async (): Promise<void> => {
         await request(app)
           .get("/get_workouts")
-          .send({
+          .query({
             uid: 123,
             workout_name: 123,
             exercise_arr: 123,

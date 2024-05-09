@@ -40,7 +40,7 @@ async function create_app(): Promise<Array<any>>{
   app.use(express.json());
 
   app.use((_err: Error, _req: Request, _res: Response, _next: NextFunction) => {
-    console.error(_err.stack);
+    // console.error(_err.stack);
     _res.status(500).send('Server Error: ' + _err.stack);
   });
 
@@ -48,7 +48,7 @@ async function create_app(): Promise<Array<any>>{
   app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
   app.use((_err: Error, _req: Request, _res: Response, _next: NextFunction) => {
-    console.error(_err.stack);
+    // console.error(_err.stack);
     _res.status(500).send('Server Error: ' + _err.stack);
   });
 
@@ -72,7 +72,7 @@ async function create_app(): Promise<Array<any>>{
     try{
       exerciseQuery = await getExerciseQueries(query);
     }catch(err: any){
-      console.error("error", err.toString());
+      // console.error("error", err.toString());
       _res.status(400).end(err.toString());
       return;
     }
@@ -125,7 +125,7 @@ async function create_app(): Promise<Array<any>>{
       res = await create_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
     }catch(err: any){
-      console.error(err);
+      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }
@@ -162,7 +162,7 @@ async function create_app(): Promise<Array<any>>{
       res = await delete_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
     }catch(err: any){
-      console.error(err);
+      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }
@@ -199,7 +199,7 @@ async function create_app(): Promise<Array<any>>{
       res = await edit_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
     }catch(err: any){
-      console.error(err);
+      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }
@@ -236,9 +236,6 @@ async function create_app(): Promise<Array<any>>{
   //* workout routes *//
   app.get("/get_workouts", async (_req, _res) => {
     const query = _req.query;
-
-    console.log("query", query);
-
     let workoutQuery: workout = {
       uid: "",
       workout_name: "",
@@ -263,7 +260,7 @@ async function create_app(): Promise<Array<any>>{
       res = await get_workouts(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      console.error(err);
+      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }
@@ -294,7 +291,7 @@ async function create_app(): Promise<Array<any>>{
       res = await create_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      console.error(err);
+      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }
@@ -325,7 +322,7 @@ async function create_app(): Promise<Array<any>>{
       res = await edit_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      console.error(err);
+      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }
@@ -356,7 +353,7 @@ async function create_app(): Promise<Array<any>>{
       res = await delete_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      console.error(err);
+      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }

@@ -126,7 +126,6 @@ export function getWorkoutQueries(query: any): workout {
 
 export function getExerciseQueries(query: any): exercise {
   // console.log(query)
-  // query = JSON.parse(decodeURIComponent(query))
   console.log("decoded:", query)
   if(
     query.uid === undefined ||
