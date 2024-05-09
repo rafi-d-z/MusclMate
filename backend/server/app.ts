@@ -131,7 +131,7 @@ async function create_app(): Promise<Array<any>>{
     }
   })
 
-  app.post("/delete_exercise", async (_req, _res) => {
+  app.delete("/delete_exercise", async (_req, _res) => {
     const query = _req.body;
     let exerciseQuery: exercise = {
       uid: "",

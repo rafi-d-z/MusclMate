@@ -137,90 +137,6 @@ describe("Server Actions", () => {
     });
   });
 
-  describe("Get /get_workouts", () => {
-    describe("should return information given proper input", () => {
-      test("entire workout body inputted", async (): Promise<void> => {
-        const workout: workout = {
-          uid: "fbd91776-5202-4737-ab90-ac5077b67f8d",
-          workout_name: "unit_test-EDITED",
-          exercise_arr: [
-            "5442fc3c-bcb0-4ba0-87a3-a05e3186b298",
-            "6d481883-a599-44d5-9c45-8e4f57e6d917",
-          ],
-          keywords: ["unit-test", "unit-test", "unit-test", "edited-unit-test"],
-        };
-
-        await request(app).get(`/get_workouts`).query(workout).expect(200).catch((err) => {
-          console.error("Error in get_workouts entire workout body inputted", err.toString());
-        });
-      });
-
-      test("only uid provided", async (): Promise<void> => {
-        const workout: object = {
-          uid: "fbd91776-5202-4737-ab90-ac5077b67f8d",
-          workout_name: "",
-          exercise_arr: JSON.stringify([]),
-          keywords: JSON.stringify([]),
-        };
-
-        const response = await request(app).get(`/get_workouts`).query(workout);        
-        expect(response.statusCode).toBe(200);
-      });
-
-      test("only workout_name provided", async (): Promise<void> => {
-        const workout: object = {
-          uid: "",
-          workout_name: "unit_test",
-          exercise_arr: JSON.stringify([]),
-          keywords: JSON.stringify([]),
-        };4 
-
-        await request(app)
-          .get("/get_workouts")
-          .query(workout)
-          .expect(200)
-          .then((res) => {
-            expect(typeof res.body).toBe("object");
-          });
-      });
-
-      test("empty workout body provided", async (): Promise<void> => {
-        const workout: object = {
-          uid: "",
-          workout_name: "",
-          exercise_arr: JSON.stringify([]),
-          keywords: JSON.stringify([]),
-        };
-
-        await request(app)
-          .get("/get_workouts")
-          .query(workout)
-          .expect(200)
-          .then((res: any) => {
-            expect(typeof res.body).toBe("object");
-          });
-      });
-    });
-
-    describe("should return 400 given improper input", () => {
-      test("no input", async (): Promise<void> => {
-        await request(app).get("/get_workouts").query({}).expect(400);
-      });
-
-      test("invalid input", async (): Promise<void> => {
-        await request(app)
-          .get("/get_workouts")
-          .query({
-            uid: 123,
-            workout_name: 123,
-            exercise_arr: 123,
-            keywords: 123,
-          })
-          .expect(400);
-      });
-    });
-  });
-
   describe("Post /create_exercise", () => {
     test('valid input in exercises table', async () => {
       await request(app)
@@ -362,4 +278,90 @@ describe("Server Actions", () => {
         .expect(400);
     });
   });
+
+
+  describe("Get /get_workouts", () => {
+    describe("should return information given proper input", () => {
+      test("entire workout body inputted", async (): Promise<void> => {
+        const workout: workout = {
+          uid: "fbd91776-5202-4737-ab90-ac5077b67f8d",
+          workout_name: "unit_test-EDITED",
+          exercise_arr: [
+            "5442fc3c-bcb0-4ba0-87a3-a05e3186b298",
+            "6d481883-a599-44d5-9c45-8e4f57e6d917",
+          ],
+          keywords: ["unit-test", "unit-test", "unit-test", "edited-unit-test"],
+        };
+
+        await request(app).get(`/get_workouts`).query(workout).expect(200).catch((err) => {
+          console.error("Error in get_workouts entire workout body inputted", err.toString());
+        });
+      });
+
+      test("only uid provided", async (): Promise<void> => {
+        const workout: object = {
+          uid: "fbd91776-5202-4737-ab90-ac5077b67f8d",
+          workout_name: "",
+          exercise_arr: JSON.stringify([]),
+          keywords: JSON.stringify([]),
+        };
+
+        const response = await request(app).get(`/get_workouts`).query(workout);        
+        expect(response.statusCode).toBe(200);
+      });
+
+      test("only workout_name provided", async (): Promise<void> => {
+        const workout: object = {
+          uid: "",
+          workout_name: "unit_test",
+          exercise_arr: JSON.stringify([]),
+          keywords: JSON.stringify([]),
+        };4 
+
+        await request(app)
+          .get("/get_workouts")
+          .query(workout)
+          .expect(200)
+          .then((res) => {
+            expect(typeof res.body).toBe("object");
+          });
+      });
+
+      test("empty workout body provided", async (): Promise<void> => {
+        const workout: object = {
+          uid: "",
+          workout_name: "",
+          exercise_arr: JSON.stringify([]),
+          keywords: JSON.stringify([]),
+        };
+
+        await request(app)
+          .get("/get_workouts")
+          .query(workout)
+          .expect(200)
+          .then((res: any) => {
+            expect(typeof res.body).toBe("object");
+          });
+      });
+    });
+
+    describe("should return 400 given improper input", () => {
+      test("no input", async (): Promise<void> => {
+        await request(app).get("/get_workouts").query({}).expect(400);
+      });
+
+      test("invalid input", async (): Promise<void> => {
+        await request(app)
+          .get("/get_workouts")
+          .query({
+            uid: 123,
+            workout_name: 123,
+            exercise_arr: 123,
+            keywords: 123,
+          })
+          .expect(400);
+      });
+    });
+  });
+
 });
