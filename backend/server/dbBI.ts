@@ -116,7 +116,7 @@ export async function delete_exercise(
     const res = await query_db(client, query);
     return res;
   } catch(err: any){
-    return err;
+    return err.toString();
   }
 }
 
@@ -134,8 +134,13 @@ export async function edit_exercise(
     values: values
   }
 
-  const res = await query_db(client, query);
-  return res;
+  try{
+    const res = await query_db(client, query);
+    return res;
+  } catch (err: any) {
+    return err.toString();
+  }
+
 }
 
 /* Workout Functions - passes all unit tests */
