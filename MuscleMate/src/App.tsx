@@ -13,7 +13,6 @@ import { useState, useEffect } from "react";
 import muscleLogo from "./assets/MuscleLogo.png";
 import { Menubar } from "@/components/ui/menubar";
 import axios from "axios";
-import { exercise } from "@/DAO/exercise";
 
 interface CardData {
   name: string;
@@ -25,16 +24,7 @@ interface CardData {
 }
 
 function MainMenu() {
-  const [selectedCard, setSelectedCard] = useState<exercise>({
-    uid: "",
-    exercise_name: "",
-    exercise_target: "",
-    image_url: "",
-    n_reps: 0,
-    n_sets: 0,
-    weight: 0,
-  });
-
+  const [selectedCard, setSelectedCard] = useState("");
   const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
 
   // fetch all data
@@ -44,20 +34,13 @@ function MainMenu() {
 
       axios({
         method: "get",
-        url: "https://api-muscleman.com/get_exercises",
+        url: "https://api-muscleman.com/get_mock_exercise",
         params: {
-          uid: selectedCard.uid,
-          exercise_name: selectedCard.exercise_name,
-          exercise_target: selectedCard.exercise_target,
-          image_url: selectedCard.image_url,
-          n_reps: selectedCard.n_reps,
-          n_sets: selectedCard.n_sets,
-          weight: selectedCard.weight,
+          type: selectedCard,
         },
       })
         .then(function (response) {
           setSelectedCardData(response.data);
-          console.log("Data:", response.data);
         })
         .catch((res) => {
           console.error("Error connecting to server,", res);
@@ -78,7 +61,7 @@ function MainMenu() {
         </div>
       </div>
 
-      {/* <Tabs defaultValue={selectedCard} className="w-[1200px]">
+      <Tabs defaultValue={selectedCard} className="w-[1200px]">
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="" onClick={() => setSelectedCard("")}>
             Trending
@@ -113,7 +96,7 @@ function MainMenu() {
             </Card>
           ))}
         </TabsContent>
-      </Tabs> */}
+      </Tabs>
     </>
   );
 }
