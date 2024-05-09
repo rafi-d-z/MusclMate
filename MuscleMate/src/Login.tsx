@@ -40,7 +40,7 @@ const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" })
 })
 
-function Login() {
+function Auth() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

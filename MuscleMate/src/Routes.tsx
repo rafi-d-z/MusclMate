@@ -6,6 +6,7 @@ import config from "../auth/firebase.config";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from 'react';
 import { ReactNode } from 'react';
+import Exercise from "./Exercise";
 
 const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -46,6 +47,14 @@ const Routes = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Workout />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/exercise",
+    element: (
+      <ProtectedRoute>
+        <Exercise />
       </ProtectedRoute>
     ),
   },
