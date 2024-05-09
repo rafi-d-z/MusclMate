@@ -438,6 +438,25 @@ describe("Server Actions", () => {
             });
         });
       });
+
+      describe("invalid input", () => {
+        test("missing fields", async () => {
+          const exercise: any = {
+            uid: "",
+            exercise_name: "",
+            exercise_target: "",
+            n_reps: 0,
+            n_sets: 0,
+            weight: 0,
+            arr_keywords: JSON.stringify([]),
+          }
+
+          await request(app)
+            .delete("/delete_exercise")
+            .send(exercise)
+            .expect(400);
+        });
+      });
     });
   });
 
