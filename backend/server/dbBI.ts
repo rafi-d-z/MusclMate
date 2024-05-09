@@ -104,7 +104,7 @@ export async function delete_exercise(
   client: Client,
   exercise: exercise
 ) {
-  const sql: string = `DELETE FROM public.exercise WHERE uid = $1`;
+  const sql: string = `DELETE FROM public.exercises WHERE uid = $1`;
   const values = [exercise.uid];
 
   const query = {
@@ -112,8 +112,12 @@ export async function delete_exercise(
     values: values
   }
 
-  const res = await query_db(client, query);
-  return res;
+  try{
+    const res = await query_db(client, query);
+    return res;
+  } catch(err: any){
+    return err;
+  }
 }
 
 export async function edit_exercise(
