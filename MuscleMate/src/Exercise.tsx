@@ -163,7 +163,6 @@ function Exercise() {
 
   const handleDeleteCard = async (e: React.MouseEvent<HTMLButtonElement>, exercise_card: exercise) => {
     e.preventDefault();
-    console.log(exercise_card);
 
     axios.post("https://api-muscleman.com/delete_exercise", {
       uid: exercise_card.uid,
@@ -174,11 +173,10 @@ function Exercise() {
       n_sets: exercise_card.n_sets,
       weight: exercise_card.weight,
       arr_keywords: JSON.stringify(exercise_card.arr_keywords)
-      // }).then((response) => {
-      //   // since obj delted in selectedCardData array, remove it from array
-      //   const exerciseList = selectedCardData.filter(data => data.uid !== response.data);
-      //   setSelectedCardData(exerciseList);
-      //   console.log("Data: ", response.data);
+      }).then((response) => {
+        // since obj delted in selectedCardData array, remove it from array
+        setSelectedCardData(selectedCardData.filter((card) => card.uid !== exercise_card.uid));
+        console.log("Response: ", response.data);
       })
     .catch((res) => {
       console.error("Error connecting to server,", res);
