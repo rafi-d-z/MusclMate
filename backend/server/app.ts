@@ -94,8 +94,8 @@ async function create_app(): Promise<Array<any>>{
       res = await get_exercises(client_instance, exerciseQuery);
       _res.send(res).status(200);
       return;
-    }catch(err){
-      _res.send(undefined).status(400);
+    }catch(err: any){
+      _res.send(err.toString()).status(400);
       return;
     }
   })
@@ -130,9 +130,9 @@ async function create_app(): Promise<Array<any>>{
     try{
       res = await create_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
-    }catch(err){
+    }catch(err: any){
       console.error(err);
-      _res.send(undefined).status(400);
+      _res.send(err.toString()).status(400);
       return;
     }
   })
@@ -152,8 +152,8 @@ async function create_app(): Promise<Array<any>>{
 
     try{
       exerciseQuery = await getExerciseQueries(query);
-    }catch(err){
-      _res.status(400).send(err);
+    }catch(err: any){
+      _res.status(400).send(err.toString());
       return;
     }
 
@@ -167,9 +167,9 @@ async function create_app(): Promise<Array<any>>{
     try{
       res = await delete_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
-    }catch(err){
+    }catch(err: any){
       console.error(err);
-      _res.send(undefined).status(400);
+      _res.send(err.toString()).status(400);
       return;
     }
   });
@@ -189,8 +189,8 @@ async function create_app(): Promise<Array<any>>{
 
     try{
       exerciseQuery = await getExerciseQueries(query);
-    }catch(err){
-      _res.status(400).send(err);
+    }catch(err: any){
+      _res.status(400).send(err.toString());
       return;
     }
 
@@ -204,9 +204,9 @@ async function create_app(): Promise<Array<any>>{
     try{
       res = await edit_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
-    }catch(err){
+    }catch(err: any){
       console.error(err);
-      _res.send(undefined).status(400);
+      _res.send(err.toString()).status(400);
       return;
     }
   });
@@ -283,8 +283,8 @@ async function create_app(): Promise<Array<any>>{
 
     try{
       workoutQuery = getWorkoutQueries(query);
-    } catch(err){
-      _res.status(400).send(err);
+    } catch(err: any){
+      _res.status(400).send(err.toString());
       return;
     }
     let res;
@@ -296,9 +296,9 @@ async function create_app(): Promise<Array<any>>{
     try{
       res = await create_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
-    } catch(err){
+    } catch(err: any){
       console.error(err);
-      _res.send(undefined).status(400);
+      _res.send(err.toString()).status(400);
       return;
     }
   });
@@ -314,8 +314,8 @@ async function create_app(): Promise<Array<any>>{
 
     try{
       workoutQuery = getWorkoutQueries(query);
-    } catch(err){
-      _res.status(400).send(err);
+    } catch(err: any){
+      _res.status(400).send(err.toString());
       return;
     }
     let res;
@@ -327,9 +327,9 @@ async function create_app(): Promise<Array<any>>{
     try{
       res = await edit_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
-    } catch(err){
+    } catch(err: any){
       console.error(err);
-      _res.send(undefined).status(400);
+      _res.send(err.toString()).status(400);
       return;
     }
   });
@@ -345,8 +345,8 @@ async function create_app(): Promise<Array<any>>{
 
     try{
       workoutQuery = getWorkoutQueries(query);
-    } catch(err){
-      _res.status(400).send(err);
+    } catch(err: any){
+      _res.status(400).send(err.toString());
       return;
     }
     let res;
@@ -358,9 +358,9 @@ async function create_app(): Promise<Array<any>>{
     try{
       res = await delete_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
-    } catch(err){
+    } catch(err: any){
       console.error(err);
-      _res.send(undefined).status(400);
+      _res.send(err.toString()).status(400);
       return;
     }
   });
