@@ -65,7 +65,6 @@ export async function get_exercises(
 
   const sql_string = "SELECT * FROM public.exercises" + 
                       (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "");
-  console.log(sql_string, values)
   const query = {
     text: sql_string,
     values: values,
@@ -168,10 +167,8 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
     text: sql_workout,
     values: values_workout,
   };
-  console.log(query_workout);
 
   const workout_without_exercises = await query_db(client, query_workout);
-  console.log(workout_without_exercises)
 
 
   // get all exercises for each workout

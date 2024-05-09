@@ -149,9 +149,6 @@ describe("Server Actions", () => {
         };
 
         const response = await request(app).get(`/get_workouts`).query(workout);
-
-        console.log("only UID:", response.body);
-        
         expect(response.statusCode).toBe(200);
       });
 
