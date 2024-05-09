@@ -428,8 +428,6 @@ describe("Server Actions", () => {
             arr_keywords: JSON.stringify([]),
           }
 
-          console.log("uid", uid);
-
           await request(app)
             .delete("/delete_exercise")
             .send(exercise)

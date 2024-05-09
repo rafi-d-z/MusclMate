@@ -125,7 +125,7 @@ async function create_app(): Promise<Array<any>>{
       res = await create_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
     }catch(err: any){
-      // console.error(err);
+       
       _res.send(err.toString()).status(400);
       return;
     }
@@ -198,7 +198,6 @@ async function create_app(): Promise<Array<any>>{
       res = await edit_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
     }catch(err: any){
-      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }
@@ -259,7 +258,6 @@ async function create_app(): Promise<Array<any>>{
       res = await get_workouts(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }
@@ -290,7 +288,7 @@ async function create_app(): Promise<Array<any>>{
       res = await create_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      // console.error(err);
+       
       _res.send(err.toString()).status(400);
       return;
     }
@@ -321,7 +319,7 @@ async function create_app(): Promise<Array<any>>{
       res = await edit_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      // console.error(err);
+       
       _res.send(err.toString()).status(400);
       return;
     }
@@ -352,7 +350,7 @@ async function create_app(): Promise<Array<any>>{
       res = await delete_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      // console.error(err);
+       
       _res.send(err.toString()).status(400);
       return;
     }
