@@ -31,7 +31,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { useState, useEffect } from "react"
-import { NewExerciseCard } from "./components/ui/newExerciseCard"
+// import { NewExerciseCard } from "./components/ui/newExerciseCard"
 import { Menubar } from "./components/ui/menubar"
 import muscleLogo from './assets/MuscleLogo.png'
 import axios from 'axios';
@@ -87,6 +87,8 @@ function Exercise() {
   const [sets, setSets] = useState('');
   const [weight, setWeight] = useState('none');
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [exerciseTarget, setExerciseTarget] = useState('');
+  const [image_url, setImageUrl] = useState('https://via.placeholder.com/150');
 
 
   const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,32 +108,46 @@ function Exercise() {
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
     value = value.replace(/\D/g, '');
-    value = value + ' lbs';
     setWeight(value);
   };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setImageUrl(value);
+  }
 
 
   const handleAddNewExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
+    let obj: exercise = {
+      uid: "",
+      exercise_name: exerciseName,
+      exercise_target: exerciseTarget,
+      image_url: image_url,
+      n_reps: parseInt(reps),
+      n_sets: parseInt(sets),
+      weight: parseInt(weight),
+      arr_keywords: []
+    }
+    
     axios.post("https://api-muscleman.com/create_exercise", {
-      uid: selectedCard.uid,
-      exercise_name: selectedCard.exercise_name,
-      exercise_target: selectedCard.exercise_target,
-      image_url: selectedCard.image_url,
-      n_reps: selectedCard.n_reps,
-      n_sets: selectedCard.n_sets,
-      weight: selectedCard.weight
+      uid: "",
+      exercise_name: exerciseName,
+      exercise_target: exerciseTarget,
+      image_url: image_url,
+      n_reps: reps,
+      n_sets: sets,
+      weight: weight,
+      arr_keywords: JSON.stringify([])
     })
-      .then(function (response) {
-       // setSelectedCardData([selectedCard, ...selectedCardData]);
-        selectedCardData.push(selectedCard);
-        console.log("Data: ", response.data);
-        console.log(selectedCard);
-      })
-      .catch((res) => {
-        console.error("Error connecting to server,", res);
-      });
+    .then(function (response) {
+      obj.uid = response.data.uid;
+      setSelectedCardData([obj, ...selectedCardData]);
+    })
+    .catch((res) => {
+      console.error("Error connecting to server,", res.response.data);
+    });
 
     setIsPopoverOpen(false);
   };
@@ -215,7 +231,7 @@ function Exercise() {
                         </div>
                         <div className="grid grid-cols-3 items-center gap-4">
                           <Label htmlFor="targetMuscles">Target Muscles:</Label>
-                          <Select>
+                          <Select onValueChange={setExerciseTarget}>
                             <SelectTrigger className="w-[180px]">
                               <SelectValue placeholder="Arms" />
                             </SelectTrigger>
@@ -239,6 +255,11 @@ function Exercise() {
                           <Label htmlFor="weight">Weight:</Label>
                           <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
                         </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="sets">Image URL:</Label>
+                          <Input id="img_url" value={image_url} onChange={handleImageChange} className="col-span-2 h-8" />
+                        </div>
+
                         <Button variant="outline" onClick={handleCancel}>Cancel</Button>
                         <Button onClick={handleAddNewExercise}>Submit</Button>
                       </div>
