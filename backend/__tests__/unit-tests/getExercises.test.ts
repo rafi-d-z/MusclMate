@@ -1,7 +1,7 @@
 import activate_db from "@/db"
 import { Client } from "pg";
 import { get_exercises } from "@/dbBI";
-import { exercise } from "@/DAO/exercise";
+import exercise from "@/DAO/exercise";
 
 describe("get_exercises unit tests", () => {
     let client: Client;

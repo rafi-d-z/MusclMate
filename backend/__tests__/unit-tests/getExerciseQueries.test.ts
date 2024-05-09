@@ -1,5 +1,5 @@
 import { getExerciseQueries } from "@/bi";
-import { exercise } from "@/DAO/exercise";
+import exercise from "@/DAO/exercise";
 
 describe("getExerciseQueries unit tests", () => {
   describe("should return on correct input", () => {

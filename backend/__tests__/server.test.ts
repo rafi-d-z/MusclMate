@@ -136,50 +136,36 @@ describe("Server Actions", () => {
           keywords: ["unit-test", "unit-test", "unit-test", "edited-unit-test"],
         };
 
-        let paramString = "?";
-
-        for (const [key, value] of Object.entries(workout)) {
-          paramString += `${key}=${value}&`;
-        }
-
-        const response = await request(app).get(`/get_workouts` + paramString);
+        const response = await request(app).get(`/get_workouts`).query(workout);
         expect(response.statusCode).toBe(200);
       });
 
       test("only uid provided", async (): Promise<void> => {
-        const workout: workout = {
+        const workout: object = {
           uid: "fbd91776-5202-4737-ab90-ac5077b67f8d",
           workout_name: "",
-          exercise_arr: [],
-          keywords: [],
+          exercise_arr: JSON.stringify([]),
+          keywords: JSON.stringify([]),
         };
 
-        let paramString = "?";
+        const response = await request(app).get(`/get_workouts`).query(workout);
 
-        for (const [key, value] of Object.entries(workout)) {
-          if(Array.isArray(value)){
-            paramString += `${key}=[]&`
-          }else{
-          paramString += `${key}=${value}&`;
-          }
-        }
-
-        const response = await request(app).get(`/get_workouts` + paramString);
-        console.log(response.body);
+        console.log("only UID:", response.body);
+        
         expect(response.statusCode).toBe(200);
       });
 
       test("only workout_name provided", async (): Promise<void> => {
-        const workout: workout = {
+        const workout: object = {
           uid: "",
           workout_name: "unit_test",
-          exercise_arr: [],
-          keywords: [],
+          exercise_arr: JSON.stringify([]),
+          keywords: JSON.stringify([]),
         };
 
         await request(app)
           .get("/get_workouts")
-          .send(workout)
+          .query(workout)
           .expect(200)
           .then((res) => {
             expect(typeof res.body).toBe("object");
@@ -187,16 +173,16 @@ describe("Server Actions", () => {
       });
 
       test("empty workout body provided", async (): Promise<void> => {
-        const workout: workout = {
+        const workout: object = {
           uid: "",
           workout_name: "",
-          exercise_arr: [],
-          keywords: [],
+          exercise_arr: JSON.stringify([]),
+          keywords: JSON.stringify([]),
         };
 
         await request(app)
           .get("/get_workouts")
-          .send(workout)
+          .query(workout)
           .expect(200)
           .then((res: any) => {
             expect(typeof res.body).toBe("object");

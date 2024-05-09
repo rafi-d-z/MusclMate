@@ -242,6 +242,9 @@ async function create_app(): Promise<Array<any>>{
   //* workout routes *//
   app.get("/get_workouts", async (_req, _res) => {
     const query = _req.query;
+
+    console.log("query", query);
+
     let workoutQuery: workout = {
       uid: "",
       workout_name: "",
