@@ -43,7 +43,13 @@ export const Menubar: React.FC = () => {
 
                 <div className="flex flex-col space-y-4">
                   <MyLabel labelName='My Workouts'/>
-                  <MyLabel labelName='My Exercises' />
+                  <Button>
+                    <a href="http://localhost:5173/Exercise">
+                      <Label htmlFor="name" className="text-right">
+                          My Exercises
+                      </Label>
+                    </a>
+                    </Button>
                   <MyLabel labelName='Exercises' />
                   <MyLabel labelName='Favorites' />
                   <MyLabel labelName='My Progress' />

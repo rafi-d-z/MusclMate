@@ -162,7 +162,6 @@ async function create_app(): Promise<Array<any>>{
       res = await delete_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
     }catch(err: any){
-      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }
