@@ -7,7 +7,7 @@ import exercise from "@/DAO/exercise";
 describe("Server Actions", () => {
   let appClient: Array<any>;
   let app: express.Application;
-  let uid: number | null = null;
+  let uid: Array<string> = [];
 
   beforeAll(async () => {
     try {
@@ -23,18 +23,6 @@ describe("Server Actions", () => {
       await request(app).get('/').expect(200);
     });
   });
-
-  // describe("Post /delete", () => {
-  //   test("delete valid uid from exercises table", async () => {
-  //     await request(app)
-  //       .post("/delete")
-  //       .send({
-  //         db_name: "exercises",
-  //         uid: uid,
-  //       })
-  //       .expect(200);
-  //   });
-  // });
 
   describe("Get /get_exercise", () => {
     // these test inputs are depricated
@@ -158,7 +146,7 @@ describe("Server Actions", () => {
          })
          .expect(200)
          .then((res) => {
-           uid = res.body.uid;
+           uid.push(res.body.uid);
          });
     })
 
@@ -182,7 +170,7 @@ describe("Server Actions", () => {
          })
          .expect(200)
          .then((res) => {
-           uid = res.body.uid;
+           uid.push(res.body.uid);
          });
     })
 
@@ -206,7 +194,7 @@ describe("Server Actions", () => {
          })
          .expect(200)
          .then((res) => {
-           uid = res.body.uid;
+           uid.push(res.body.uid);
          });
     })
 
@@ -225,7 +213,7 @@ describe("Server Actions", () => {
          })
          .expect(200)
          .then((res) => {
-           uid = res.body.uid;
+           uid.push(res.body.uid);
          });
     })
 
@@ -421,6 +409,34 @@ describe("Server Actions", () => {
           .post("/edit_exercise")
           .send(exercise)
           .expect(200);
+      });
+    });
+  });
+
+  describe("Delete /delete_exercise", () => {
+    describe("valid input", () => {
+      test("delete valid uid from exercises table", async () => {
+        uid.forEach(async (uid) => {
+          const exercise: any = {
+            uid: uid,
+            exercise_name: "",
+            exercise_target: "",
+            image_url: "",
+            n_reps: 0,
+            n_sets: 0,
+            weight: 0,
+            arr_keywords: JSON.stringify([]),
+          }
+
+          console.log("uid", uid);
+
+          await request(app)
+            .delete("/delete_exercise")
+            .send(exercise)
+            .expect(200).catch((err) => {
+              console.error("Error in delete_exercise delete valid uid from exercises table", err.toString());
+            });
+        });
       });
     });
   });
