@@ -161,30 +161,28 @@ function Exercise() {
   };
 
 
-  const handleDeleteCard = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteCard = async (e: React.MouseEvent<HTMLButtonElement>, exercise_card: exercise) => {
     e.preventDefault();
+    console.log(exercise_card);
 
-    axios({
-      method: "delete",
-      url: "https://api-muscleman.com/delete_exercise",
-      params: {
-        uid: selectedCard.uid,
-        exercise_name: selectedCard.exercise_name,
-        exercise_target: selectedCard.exercise_target,
-        image_url: selectedCard.image_url,
-        n_reps: selectedCard.n_reps,
-        n_sets: selectedCard.n_sets,
-        weight: selectedCard.weight
-      },
-    })
-      .then(function (response) {
-        const exerciseList = selectedCardData.filter(data => data.uid !== response.data);
-        setSelectedCardData(exerciseList);
-        console.log("Data: ", response.data);
+    axios.post("https://api-muscleman.com/delete_exercise", {
+      uid: exercise_card.uid,
+      exercise_name: exercise_card.exercise_name,
+      exercise_target: exercise_card.exercise_target,
+      image_url: JSON.stringify(exercise_card.image_url),
+      n_reps: exercise_card.n_reps,
+      n_sets: exercise_card.n_sets,
+      weight: exercise_card.weight,
+      arr_keywords: JSON.stringify(exercise_card.arr_keywords)
+      // }).then((response) => {
+      //   // since obj delted in selectedCardData array, remove it from array
+      //   const exerciseList = selectedCardData.filter(data => data.uid !== response.data);
+      //   setSelectedCardData(exerciseList);
+      //   console.log("Data: ", response.data);
       })
-      .catch((res) => {
-        console.error("Error connecting to server,", res);
-      });
+    .catch((res) => {
+      console.error("Error connecting to server,", res);
+    });
   };
 
 
@@ -274,7 +272,7 @@ function Exercise() {
                   <div className="relative">
                     <button
                       className="absolute top-0 right-0 -mt-3 -mr-4 text-black focus:outline-none"
-                      onClick={handleDeleteCard}
+                      onClick={(e) => handleDeleteCard(e, data)}
                     >
                       <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
                     </button>
