@@ -51,6 +51,13 @@ function Exercise() {
     arr_keywords: []
   });
   const [selectedCardData, setSelectedCardData] = useState<exercise[]>([]);
+  const [exerciseName, setExerciseName] = useState('');
+  const [reps, setReps] = useState('');
+  const [sets, setSets] = useState('');
+  const [weight, setWeight] = useState('none');
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [exerciseTarget, setExerciseTarget] = useState('');
+  const [image_url, setImageUrl] = useState('https://via.placeholder.com/150');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,15 +88,6 @@ function Exercise() {
 
     fetchData();
   }, [selectedCard]);
-
-  const [exerciseName, setExerciseName] = useState('');
-  const [reps, setReps] = useState('');
-  const [sets, setSets] = useState('');
-  const [weight, setWeight] = useState('none');
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const [exerciseTarget, setExerciseTarget] = useState('');
-  const [image_url, setImageUrl] = useState('https://via.placeholder.com/150');
-
 
   const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
@@ -154,7 +152,6 @@ function Exercise() {
 
 
   const handleCancel = () => {
-
     setExerciseName('Pull ups');
     setReps('3');
     setSets('12');
