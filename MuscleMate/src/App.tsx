@@ -15,15 +15,6 @@ import { Menubar } from "@/components/ui/menubar";
 import axios from "axios";
 import exercise from "../DAO/exercise";
 
-interface CardData {
-  name: string;
-  uid: number;
-  type: string;
-  reps: number;
-  sets: number;
-  url: string;
-}
-
 function MainMenu() {
   const [selectedCard, setSelectedCard] = useState<exercise>({
     uid: "",
@@ -34,11 +25,8 @@ function MainMenu() {
     n_sets: 0,
     weight: 0,
   });
-<<<<<<< HEAD
+
   const [selectedCardData, setSelectedCardData] = useState<exercise[]>([]);
-=======
-  const [selectedCardData, setSelectedCardData] = useState<CardData[]>([]);
->>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
 
   // fetch all data
   useEffect(() => {
@@ -60,11 +48,7 @@ function MainMenu() {
       })
         .then(function (response) {
           setSelectedCardData(response.data);
-<<<<<<< HEAD
-          console.log("Data: ", response.data);
-=======
           console.log("Data:", response.data);
->>>>>>> 96325ca416ced551c1a4d41a8f42ccba397e5521
         })
         .catch((res) => {
           console.error("Error connecting to server,", res);
