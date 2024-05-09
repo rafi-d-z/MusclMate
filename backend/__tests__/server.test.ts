@@ -279,6 +279,152 @@ describe("Server Actions", () => {
     });
   });
 
+  describe("Post /edit_exercise", () => {
+    describe("invalid input", () => {
+      test("edit valid uid from exercises table", async () => {
+        const exercise: exercise = {
+          uid: "0459d6ee-ff82-4c00-bb9f-28d5b0c2e4c5",
+          exercise_name: "hip thrust",
+          exercise_target: "legs",
+          image_url: "",
+          n_reps: 10,
+          n_sets: 3,
+          weight: 185,
+          arr_keywords: [
+            "legs",
+            "quads",
+            "glutes",
+            "strength",
+          ],
+        }
+
+        await request(app)
+          .post("/edit_exercise")
+          .send(exercise)
+          .expect((res) => {
+            expect(typeof(res.body[0].uid)).toStrictEqual("string");
+          });
+      });
+
+      test("edit valid uid from exercises table without exercise name", async () => {
+        const exercise: exercise = {
+          uid: "0459d6ee-ff82-4c00-bb9f-28d5b0c2e4c5",
+          exercise_name: "",
+          exercise_target: "legs",
+          image_url: "",
+          n_reps: 10,
+          n_sets: 3,
+          weight: 185,
+          arr_keywords: [
+            "legs",
+            "quads",
+            "glutes",
+            "strength",
+          ],
+        }
+
+        await request(app)
+          .post("/edit_exercise")
+          .send(exercise)
+          .expect((res) => {
+            expect(typeof(res.body[0].uid)).toStrictEqual("string");
+          });
+      });
+
+      test("edit valid uid from exercises table without exercise target", async () => {
+        const exercise: exercise = {
+          uid: "33628bab-142e-49cd-b752-30d5dfd8f093",
+          exercise_name: "hip thrust",
+          exercise_target: "",
+          image_url: "",
+          n_reps: 10,
+          n_sets: 3,
+          weight: 185,
+          arr_keywords: [
+            "legs",
+            "quads",
+            "glutes",
+            "strength",
+          ],
+        }
+        
+        await request(app)
+          .post("/edit_exercise")
+          .send(exercise)
+          .expect((res) => {
+            expect(typeof(res.body[0].uid)).toStrictEqual("string");
+          });
+      });
+
+      test("edit valid uid from exercises table without keywords", async () => {
+        const exercise: exercise = {
+          uid: "33628bab-142e-49cd-b752-30d5dfd8f093",
+          exercise_name: "hip thrust",
+          exercise_target: "legs",
+          image_url: "",
+          n_reps: 10,
+          n_sets: 3,
+          weight: 185,
+          arr_keywords: [],
+        }
+
+        await request(app)
+          .post("/edit_exercise")
+          .send(exercise)
+          .expect((res) => {
+            expect(typeof(res.body[0].uid)).toStrictEqual("string");
+          });
+      });
+    });
+
+    describe("invalid input", () => {
+      test("missing fields", async () => {
+        const exercise: any = {
+          uid: "0459d6ee-ff82-4c00-bb9f-28d5b0c2e4c5",
+          exercise_name: "hip thrust",
+          exercise_target: "legs",
+          n_reps: 10,
+          n_sets: 3,
+          weight: 185,
+          arr_keywords: [
+            "legs",
+            "quads",
+            "glutes",
+            "strength",
+          ],
+        }
+        
+        await request(app)
+          .post("/edit_exercise")
+          .send(exercise)
+          .expect(400);
+      });
+
+      test("invalid UID", async () => {
+        const exercise : exercise = {
+          uid: "",
+          exercise_name: "",
+          exercise_target: "legs",
+          image_url: "",
+          n_reps: 10,
+          n_sets: 3,
+          weight: 185,
+          arr_keywords: [
+            "legs",
+            "quads",
+            "glutes",
+            "strength",
+          ],
+        }
+
+        await request(app)
+          .post("/edit_exercise")
+          .send(exercise)
+          .expect(200);
+      });
+    });
+  });
+
 
   describe("Get /get_workouts", () => {
     describe("should return information given proper input", () => {
