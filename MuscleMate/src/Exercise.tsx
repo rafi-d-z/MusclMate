@@ -40,15 +40,15 @@ import exercise from "DAO/exercise"
 
 
 function Exercise() {
-  const [selectedCard, setSelectedCard] = useState<exercise>( {
-          uid: "",
-          exercise_name: "",
-          exercise_target: "",
-          image_url: "",
-          n_reps: 0,
-          n_sets: 0,
-          weight: 0,
-          arr_keywords: []
+  const [selectedCard, setSelectedCard] = useState<exercise>({
+    uid: "",
+    exercise_name: "",
+    exercise_target: "",
+    image_url: "",
+    n_reps: 0,
+    n_sets: 0,
+    weight: 0,
+    arr_keywords: []
   });
   const [selectedCardData, setSelectedCardData] = useState<exercise[]>([]);
 
@@ -82,69 +82,11 @@ function Exercise() {
     fetchData();
   }, [selectedCard]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log("Type:", selectedCard);
-
-      axios({
-        method: "post",
-        url: "https://api-muscleman.com/create_exercise",
-        params: {
-          uid: selectedCard.uid,
-          exercise_name: selectedCard.exercise_name,
-          exercise_target: selectedCard.exercise_target,
-          image_url: selectedCard.image_url,
-          n_reps: selectedCard.n_reps,
-          n_sets: selectedCard.n_sets,
-          weight: selectedCard.weight
-        },
-      })
-        .then(function (response) {
-          setSelectedCardData(response.data);
-          console.log("Data: ", response.data)
-        })
-        .catch((res) => {
-          console.error("Error connecting to server,", res);
-        });
-    };
-
-    fetchData();
-  }, [selectedCard]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log("Type:", selectedCard);
-
-      axios({
-        method: "delete",
-        url: "https://api-muscleman.com/delete_exercise",
-        params: {
-          uid: selectedCard.uid,
-          exercise_name: selectedCard.exercise_name,
-          exercise_target: selectedCard.exercise_target,
-          image_url: selectedCard.image_url,
-          n_reps: selectedCard.n_reps,
-          n_sets: selectedCard.n_sets,
-          weight: selectedCard.weight
-        },
-      })
-        .then(function (response) {
-          setSelectedCardData(response.data);
-          console.log("Data: ", response.data)
-        })
-        .catch((res) => {
-          console.error("Error connecting to server,", res);
-        });
-    };
-
-    fetchData();
-  }, [selectedCard]);
-
-  const [exerciseName, setExerciseName] = useState('data.name');
-  const [reps, setReps] = useState('data.reps');
-  const [sets, setSets] = useState('data.sets');
+  const [exerciseName, setExerciseName] = useState('');
+  const [reps, setReps] = useState('');
+  const [sets, setSets] = useState('');
   const [weight, setWeight] = useState('none');
-  const [, setIsPopoverOpen] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
 
   const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,20 +111,29 @@ function Exercise() {
   };
 
 
-  const handleAddNewExercise = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddNewExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
+    axios.post("https://api-muscleman.com/create_exercise", {
+      uid: selectedCard.uid,
+      exercise_name: selectedCard.exercise_name,
+      exercise_target: selectedCard.exercise_target,
+      image_url: selectedCard.image_url,
+      n_reps: selectedCard.n_reps,
+      n_sets: selectedCard.n_sets,
+      weight: selectedCard.weight
+    })
+      .then(function (response) {
+       // setSelectedCardData([selectedCard, ...selectedCardData]);
+        selectedCardData.push(selectedCard);
+        console.log("Data: ", response.data);
+        console.log(selectedCard);
+      })
+      .catch((res) => {
+        console.error("Error connecting to server,", res);
+      });
 
-    const exercise = {
-      name: exerciseName,
-      reps: reps,
-      sets: sets,
-      weight: weight
-    };
-
-    console.log('New Exercise:', exercise);
     setIsPopoverOpen(false);
-
   };
 
 
@@ -197,10 +148,30 @@ function Exercise() {
   };
 
 
-  const handleDeleteCard = (index: number) => {
-    const updatedData = [...selectedCardData];
-    updatedData.splice(index, 1);
-    setSelectedCardData(updatedData);
+  const handleDeleteCard = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    axios({
+      method: "delete",
+      url: "https://api-muscleman.com/delete_exercise",
+      params: {
+        uid: selectedCard.uid,
+        exercise_name: selectedCard.exercise_name,
+        exercise_target: selectedCard.exercise_target,
+        image_url: selectedCard.image_url,
+        n_reps: selectedCard.n_reps,
+        n_sets: selectedCard.n_sets,
+        weight: selectedCard.weight
+      },
+    })
+      .then(function (response) {
+        const exerciseList = selectedCardData.filter(data => data.uid !== response.data);
+        setSelectedCardData(exerciseList);
+        console.log("Data: ", response.data);
+      })
+      .catch((res) => {
+        console.error("Error connecting to server,", res);
+      });
   };
 
 
@@ -224,86 +195,138 @@ function Exercise() {
         </TabsList>
 
         <TabsContent value={selectedCard.exercise_target} className="grid grid-cols-5 gap-10">
-          <NewExerciseCard />
+          <Card className="w-[210px]">
+            <CardContent>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button style={{ width: '170px', height: '190px', fontSize: '150px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => setIsPopoverOpen(true)}>+</button>
+                </PopoverTrigger>
+                {isPopoverOpen && (
+                  <PopoverContent className="w-80">
+                    <div className="grid gap-4">
+                      <div className="space-y-2">
+                        <h4 className="font-medium leading-none">Create Exercise</h4>
+                        <p className="text-sm text-muted-foreground">Add exercise details here</p>
+                      </div>
+                      <div className="grid gap-2">
+                        <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="exerciseName">Name: </Label>
+                          <Input id="exerciseName" value={exerciseName} onChange={(e) => setExerciseName(e.target.value)} className="col-span-2 h-8" />
+                        </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="targetMuscles">Target Muscles:</Label>
+                          <Select>
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="Arms" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="light">Arms</SelectItem>
+                              <SelectItem value="dark">Legs</SelectItem>
+                              <SelectItem value="system">Chest</SelectItem>
+                              <SelectItem value="part">Back</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="reps">Reps:</Label>
+                          <Input id="reps" value={reps} onChange={handleRepsChange} className="col-span-2 h-8" />
+                        </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="sets">Sets:</Label>
+                          <Input id="sets" value={sets} onChange={handleSetsChange} className="col-span-2 h-8" />
+                        </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="weight">Weight:</Label>
+                          <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
+                        </div>
+                        <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+                        <Button onClick={handleAddNewExercise}>Submit</Button>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                )}
+              </Popover>
+            </CardContent>
+          </Card>
           {(selectedCard.exercise_target === "" ? selectedCardData // If "Trending" tab is selected, render all cards
             : selectedCardData.filter(data => data.exercise_target === selectedCard.exercise_target)) // Otherwise, filter the data based on the selected exercise target
-          .map((data, index) => (
-            <Card key={index}>
-              <CardHeader>
-                <div className="relative">
-                  <button
-                    className="absolute top-0 right-0 -mt-3 -mr-4 text-black focus:outline-none"
-                    onClick={() => handleDeleteCard(index)}
-                  >
-                    <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
-                  </button>
-                </div>
-                <CardTitle>{data.exercise_name}</CardTitle>
-                <CardDescription>{data.exercise_target}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <img src={data.image_url}></img>
-              </CardContent>
-              <CardFooter className="relative">
-                <div className="absolute bottom-0 right-0 mb-2 mr-2">
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
-                    </PopoverTrigger>
+            .map((data, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <div className="relative">
+                    <button
+                      className="absolute top-0 right-0 -mt-3 -mr-4 text-black focus:outline-none"
+                      onClick={handleDeleteCard}
+                    >
+                      <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
+                    </button>
+                  </div>
+                  <CardTitle>{data.exercise_name}</CardTitle>
+                  <CardDescription>{data.exercise_target}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <img src={data.image_url}></img>
+                </CardContent>
+                <CardFooter className="relative">
+                  <div className="absolute bottom-0 right-0 mb-2 mr-2">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
+                      </PopoverTrigger>
 
-                    <PopoverContent className="w-80">
-                      <div className="grid gap-4">
-                        <div className="space-y-2">
-                          <h4 className="font-medium leading-none">Edit Exercise</h4>
-                          <p className="text-sm text-muted-foreground">Edit exercise details here</p>
+                      <PopoverContent className="w-80">
+                        <div className="grid gap-4">
+                          <div className="space-y-2">
+                            <h4 className="font-medium leading-none">Edit Exercise</h4>
+                            <p className="text-sm text-muted-foreground">Edit exercise details here</p>
+                          </div>
+                          <div className="grid gap-2">
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <Label htmlFor="exerciseName">Name: </Label>
+                              <Input id="exerciseName" defaultValue={data.exercise_name} onChange={(e) => setExerciseName(e.target.value)} className="col-span-2 h-8" />
+
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <Label htmlFor="targetMuscles">Target Muscles:</Label>
+                              <Select>
+                                <SelectTrigger className="w-[180px]">
+                                  <SelectValue placeholder={data.exercise_target} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="light">Arms</SelectItem>
+                                  <SelectItem value="dark">Legs</SelectItem>
+                                  <SelectItem value="system">Chest</SelectItem>
+                                  <SelectItem value="part">Back</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <Label htmlFor="reps">Reps:</Label>
+                              <Input id="reps" defaultValue={data.n_reps} onChange={handleRepsChange} className="col-span-2 h-8" />
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <Label htmlFor="sets">Sets:</Label>
+                              <Input id="sets" defaultValue={data.n_sets} onChange={handleSetsChange} className="col-span-2 h-8" />
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <Label htmlFor="weight">Weight:</Label>
+                              <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
+                            </div>
+                            <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+                            <Button onClick={handleAddNewExercise}>Submit</Button>
+
+
+                          </div>
                         </div>
-                        <div className="grid gap-2">
-                          <div className="grid grid-cols-3 items-center gap-4">
-                            <Label htmlFor="exerciseName">Name: </Label>
-                            <Input id="exerciseName" defaultValue={data.exercise_name} onChange={(e) => setExerciseName(e.target.value)} className="col-span-2 h-8" />
+                      </PopoverContent>
 
-                          </div>
-                          <div className="grid grid-cols-3 items-center gap-4">
-                            <Label htmlFor="targetMuscles">Target Muscles:</Label>
-                            <Select>
-                              <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder={data.exercise_target} />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="light">Arms</SelectItem>
-                                <SelectItem value="dark">Legs</SelectItem>
-                                <SelectItem value="system">Chest</SelectItem>
-                                <SelectItem value="part">Back</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div className="grid grid-cols-3 items-center gap-4">
-                            <Label htmlFor="reps">Reps:</Label>
-                            <Input id="reps" defaultValue={data.n_reps} onChange={handleRepsChange} className="col-span-2 h-8" />
-                          </div>
-                          <div className="grid grid-cols-3 items-center gap-4">
-                            <Label htmlFor="sets">Sets:</Label>
-                            <Input id="sets" defaultValue={data.n_sets} onChange={handleSetsChange} className="col-span-2 h-8" />
-                          </div>
-                          <div className="grid grid-cols-3 items-center gap-4">
-                            <Label htmlFor="weight">Weight:</Label>
-                            <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
-                          </div>
-                          <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-                          <Button onClick={handleAddNewExercise}>Submit</Button>
+                    </Popover>
+                  </div>
+                  {data.n_reps}/{data.n_sets}
+                </CardFooter>
 
-
-                        </div>
-                      </div>
-                    </PopoverContent>
-
-                  </Popover>
-                </div>
-                {data.n_reps}/{data.n_sets}
-              </CardFooter>
-
-            </Card>
-          ))}
+              </Card>
+            ))}
         </TabsContent>
 
       </Tabs>
