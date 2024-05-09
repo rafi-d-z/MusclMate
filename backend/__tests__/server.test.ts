@@ -133,7 +133,7 @@ describe("Server Actions", () => {
         .expect(400);
     });
 
-    test.only("invalid input with numbers", async () => {
+    test("invalid input with numbers", async () => {
       await request(app)
         .post("/create_exercise")
         .send({
@@ -149,7 +149,7 @@ describe("Server Actions", () => {
         .expect(400);
     });
 
-    test.only("invalid input for not strings", async () => {
+    test("invalid input for not strings", async () => {
       await request(app)
         .post("/create_exercise")
         .send({
