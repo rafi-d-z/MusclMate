@@ -87,7 +87,7 @@ export async function create_exercise(
     exercise.exercise_target,
     exercise.n_reps,
     exercise.n_sets,
-    exercise.arr_keywords,
+    [],
     exercise.weight,
   ];
 
