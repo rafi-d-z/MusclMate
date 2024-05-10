@@ -153,12 +153,49 @@ function Exercise() {
     setIsPopoverOpen(false);
   };
 
+  const handleEditExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    let obj: exercise = {
+      uid: "",
+      exercise_name: exerciseName,
+      exercise_target: exerciseTarget,
+      image_url: image_url,
+      n_reps: parseInt(reps),
+      n_sets: parseInt(sets),
+      weight: parseInt(weight),
+      arr_keywords: []
+    }
+
+    axios.post("https://api-muscleman.com/edit_exercise", {
+      uid: "",
+      exercise_name: exerciseName,
+      exercise_target: exerciseTarget,
+      image_url: image_url,
+      n_reps: reps,
+      n_sets: sets,
+      weight: weight,
+      arr_keywords: JSON.stringify([])
+    })
+      .then(function (response) {
+        obj.uid = response.data.uid;
+        setSelectedCardData([obj, ...selectedCardData]);
+        console.log(obj);
+        console.log("Data: ", response.data);
+      })
+      .catch((res) => {
+        console.error("Error connecting to server,", res.response.data);
+      });
+
+    setIsPopoverOpen(false);
+  };
+
 
   const handleCancel = () => {
     setExerciseName('');
     setReps('0');
     setSets('0');
-    setWeight('none');
+    setWeight('0');
 
     setIsPopoverOpen(false);
   };
@@ -169,7 +206,7 @@ function Exercise() {
     console.log(exercise_card);
 
     axios.delete( "https://api-muscleman.com/delete_exercise",{
-      body: {
+      data: {
         uid: exercise_card.uid,
         exercise_name: exercise_card.exercise_name,
         exercise_target: exercise_card.exercise_target,
@@ -333,7 +370,7 @@ function Exercise() {
                               <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
                             </div>
                             <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-                            <Button onClick={handleAddNewExercise}>Submit</Button>
+                            <Button onClick={handleEditExercise}>Submit</Button>
 
 
                           </div>
