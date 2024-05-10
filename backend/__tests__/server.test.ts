@@ -458,7 +458,6 @@ describe("Server Actions", () => {
     });
   });
 
-
   describe("Get /get_workouts", () => {
     describe("should return information given proper input", () => {
       test("entire workout body inputted", async (): Promise<void> => {
