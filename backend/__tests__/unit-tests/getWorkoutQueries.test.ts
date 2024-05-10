@@ -1,5 +1,5 @@
-import { getWorkoutQueries } from "../server/bi";
-import { workout } from "../server/DAO/workout";
+import { getWorkoutQueries } from "@/bi";
+import workout from "@/DAO/workout";
 
 describe("getWorkoutQueries unit tests", () => {
   describe("should return on correct input", () => {
@@ -51,7 +51,7 @@ describe("getWorkoutQueries unit tests", () => {
       };
 
       const result: workout = getWorkoutQueries(workout);
-      expect(JSON.stringify(result)).toStrictEqual(JSON.stringify(workout));
+      expect(result).toStrictEqual(workout);
     });
   });
 

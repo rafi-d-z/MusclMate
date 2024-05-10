@@ -1,4 +1,4 @@
-import { isArray } from "../server/bi";
+import { isArray } from "@/bi";
 
 describe("isArray unit tests", () => {
     describe("should return true on correct input", () => {
@@ -10,6 +10,12 @@ describe("isArray unit tests", () => {
 
         test("mixed content array number string", () => {
             const input: Array<any> = ["1", 2, "what the sigma", ".", "%"];
+            const result: Boolean = isArray(input);
+            expect(result).toStrictEqual(true);
+        });
+
+        test("JSON string array", () => {
+            const input: string = JSON.stringify(["hello", "world"]);
             const result: Boolean = isArray(input);
             expect(result).toStrictEqual(true);
         });
