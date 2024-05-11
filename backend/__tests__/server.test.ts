@@ -592,7 +592,7 @@ describe("Server Actions", () => {
     });
   });
 
-  test.only("keywords empty", async (): Promise<void> => {
+  test("keywords empty", async (): Promise<void> => {
     await request(app)
     .post("/create_workout")
     .send({
