@@ -16,6 +16,9 @@ describe("getExerciseQueries unit tests", () => {
           "test",
           "test"
         ],
+        difficulty: '',
+        description: '',
+        creator: ''
       };
 
       const result: exercise = getExerciseQueries(exercise);
@@ -32,6 +35,9 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
+        difficulty: '',
+        description: '',
+        creator: ''
       };
 
       const result: exercise = getExerciseQueries(exercise);
@@ -48,6 +54,9 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
+        difficulty: '',
+        description: '',
+        creator: ''
       };
 
       const result: exercise = getExerciseQueries(exercise);
@@ -64,6 +73,9 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
+        difficulty: '',
+        description: '',
+        creator: ''
       };
 
       const result: exercise = getExerciseQueries(exercise);
@@ -80,6 +92,9 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
+        difficulty: '',
+        description: '',
+        creator: ''
       };
 
       const result: exercise = getExerciseQueries(exercise);
@@ -96,6 +111,9 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
+        difficulty: '',
+        description: '',
+        creator: ''
       };
 
       const result: exercise = getExerciseQueries(exercise);
@@ -112,6 +130,9 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 50,
         weight: 0,
         arr_keywords: [],
+        difficulty: '',
+        description: '',
+        creator: ''
       };
 
       const result: exercise = getExerciseQueries(exercise);
@@ -128,6 +149,9 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 50,
         arr_keywords: [],
+        difficulty: '',
+        description: '',
+        creator: ''
       };
 
       const result: exercise = getExerciseQueries(exercise);
@@ -144,6 +168,9 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: ["i", "have", "something"],
+        difficulty: '',
+        description: '',
+        creator: ''
       };
 
       const result: exercise = getExerciseQueries(exercise);
@@ -171,6 +198,9 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
+        difficulty: '',
+        description: '',
+        creator: ''
       });
     });
   });
