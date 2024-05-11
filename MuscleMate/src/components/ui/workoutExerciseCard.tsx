@@ -45,6 +45,7 @@ import {
 } from "@/components/ui/table"
 
 interface WorkoutExerciseCardProps {
+    
     isPopoverOpen: boolean;
     exerciseName: string;
     setExerciseName: (value: any) => void;
@@ -56,6 +57,9 @@ interface WorkoutExerciseCardProps {
     handleSetsChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleCancel: () => void;
     handleAddNewExercise: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    cardTitle: string;
+    cardContent: string;
+    cardDescription: string;
 }
 
 export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
@@ -70,15 +74,19 @@ export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
     handleSetsChange,
     handleCancel,
     handleAddNewExercise,
+    cardTitle,
+    cardContent,
+    cardDescription,
+
 }) => {
     return (
             <Card className="w-[200px] m-4">
                 <CardHeader>
-                    <CardTitle>Exercise 1</CardTitle>
-                    <CardDescription>Trends For You</CardDescription>
+                    <CardTitle>{cardTitle}</CardTitle>
+                    <CardDescription>{cardDescription}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>Card Content</p>
+                    <p>{cardContent}</p>
                 </CardContent>
                 <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Popover>
