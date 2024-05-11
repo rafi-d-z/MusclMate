@@ -330,7 +330,7 @@ function Exercise() {
                         </div>
                         <div className="grid grid-cols-3 items-center gap-4">
                           <Label htmlFor="img_url">Image URL:</Label>
-                          <Input id="img_url" value={image_url} onChange={handleImageChange} className="col-span-2 h-8" />
+                          <Input id="img_url" value={image_url} onChange={(e) => setImageUrl(e.target.value)} className="col-span-2 h-8" />
                         </div>
 
                         <Button onClick={handleAddNewExercise}>Submit</Button>
@@ -423,7 +423,7 @@ function Exercise() {
                             </div>
                             <div className="grid grid-cols-3 items-center gap-4">
                               <Label htmlFor="img_url">Image URL:</Label>
-                              <Input id="img_url" value={image_urlEdit} onChange={handleImageChangeEdit} className="col-span-2 h-8" />
+                              <Input id="img_url" value={image_urlEdit} onChange={(e) => setImageUrlEdit(e.target.value)} className="col-span-2 h-8" />
                             </div>
                             <Button onClick={(e) => handleEditExercise(e, data)}>Submit</Button>
 
@@ -434,7 +434,7 @@ function Exercise() {
 
                     </Popover>
                   </div>
-                  Reps: {data.n_reps} / Sets: {data.n_sets}
+                  Reps: {data.n_reps} / Sets: {data.n_sets} / Weight: {data.weight}
                 </CardFooter>
 
               </Card>
