@@ -1,4 +1,4 @@
-export interface exercise {
+interface exercise {
     uid: string,
     exercise_name: string,
     exercise_target: string,
@@ -8,3 +8,5 @@ export interface exercise {
     weight: number,
     arr_keywords?: Array<string>
 }
+
+export default exercise;
