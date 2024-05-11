@@ -21,7 +21,6 @@ import {
 } from "firebase/auth";
 import config from "../auth/firebase.config";
 import { useNavigate } from "react-router-dom";
-import React from "react";
 
 
 const signUpSchema = z.object({
