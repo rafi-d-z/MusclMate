@@ -18,13 +18,13 @@
    - Motivational messages on UI (like Minecraft)
    - Hardcoded on UI (random selection)
 
-## Fakeable:
+## Maybes:
 
 1. **Network with fellow fitness enthusiasts:**
-   - Fake it (obvious)
+   - Prototype
 
 2. **Create plans based on calendar integration:**
-   - Fake it
+   - Prototype
 
 3. **As a new gym-goer, want to know gym lingo:**
    - "Gym-tionary"

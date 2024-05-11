@@ -8,7 +8,8 @@ interface exercise {
     weight: number,
     arr_keywords?: Array<string>,
     description?: string,
-    difficulty?: string
+    difficulty?: string,
+    creator?: string
 }
 
 export default exercise
