@@ -544,7 +544,7 @@ describe("Server Actions", () => {
 
   describe("Post /create_workout", () => {
     describe("should return information given proper input", () => {
-      test.only("entire workout body inputted", async (): Promise<void> => {
+      test("entire workout body inputted", async (): Promise<void> => {
         await request(app)
         .post("/create_workout")
         .send({
