@@ -80,8 +80,8 @@ export async function create_exercise(
   ): Promise<string | null> {
   const sql: string =
     `INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets,` +
-    ` arr_keywords, weight, image_url, description, difficulity) VALUES (uuid_generate_v4(), $1, $2,` +
-    ` $3, $4, $5, $6, $7, $8, $9) RETURNING uid`;
+    ` arr_keywords, weight, image_url, description, difficulity, creator) VALUES (uuid_generate_v4(), $1, $2,` +
+    ` $3, $4, $5, $6, $7, $8, $9, $10) RETURNING uid`;
   const values = [
     exercise.exercise_name,
     exercise.exercise_target,
@@ -92,6 +92,7 @@ export async function create_exercise(
     exercise.image_url,
     exercise.description,
     exercise.difficulty,
+    exercise.creator
   ];
 
   const query = {

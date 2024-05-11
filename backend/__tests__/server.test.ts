@@ -108,21 +108,6 @@ describe("Server Actions", () => {
 
         await request(app).get("/get_exercises").query(query).expect(400);
       });
-
-      test("should return invalid arr_keywords is not an array", async () => {
-        const query: any = {
-          uid: '',
-          exercise_name: '',
-          exercise_target: '',
-          image_url: '',
-          n_reps: 0,
-          n_sets: 0,
-          weight: 0,
-          arr_keywords: "not an array",
-        }
-
-        await request(app).get("/get_exercises").query(query).expect(400);
-      });
     });
   });
 
@@ -227,8 +212,7 @@ describe("Server Actions", () => {
           "exercise_name": "hip thurst",
           "exercise_target": "legs",
           "n_reps": 10,
-          "n_sets": 3,
-          "arr_keywords": encodeURIComponent(JSON.stringify("notAnArray")),
+          "n_sets": "i remmeber you was conflicted",
           "weight": 185,
           "image_url": ""
         })
@@ -426,7 +410,6 @@ describe("Server Actions", () => {
             n_reps: 0,
             n_sets: 0,
             weight: 0,
-            arr_keywords: JSON.stringify([]),
           }
 
           await request(app)
