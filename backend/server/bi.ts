@@ -167,8 +167,9 @@ export function getExerciseQueries(query: any): exercise {
     n_reps: toNumber(query.n_reps),
     n_sets: toNumber(query.n_sets),
     weight: toNumber(query.weight),
-    arr_keywords: (query.arr_keywords)
-  };
-  console.log(exercise_query)
+    arr_keywords: (query.arr_keywords),
+    description: query.description ? query.description.toString() : '',
+    difficulty: query.difficulty ? query.difficulty.toString() : ''  };
+  // console.log(exercise_query)
   return exercise_query;
 }
