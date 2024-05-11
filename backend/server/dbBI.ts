@@ -125,12 +125,10 @@ export async function delete_exercise(
 
 export async function edit_exercise(
   client: Client,
-  exercise: exercise
+  exercise: any
   ) {
-  const sql: string = `UPDATE public.exercises SET exercise_name = $2, exercise_target = $3, 
-                        n_reps = $4, n_sets = $5, arr_keywords = $6, weight = $7 WHERE uid = $1 RETURNING uid;`;
-    
-  const values = [exercise.uid, exercise.exercise_name, exercise.exercise_target, exercise.n_reps, exercise.n_sets, exercise.arr_keywords, exercise.weight];
+  const sql: string = `UPDATE public.exercises SET exercise_name = $2, exercise_target = $3, n_reps = $4, n_sets = $5, arr_keywords = $6, weight = $7 WHERE uid = $1 RETURNING uid;`;
+  const values = [exercise.uid, exercise.exercise_name, exercise.exercise_target, exercise.n_reps, exercise.n_sets, [], exercise.weight];
 
   const query = {
     text: sql,

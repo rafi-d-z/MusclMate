@@ -1,6 +1,6 @@
 # Manually Added
 backend/test_output.json
-
+.DS_Store
 # Local .terraform directories
 **/.terraform/*
 

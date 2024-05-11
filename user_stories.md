@@ -1,71 +1,63 @@
-# User Stories
-- new gym-goers who want structure to their workout 
-    - "build-a-workout workshop"
-        - workout page
+# Fitness App User Stories
 
-- keeping it fresh: user wants new workouts
-    - workout page
-        - pre-gen (exists)
-        - ai-gen (doable)
+## Doable:
 
-- user wants to track how their fitness journey is going
-    - protien intake
-    - hydration 
-        - based on reccomended intake for activity (ie. cross-country)
-    - time spent at gym
-    - gains (quantify)
+1. **New gym-goers who want structure to their workout:**
+   - Build-a-workout workshop
+      - Workout page
 
-    - not happening
+2. **Keeping it fresh: user wants new workouts:**
+   - Workout page
+      - Pre-gen (exists)
+      - AI-gen
+        
+3. **User wants to know how to do certain exercises properly:**
+   - On hover show the description
 
-- as an athlete
-    - improve certain sport-related activities
-    - progress-tracker
-    - generate schedules
-        - suggested
-        - user-created
-    - not happening
+4. **App will create motivation like Duolingo:**
+   - Motivational messages on UI (like Minecraft)
+   - Hardcoded on UI (random selection)
 
+## Fakeable:
 
-- user wants to create more healthy habbits in their life 
-    - track progress with app
-    - make plans 
-    - not happening
+1. **Network with fellow fitness enthusiasts:**
+   - Fake it (obvious)
 
+2. **Create plans based on calendar integration:**
+   - Fake it
 
-- create plans based on calendar integration
-    - fake it
+3. **As a new gym-goer, want to know gym lingo:**
+   - "Gym-tionary"
+   - Doable (back-burner)
+  
+4. **See influencer-branded workout plans:**
+   - Community/other people's fitness plans
 
-- network with fellow fitness enuthuaists
-    - fake it (obvious)
+## Not Happening:
 
-- app will craete motivation like duolingo (times 10 intensity O(n^n) violence)
-    - motiviation messages on UI (like minecraft)
-    - doable
-    - hardcoded on UI (random selection)
+1. **User wants to track how their fitness journey is going:**
+   - Protein intake
+   - Hydration based on recommended intake for activity (i.e., cross-country)
+   - Time spent at the gym
+   - Gains (quantify)
 
-- see influencer branded workout plans
-    - community/ other people's fitness plans
-    - fake that
+2. **As an athlete:**
+   - Improve certain sport-related activities
+   - Progress-tracker
+   - Generate schedules
+      - Suggested
+      - User-created
 
+3. **User wants to use equipment properly**
 
-- user wants to know how to do certain excerises properly
-    - doable 
-    - time heavy
-    - on hover show the desc
+4. **User wants to create more healthy habits in their life:**
+   - Track progress with the app
+   - Make plans
 
-- user wants to know how to use equipment properly
-    - not happening
+5. **User wants to get better at an exercise (i.e., pull up) wants ways to get better:**
+   - Proper form
 
-- user wants to get better at an excersise (ie. pull up) wants ways to get better
-    - proper form
-    - not happenign 
-
-- user wants to see how many calories burned
-    - track calories consumed
-    - track muscles "engaged"
-        - possible "recovery"
-    - not happening
-
-- as a new gym-goer, want to know gym lingo
-    - "gym-tionary"
-    - doable (back-burner)
+6. **User wants to see how many calories burned:**
+   - Track calories consumed
+   - Track muscles "engaged"
+      - Possible "recovery"

@@ -35,11 +35,13 @@ describe("get_exercises unit tests", () => {
             uid: '22d65463-8176-4b0d-ba70-40ab5124cbda',
             exercise_name: 'calf raises',
             exercise_target: 'calves',
-            image_url: '',
+            image_url: 'https://i1.sndcdn.com/avatars-000894638827-qr5jsd-t240x240.jpg',
             n_reps: 4,
             n_sets: 15,
             arr_keywords: [ 'calves', 'lower legs', 'hypertrophy' ],
-            weight: 160
+            weight: 160,
+            description: "minecraft",
+            difficulity: "low",
         })
     })
 })

@@ -542,4 +542,92 @@ describe("Server Actions", () => {
     });
   });
 
+  describe("Post /create_workout", () => {
+    describe("should return information given proper input", () => {
+      test("entire workout body inputted", async (): Promise<void> => {
+        await request(app)
+        .post("/create_workout")
+        .send({
+          uid: "",
+          workout_name: "gluteus maximizer",
+          exercise_arr: [
+            "6d481883-a599-44d5-9c45-8e4f57e6d917",
+            "33628bab-142e-49cd-b752-30d5dfd8f093",
+            "33628bab-142e-49cd-b752-30d5dfd8f093",
+          ],
+          keywords: ["glutes"]
+        })
+        .expect(200)
+        .then((res) => {
+          uid.push(res.body.uid);
+        });
+    });
+
+    test("exercise arr empty", async (): Promise<void> => {
+      await request(app)
+      .post("/create_workout")
+      .send({
+        uid: "",
+        workout_name: "pecs like zoro",
+        exercise_arr: [],
+        keywords: ["chest", "pecs", "hypertrophy"]
+      })
+      .expect(200)
+      .then((res) => {
+        uid.push(res.body.uid);
+      });
+  });
+  test("workout name empty", async (): Promise<void> => {
+    await request(app)
+    .post("/create_workout")
+    .send({
+      uid: "",
+      workout_name: "",
+      exercise_arr: ["7e2726af-b5bd-4242-a7d8-b396d4842270"],
+      keywords: ["back", "lats", "explosiveness"]
+    })
+    .expect(200)
+    .then((res) => {
+      uid.push(res.body.uid);
+    });
+  });
+
+  test("keywords empty", async (): Promise<void> => {
+    await request(app)
+    .post("/create_workout")
+    .send({
+      uid: "",
+      workout_name: "gluteus maximizer 2",
+      exercise_arr: [
+        "6d481883-a599-44d5-9c45-8e4f57e6d917",
+        "33628bab-142e-49cd-b752-30d5dfd8f093",
+        "33628bab-142e-49cd-b752-30d5dfd8f093",
+      ],
+      keywords: []
+    })
+    .expect(200)
+    .then((res) => {
+      uid.push(res.body.uid);
+    });
+});
+  });
+
+  describe("should return 400 given improper input", () => {
+    test.only("no input", async (): Promise<void> => {
+      await request(app).post("/create_workout").send({}).expect(400);
+    });
+
+    test("invalid input", async (): Promise<void> => {
+      await request(app)
+        .post("/create_workout")
+        .send({
+          uid: 123,
+          workout_name: 123,
+          exercise_arr: 123,
+          keywords: 123,
+        })
+        .expect(400);
+    });
+  });
+});
 });
