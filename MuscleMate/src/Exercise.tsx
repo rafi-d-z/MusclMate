@@ -31,13 +31,13 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { useState, useEffect } from "react"
-// import { NewExerciseCard } from "./components/ui/newExerciseCard"
 import { Menubar } from "./components/ui/menubar"
 import muscleLogo from './assets/MuscleLogo.png'
 import axios from 'axios';
 import './App.css'
 import exercise from "DAO/exercise"
-
+import config from "../auth/firebase.config"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 
 function Exercise() {
   const [selectedCard, setSelectedCard] = useState<exercise>({
@@ -48,16 +48,39 @@ function Exercise() {
     n_reps: 0,
     n_sets: 0,
     weight: 0,
-    arr_keywords: []
+    arr_keywords: [],
+    difficulity: "",
+    description: "",
+    creator: ""
   });
   const [selectedCardData, setSelectedCardData] = useState<exercise[]>([]);
-  const [exerciseName, setExerciseName] = useState('');
+  const [exerciseName, setExerciseName] = useState('Push Ups');
   const [reps, setReps] = useState('');
   const [sets, setSets] = useState('');
-  const [weight, setWeight] = useState('none');
+  const [weight, setWeight] = useState('');
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [exerciseTarget, setExerciseTarget] = useState('arms');
   const [image_url, setImageUrl] = useState('https://via.placeholder.com/150');
+  const [description, setDescription] = useState('');
+  const [difficulty, setDifficulty] = useState('');
+
+  const [exerciseNameEdit, setExerciseNameEdit] = useState('');
+  const [repsEdit, setRepsEdit] = useState('');
+  const [setsEdit, setSetsEdit] = useState('');
+  const [weightEdit, setWeightEdit] = useState('');
+  const [image_urlEdit, setImageUrlEdit] = useState('');
+  const [exerciseTargetEdit, setExerciseTargetEdit] = useState('');
+  const [descriptionEdit, setDescriptionEdit] = useState('');
+  const [difficultyEdit, setDifficultyEdit] = useState('');
+  const [uid, setUID] = useState('notSystem');
+
+  useEffect(() => {
+    const authState = getAuth(config.app);
+    onAuthStateChanged(authState, user => {
+      setUID(user?.uid || 'not logged in');
+      console.log(uid)
+    });
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,7 +97,8 @@ function Exercise() {
           n_reps: selectedCard.n_reps,
           n_sets: selectedCard.n_sets,
           weight: selectedCard.weight,
-          arr_keywords: selectedCard.arr_keywords
+          difficulty: selectedCard.difficulity,
+          description: selectedCard.description
         },
       })
         .then(function (response) {
@@ -107,19 +131,50 @@ function Exercise() {
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
     value = value.replace(/\D/g, '');
+    console.log("Weight: ",value);
     setWeight(value);
   };
+  
+  const handleRepsChangeEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
+    setRepsEdit(value);
+  };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setImageUrl(value);
+
+  const handleSetsChangeEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
+    setSetsEdit(value);
+  };
+
+
+  const handleWeightChangeEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
+    setWeightEdit(value);
+  };
+
+  const onClickEdit = (e: React.MouseEvent<HTMLButtonElement>, exercise_card: exercise) => {
+    e.preventDefault();
+    console.log(exercise_card.exercise_name);
+    console.log(exercise_card.difficulity);
+
+    setExerciseNameEdit(exercise_card.exercise_name);
+    setExerciseTargetEdit(exercise_card.exercise_target);
+    setRepsEdit(exercise_card.n_reps.toString());
+    setSetsEdit(exercise_card.n_sets.toString());
+    setWeightEdit(exercise_card.weight.toString());
+    setImageUrlEdit(exercise_card.image_url);
+    setDescriptionEdit(JSON.stringify(exercise_card.description));
+    setDifficultyEdit(exercise_card.difficulity);
   }
-
 
   const handleAddNewExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    let obj: exercise = {
+    // eslint-disable-next-line prefer-const
+    let cardToAdd: exercise = {
       uid: "",
       exercise_name: exerciseName,
       exercise_target: exerciseTarget,
@@ -127,7 +182,10 @@ function Exercise() {
       n_reps: parseInt(reps),
       n_sets: parseInt(sets),
       weight: parseInt(weight),
-      arr_keywords: []
+      arr_keywords: [],
+      description: description, // TODO: add functionality to add this
+      difficulity: difficulty, // TODO: add functionality to add this
+      creator: uid
     }
 
     axios.post("https://api-muscleman.com/create_exercise", {
@@ -138,12 +196,14 @@ function Exercise() {
       n_reps: reps,
       n_sets: sets,
       weight: weight,
-      arr_keywords: JSON.stringify([])
+      description: description,
+      difficulty: difficulty,
+      creator: uid
     })
       .then(function (response) {
-        obj.uid = response.data.uid;
-        setSelectedCardData([obj, ...selectedCardData]);
-        console.log(obj);
+        cardToAdd.uid = response.data.uid;
+        setSelectedCardData([cardToAdd, ...selectedCardData]);
+        console.log(cardToAdd);
         console.log("Data: ", response.data);
       })
       .catch((res) => {
@@ -153,49 +213,32 @@ function Exercise() {
     setIsPopoverOpen(false);
   };
 
-  const handleEditExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleEditExercise = async (e: React.MouseEvent<HTMLButtonElement>, exercise_card: exercise) => {
     e.preventDefault();
+    console.log(exercise_card);
 
-    let obj: exercise = {
-      uid: "",
-      exercise_name: exerciseName,
-      exercise_target: exerciseTarget,
-      image_url: image_url,
-      n_reps: parseInt(reps),
-      n_sets: parseInt(sets),
-      weight: parseInt(weight),
-      arr_keywords: []
-    }
 
     axios.post("https://api-muscleman.com/edit_exercise", {
-      uid: "",
-      exercise_name: exerciseName,
-      exercise_target: exerciseTarget,
-      image_url: image_url,
-      n_reps: reps,
-      n_sets: sets,
-      weight: weight,
-      arr_keywords: JSON.stringify([])
+      uid: exercise_card.uid,
+      exercise_name: exerciseNameEdit,
+      exercise_target: exerciseTargetEdit,
+      image_url: image_urlEdit,
+      n_reps: repsEdit,
+      n_sets: setsEdit,
+      weight: weightEdit,
+      description: descriptionEdit,
+      difficulty: difficultyEdit,
     })
       .then(function (response) {
-        obj.uid = response.data.uid;
-        setSelectedCardData([obj, ...selectedCardData]);
-        console.log(obj);
+        const updatedData = { exercise_name: exerciseNameEdit, exercise_target: exerciseTargetEdit, 
+          n_reps: parseInt(repsEdit), n_sets: parseInt(setsEdit), weight: parseInt(weightEdit), image_url: image_urlEdit,
+          description: descriptionEdit, difficulty: difficultyEdit};
+        setSelectedCardData(selectedCardData.map((data) => (data.uid === exercise_card.uid ? { ...data, ...updatedData } : data)));
         console.log("Data: ", response.data);
       })
       .catch((res) => {
         console.error("Error connecting to server,", res.response.data);
       });
-
-    setIsPopoverOpen(false);
-  };
-
-
-  const handleCancel = () => {
-    setExerciseName('');
-    setReps('0');
-    setSets('0');
-    setWeight('0');
 
     setIsPopoverOpen(false);
   };
@@ -205,7 +248,7 @@ function Exercise() {
     e.preventDefault();
     console.log(exercise_card);
 
-    axios.delete( "https://api-muscleman.com/delete_exercise",{
+    axios.delete("https://api-muscleman.com/delete_exercise", {
       data: {
         uid: exercise_card.uid,
         exercise_name: exercise_card.exercise_name,
@@ -214,9 +257,8 @@ function Exercise() {
         n_reps: exercise_card.n_reps,
         n_sets: exercise_card.n_sets,
         weight: exercise_card.weight,
-        arr_keywords: JSON.stringify(exercise_card.arr_keywords)
       },
-      }).then((response) => {
+    }).then((response) => {
       // since obj delted in selectedCardData array, remove it from array
       setSelectedCardData(selectedCardData.filter((card) => card.uid !== exercise_card.uid));
       console.log("Response: ", response.data);
@@ -247,6 +289,7 @@ function Exercise() {
         </TabsList>
 
         <TabsContent value={selectedCard.exercise_target} className="grid grid-cols-5 gap-10">
+
           <Card className="w-[210px]">
             <CardContent>
               <Popover>
@@ -292,11 +335,27 @@ function Exercise() {
                           <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
                         </div>
                         <div className="grid grid-cols-3 items-center gap-4">
-                          <Label htmlFor="sets">Image URL:</Label>
-                          <Input id="img_url" value={image_url} onChange={handleImageChange} className="col-span-2 h-8" />
+                          <Label htmlFor="difficulty">Difficulty:</Label>
+                          <Select onValueChange={setDifficulty}>
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="Low" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="low">Low</SelectItem>
+                              <SelectItem value="medium">Medium</SelectItem>
+                              <SelectItem value="high">High</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="description">Description:</Label>
+                          <Input id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="col-span-2 h-8" />
+                        </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="img_url">Image URL:</Label>
+                          <Input id="img_url" value={image_url} onChange={(e) => setImageUrl(e.target.value)} className="col-span-2 h-8" />
                         </div>
 
-                        <Button variant="outline" onClick={handleCancel}>Cancel</Button>
                         <Button onClick={handleAddNewExercise}>Submit</Button>
                       </div>
                     </div>
@@ -305,9 +364,23 @@ function Exercise() {
               </Popover>
             </CardContent>
           </Card>
+
           {(selectedCard.exercise_target === "" ? selectedCardData // If "Trending" tab is selected, render all cards
             : selectedCardData.filter(data => data.exercise_target === selectedCard.exercise_target)) // Otherwise, filter the data based on the selected exercise target
+            .sort((a, b) => {
+              // Sort alphabetically by exercise name
+              if (a.exercise_name < b.exercise_name) return -1;
+              if (a.exercise_name > b.exercise_name) return 1;
+              return 0;
+            })
+            .sort((a, b) => {
+              // Group by target muscle
+              if (a.exercise_target < b.exercise_target) return -1;
+              if (a.exercise_target > b.exercise_target) return 1;
+              return 0;
+            })
             .map((data, index) => (
+
               <Card key={index}>
                 <CardHeader>
                   <div className="relative">
@@ -327,9 +400,11 @@ function Exercise() {
                 <CardFooter className="relative">
                   <div className="absolute bottom-0 right-0 mb-2 mr-2">
                     <Popover>
-                      <PopoverTrigger asChild>
-                        <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
-                      </PopoverTrigger>
+                        <button onClick={(e) => onClickEdit(e, data)}>
+                          <PopoverTrigger asChild >
+                            <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
+                          </PopoverTrigger>
+                        </button>
 
                       <PopoverContent className="w-80">
                         <div className="grid gap-4">
@@ -340,37 +415,57 @@ function Exercise() {
                           <div className="grid gap-2">
                             <div className="grid grid-cols-3 items-center gap-4">
                               <Label htmlFor="exerciseName">Name: </Label>
-                              <Input id="exerciseName" defaultValue={data.exercise_name} onChange={(e) => setExerciseName(e.target.value)} className="col-span-2 h-8" />
+                              <Input id="exerciseName" value={exerciseNameEdit} onChange={(e) => setExerciseNameEdit(e.target.value)} className="col-span-2 h-8" />
 
                             </div>
                             <div className="grid grid-cols-3 items-center gap-4">
                               <Label htmlFor="targetMuscles">Target Muscles:</Label>
-                              <Select>
+                              <Select onValueChange={setExerciseTargetEdit}>
                                 <SelectTrigger className="w-[180px]">
                                   <SelectValue placeholder={data.exercise_target} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="light">Arms</SelectItem>
-                                  <SelectItem value="dark">Legs</SelectItem>
-                                  <SelectItem value="system">Chest</SelectItem>
-                                  <SelectItem value="part">Back</SelectItem>
+                                  <SelectItem value="arms">Arms</SelectItem>
+                                  <SelectItem value="legs">Legs</SelectItem>
+                                  <SelectItem value="chest">Chest</SelectItem>
+                                  <SelectItem value="back">Back</SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
                             <div className="grid grid-cols-3 items-center gap-4">
                               <Label htmlFor="reps">Reps:</Label>
-                              <Input id="reps" defaultValue={data.n_reps} onChange={handleRepsChange} className="col-span-2 h-8" />
+                              <Input id="reps" value={repsEdit} onChange={handleRepsChangeEdit} className="col-span-2 h-8" />
                             </div>
                             <div className="grid grid-cols-3 items-center gap-4">
                               <Label htmlFor="sets">Sets:</Label>
-                              <Input id="sets" defaultValue={data.n_sets} onChange={handleSetsChange} className="col-span-2 h-8" />
+                              <Input id="sets" value={setsEdit} onChange={handleSetsChangeEdit} className="col-span-2 h-8" />
                             </div>
                             <div className="grid grid-cols-3 items-center gap-4">
                               <Label htmlFor="weight">Weight:</Label>
-                              <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
+                              <Input id="weight" value={weightEdit} onChange={handleWeightChangeEdit} className="col-span-2 h-8" />
                             </div>
-                            <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-                            <Button onClick={handleEditExercise}>Submit</Button>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <Label htmlFor="difficulty">Difficulty:</Label>
+                              <Select onValueChange={setDifficultyEdit}>
+                                <SelectTrigger className="w-[180px]">
+                                  <SelectValue placeholder={data.difficulity} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="low">Low</SelectItem>
+                                  <SelectItem value="medium">Medium</SelectItem>
+                                  <SelectItem value="hard">Hard</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <Label htmlFor="description">Description:</Label>
+                              <Input id="description" value={descriptionEdit} onChange={(e) => setDescriptionEdit(e.target.value)} className="col-span-2 h-8" />
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <Label htmlFor="img_url">Image URL:</Label>
+                              <Input id="img_url" value={image_urlEdit} onChange={(e) => setImageUrlEdit(e.target.value)} className="col-span-2 h-8" />
+                            </div>
+                            <Button onClick={(e) => handleEditExercise(e, data)}>Submit</Button>
 
 
                           </div>
@@ -378,8 +473,14 @@ function Exercise() {
                       </PopoverContent>
 
                     </Popover>
+                    
                   </div>
-                  {data.n_reps}/{data.n_sets}
+
+                  <div className="space-y-1"> 
+                    <p>{data.description}</p>
+                    <p>Difficulty: {data.difficulity}</p>
+                    <p>Reps: {data.n_reps} / Sets: {data.n_sets} / Weight: {data.weight}</p>
+                  </div>
                 </CardFooter>
 
               </Card>

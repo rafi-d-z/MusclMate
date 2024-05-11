@@ -6,7 +6,10 @@ interface exercise {
     n_reps: number,
     n_sets: number,
     weight: number,
-    arr_keywords?: Array<string>
+    arr_keywords?: Array<string>,
+    description?: string,
+    difficulity: string,
+    creator: string
 }
 
-export default exercise;
+export default exercise
