@@ -20,7 +20,8 @@ jobs:
           node-version: '21'
       - name: Install dependencies
         run: npm install
-        working-directory: backend
+        working-directory: backend/__tests__
+        
       - name: Run testDatabase.ts
-        run: npx ts-node tests/testDatabase.ts
+        run: npx ts-node __tests__/testDatabase.ts
         working-directory: backend
