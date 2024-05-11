@@ -90,7 +90,6 @@ function Exercise() {
           n_reps: selectedCard.n_reps,
           n_sets: selectedCard.n_sets,
           weight: selectedCard.weight,
-          arr_keywords: selectedCard.arr_keywords
         },
       })
         .then(function (response) {
@@ -128,7 +127,7 @@ function Exercise() {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
+    const value = e.target.value;
     setImageUrl(value);
   }
 
@@ -153,7 +152,7 @@ function Exercise() {
   };
 
   const handleImageChangeEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
+    const value = e.target.value;
     setImageUrlEdit(value);
   }
 
@@ -172,7 +171,8 @@ function Exercise() {
   const handleAddNewExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    let obj: exercise = {
+    // eslint-disable-next-line prefer-const
+    let cardToAdd: exercise = {
       uid: "",
       exercise_name: exerciseName,
       exercise_target: exerciseTarget,
@@ -180,7 +180,10 @@ function Exercise() {
       n_reps: parseInt(reps),
       n_sets: parseInt(sets),
       weight: parseInt(weight),
-      arr_keywords: []
+      arr_keywords: [],
+      description: '', // TODO: add functionality to add this
+      difficulty: '', // TODO: add functionality to add this
+      creator: uid
     }
 
     axios.post("https://api-muscleman.com/create_exercise", {
@@ -191,12 +194,13 @@ function Exercise() {
       n_reps: reps,
       n_sets: sets,
       weight: weight,
-      arr_keywords: JSON.stringify([])
+      // add functionality to add desc, difficulity 
+      creator: uid
     })
       .then(function (response) {
-        obj.uid = response.data.uid;
-        setSelectedCardData([obj, ...selectedCardData]);
-        console.log(obj);
+        cardToAdd.uid = response.data.uid;
+        setSelectedCardData([cardToAdd, ...selectedCardData]);
+        console.log(cardToAdd);
         console.log("Data: ", response.data);
       })
       .catch((res) => {
