@@ -119,7 +119,7 @@ export async function delete_exercise(
     const res = await query_db(client, query);
     return res;
   } catch(err: any){
-    return err;
+    return err.toString();
   }
 }
 

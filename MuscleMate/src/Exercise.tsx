@@ -56,7 +56,7 @@ function Exercise() {
   const [sets, setSets] = useState('');
   const [weight, setWeight] = useState('none');
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const [exerciseTarget, setExerciseTarget] = useState('');
+  const [exerciseTarget, setExerciseTarget] = useState('arms');
   const [image_url, setImageUrl] = useState('https://via.placeholder.com/150');
 
   useEffect(() => {
@@ -88,6 +88,7 @@ function Exercise() {
 
     fetchData();
   }, [selectedCard]);
+
 
   const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
@@ -128,7 +129,7 @@ function Exercise() {
       weight: parseInt(weight),
       arr_keywords: []
     }
-    
+
     axios.post("https://api-muscleman.com/create_exercise", {
       uid: "",
       exercise_name: exerciseName,
@@ -139,23 +140,62 @@ function Exercise() {
       weight: weight,
       arr_keywords: JSON.stringify([])
     })
-    .then(function (response) {
-      obj.uid = response.data.uid;
-      setSelectedCardData([obj, ...selectedCardData]);
+      .then(function (response) {
+        obj.uid = response.data.uid;
+        setSelectedCardData([obj, ...selectedCardData]);
+        console.log(obj);
+        console.log("Data: ", response.data);
+      })
+      .catch((res) => {
+        console.error("Error connecting to server,", res.response.data);
+      });
+
+    setIsPopoverOpen(false);
+  };
+
+  const handleEditExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    let obj: exercise = {
+      uid: "",
+      exercise_name: exerciseName,
+      exercise_target: exerciseTarget,
+      image_url: image_url,
+      n_reps: parseInt(reps),
+      n_sets: parseInt(sets),
+      weight: parseInt(weight),
+      arr_keywords: []
+    }
+
+    axios.post("https://api-muscleman.com/edit_exercise", {
+      uid: "",
+      exercise_name: exerciseName,
+      exercise_target: exerciseTarget,
+      image_url: image_url,
+      n_reps: reps,
+      n_sets: sets,
+      weight: weight,
+      arr_keywords: JSON.stringify([])
     })
-    .catch((res) => {
-      console.error("Error connecting to server,", res.response.data);
-    });
+      .then(function (response) {
+        obj.uid = response.data.uid;
+        setSelectedCardData([obj, ...selectedCardData]);
+        console.log(obj);
+        console.log("Data: ", response.data);
+      })
+      .catch((res) => {
+        console.error("Error connecting to server,", res.response.data);
+      });
 
     setIsPopoverOpen(false);
   };
 
 
   const handleCancel = () => {
-    setExerciseName('Pull ups');
-    setReps('3');
-    setSets('12');
-    setWeight('none');
+    setExerciseName('');
+    setReps('0');
+    setSets('0');
+    setWeight('0');
 
     setIsPopoverOpen(false);
   };
@@ -163,24 +203,27 @@ function Exercise() {
 
   const handleDeleteCard = async (e: React.MouseEvent<HTMLButtonElement>, exercise_card: exercise) => {
     e.preventDefault();
+    console.log(exercise_card);
 
-    axios.post("https://api-muscleman.com/delete_exercise", {
-      uid: exercise_card.uid,
-      exercise_name: exercise_card.exercise_name,
-      exercise_target: exercise_card.exercise_target,
-      image_url: JSON.stringify(exercise_card.image_url),
-      n_reps: exercise_card.n_reps,
-      n_sets: exercise_card.n_sets,
-      weight: exercise_card.weight,
-      arr_keywords: JSON.stringify(exercise_card.arr_keywords)
+    axios.delete( "https://api-muscleman.com/delete_exercise",{
+      data: {
+        uid: exercise_card.uid,
+        exercise_name: exercise_card.exercise_name,
+        exercise_target: exercise_card.exercise_target,
+        image_url: JSON.stringify(exercise_card.image_url),
+        n_reps: exercise_card.n_reps,
+        n_sets: exercise_card.n_sets,
+        weight: exercise_card.weight,
+        arr_keywords: JSON.stringify(exercise_card.arr_keywords)
+      },
       }).then((response) => {
-        // since obj delted in selectedCardData array, remove it from array
-        setSelectedCardData(selectedCardData.filter((card) => card.uid !== exercise_card.uid));
-        console.log("Response: ", response.data);
-      })
-    .catch((res) => {
-      console.error("Error connecting to server,", res);
-    });
+      // since obj delted in selectedCardData array, remove it from array
+      setSelectedCardData(selectedCardData.filter((card) => card.uid !== exercise_card.uid));
+      console.log("Response: ", response.data);
+    })
+      .catch((res) => {
+        console.error("Error connecting to server,", res);
+      });
   };
 
 
@@ -229,10 +272,10 @@ function Exercise() {
                               <SelectValue placeholder="Arms" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="light">Arms</SelectItem>
-                              <SelectItem value="dark">Legs</SelectItem>
-                              <SelectItem value="system">Chest</SelectItem>
-                              <SelectItem value="part">Back</SelectItem>
+                              <SelectItem value="arms">Arms</SelectItem>
+                              <SelectItem value="legs">Legs</SelectItem>
+                              <SelectItem value="chest">Chest</SelectItem>
+                              <SelectItem value="back">Back</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -327,7 +370,7 @@ function Exercise() {
                               <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
                             </div>
                             <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-                            <Button onClick={handleAddNewExercise}>Submit</Button>
+                            <Button onClick={handleEditExercise}>Submit</Button>
 
 
                           </div>
