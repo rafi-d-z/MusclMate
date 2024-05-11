@@ -31,7 +31,6 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { useState, useEffect } from "react"
-// import { NewExerciseCard } from "./components/ui/newExerciseCard"
 import { Menubar } from "./components/ui/menubar"
 import muscleLogo from './assets/MuscleLogo.png'
 import axios from 'axios';
@@ -335,6 +334,18 @@ function Exercise() {
 
           {(selectedCard.exercise_target === "" ? selectedCardData // If "Trending" tab is selected, render all cards
             : selectedCardData.filter(data => data.exercise_target === selectedCard.exercise_target)) // Otherwise, filter the data based on the selected exercise target
+            .sort((a, b) => {
+              // Sort alphabetically by exercise name
+              if (a.exercise_name < b.exercise_name) return -1;
+              if (a.exercise_name > b.exercise_name) return 1;
+              return 0;
+            })
+            .sort((a, b) => {
+              // Group by target muscle
+              if (a.exercise_target < b.exercise_target) return -1;
+              if (a.exercise_target > b.exercise_target) return 1;
+              return 0;
+            })
             .map((data, index) => (
 
               <Card key={index}>
