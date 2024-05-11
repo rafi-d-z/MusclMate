@@ -107,7 +107,8 @@ export function getWorkoutQueries(query: any): workout {
       "The 'keywords' property of the query object is not an array",
     );
   }
-
+  query.exercise_arr == "[]" ? query.exercise_arr = [] : query.exercise_arr;
+  
   // save new data if not empty
   const workout_query: workout = {
     uid: query.uid.toString(),
