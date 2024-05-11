@@ -125,12 +125,7 @@ function Exercise() {
     console.log("Weight: ",value);
     setWeight(value);
   };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setImageUrl(value);
-  }
-
+  
   const handleRepsChangeEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
     value = value.replace(/\D/g, '');
@@ -150,11 +145,6 @@ function Exercise() {
     value = value.replace(/\D/g, '');
     setWeightEdit(value);
   };
-
-  const handleImageChangeEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setImageUrlEdit(value);
-  }
 
   const onClickEdit = (e: React.MouseEvent<HTMLButtonElement>, exercise_card: exercise) => {
     e.preventDefault();
