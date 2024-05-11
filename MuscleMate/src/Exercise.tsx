@@ -48,22 +48,30 @@ function Exercise() {
     n_reps: 0,
     n_sets: 0,
     weight: 0,
-    arr_keywords: []
+    arr_keywords: [],
+    difficulity: "",
+    description: "",
+    creator: ""
   });
   const [selectedCardData, setSelectedCardData] = useState<exercise[]>([]);
-  const [exerciseName, setExerciseName] = useState('');
+  const [exerciseName, setExerciseName] = useState('Push Ups');
   const [reps, setReps] = useState('');
   const [sets, setSets] = useState('');
   const [weight, setWeight] = useState('');
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [exerciseTarget, setExerciseTarget] = useState('arms');
   const [image_url, setImageUrl] = useState('https://via.placeholder.com/150');
+  const [description, setDescription] = useState('');
+  const [difficulty, setDifficulty] = useState('');
+
   const [exerciseNameEdit, setExerciseNameEdit] = useState('');
   const [repsEdit, setRepsEdit] = useState('');
   const [setsEdit, setSetsEdit] = useState('');
   const [weightEdit, setWeightEdit] = useState('');
   const [image_urlEdit, setImageUrlEdit] = useState('');
   const [exerciseTargetEdit, setExerciseTargetEdit] = useState('');
+  const [descriptionEdit, setDescriptionEdit] = useState('');
+  const [difficultyEdit, setDifficultyEdit] = useState('');
   const [uid, setUID] = useState('notSystem');
 
   useEffect(() => {
@@ -89,6 +97,8 @@ function Exercise() {
           n_reps: selectedCard.n_reps,
           n_sets: selectedCard.n_sets,
           weight: selectedCard.weight,
+          difficulty: selectedCard.difficulity,
+          description: selectedCard.description
         },
       })
         .then(function (response) {
@@ -148,6 +158,7 @@ function Exercise() {
   const onClickEdit = (e: React.MouseEvent<HTMLButtonElement>, exercise_card: exercise) => {
     e.preventDefault();
     console.log(exercise_card.exercise_name);
+    console.log(exercise_card.difficulity);
 
     setExerciseNameEdit(exercise_card.exercise_name);
     setExerciseTargetEdit(exercise_card.exercise_target);
@@ -155,6 +166,8 @@ function Exercise() {
     setSetsEdit(exercise_card.n_sets.toString());
     setWeightEdit(exercise_card.weight.toString());
     setImageUrlEdit(exercise_card.image_url);
+    setDescriptionEdit(JSON.stringify(exercise_card.description));
+    setDifficultyEdit(exercise_card.difficulity);
   }
 
   const handleAddNewExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -170,8 +183,8 @@ function Exercise() {
       n_sets: parseInt(sets),
       weight: parseInt(weight),
       arr_keywords: [],
-      description: '', // TODO: add functionality to add this
-      difficulty: '', // TODO: add functionality to add this
+      description: description, // TODO: add functionality to add this
+      difficulity: difficulty, // TODO: add functionality to add this
       creator: uid
     }
 
@@ -183,7 +196,8 @@ function Exercise() {
       n_reps: reps,
       n_sets: sets,
       weight: weight,
-      // add functionality to add desc, difficulity 
+      description: description,
+      difficulty: difficulty,
       creator: uid
     })
       .then(function (response) {
@@ -212,10 +226,13 @@ function Exercise() {
       n_reps: repsEdit,
       n_sets: setsEdit,
       weight: weightEdit,
-      arr_keywords: JSON.stringify(exercise_card.arr_keywords)
+      description: descriptionEdit,
+      difficulty: difficultyEdit,
     })
       .then(function (response) {
-        const updatedData = { exercise_name: exerciseNameEdit, exercise_target: exerciseTargetEdit, n_reps: parseInt(repsEdit), n_sets: parseInt(setsEdit), weight: parseInt(weightEdit), image_url: image_urlEdit};
+        const updatedData = { exercise_name: exerciseNameEdit, exercise_target: exerciseTargetEdit, 
+          n_reps: parseInt(repsEdit), n_sets: parseInt(setsEdit), weight: parseInt(weightEdit), image_url: image_urlEdit,
+          description: descriptionEdit, difficulty: difficultyEdit};
         setSelectedCardData(selectedCardData.map((data) => (data.uid === exercise_card.uid ? { ...data, ...updatedData } : data)));
         console.log("Data: ", response.data);
       })
@@ -240,7 +257,6 @@ function Exercise() {
         n_reps: exercise_card.n_reps,
         n_sets: exercise_card.n_sets,
         weight: exercise_card.weight,
-        arr_keywords: JSON.stringify(exercise_card.arr_keywords)
       },
     }).then((response) => {
       // since obj delted in selectedCardData array, remove it from array
@@ -317,6 +333,23 @@ function Exercise() {
                         <div className="grid grid-cols-3 items-center gap-4">
                           <Label htmlFor="weight">Weight:</Label>
                           <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
+                        </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="difficulty">Difficulty:</Label>
+                          <Select onValueChange={setDifficulty}>
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="Low" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="low">Low</SelectItem>
+                              <SelectItem value="medium">Medium</SelectItem>
+                              <SelectItem value="high">High</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="description">Description:</Label>
+                          <Input id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="col-span-2 h-8" />
                         </div>
                         <div className="grid grid-cols-3 items-center gap-4">
                           <Label htmlFor="img_url">Image URL:</Label>
@@ -412,6 +445,23 @@ function Exercise() {
                               <Input id="weight" value={weightEdit} onChange={handleWeightChangeEdit} className="col-span-2 h-8" />
                             </div>
                             <div className="grid grid-cols-3 items-center gap-4">
+                              <Label htmlFor="difficulty">Difficulty:</Label>
+                              <Select onValueChange={setDifficultyEdit}>
+                                <SelectTrigger className="w-[180px]">
+                                  <SelectValue placeholder={data.difficulity} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="low">Low</SelectItem>
+                                  <SelectItem value="medium">Medium</SelectItem>
+                                  <SelectItem value="hard">Hard</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <Label htmlFor="description">Description:</Label>
+                              <Input id="description" value={descriptionEdit} onChange={(e) => setDescriptionEdit(e.target.value)} className="col-span-2 h-8" />
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
                               <Label htmlFor="img_url">Image URL:</Label>
                               <Input id="img_url" value={image_urlEdit} onChange={(e) => setImageUrlEdit(e.target.value)} className="col-span-2 h-8" />
                             </div>
@@ -423,8 +473,14 @@ function Exercise() {
                       </PopoverContent>
 
                     </Popover>
+                    
                   </div>
-                  Reps: {data.n_reps} / Sets: {data.n_sets} / Weight: {data.weight}
+
+                  <div className="space-y-1"> 
+                    <p>{data.description}</p>
+                    <p>Difficulty: {data.difficulity}</p>
+                    <p>Reps: {data.n_reps} / Sets: {data.n_sets} / Weight: {data.weight}</p>
+                  </div>
                 </CardFooter>
 
               </Card>
