@@ -18,7 +18,7 @@
    - Motivational messages on UI (like Minecraft)
    - Hardcoded on UI (random selection)
 
-## Fakeable:
+## Maybes:
 
 1. **Network with fellow fitness enthusiasts:**
    - Fake it (obvious)
