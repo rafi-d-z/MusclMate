@@ -91,7 +91,7 @@ export async function create_exercise(
     exercise.weight,
     exercise.image_url,
     exercise.description,
-    exercise.difficulty,
+    exercise.difficulity,
     exercise.creator
   ];
 
@@ -131,7 +131,8 @@ export async function edit_exercise(
   const sql: string = `UPDATE public.exercises SET exercise_name = $2, exercise_target = $3, n_reps = $4, n_sets = $5, ` +
                       `arr_keywords = $6, weight = $7, image_url = $8, difficulity = $9, description = $10, WHERE uid` +
                       ` = $1 RETURNING uid;`;
-  const values = [exercise.uid, exercise.exercise_name, exercise.exercise_target, exercise.n_reps, exercise.n_sets, [], exercise.weight, exercise.image_url, exercise.difficulity, exercise.description];
+  const values = [exercise.uid, exercise.exercise_name, exercise.exercise_target, exercise.n_reps, exercise.n_sets, [], 
+                  exercise.weight, exercise.image_url, exercise.difficulity, exercise.description];
 
   const query = {
     text: sql,
