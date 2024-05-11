@@ -31,7 +31,6 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { useState, useEffect } from "react"
-import { NewExerciseCard } from "./components/ui/newExerciseCard"
 import { Menubar } from "./components/ui/menubar"
 import muscleLogo from './assets/MuscleLogo.png'
 import axios from 'axios';
