@@ -34,7 +34,7 @@ async function create_app(): Promise<Array<any>>{
   const app: express.Application = express();
   app.use(
     cors({
-      origin: ["https://muscl-mate.vercel.app", "http://localhost:5173"],
+      origin: ["https://muscl-mate-26j1.vercel.app", "http://localhost:5173"],
     }),
   );
   app.use(express.json());
@@ -104,7 +104,9 @@ async function create_app(): Promise<Array<any>>{
       n_reps: 0,
       n_sets: 0,
       weight: 0,
-      arr_keywords: []
+      arr_keywords: [],
+      description: "",
+      difficulty: ""
     }
 
     try{
@@ -125,13 +127,13 @@ async function create_app(): Promise<Array<any>>{
       res = await create_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
     }catch(err: any){
-      // console.error(err);
+       
       _res.send(err.toString()).status(400);
       return;
     }
   })
 
-  app.post("/delete_exercise", async (_req, _res) => {
+  app.delete("/delete_exercise", async (_req, _res) => {
     const query = _req.body;
     let exerciseQuery: exercise = {
       uid: "",
@@ -198,7 +200,6 @@ async function create_app(): Promise<Array<any>>{
       res = await edit_exercise(client_instance, exerciseQuery);
       _res.send(res).status(200);
     }catch(err: any){
-      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }
@@ -259,7 +260,6 @@ async function create_app(): Promise<Array<any>>{
       res = await get_workouts(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      // console.error(err);
       _res.send(err.toString()).status(400);
       return;
     }
@@ -290,7 +290,7 @@ async function create_app(): Promise<Array<any>>{
       res = await create_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      // console.error(err);
+       
       _res.send(err.toString()).status(400);
       return;
     }
@@ -321,7 +321,7 @@ async function create_app(): Promise<Array<any>>{
       res = await edit_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      // console.error(err);
+       
       _res.send(err.toString()).status(400);
       return;
     }
@@ -352,7 +352,7 @@ async function create_app(): Promise<Array<any>>{
       res = await delete_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-      // console.error(err);
+       
       _res.send(err.toString()).status(400);
       return;
     }

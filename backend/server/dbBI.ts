@@ -80,15 +80,18 @@ export async function create_exercise(
   ): Promise<string | null> {
   const sql: string =
     `INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets,` +
-    ` arr_keywords, weight) VALUES (uuid_generate_v4(), $1, $2,` +
-    ` $3, $4, $5, $6) RETURNING uid`;
+    ` arr_keywords, weight, image_url, description, difficulity) VALUES (uuid_generate_v4(), $1, $2,` +
+    ` $3, $4, $5, $6, $7, $8, $9) RETURNING uid`;
   const values = [
     exercise.exercise_name,
     exercise.exercise_target,
     exercise.n_reps,
     exercise.n_sets,
-    exercise.arr_keywords,
+    [],
     exercise.weight,
+    exercise.image_url,
+    exercise.description,
+    exercise.difficulty,
   ];
 
   const query = {
@@ -122,12 +125,10 @@ export async function delete_exercise(
 
 export async function edit_exercise(
   client: Client,
-  exercise: exercise
+  exercise: any
   ) {
-  const sql: string = `UPDATE public.exercises SET exercise_name = $2, exercise_target = $3, 
-                        n_reps = $4, n_sets = $5, arr_keywords = $6, weight = $7 WHERE uid = $1 RETURNING uid;`;
-    
-  const values = [exercise.uid, exercise.exercise_name, exercise.exercise_target, exercise.n_reps, exercise.n_sets, exercise.arr_keywords, exercise.weight];
+  const sql: string = `UPDATE public.exercises SET exercise_name = $2, exercise_target = $3, n_reps = $4, n_sets = $5, arr_keywords = $6, weight = $7 WHERE uid = $1 RETURNING uid;`;
+  const values = [exercise.uid, exercise.exercise_name, exercise.exercise_target, exercise.n_reps, exercise.n_sets, [], exercise.weight];
 
   const query = {
     text: sql,
@@ -140,7 +141,6 @@ export async function edit_exercise(
   } catch (err: any) {
     return err.toString();
   }
-
 }
 
 /* Workout Functions - passes all unit tests */
