@@ -62,11 +62,19 @@ import { CreateWorkoutCard } from "./components/ui/createWorkoutCard"
 import { WorkoutComponent } from "./components/ui/workoutComponent"
 import axios from "axios"
 import { workout } from './DAO/workout'
+import config from "../auth/firebase.config"
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function Workout() {
 
     const [selectedWorkout, setSelectedWorkout] = useState<workout>();
     const [selectedWorkoutData, setSelectedWorkoutData] = useState<workout[]>([]);
+    const [uid, setUID] = useState('notSystem');
+
+    const auth = getAuth(config.app);
+    onAuthStateChanged(auth, user => {
+        setUID(user?.uid || 'notSystem');
+    });
 
     useEffect(() => {
         const fetchData = async () => {
