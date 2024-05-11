@@ -82,13 +82,6 @@ export function toNumber(input: any): number {
  * @returns workout object
  */
 export function getWorkoutQueries(query: any): workout {
-  let workout_query: workout = {
-    uid: "",
-    workout_name: "",
-    exercise_arr: [],
-    keywords: [],
-  };
-
   // if the workout body does not contain the fields (as incomplete body) - throw error
   if (
     query.uid === undefined ||
@@ -116,10 +109,15 @@ export function getWorkoutQueries(query: any): workout {
   }
 
   // save new data if not empty
-  workout_query.uid = toString(query.uid);
-  workout_query.workout_name = toString(query.workout_name);
-  workout_query.exercise_arr = (query.exercise_arr);
-  workout_query.keywords = (query.keywords);
+  const workout_query: workout = {
+    uid: query.uid.toString(),
+    workout_name: query.workout_name.toString(),
+    exercise_arr: query.exercise_arr,
+    keywords: [],
+    description: query.description ? query.description.toString() : '',
+    difficulity: query.difficulity ? query.difficulity.toString() : '',
+    creator: query.creator ? query.creator.toString() : '',
+  };
 
   return workout_query;
 }
