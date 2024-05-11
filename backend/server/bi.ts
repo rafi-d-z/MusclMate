@@ -163,7 +163,7 @@ export function getExerciseQueries(query: any): exercise {
     weight: toNumber(query.weight),
     arr_keywords: query.arr_keywords ? query.arr_keywords : [],
     description: query.description ? query.description.toString() : '',
-    difficulty: query.difficulty ? query.difficulty.toString() : ''  ,
+    difficulity: query.difficulity ? query.difficulity.toString() : ''  ,
     creator: query.creator ? query.creator.toString() : ''
   };
   // console.log(exercise_query)

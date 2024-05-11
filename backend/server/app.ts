@@ -106,7 +106,7 @@ async function create_app(): Promise<Array<any>>{
       weight: 0,
       arr_keywords: [],
       description: "",
-      difficulty: "",
+      difficulity: "",
       creator: ""
     }
 
@@ -146,7 +146,7 @@ async function create_app(): Promise<Array<any>>{
       weight: 0,
       arr_keywords: [],
       description: "",
-      difficulty: "",
+      difficulity: "",
       creator: ""
     }
 
