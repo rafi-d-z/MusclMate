@@ -1,5 +1,5 @@
 import React from "react"
-import { Pencil, Minus } from "lucide-react"
+import { Pencil, Minus, Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { WorkoutExerciseCard } from "@/components/ui/workoutExerciseCard"
 import {
@@ -22,6 +22,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import {NewExerciseCard} from "@/components/ui/newExerciseCard"
 
 interface WorkoutComponentProps {
     isPopoverOpen: boolean;
@@ -67,7 +68,7 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
             <Dialog>
                                     <DialogTrigger>
                                         <Button variant="link" size="icon">
-                                            <Pencil className="h-4 w-4" />
+                                            <Eye className="h-4 w-4" />
                                         </Button>
                                     </DialogTrigger>
                                     <DialogContent>
@@ -143,6 +144,7 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                 cardContent={cardContent}
                 cardDescription={cardDescription}
             />
+            <NewExerciseCard/>
         </div>
     )
 }

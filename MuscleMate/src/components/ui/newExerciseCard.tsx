@@ -67,7 +67,7 @@ export const NewExerciseCard: React.FC = () => {
   };
 
   return (
-    <Card className="w-[210px]">
+    <Card className="w-[200px] m-4">
       <CardContent>
         <Popover>
           <PopoverTrigger asChild>
