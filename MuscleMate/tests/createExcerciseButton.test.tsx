@@ -9,11 +9,11 @@ describe('Exercise component', () => {
     const createExerciseButton = screen.getByText('+');
     fireEvent.click(createExerciseButton);
 
-    //const exerciseNameInput = screen.getByLabelText('exerciseName');
-    //fireEvent.change(exerciseNameInput, { target: { value: 'New Exercise' } });
+    const exerciseNameInput = screen.getByLabelText('exerciseName');
+    fireEvent.change(exerciseNameInput, { target: { value: 'New Exercise' } });
 
-    //const targetMuscleSelect = screen.getByLabelText('targetMuscles');
-    //fireEvent.change(targetMuscleSelect, { target: { value: 'Arms' } });
+    const targetMuscleSelect = screen.getByLabelText('targetMuscles');
+    fireEvent.change(targetMuscleSelect, { target: { value: 'Arms' } });
 
     const repsInput = screen.getByLabelText('reps');
     fireEvent.change(repsInput, { target: { value: '10' } });
