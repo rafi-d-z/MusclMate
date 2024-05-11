@@ -611,5 +611,23 @@ describe("Server Actions", () => {
     });
 });
   });
+
+  describe("should return 400 given improper input", () => {
+    test.only("no input", async (): Promise<void> => {
+      await request(app).post("/create_workout").send({}).expect(400);
+    });
+
+    test("invalid input", async (): Promise<void> => {
+      await request(app)
+        .post("/create_workout")
+        .send({
+          uid: 123,
+          workout_name: 123,
+          exercise_arr: 123,
+          keywords: 123,
+        })
+        .expect(400);
+    });
+  });
 });
 });
