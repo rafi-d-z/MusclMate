@@ -613,7 +613,7 @@ describe("Server Actions", () => {
   });
 
   describe("should return 400 given improper input", () => {
-    test.only("no input", async (): Promise<void> => {
+    test("no input", async (): Promise<void> => {
       await request(app).post("/create_workout").send({}).expect(400);
     });
 
