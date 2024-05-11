@@ -543,4 +543,26 @@ describe("Server Actions", () => {
     });
   });
 
+  describe("Post /create_workout", () => {
+    describe("should return information given proper input", () => {
+      test.only("entire workout body inputted", async (): Promise<void> => {
+        await request(app)
+        .post("/create_workout")
+        .send({
+          uid: "",
+          workout_name: "gluteus maximizer",
+          exercise_arr: [
+            "6d481883-a599-44d5-9c45-8e4f57e6d917",
+            "33628bab-142e-49cd-b752-30d5dfd8f093",
+            "33628bab-142e-49cd-b752-30d5dfd8f093",
+          ],
+          keywords: ["glutes"]
+        })
+        .expect(200)
+        .then((res) => {
+          uid.push(res.body.uid);
+        });
+    })
+  })
+});
 });
