@@ -7,7 +7,8 @@ import exercise from "@/DAO/exercise";
 describe("Server Actions", () => {
   let appClient: Array<any>;
   let app: express.Application;
-  let uid: Array<string> = [];
+  let toDeleteExerciseUids: Array<string> = [];
+  let toDeleteWorkoutUids: Array<string> = [];
 
   beforeAll(async () => {
     try {
@@ -146,7 +147,7 @@ describe("Server Actions", () => {
          })
          .expect(200)
          .then((res) => {
-           uid.push(res.body.uid);
+           toDeleteExerciseUids.push(res.body.uid);
          });
     })
 
@@ -170,7 +171,7 @@ describe("Server Actions", () => {
          })
          .expect(200)
          .then((res) => {
-           uid.push(res.body.uid);
+           toDeleteExerciseUids.push(res.body.uid);
          });
     })
 
@@ -194,7 +195,7 @@ describe("Server Actions", () => {
          })
          .expect(200)
          .then((res) => {
-           uid.push(res.body.uid);
+           toDeleteExerciseUids.push(res.body.uid);
          });
     })
 
@@ -213,7 +214,7 @@ describe("Server Actions", () => {
          })
          .expect(200)
          .then((res) => {
-           uid.push(res.body.uid);
+           toDeleteExerciseUids.push(res.body.uid);
          });
     })
 
@@ -416,7 +417,7 @@ describe("Server Actions", () => {
   describe("Delete /delete_exercise", () => {
     describe("valid input", () => {
       test("delete valid uid from exercises table", async () => {
-        uid.forEach(async (uid) => {
+        toDeleteExerciseUids.forEach(async (uid) => {
           const exercise: any = {
             uid: uid,
             exercise_name: "",
@@ -559,7 +560,7 @@ describe("Server Actions", () => {
         })
         .expect(200)
         .then((res) => {
-          uid.push(res.body.uid);
+          toDeleteWorkoutUids.push(res.body.uid);
         });
     });
 
@@ -574,7 +575,7 @@ describe("Server Actions", () => {
       })
       .expect(200)
       .then((res) => {
-        uid.push(res.body.uid);
+        toDeleteWorkoutUids.push(res.body.uid);
       });
   });
   test("workout name empty", async (): Promise<void> => {
@@ -588,7 +589,7 @@ describe("Server Actions", () => {
     })
     .expect(200)
     .then((res) => {
-      uid.push(res.body.uid);
+      toDeleteWorkoutUids.push(res.body.uid);
     });
   });
 
@@ -607,13 +608,13 @@ describe("Server Actions", () => {
     })
     .expect(200)
     .then((res) => {
-      uid.push(res.body.uid);
+      toDeleteWorkoutUids.push(res.body.uid);
     });
 });
   });
 
   describe("should return 400 given improper input", () => {
-    test.only("no input", async (): Promise<void> => {
+    test("no input", async (): Promise<void> => {
       await request(app).post("/create_workout").send({}).expect(400);
     });
 
