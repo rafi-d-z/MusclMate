@@ -67,10 +67,13 @@ function Exercise() {
   const [exerciseTargetEdit, setExerciseTargetEdit] = useState('');
   const [uid, setUID] = useState('notSystem');
 
-  const auth = getAuth(config.app);
-  onAuthStateChanged(auth, user => {
-    setUID(user?.uid || 'notSystem');
-  });
+  useEffect(() => {
+    const authState = getAuth(config.app);
+    onAuthStateChanged(authState, user => {
+      setUID(user?.uid || 'not logged in');
+      console.log(uid)
+    });
+  })
 
   useEffect(() => {
     const fetchData = async () => {
