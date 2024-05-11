@@ -561,7 +561,55 @@ describe("Server Actions", () => {
         .then((res) => {
           uid.push(res.body.uid);
         });
+    });
+
+    test("exercise arr empty", async (): Promise<void> => {
+      await request(app)
+      .post("/create_workout")
+      .send({
+        uid: "",
+        workout_name: "pecs like zoro",
+        exercise_arr: [],
+        keywords: ["chest", "pecs", "hypertrophy"]
+      })
+      .expect(200)
+      .then((res) => {
+        uid.push(res.body.uid);
+      });
+  });
+  test("workout name empty", async (): Promise<void> => {
+    await request(app)
+    .post("/create_workout")
+    .send({
+      uid: "",
+      workout_name: "",
+      exercise_arr: ["7e2726af-b5bd-4242-a7d8-b396d4842270"],
+      keywords: ["back", "lats", "explosiveness"]
     })
-  })
+    .expect(200)
+    .then((res) => {
+      uid.push(res.body.uid);
+    });
+  });
+
+  test.only("keywords empty", async (): Promise<void> => {
+    await request(app)
+    .post("/create_workout")
+    .send({
+      uid: "",
+      workout_name: "gluteus maximizer 2",
+      exercise_arr: [
+        "6d481883-a599-44d5-9c45-8e4f57e6d917",
+        "33628bab-142e-49cd-b752-30d5dfd8f093",
+        "33628bab-142e-49cd-b752-30d5dfd8f093",
+      ],
+      keywords: []
+    })
+    .expect(200)
+    .then((res) => {
+      uid.push(res.body.uid);
+    });
+});
+  });
 });
 });
