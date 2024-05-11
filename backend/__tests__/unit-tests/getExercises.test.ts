@@ -42,6 +42,7 @@ describe("get_exercises unit tests", () => {
             weight: 160,
             description: "minecraft",
             difficulity: "low",
+            creator: "system"
         })
     })
 })
