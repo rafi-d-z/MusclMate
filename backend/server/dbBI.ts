@@ -109,6 +109,7 @@ export async function create_exercise(
 
   try {
     const res = await query_db(client, query);
+    const _ = await update_user_exercises(client, exercise.creator, res[0].uid)
     return res[0].uid;
   } catch (err: any) {
     console.error("Problem fetching\n", err.toString());
@@ -239,9 +240,8 @@ export async function create_workout(client: Client, new_workout: workout): Prom
 
   try{
     const result = await query_db(client, query);
-    
+  
     // add workout to user
-
     const _ = await update_user_workouts(client, new_workout.creator, result[0].uid)
     
     return result[0].uid;
@@ -326,7 +326,7 @@ export async function create_user(client: Client, uid: string) {
 
 export async function update_user_exercises(client: Client, userUID: string, exercises: string) {
   // update user information via user object
-  const sql: string = `UPDATE public.users SET exercises = array_append(exercises, $2) `+
+  const sql: string = `UPDATE public.user SET exercises = array_append(exercises, $2) `+
                       `WHERE uid = $1 RETURNING uid;`;
 
   const values = [userUID, exercises];
@@ -346,7 +346,7 @@ export async function update_user_exercises(client: Client, userUID: string, exe
 
 export async function update_user_workouts(client: Client, userUID: string, workouts: string) {
   // update user information via user object
-  const sql: string = `UPDATE public.users SET workouts = array_append(workouts, $2) `+
+  const sql: string = `UPDATE public.user SET workouts = array_append(workouts, $2) `+
                       `WHERE uid = $1 RETURNING uid;`;
 
   const values = [userUID, workouts];
