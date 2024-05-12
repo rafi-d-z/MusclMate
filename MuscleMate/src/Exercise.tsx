@@ -63,6 +63,7 @@ function Exercise() {
   const [image_url, setImageUrl] = useState('https://via.placeholder.com/150');
   const [description, setDescription] = useState('');
   const [difficulty, setDifficulty] = useState('');
+  const [creator, setCreator] = useState('');
 
   const [exerciseNameEdit, setExerciseNameEdit] = useState('');
   const [repsEdit, setRepsEdit] = useState('');
@@ -98,7 +99,8 @@ function Exercise() {
           n_sets: selectedCard.n_sets,
           weight: selectedCard.weight,
           difficulty: selectedCard.difficulity,
-          description: selectedCard.description
+          description: selectedCard.description,
+          creator: selectedCard.creator
         },
       })
         .then(function (response) {
@@ -166,7 +168,7 @@ function Exercise() {
     setSetsEdit(exercise_card.n_sets.toString());
     setWeightEdit(exercise_card.weight.toString());
     setImageUrlEdit(exercise_card.image_url);
-    setDescriptionEdit(JSON.stringify(exercise_card.description));
+    setDescriptionEdit(exercise_card.description ? exercise_card.description : "");
     setDifficultyEdit(exercise_card.difficulity);
   }
 
@@ -197,7 +199,7 @@ function Exercise() {
       n_sets: sets,
       weight: weight,
       description: description,
-      difficulty: difficulty,
+      difficulity: difficulty,
       creator: uid
     })
       .then(function (response) {
@@ -215,7 +217,6 @@ function Exercise() {
 
   const handleEditExercise = async (e: React.MouseEvent<HTMLButtonElement>, exercise_card: exercise) => {
     e.preventDefault();
-    console.log(exercise_card);
 
 
     axios.post("https://api-muscleman.com/edit_exercise", {
@@ -227,13 +228,14 @@ function Exercise() {
       n_sets: setsEdit,
       weight: weightEdit,
       description: descriptionEdit,
-      difficulty: difficultyEdit,
+      difficulity: difficultyEdit,
     })
       .then(function (response) {
         const updatedData = { exercise_name: exerciseNameEdit, exercise_target: exerciseTargetEdit, 
           n_reps: parseInt(repsEdit), n_sets: parseInt(setsEdit), weight: parseInt(weightEdit), image_url: image_urlEdit,
-          description: descriptionEdit, difficulty: difficultyEdit};
+          description: descriptionEdit, difficulity: difficultyEdit};
         setSelectedCardData(selectedCardData.map((data) => (data.uid === exercise_card.uid ? { ...data, ...updatedData } : data)));
+        console.log(exerciseNameEdit);
         console.log("Data: ", response.data);
       })
       .catch((res) => {
@@ -253,7 +255,7 @@ function Exercise() {
         uid: exercise_card.uid,
         exercise_name: exercise_card.exercise_name,
         exercise_target: exercise_card.exercise_target,
-        image_url: JSON.stringify(exercise_card.image_url),
+        image_url: exercise_card.image_url,
         n_reps: exercise_card.n_reps,
         n_sets: exercise_card.n_sets,
         weight: exercise_card.weight,
