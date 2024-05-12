@@ -381,6 +381,7 @@ async function create_app(): Promise<Array<any>>{
     // fetch user information from api
     try {
       const user = get_user(client_instance, uid);
+      console.log(user)
       _res.send(user).status(200);
     } catch(err: any){
       _res.send(err.toString()).status(400);
