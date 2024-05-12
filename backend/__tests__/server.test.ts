@@ -111,7 +111,7 @@ describe("Server Actions", () => {
     });
   });
 
-  describe.only("Post /create_exercise", () => {
+  describe("Post /create_exercise", () => {
     test('valid input in exercises table', async () => {
       await request(app)
         .post("/create_exercise")
@@ -184,7 +184,7 @@ describe("Server Actions", () => {
          });
     })
 
-    test('valid input in exercises table without keywords', async () => {
+    test.only('valid input in exercises table without keywords', async () => {
       await request(app)
         .post("/create_exercise")
         .send({
@@ -200,6 +200,7 @@ describe("Server Actions", () => {
          .expect(200)
          .then((res) => {
            toDeleteExerciseUids.push(res.body.uid);
+           console.log(res.body)
          });
     })
 
@@ -252,8 +253,15 @@ describe("Server Actions", () => {
     });
   });
 
-  describe.only("Post /edit_exercise", () => {
+  describe("Post /edit_exercise", () => {
     describe("invalid input", () => {
+
+      test("print toDeleteExerciseUids", () => {
+        for(let uid of toDeleteExerciseUids){
+          console.log(uid);
+        }
+      });
+
       test("edit valid uid from exercises table", async () => {
         const exercise: any = {
           uid: toDeleteExerciseUids[0],
@@ -400,7 +408,7 @@ describe("Server Actions", () => {
     });
   });
 
-  describe.only("Delete /delete_exercise", () => {
+  describe("Delete /delete_exercise", () => {
     describe("valid input", () => {
       test("delete valid uid from exercises table", async () => {
         toDeleteExerciseUids.forEach(async (uid) => {
