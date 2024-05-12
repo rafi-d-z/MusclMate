@@ -36,11 +36,9 @@ interface WorkoutComponentProps {
     handleSetsChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleCancel: () => void;
     handleAddNewExercise: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    cardTitle: any;
-    cardContent: any;
-    cardDescription: any;
     workoutTitle: any;
     listOfExercise: Array<any>;
+    exerciseArray: Array<any>;
 }
 
 export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
@@ -55,11 +53,9 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
     handleSetsChange,
     handleCancel,
     handleAddNewExercise,
-    cardTitle,
-    cardContent,
-    cardDescription,
     workoutTitle,
     listOfExercise,
+    exerciseArray,
 }) => {
     return (
         <div className="flex flex-col items-center justify-between p-6 lg:px-8">
@@ -118,7 +114,9 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                     <Minus className="h-4 w-4" />
                 </Button>
             </div>
-            <WorkoutExerciseCard
+            <div>
+            {exerciseArray.map((exercise, index) => (                    
+            <WorkoutExerciseCard key = {index}
                 isPopoverOpen={isPopoverOpen}
                 exerciseName={exerciseName}
                 setExerciseName={setExerciseName}
@@ -130,10 +128,11 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                 handleSetsChange={handleSetsChange}
                 handleCancel={handleCancel}
                 handleAddNewExercise={handleAddNewExercise}
-                cardTitle={cardTitle}
-                cardContent={cardContent}
-                cardDescription={cardDescription}
-            />
+                cardTitle={exercise.name}
+                cardContent={exercise.image_url}
+                cardDescription={exercise.exercise_target}
+            />))}
+            </div>
             <NewExerciseCard />
         </div>
     )

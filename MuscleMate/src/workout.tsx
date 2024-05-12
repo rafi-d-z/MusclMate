@@ -158,11 +158,13 @@ function Workout() {
             data: {
                 uid: workout_obj.uid,
                 workout_name: workout_obj.workout_name,
-                exercise_arr: workout_obj.exercise_arr,
-                keywords: JSON.stringify(workout_obj.keywords)
+                exercise_arr: JSON.stringify(workout_obj.exercise_arr),
+                keywords: JSON.stringify(workout_obj.keywords),
+                difficulity: workout_obj.difficulity,
+                description: workout_obj.description,
+                creator: workout_obj.creator,
             },
         }).then((response) => {
-            // since obj delted in selectedCardData array, remove it from array
             setSelectedWorkoutData(selectedWorkoutData.filter((card) => card.uid !== workout_obj.uid));
             console.log("Response: ", response.data);
         })
@@ -273,62 +275,6 @@ function Workout() {
                         <div className="flex flex-col items-start justify-between p-6 lg:px-8">
                             <CreateWorkoutCard />
                         </div>
-                        <div className="flex flex-col items-center justify-between p-6 lg:px-8">
-                            <WorkoutExerciseCard
-                                isPopoverOpen={isPopoverOpen}
-                                exerciseName={exerciseName}
-                                setExerciseName={setExerciseName}
-                                reps={reps}
-                                sets={sets}
-                                weight={weight}
-                                handleWeightChange={handleWeightChange}
-                                handleRepsChange={handleRepsChange}
-                                handleSetsChange={handleSetsChange}
-                                handleCancel={handleCancel}
-                                handleAddNewExercise={handleAddNewExercise}
-                                cardTitle={"asdfasf"}
-                                cardContent={"cardContent"}
-                                cardDescription={"cardDescription"}
-
-                            />
-                            <WorkoutExerciseCard
-                                isPopoverOpen={isPopoverOpen}
-                                exerciseName={exerciseName}
-                                setExerciseName={setExerciseName}
-                                reps={reps}
-                                sets={sets}
-                                weight={weight}
-                                handleWeightChange={handleWeightChange}
-                                handleRepsChange={handleRepsChange}
-                                handleSetsChange={handleSetsChange}
-                                handleCancel={handleCancel}
-                                handleAddNewExercise={handleAddNewExercise}
-                                cardTitle={"cardTitle"}
-                                cardContent={"cardContent"}
-                                cardDescription={"cardDescription"}
-
-                            />
-                        </div>
-                        {selectedWorkoutData.map((data, index) => (
-                            <WorkoutComponent
-                                isPopoverOpen={isPopoverOpen}
-                                exerciseName={exerciseName}
-                                setExerciseName={setExerciseName}
-                                reps={reps}
-                                sets={sets}
-                                weight={weight}
-                                handleWeightChange={handleWeightChange}
-                                handleRepsChange={handleRepsChange}
-                                handleSetsChange={handleSetsChange}
-                                handleCancel={handleCancel}
-                                handleAddNewExercise={handleAddNewExercise}
-                                cardTitle={"cardTitle"}
-                                cardContent={"cardContent"}
-                                cardDescription={"cardDescription"}
-                                workoutTitle={<h1 key={index}>{data.workout_name}</h1>}
-                                listOfExercise={listOfExercise}                          
-                            />
-                        ))}
                         {selectedWorkoutData.map((data, index) => (
                             <div className="flex flex-col items-center justify-between p-6 lg:px-8">
                                 <div style={{ display: 'flex', alignItems: 'center' }}>

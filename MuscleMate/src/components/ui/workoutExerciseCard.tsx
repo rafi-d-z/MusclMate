@@ -87,7 +87,7 @@ export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
                     <CardDescription>{cardDescription}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>{cardContent}</p>
+                    <img src={cardContent}></img>
                 </CardContent>
                 <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Popover>
