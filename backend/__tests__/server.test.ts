@@ -108,21 +108,6 @@ describe("Server Actions", () => {
 
         await request(app).get("/get_exercises").query(query).expect(400);
       });
-
-      test("should return invalid arr_keywords is not an array", async () => {
-        const query: any = {
-          uid: '',
-          exercise_name: '',
-          exercise_target: '',
-          image_url: '',
-          n_reps: 0,
-          n_sets: 0,
-          weight: 0,
-          arr_keywords: "not an array",
-        }
-
-        await request(app).get("/get_exercises").query(query).expect(400);
-      });
     });
   });
 
@@ -227,8 +212,7 @@ describe("Server Actions", () => {
           "exercise_name": "hip thurst",
           "exercise_target": "legs",
           "n_reps": 10,
-          "n_sets": 3,
-          "arr_keywords": encodeURIComponent(JSON.stringify("notAnArray")),
+          "n_sets": "i remmeber you was conflicted",
           "weight": 185,
           "image_url": ""
         })
@@ -426,7 +410,6 @@ describe("Server Actions", () => {
             n_reps: 0,
             n_sets: 0,
             weight: 0,
-            arr_keywords: JSON.stringify([]),
           }
 
           await request(app)
@@ -615,6 +598,7 @@ describe("Server Actions", () => {
 
   describe("should return 400 given improper input", () => {
     test("no input", async (): Promise<void> => {
+    test("no input", async (): Promise<void> => {
       await request(app).post("/create_workout").send({}).expect(400);
     });
 
@@ -629,6 +613,68 @@ describe("Server Actions", () => {
         })
         .expect(400);
     });
+
+    test("invalid uid", async (): Promise<void> => { 
+      await request(app)
+        .post("/create_workout")
+        .send({
+          uid: 123456,
+          workout_name: "gluteus maximizer",
+          exercise_arr: [
+            "6d481883-a599-44d5-9c45-8e4f57e6d917",
+            "33628bab-142e-49cd-b752-30d5dfd8f093",
+            "33628bab-142e-49cd-b752-30d5dfd8f093",
+          ],
+          keywords: ["glutes"]
+        })
+        .expect(400);
+    });
+
+    test("invalid workout_name", async (): Promise<void> => { 
+      await request(app)
+        .post("/create_workout")
+        .send({
+          uid: "test_uid",
+          workout_name: [],
+          exercise_arr: [
+            "6d481883-a599-44d5-9c45-8e4f57e6d917",
+            "33628bab-142e-49cd-b752-30d5dfd8f093",
+            "33628bab-142e-49cd-b752-30d5dfd8f093",
+          ],
+          keywords: ["glutes"]
+        })
+        .expect(400);
+    });
+
+    test("invalid exercise_arr", async (): Promise<void> => { 
+      await request(app)
+        .post("/create_workout")
+        .send({
+          uid: "test_uid",
+          workout_name: "mayweather boxing workout",
+          exercise_arr: "not an array",
+          keywords: ["glutes"]
+        })
+        .expect(400);
+    });
+
+    test("invalid keywords", async (): Promise<void> => { 
+      await request(app)
+        .post("/create_workout")
+        .send({
+          uid: "test_uid",
+          workout_name: "john cena abs workout",
+          exercise_arr: [
+            "6d481883-a599-44d5-9c45-8e4f57e6d917",
+            "33628bab-142e-49cd-b752-30d5dfd8f093",
+            "33628bab-142e-49cd-b752-30d5dfd8f093",
+          ],
+          keywords: "not an array"
+        })
+        .expect(400);
+      });
+    });
   });
-});
+
+  
 });

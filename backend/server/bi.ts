@@ -82,13 +82,6 @@ export function toNumber(input: any): number {
  * @returns workout object
  */
 export function getWorkoutQueries(query: any): workout {
-  let workout_query: workout = {
-    uid: "",
-    workout_name: "",
-    exercise_arr: [],
-    keywords: [],
-  };
-
   // if the workout body does not contain the fields (as incomplete body) - throw error
   if (
     query.uid === undefined ||
@@ -114,12 +107,18 @@ export function getWorkoutQueries(query: any): workout {
       "The 'keywords' property of the query object is not an array",
     );
   }
-
+  query.exercise_arr == "[]" ? query.exercise_arr = [] : query.exercise_arr;
+  
   // save new data if not empty
-  workout_query.uid = toString(query.uid);
-  workout_query.workout_name = toString(query.workout_name);
-  workout_query.exercise_arr = (query.exercise_arr);
-  workout_query.keywords = (query.keywords);
+  const workout_query: workout = {
+    uid: query.uid.toString(),
+    workout_name: query.workout_name.toString(),
+    exercise_arr: query.exercise_arr,
+    keywords: [],
+    description: query.description ? query.description.toString() : '',
+    difficulity: query.difficulity ? query.difficulity.toString() : '',
+    creator: query.creator ? query.creator.toString() : '',
+  };
 
   return workout_query;
 }
@@ -134,7 +133,6 @@ export function getExerciseQueries(query: any): exercise {
     query.image_url === undefined ||
     query.n_reps === undefined ||
     query.n_sets === undefined ||
-    // query.arr_keywords === undefined ||
     query.weight === undefined){
     console.log("undefined spotted", query)
     throw new Error(`Malformed input! Exercise object either missing or incomplete. Got ${query}`);
@@ -152,12 +150,7 @@ export function getExerciseQueries(query: any): exercise {
     throw new Error(`The 'n_sets' property of the query object is not a number. Got ${query.n_sets}`)
   } else if(!isNumber(query.weight)){
     throw new Error(`The 'weight' property of the query object is not a number. Got ${query.weight}`)
-  } else if(query.arr_keywords !== undefined && !isArray(query.arr_keywords) && toString(query.arr_keywords) !== ''){
-    throw new Error(`The 'arr_keywords' property of the query object is not an array. Got ${query.arr_keywords}`);    
-  } else if(query.arr_keywords === undefined){
-    query.arr_keywords = [];
-  }
-      
+  }       
   // save new data if not empty
   const exercise_query: exercise = {
     uid: toString(query.uid),
@@ -167,9 +160,11 @@ export function getExerciseQueries(query: any): exercise {
     n_reps: toNumber(query.n_reps),
     n_sets: toNumber(query.n_sets),
     weight: toNumber(query.weight),
-    arr_keywords: (query.arr_keywords),
+    arr_keywords: query.arr_keywords ? query.arr_keywords : [],
     description: query.description ? query.description.toString() : '',
-    difficulty: query.difficulty ? query.difficulty.toString() : ''  };
+    difficulity: query.difficulity ? query.difficulity.toString() : ''  ,
+    creator: query.creator ? query.creator.toString() : ''
+  };
   // console.log(exercise_query)
   return exercise_query;
 }

@@ -80,8 +80,8 @@ export async function create_exercise(
   ): Promise<string | null> {
   const sql: string =
     `INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets,` +
-    ` arr_keywords, weight, image_url, description, difficulity) VALUES (uuid_generate_v4(), $1, $2,` +
-    ` $3, $4, $5, $6, $7, $8, $9) RETURNING uid`;
+    ` arr_keywords, weight, image_url, description, difficulity, creator) VALUES (uuid_generate_v4(), $1, $2,` +
+    ` $3, $4, $5, $6, $7, $8, $9, $10) RETURNING uid`;
   const values = [
     exercise.exercise_name,
     exercise.exercise_target,
@@ -91,7 +91,8 @@ export async function create_exercise(
     exercise.weight,
     exercise.image_url,
     exercise.description,
-    exercise.difficulty,
+    exercise.difficulity,
+    exercise.creator
   ];
 
   const query = {
@@ -127,8 +128,11 @@ export async function edit_exercise(
   client: Client,
   exercise: any
   ) {
-  const sql: string = `UPDATE public.exercises SET exercise_name = $2, exercise_target = $3, n_reps = $4, n_sets = $5, arr_keywords = $6, weight = $7 WHERE uid = $1 RETURNING uid;`;
-  const values = [exercise.uid, exercise.exercise_name, exercise.exercise_target, exercise.n_reps, exercise.n_sets, [], exercise.weight];
+  const sql: string = `UPDATE public.exercises SET exercise_name = $2, exercise_target = $3, n_reps = $4, n_sets = $5, ` +
+                      `arr_keywords = $6, weight = $7, image_url = $8, difficulity = $9, description = $10, WHERE uid` +
+                      ` = $1 RETURNING uid;`;
+  const values = [exercise.uid, exercise.exercise_name, exercise.exercise_target, exercise.n_reps, exercise.n_sets, [], 
+                  exercise.weight, exercise.image_url, exercise.difficulity, exercise.description];
 
   const query = {
     text: sql,
@@ -246,10 +250,12 @@ export async function delete_workout(client: Client, workout_to_delete: workout)
 async function query_db(client: Client, query: any): Promise<Array<any>>{
   try {
     console.log("Performing Query:", query)
+
     const result = await client.query(query);
     const res = result.rows; 
     return res;
   } catch (err: any) {
+    console.error("Problem querying database\n", err.toString());
     throw new Error(`Problem querying database, possible malformed input. Tried to perform ${query.text, query.values}`);
   }
 }
