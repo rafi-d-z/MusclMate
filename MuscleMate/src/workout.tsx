@@ -350,6 +350,7 @@ function Workout() {
                                             <img src={exercise.image_url}></img>
                                         </CardContent>
                                         <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                        {exercise.n_reps}/{exercise.n_sets}
                                         <Button variant="link" size="icon">
                                             <Minus className="h-4 w-4" />
                                         </Button>
