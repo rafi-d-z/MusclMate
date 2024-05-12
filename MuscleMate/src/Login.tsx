@@ -166,11 +166,10 @@ function SignUp() {
     createUserWithEmailAndPassword(auth, values.email, values.password)
       .then(() => {
         axios.post("https://api-muscleman.com/create_user", {
-          data: {
             uid: auth.currentUser?.uid,
-          }
-        })
-
+          }).catch((error) => {
+            console.error(error);
+          });
         goHome();
       })
       .catch((error) => {

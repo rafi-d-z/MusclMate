@@ -38,6 +38,7 @@ import './App.css'
 import exercise from "DAO/exercise"
 import config from "../auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
+import TopBar from "./components/ui/topBar"
 
 function Exercise() {
   const [selectedCard, setSelectedCard] = useState<exercise>({
@@ -257,13 +258,7 @@ function Exercise() {
 
   return (
     <>
-      <div className="flex items-center justify-between p-8 lg:px-8">
-        <img src={muscleLogo} width={200} height={200} />
-        <div className="mt-5 flex lg:ml-4 gap-20">
-          <Input placeholder="Search" className="w-[200px] " />
-          <Menubar />
-        </div>
-      </div>
+      <TopBar />
 
       <Tabs defaultValue="" className="w-[1200px]">
         <TabsList className="grid w-full grid-cols-5">

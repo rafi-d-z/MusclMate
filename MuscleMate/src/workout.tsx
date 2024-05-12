@@ -65,6 +65,7 @@ import workout from '../DAO/workout'
 import config from "../auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Description } from "@radix-ui/react-dialog"
+import TopBar from "./components/ui/topBar"
 
 function Workout() {
     const [selectedWorkout, setSelectedWorkout] = useState<workout>({
@@ -258,14 +259,8 @@ function Workout() {
 
     return (
         <>
-            {/* top bar components */}
-            <div className="flex items-center justify-between p-8 lg:px-8">
-                <img src={muscleLogo} width={200} height={200} />
-                <div className="mt-5 flex lg:ml-4 gap-20">
-                    <Input placeholder="Search" className="w-[200px] " />
-                    <Menubar />
-                </div>
-            </div>
+        <TopBar />
+        
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '360px' }}>
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '800px' }}>

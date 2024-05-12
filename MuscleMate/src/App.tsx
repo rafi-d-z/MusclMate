@@ -14,6 +14,7 @@ import muscleLogo from "./assets/MuscleLogo.png";
 import { Menubar } from "@/components/ui/menubar";
 import axios from "axios";
 import exercise from "../DAO/exercise";
+import TopBar from "./components/ui/topBar";
 
 function MainMenu() {
   const [selectedCard, setSelectedCard] = useState<exercise>({
@@ -62,15 +63,8 @@ function MainMenu() {
 
   return (
     <>
-      {/* top bar components */}
-      <div className="flex items-center justify-between p-8 lg:px-8">
-        <img src={muscleLogo} width={200} height={200} />
-        <div className="mt-5 flex lg:ml-4 gap-20">
-          <Input placeholder="Search" className="w-[200px] " />
-          <Menubar />
-        </div>
-      </div>
-
+      <TopBar />
+      
       <Tabs defaultValue="" className="w-[1200px]">
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="" onClick={() => setSelectedCard({ ...selectedCard, exercise_target: '' })}>Trending</TabsTrigger>
