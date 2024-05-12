@@ -17,7 +17,8 @@ import {
   create_workout,
   edit_workout,
   delete_workout,
-  get_user
+  get_user,
+  create_user
 } from "./dbBI";
 
 dotenv.config();
@@ -392,12 +393,30 @@ async function create_app(): Promise<Array<any>>{
     }
   });
 
-  app.post("/create_user", (_req, _res) => {
-  
-  });
+  app.post("/create_user", async (_req, _res) => {
+    // get uid from params
+    let uid: string;
 
-  app.post("/edit_user", (_req, _res) => {
-  
+    try{
+      uid = getUserQueries(_req.query);
+    } catch (err: any) {
+      _res.send(err.toString()).status(400);
+      return;
+    }
+
+    if (client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      return;
+    }
+
+    // fetch user information from api
+    try {
+      const user = await create_user(client_instance, uid);
+      _res.send(user).status(200);
+    } catch(err: any){
+      _res.send(err.toString()).status(400);
+      return;
+    }
   });
 
   return [app, client_instance];

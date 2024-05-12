@@ -338,7 +338,7 @@ export async function get_user(client: Client, uid: string): Promise<Array<any> 
 }
 
 export async function create_user(client: Client, uid: string) {
-  const sql: string = "INSERT INTO public.users (uid) VALUES ($1);";
+  const sql: string = "INSERT INTO public.user (uid) VALUES ANY($1);";
   const values = [uid];
 
   const query = {
