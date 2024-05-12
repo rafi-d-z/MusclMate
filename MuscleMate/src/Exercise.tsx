@@ -66,6 +66,7 @@ function Exercise() {
   const [image_urlEdit, setImageUrlEdit] = useState('');
   const [exerciseTargetEdit, setExerciseTargetEdit] = useState('');
   const [uid, setUID] = useState<string | undefined>(undefined);
+  const [difficulty, setDifficulty] = useState('');
 
   useEffect(() => {
     const authState = getAuth(config.app);
@@ -174,21 +175,11 @@ function Exercise() {
       weight: parseInt(weight),
       arr_keywords: [],
       description: '', // TODO: add functionality to add this
-      difficulity: '', // TODO: add functionality to add this
+      difficulity: difficulty, 
       creator: String(uid)
     }
 
-    axios.post("https://api-muscleman.com/create_exercise", {
-      uid: "",
-      exercise_name: exerciseName,
-      exercise_target: exerciseTarget,
-      image_url: image_url,
-      n_reps: reps,
-      n_sets: sets,
-      weight: weight,
-      // add functionality to add desc, difficulity 
-      creator: uid
-    })
+    axios.post("https://api-muscleman.com/create_exercise", cardToAdd)
       .then(function (response) {
         cardToAdd.uid = response.data.uid;
         setSelectedCardData([cardToAdd, ...selectedCardData]);
@@ -303,6 +294,19 @@ function Exercise() {
                           </Select>
                         </div>
                         <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="targetMuscles">Difficulty:</Label>
+                          <Select onValueChange={setDifficulty}>
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="low" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="low">Low</SelectItem>
+                              <SelectItem value="medium">Medium</SelectItem>
+                              <SelectItem value="hard">Hard</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
                           <Label htmlFor="reps">Reps:</Label>
                           <Input id="reps" value={reps} onChange={handleRepsChange} className="col-span-2 h-8" />
                         </div>
@@ -343,7 +347,7 @@ function Exercise() {
               return 0;
             })
             .map((data, index) => (
-              <Card key={index}>
+              <Card key={index} priority={data.difficulity}>
                 <CardHeader>
                   {data.creator == uid ? 
                     <div className="relative">
