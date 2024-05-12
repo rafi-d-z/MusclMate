@@ -51,38 +51,38 @@ const Redirect = ({ to, children }: RedirectProps) => {
 };
 
 export const Menubar: React.FC = () => {
-    return (
-        <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" className ="text-sm font-semibold leading-6 text-gray-900"><GiHamburgerMenu /></Button>
-            </SheetTrigger>
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline" className ="text-sm font-semibold leading-6 text-gray-900"><GiHamburgerMenu /></Button>
+      </SheetTrigger>
 
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Get Pumped</SheetTitle>
-              </SheetHeader>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Get Pumped</SheetTitle>
+        </SheetHeader>
 
-                <div className="flex flex-col space-y-4">
-                    <Redirect to="/workout">
-                        <MyLabel labelName='My Workouts'/>
-                    </Redirect>
+        <div className="flex flex-col space-y-4">
+          <Redirect to="/workout">
+              <MyLabel labelName='My Workouts'/>
+          </Redirect>
 
-                    <Redirect to="/exercise">
-                        <MyLabel labelName='Exercises'/>
-                    </Redirect>
+          <Redirect to="/exercise">
+              <MyLabel labelName='Exercises'/>
+          </Redirect>
 
-                    <MyLabel labelName='Favorites' />
-                    <MyLabel labelName='My Progress' />
-                </div>
+          <MyLabel labelName='Favorites' />
+          <MyLabel labelName='My Progress' />
+        </div>
 
-                <SheetFooter>
-                  <div className='bottom'>
-                    <a><FaGear size={40}/></a>
-                    <a><CgProfile size={40} /></a>
-                  </div>
-                </SheetFooter>
+        <SheetFooter>
+          <div className='bottom'>
+            <a><FaGear size={40}/></a>
+            <a><CgProfile size={40} /></a>
+          </div>
+        </SheetFooter>
 
-            </SheetContent>
-        </Sheet>
-    );
+      </SheetContent>
+    </Sheet>
+  );
 }
