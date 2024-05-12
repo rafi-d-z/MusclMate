@@ -1,8 +1,9 @@
 name: deploy backend to EC2 instance
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+    paths: 
+      - 'backend/*'
 
 jobs:
   deploy:
