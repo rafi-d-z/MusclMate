@@ -1,6 +1,8 @@
 import { Client } from "pg";
 import exercise from "./DAO/exercise";
 import workout from "./DAO/workout";
+import user from "./DAO/user";
+import { text } from "stream/consumers";
 
 /* Exercise Functions -- old (have no unit tests) */
 export async function get_exercise_by_uid(
@@ -291,6 +293,44 @@ export async function get_user(client: Client, uid: string): Promise<Array<any> 
     return res;
   } catch (err) {
     console.error("Problem fetching\n", err);
+    throw err;
+  }
+}
+
+export async function create_user(client: Client, uid: string) {
+  const sql: string = "INSERT INTO public.users (uid) VALUES ($1);";
+  const values = [uid];
+
+  const query = {
+    text: sql,
+    values: values,
+  };
+
+  try {
+    await query_db(client, query);
+  } catch (err) {
+    console.error("Problem fetching\n", err);
+    throw err;
+  }
+
+}
+
+export async function update_user(client: Client, user: user) {
+  // update user information via user object
+  const sql: string = `UPDATE public.users SET exercises = $2, workouts = $3, username = $4 WHERE ` + 
+                      `uid = $1 RETURNING uid;`;
+
+  const values = [user.uid, user.exercises, user.workouts, user.username];
+
+  const query = {
+    text: sql,
+    values: values
+  }
+
+  try {
+    const res = await query_db(client, query);
+    return res[0].uid;
+  } catch (err: any) {
     throw err;
   }
 }

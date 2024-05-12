@@ -295,7 +295,6 @@ async function create_app(): Promise<Array<any>>{
       res = await create_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-       
       _res.send(err.toString()).status(400);
       return;
     }
@@ -363,7 +362,7 @@ async function create_app(): Promise<Array<any>>{
     }
   });
 
-  app.get("/user", (_req, _res) => {
+  app.get("/get_user", (_req, _res) => {
     // get uid from params
     let uid: string;
 
@@ -387,6 +386,10 @@ async function create_app(): Promise<Array<any>>{
       _res.send(err.toString()).status(400);
       return;
     }
+  });
+
+  app.post("/create_user", (_req, _res) => {
+  
   });
 
 
