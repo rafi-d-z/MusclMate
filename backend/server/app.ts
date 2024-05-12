@@ -245,7 +245,8 @@ async function create_app(): Promise<Array<any>>{
       uid: "",
       workout_name: "",
       exercise_arr: [],
-      keywords: []
+      keywords: [],
+      creator: ""
     };
 
     try{
@@ -276,7 +277,8 @@ async function create_app(): Promise<Array<any>>{
       uid: "",
       workout_name: "",
       exercise_arr: [],
-      keywords: []
+      keywords: [],
+      creator: ""
     };
 
     try{
@@ -306,7 +308,8 @@ async function create_app(): Promise<Array<any>>{
       uid: "",
       workout_name: "",
       exercise_arr: [],
-      keywords: []
+      keywords: [],
+      creator: ""
     };
 
     try{
@@ -337,7 +340,8 @@ async function create_app(): Promise<Array<any>>{
       uid: "",
       workout_name: "",
       exercise_arr: [],
-      keywords: []
+      keywords: [],
+      creator: ""
     };
 
     try{

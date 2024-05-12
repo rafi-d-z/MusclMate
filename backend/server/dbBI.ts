@@ -7,8 +7,8 @@ import { text } from "stream/consumers";
 /* Exercise Functions -- old (have no unit tests) */
 export async function get_exercise_by_uid(
   client: Client,
-  uid: string,
-): Promise<Array<any> | undefined> {
+  uid: string | string[],
+): Promise<Array<any>> {
   const sql: string = "SELECT * FROM public.exercises WHERE uid = $1;";
   const values = [uid];
 
@@ -301,27 +301,40 @@ export async function get_user(client: Client, uid: string): Promise<Array<any> 
 
   try {
     userEmpty = await query_db(client, query);
-    return userEmpty;
   } catch (err) {
     console.error("Problem fetching\n", err);
     throw err;
   }
 
-  // const userWithExercises:Array<workout> = await Promise.all(userEmpty.map(async (user: user) => {
-    
-  //   let exercises;
-  //   try {
-  //     exercises = await query_db(client, query_exercises);
-  //     workout.exercise_arr = exercises;
+  const userWithExercises = await Promise.all(userEmpty.map(async (user: user) => { 
+    let exercises;
+    try {
+      exercises = await get_exercise_by_uid(client, user.exercises);
 
-  //     return workout;
-  //   } catch (err: any) {
-  //     console.error("Problem fetching\n", err.toString());
-  //     throw err;
-  //   }
-  // }));
+      user.exercises = exercises;
 
+      return user;
+    } catch (err: any) {
+      console.error("Problem fetching\n", err.toString());
+      throw err;
+    }
+  }));
 
+  const userWithWorkouts = await Promise.all(userWithExercises.map(async (user: user) => { 
+    let workouts;
+    try {
+      workouts = await get_exercise_by_uid(client, user.workouts);
+
+      user.workouts = workouts;
+
+      return user;
+    } catch (err: any) {
+      console.error("Problem fetching\n", err.toString());
+      throw err;
+    }
+  }));
+
+  return userWithExercises;
 }
 
 export async function create_user(client: Client, uid: string) {
