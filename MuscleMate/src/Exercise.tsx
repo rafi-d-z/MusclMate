@@ -65,15 +65,17 @@ function Exercise() {
   const [weightEdit, setWeightEdit] = useState('');
   const [image_urlEdit, setImageUrlEdit] = useState('');
   const [exerciseTargetEdit, setExerciseTargetEdit] = useState('');
-  const [uid, setUID] = useState('notSystem');
+  const [uid, setUID] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const authState = getAuth(config.app);
-    onAuthStateChanged(authState, user => {
-      setUID(user?.uid || 'not logged in');
-      console.log(uid)
+    const unsubscribe = onAuthStateChanged(authState, user => {
+      setUID(user ? user.uid : undefined);
     });
-  })
+
+    return () => unsubscribe();
+  });
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -173,7 +175,7 @@ function Exercise() {
       arr_keywords: [],
       description: '', // TODO: add functionality to add this
       difficulity: '', // TODO: add functionality to add this
-      creator: uid
+      creator: String(uid)
     }
 
     axios.post("https://api-muscleman.com/create_exercise", {
@@ -252,7 +254,6 @@ function Exercise() {
         console.error("Error connecting to server,", res);
       });
   };
-
 
   return (
     <>
@@ -342,17 +343,19 @@ function Exercise() {
               return 0;
             })
             .map((data, index) => (
-
               <Card key={index}>
                 <CardHeader>
-                  <div className="relative">
-                    <button
-                      className="absolute top-0 right-0 -mt-3 -mr-4 text-black focus:outline-none"
-                      onClick={(e) => handleDeleteCard(e, data)}
-                    >
-                      <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
-                    </button>
-                  </div>
+                  {data.creator == uid ? 
+                    <div className="relative">
+                      <button
+                        className="absolute top-0 right-0 -mt-3 -mr-4 text-black focus:outline-none"
+                        onClick={(e) => handleDeleteCard(e, data)}
+                      >
+                        <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
+                      </button>
+                    </div> 
+                    : <div></div>}
+                  
                   <CardTitle>{data.exercise_name}</CardTitle>
                   <CardDescription>{data.exercise_target}</CardDescription>
                 </CardHeader>
