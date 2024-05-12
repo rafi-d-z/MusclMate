@@ -398,7 +398,7 @@ async function create_app(): Promise<Array<any>>{
     let uid: string;
 
     try{
-      uid = getUserQueries(_req.query);
+      uid = getUserQueries(_req.body);
     } catch (err: any) {
       _res.send(err.toString()).status(400);
       return;
