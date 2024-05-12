@@ -396,7 +396,9 @@ async function create_app(): Promise<Array<any>>{
   
   });
 
-
+  app.post("/edit_user", (_req, _res) => {
+  
+  });
 
   return [app, client_instance];
 }
