@@ -129,7 +129,7 @@ export async function edit_exercise(
   exercise: any
   ) {
   const sql: string = `UPDATE public.exercises SET exercise_name = $2, exercise_target = $3, n_reps = $4, n_sets = $5, ` +
-                      `arr_keywords = $6, weight = $7, image_url = $8, difficulity = $9, description = $10, WHERE uid` +
+                      `arr_keywords = $6, weight = $7, image_url = $8, difficulity = $9, description = $10 WHERE uid` +
                       ` = $1 RETURNING uid;`;
   const values = [exercise.uid, exercise.exercise_name, exercise.exercise_target, exercise.n_reps, exercise.n_sets, [], 
                   exercise.weight, exercise.image_url, exercise.difficulity, exercise.description];
@@ -174,7 +174,7 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
   
   const sql_workout: string =
     "SELECT * FROM public.workout_plans" +
-    (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "");
+    (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "") + " ORDER BY uid ASC;";
 
   const query_workout = {
     text: sql_workout,
@@ -250,10 +250,12 @@ export async function delete_workout(client: Client, workout_to_delete: workout)
 async function query_db(client: Client, query: any): Promise<Array<any>>{
   try {
     console.log("Performing Query:", query)
+
     const result = await client.query(query);
     const res = result.rows; 
     return res;
   } catch (err: any) {
+    console.error("Problem querying database\n", err.toString());
     throw new Error(`Problem querying database, possible malformed input. Tried to perform ${query.text, query.values}`);
   }
 }
