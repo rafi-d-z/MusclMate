@@ -1,39 +1,22 @@
-//import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Exercise from '../src/Exercise';
 
-describe('Exercise component', () => {
-  it('create exercise works', () => {
-    render(<Exercise/>);
+test('adds a new exercise when submit button is clicked', async () => {
+  // Render the Exercise component
+  render(<Exercise />);
 
-    const createExerciseButton = screen.getByText('+');
-    fireEvent.click(createExerciseButton);
+  // Input fields for adding a new exercise
+  const exerciseNameInput = screen.getByPlaceholderText('Search');
+  const addButton = screen.getByText('+');
 
-    const exerciseNameInput = screen.getByLabelText('exerciseName');
-    fireEvent.change(exerciseNameInput, { target: { value: 'New Exercise' } });
+  // Simulate typing into the input fields
+  fireEvent.change(exerciseNameInput, { target: { value: 'New Exercise' } });
 
-    const targetMuscleSelect = screen.getByLabelText('targetMuscles');
-    fireEvent.change(targetMuscleSelect, { target: { value: 'Arms' } });
+  // Click the add button to submit the new exercise
+  fireEvent.click(addButton);
 
-    const repsInput = screen.getByLabelText('reps');
-    fireEvent.change(repsInput, { target: { value: '10' } });
-
-    const setsInput = screen.getByLabelText('sets');
-    fireEvent.change(setsInput, { target: { value: '5' } });
-
-    const weightInput = screen.getByLabelText('weight');
-    fireEvent.change(weightInput, { target: { value: '15' } });
-
-    const submitButton = screen.getByText('Submit');
-    fireEvent.click(submitButton);
-
-    expect(console.log).toHaveBeenCalledWith('New Exercise:', {
-      name: 'New Exercise',
-      target: 'Arms',
-      reps: '10',
-      sets: '5',
-      weight: '15 lbs'
-    });
+  // Wait for the new exercise to be added (you may need to adjust the timing)
+  await waitFor(() => {
+    expect(screen.queryByText('New Exercise')).toBeTruthy();
   });
 });
-

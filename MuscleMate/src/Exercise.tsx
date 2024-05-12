@@ -368,7 +368,7 @@ function Exercise() {
                       <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
                     </button>
                   </div>
-                  <CardTitle>{data.exercise_name}</CardTitle>
+                  <CardTitle data-testid={`data.exercise_name${index}`}>{data.exercise_name}</CardTitle>
                   <CardDescription>{data.exercise_target}</CardDescription>
                 </CardHeader>
                 <CardContent>
