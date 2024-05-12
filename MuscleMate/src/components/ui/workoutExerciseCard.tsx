@@ -57,9 +57,9 @@ interface WorkoutExerciseCardProps {
     handleSetsChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleCancel: () => void;
     handleAddNewExercise: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    cardTitle: string;
-    cardContent: string;
-    cardDescription: string;
+    cardTitle: any;
+    cardContent: any;
+    cardDescription: any;
 }
 
 export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
@@ -80,6 +80,7 @@ export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
 
 }) => {
     return (
+
             <Card className="w-[200px] m-4">
                 <CardHeader>
                     <CardTitle>{cardTitle}</CardTitle>

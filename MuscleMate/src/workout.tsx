@@ -62,6 +62,7 @@ import { CreateWorkoutCard } from "./components/ui/createWorkoutCard"
 import { WorkoutComponent } from "./components/ui/workoutComponent"
 import axios from "axios"
 import workout from '../DAO/workout'
+import exercise from '../DAO/exercise'
 import config from "../auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Description } from "@radix-ui/react-dialog"
@@ -309,103 +310,60 @@ function Workout() {
                             />
                         </div>
                         {selectedWorkoutData.map((data, index) => (
+                            <WorkoutComponent
+                                isPopoverOpen={isPopoverOpen}
+                                exerciseName={exerciseName}
+                                setExerciseName={setExerciseName}
+                                reps={reps}
+                                sets={sets}
+                                weight={weight}
+                                handleWeightChange={handleWeightChange}
+                                handleRepsChange={handleRepsChange}
+                                handleSetsChange={handleSetsChange}
+                                handleCancel={handleCancel}
+                                handleAddNewExercise={handleAddNewExercise}
+                                cardTitle={"cardTitle"}
+                                cardContent={"cardContent"}
+                                cardDescription={"cardDescription"}
+                                workoutTitle={<h1 key={index}>{data.workout_name}</h1>}
+                                listOfExercise={listOfExercise}                          
+                            />
+                        ))}
+                        {selectedWorkoutData.map((data, index) => (
                             <div className="flex flex-col items-center justify-between p-6 lg:px-8">
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <><Button variant="link" size="icon">
-                                            <Plus className="h-4 w-4" />
-                                        </Button>
-                                            <h1 key={index}>{data.workout_name}</h1>
-                                            <Button variant="link" size="icon" onClick={(e) => handleDeleteWorkout(e, data)}>
-                                                <Minus className="h-4 w-4" />
-                                            </Button></>
-                            </div>
-                            {data.exercise_arr.map((exercise, index) => (
-                                <Card className="w-[200px] m-4" key ={index}>
-                                    <CardHeader>
-                                        <CardTitle>{exercise.exercise_name}</CardTitle>
-                                        <CardDescription>Trends For You</CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p>Card Content</p>
-                                    </CardContent>
-                                    <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <><Button variant="link" size="icon">
+                                        <Plus className="h-4 w-4" />
+                                    </Button>
+                                        <h1 key={index}>{data.workout_name}</h1>
+                                        <Button variant="link" size="icon" onClick={(e) => handleDeleteWorkout(e, data)}>
+                                            <Minus className="h-4 w-4" />
+                                        </Button></>
+                                </div>
+                                {data.exercise_arr.map((exercise, index) => (
+                                    <Card className="w-[200px] m-4" key={index}>
+                                        <CardHeader>
+                                            <CardTitle>{exercise.exercise_name}</CardTitle>
+                                            <CardDescription>{exercise.exercise_target}</CardDescription>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <img src={exercise.image_url}></img>
+                                        </CardContent>
+                                        <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
                                         <Button variant="link" size="icon">
                                             <Minus className="h-4 w-4" />
                                         </Button>
                                     </CardFooter>
                                 </Card>))}
-                                <Card className="w-[200px] m-4">
-                                    <CardHeader>
-                                        <CardTitle>Exercise 2</CardTitle>
-                                        <CardDescription>Trends For You</CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p>Card Content</p>
-                                    </CardContent>
-                                    <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                        <Popover>
-                                            <PopoverTrigger asChild>
-                                                <Button variant="link" size="icon">
-                                                    <Pencil className="h-4 w-4" />
-                                                </Button>
-                                            </PopoverTrigger>
-                                            {isPopoverOpen && (
-                                                <PopoverContent className="w-80">
-                                                    <div className="grid gap-4">
-                                                        <div className="space-y-2">
-                                                            <h4 className="font-medium leading-none">Create Exercise</h4>
-                                                            <p className="text-sm text-muted-foreground">Add exercise details here</p>
-                                                        </div>
-                                                        <div className="grid gap-2">
-                                                            <div className="grid grid-cols-3 items-center gap-4">
-                                                                <Label htmlFor="exerciseName">Name: </Label>
-                                                                <Input id="exerciseName" value={exerciseName} onChange={(e) => setExerciseName(e.target.value)} className="col-span-2 h-8" />
-                                                            </div>
-                                                            <div className="grid grid-cols-3 items-center gap-4">
-                                                                <Label htmlFor="targetMuscles">Target Muscles:</Label>
-                                                                <Select>
-                                                                    <SelectTrigger className="w-[180px]">
-                                                                        <SelectValue placeholder="Arms" />
-                                                                    </SelectTrigger>
-                                                                    <SelectContent>
-                                                                        <SelectItem value="light">Arms</SelectItem>
-                                                                        <SelectItem value="dark">Legs</SelectItem>
-                                                                        <SelectItem value="system">Chest</SelectItem>
-                                                                        <SelectItem value="part">Back</SelectItem>
-                                                                    </SelectContent>
-                                                                </Select>
-                                                            </div>
-                                                            <div className="grid grid-cols-3 items-center gap-4">
-                                                                <Label htmlFor="reps">Reps:</Label>
-                                                                <Input id="reps" value={reps} onChange={handleRepsChange} className="col-span-2 h-8" />
-                                                            </div>
-                                                            <div className="grid grid-cols-3 items-center gap-4">
-                                                                <Label htmlFor="sets">Sets:</Label>
-                                                                <Input id="sets" value={sets} onChange={handleSetsChange} className="col-span-2 h-8" />
-                                                            </div>
-                                                            <div className="grid grid-cols-3 items-center gap-4">
-                                                                <Label htmlFor="weight">Weight:</Label>
-                                                                <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
-                                                            </div>
-                                                            <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-                                                            <Button onClick={handleAddNewExercise}>Submit</Button>
-                                                        </div>
-                                                    </div>
-                                                </PopoverContent>
-                                            )}
-
-                                        </Popover>
-                                        <Button variant="link" size="icon">
-                                            <Minus className="h-4 w-4" />
-                                        </Button>
-                                    </CardFooter>
-                                </Card>
                             </div>
                         ))}
                     </div>
                 </div>
-            </div >
+            </div>            
         </>
-    )
+        )
+    
 }
-export default Workout
+        
+        
+export default Workout;
