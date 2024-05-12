@@ -23,9 +23,6 @@ const TopBar = () => {
             <Menubar />
             </div>
         </div>
-        <div>
-            
-        </div>
         </>
     )
 }

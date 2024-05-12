@@ -10,16 +10,31 @@ User edit their workouts
 User edit their exercises
 */
 import TopBar from "@/components/ui/topBar";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import config from "../auth/firebase.config"
+import axios from "axios";
 function User(){
     // get current user
     const [uid, setUID] = useState<string>('notSystem');
+    const [userInfo, setUserInfo] = useState<Array<any>>([]);
     useEffect(() => {
         const authState = getAuth(config.app);
         onAuthStateChanged(authState, user => {
         setUID(user?.uid || 'not logged in');
+        if(uid != undefined){
+        axios({
+            method: 'get',
+            url: 'https://api-muscleman.com/get_user',
+            data: {
+                uid: uid
+            }
+        })
+        .then(function (response: { data: SetStateAction<any[]>; }) {
+            // handle success
+            setUserInfo(response.data)
+        })};
+        console.log(userInfo)
         console.log(uid)
         });
     })
@@ -31,6 +46,14 @@ function User(){
             {/* user information
                 user workouts
                 user exercises */}
+            <div>
+                <h1>Your Exercises</h1>
+                {/* <ul>
+                    {userInfo.map((exercise: { name: string; }) => (
+                        <li>{exercise.name}</li>
+                    ))}
+                </ul> */}
+            </div>
         </>
     );
 }
