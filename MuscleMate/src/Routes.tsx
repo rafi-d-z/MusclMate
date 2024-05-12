@@ -38,9 +38,7 @@ const Routes = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute>
         <MainMenu />
-      </ProtectedRoute>
     ),
   },
   {
