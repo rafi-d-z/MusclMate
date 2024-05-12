@@ -31,8 +31,6 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { useState, useEffect } from "react"
-import { Menubar } from "./components/ui/menubar"
-import muscleLogo from './assets/MuscleLogo.png'
 import axios from 'axios';
 import './App.css'
 import exercise from "DAO/exercise"
