@@ -250,10 +250,12 @@ export async function delete_workout(client: Client, workout_to_delete: workout)
 async function query_db(client: Client, query: any): Promise<Array<any>>{
   try {
     console.log("Performing Query:", query)
+
     const result = await client.query(query);
     const res = result.rows; 
     return res;
   } catch (err: any) {
+    console.error("Problem querying database\n", err.toString());
     throw new Error(`Problem querying database, possible malformed input. Tried to perform ${query.text, query.values}`);
   }
 }
