@@ -12,7 +12,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { Label } from "@/components/ui/label"
 import { FaGear } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
-import "../../css/menuBar.css";
+import "@/css/menuBar.css";
 import { useNavigate } from 'react-router';
 import { ReactNode } from 'react';
 
