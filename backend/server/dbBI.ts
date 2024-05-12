@@ -9,7 +9,7 @@ export async function get_exercise_by_uid(
   client: Client,
   uid: string | string[],
 ): Promise<Array<any>> {
-  const sql: string = "SELECT * FROM public.exercises WHERE uid = $1;";
+  const sql: string = "SELECT * FROM public.exercises WHERE uid = ANY($1);";
   const values = [uid];
 
   const query = {
