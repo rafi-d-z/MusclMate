@@ -24,6 +24,8 @@ function MainMenu() {
     n_reps: 0,
     n_sets: 0,
     weight: 0,
+    difficulity: "",
+    creator: "",
   });
 
   const [selectedCardData, setSelectedCardData] = useState<exercise[]>([]);
