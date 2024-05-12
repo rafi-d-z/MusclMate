@@ -16,7 +16,7 @@ describe("getExerciseQueries unit tests", () => {
           "test",
           "test"
         ],
-        difficulty: '',
+        difficulity: '',
         description: '',
         creator: ''
       };
@@ -35,7 +35,7 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
-        difficulty: '',
+        difficulity: '',
         description: '',
         creator: ''
       };
@@ -54,7 +54,7 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
-        difficulty: '',
+        difficulity: '',
         description: '',
         creator: ''
       };
@@ -73,7 +73,7 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
-        difficulty: '',
+        difficulity: '',
         description: '',
         creator: ''
       };
@@ -92,7 +92,7 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
-        difficulty: '',
+        difficulity: '',
         description: '',
         creator: ''
       };
@@ -111,7 +111,7 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
-        difficulty: '',
+        difficulity: '',
         description: '',
         creator: ''
       };
@@ -130,7 +130,7 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 50,
         weight: 0,
         arr_keywords: [],
-        difficulty: '',
+        difficulity: '',
         description: '',
         creator: ''
       };
@@ -149,7 +149,7 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 50,
         arr_keywords: [],
-        difficulty: '',
+        difficulity: '',
         description: '',
         creator: ''
       };
@@ -168,7 +168,7 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: ["i", "have", "something"],
-        difficulty: '',
+        difficulity: '',
         description: '',
         creator: ''
       };
@@ -198,7 +198,7 @@ describe("getExerciseQueries unit tests", () => {
         n_sets: 0,
         weight: 0,
         arr_keywords: [],
-        difficulty: '',
+        difficulity: '',
         description: '',
         creator: ''
       });
