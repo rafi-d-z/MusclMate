@@ -174,7 +174,7 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
   
   const sql_workout: string =
     "SELECT * FROM public.workout_plans" +
-    (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "");
+    (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "") + " ORDER BY uid ASC;";
 
   const query_workout = {
     text: sql_workout,
