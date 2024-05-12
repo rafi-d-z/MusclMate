@@ -315,12 +315,12 @@ export async function create_user(client: Client, uid: string) {
 
 }
 
-export async function update_user(client: Client, user: user) {
+export async function update_user_exercises(client: Client, user: user) {
   // update user information via user object
-  const sql: string = `UPDATE public.users SET exercises = $2, workouts = $3, username = $4 WHERE ` + 
-                      `uid = $1 RETURNING uid;`;
+  const sql: string = `UPDATE public.users SET exercises = array_append(exercises, $2) `+
+                      `WHERE uid = $1 RETURNING uid;`;
 
-  const values = [user.uid, user.exercises, user.workouts, user.username];
+  const values = [user.uid, user.exercises];
 
   const query = {
     text: sql,
@@ -334,6 +334,27 @@ export async function update_user(client: Client, user: user) {
     throw err;
   }
 }
+
+export async function update_user_workouts(client: Client, user: user) {
+  // update user information via user object
+  const sql: string = `UPDATE public.users SET workouts = array_append(workouts, $2) `+
+                      `WHERE uid = $1 RETURNING uid;`;
+
+  const values = [user.uid, user.workouts];
+
+  const query = {
+    text: sql,
+    values: values
+  }
+
+  try {
+    const res = await query_db(client, query);
+    return res[0].uid;
+  } catch (err: any) {
+    throw err;
+  }
+}
+
 
 async function query_db(client: Client, query: any): Promise<Array<any>>{
   try {
