@@ -17,11 +17,11 @@ export async function get_exercise_by_uid(
   };
 
   try {
-    const res = await client.query(query);
-    return res.rows;
-  } catch (err) {
-    console.error("Problem fetching\n", err);
-    return undefined;
+    const res = await query_db(client, query);
+    return res;
+  } catch (err: any) {
+    console.error("Problem fetching\n", err.toString());
+    throw err;
   }
 }
 
@@ -70,8 +70,13 @@ export async function get_exercises(
     values: values,
   };
 
-  const res = await query_db(client, query);
-  return res;
+  try {
+    const res = await query_db(client, query);
+    return res;
+  } catch (err: any) {
+    console.error("Problem fetching\n", err.toString());
+    throw err;
+  }
 }
 
 export async function create_exercise(
@@ -100,8 +105,13 @@ export async function create_exercise(
     values: values
   }
 
-  const result = await query_db(client, query);
-  return result[0].uid;
+  try {
+    const res = await query_db(client, query);
+    return res[0].uid;
+  } catch (err: any) {
+    console.error("Problem fetching\n", err.toString());
+    throw err;
+  }
 }
 
 export async function delete_exercise(
@@ -116,11 +126,12 @@ export async function delete_exercise(
     values: values
   }
 
-  try{
+  try {
     const res = await query_db(client, query);
     return res;
-  } catch(err: any){
-    return err.toString();
+  } catch (err: any) {
+    console.error("Problem fetching\n", err.toString());
+    throw err;
   }
 }
 
@@ -139,15 +150,16 @@ export async function edit_exercise(
     values: values
   }
 
-  try{
+  try {
     const res = await query_db(client, query);
     return res;
   } catch (err: any) {
-    return err.toString();
+    console.error("Problem fetching\n", err.toString());
+    throw err;
   }
 }
 
-/* Workout Functions - passes all unit tests */
+/* Workout Functions */
 export async function get_workouts(client: Client, search_criteria: workout): Promise<Array<workout>>{
   let conditions: Array<string> = [];
   let values_workout: Array<any> = [];
@@ -181,8 +193,13 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
     values: values_workout,
   };
 
-  const workout_without_exercises = await query_db(client, query_workout);
-
+  let workout_without_exercises;
+  try {
+    workout_without_exercises = await query_db(client, query_workout);
+  } catch (err: any) {
+    console.error("Problem fetching\n", err.toString());
+    throw err;
+  }
 
   // get all exercises for each workout
   const sql_exercises: string = "SELECT * FROM public.exercises WHERE uid = ANY($1::uuid[])";
@@ -193,9 +210,16 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
       values: [workout.exercise_arr],
     };
 
-    const exercises = await query_db(client, query_exercises);
-    workout.exercise_arr = exercises;
-    return workout;
+    let exercises;
+    try {
+      exercises = await query_db(client, query_exercises);
+      workout.exercise_arr = exercises;
+
+      return workout;
+    } catch (err: any) {
+      console.error("Problem fetching\n", err.toString());
+      throw err;
+    }
   }));
 
   return workoutsWithExercises;
@@ -224,8 +248,13 @@ export async function edit_workout(client: Client, updated_workout: workout): Pr
     values: values
   };
 
-  const result = await query_db(client, query);
-  return result[0].uid;
+  try {
+    const res = await query_db(client, query);
+    return res[0].uid;
+  } catch (err: any) {
+    console.error("Problem fetching\n", err.toString());
+    throw err;
+  }
 }
 
 export async function delete_workout(client: Client, workout_to_delete: workout): Promise<boolean | undefined>{
@@ -237,14 +266,33 @@ export async function delete_workout(client: Client, workout_to_delete: workout)
     values: values
   };
 
-  try{
+  try {
     const _ = await query_db(client, query);
     return true;
-  } catch(err:any){
-    console.error("Problem deleting workout\n", err.stack);
-    return undefined;
+  } catch (err: any) {
+    console.error("Problem fetching\n", err.toString());
+    throw err;
   }
 
+}
+
+/* User Functions */
+export async function get_user(client: Client, uid: string): Promise<Array<any> | undefined> {
+  const sql: string = "SELECT * FROM public.users WHERE uid = $1;";
+  const values = [uid];
+
+  const query = {
+    text: sql,
+    values: values,
+  };
+
+  try {
+    const res = await query_db(client, query);
+    return res;
+  } catch (err) {
+    console.error("Problem fetching\n", err);
+    throw err;
+  }
 }
 
 async function query_db(client: Client, query: any): Promise<Array<any>>{

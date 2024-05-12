@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import dotenv from "dotenv";
 import { Client } from "pg";
 import cors from "cors";
-import { isArray, isString, toNumber, getWorkoutQueries, getExerciseQueries } from "./bi";
+import { isArray, isString, toNumber, getWorkoutQueries, getExerciseQueries, getUserQueries } from "./bi";
 import activate_db from "./db";
 import fs from "fs";
 import exercise from './DAO/exercise';
@@ -16,7 +16,8 @@ import {
   get_workouts,
   create_workout,
   edit_workout,
-  delete_workout
+  delete_workout,
+  get_user
 } from "./dbBI";
 
 dotenv.config();
@@ -357,6 +358,32 @@ async function create_app(): Promise<Array<any>>{
       _res.send(res).status(200);
     } catch(err: any){
        
+      _res.send(err.toString()).status(400);
+      return;
+    }
+  });
+
+  app.get("/user", (_req, _res) => {
+    // get uid from params
+    let uid: string;
+
+    try{
+      uid = getUserQueries(_req.query);
+    } catch (err: any) {
+      _res.send(err.toString()).status(400);
+      return;
+    }
+
+    if (client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      return;
+    }
+
+    // fetch user information from api
+    try {
+      const user = get_user(client_instance, uid);
+      _res.send(user).status(200);
+    } catch(err: any){
       _res.send(err.toString()).status(400);
       return;
     }

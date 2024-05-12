@@ -111,7 +111,7 @@ describe("Server Actions", () => {
     });
   });
 
-  describe.only("Post /create_exercise", () => {
+  describe("Post /create_exercise", () => {
     test('valid input in exercises table', async () => {
       await request(app)
         .post("/create_exercise")
@@ -252,7 +252,7 @@ describe("Server Actions", () => {
     });
   });
 
-  describe.only("Post /edit_exercise", () => {
+  describe("Post /edit_exercise", () => {
     describe("invalid input", () => {
       test("edit valid uid from exercises table", async () => {
         const exercise: any = {
@@ -400,7 +400,7 @@ describe("Server Actions", () => {
     });
   });
 
-  describe.only("Delete /delete_exercise", () => {
+  describe("Delete /delete_exercise", () => {
     describe("valid input", () => {
       test("delete valid uid from exercises table", async () => {
         toDeleteExerciseUids.forEach(async (uid) => {

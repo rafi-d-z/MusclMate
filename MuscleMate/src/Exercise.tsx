@@ -48,7 +48,9 @@ function Exercise() {
     n_reps: 0,
     n_sets: 0,
     weight: 0,
-    arr_keywords: []
+    arr_keywords: [],
+    difficulity: "",
+    creator: ""
   });
   const [selectedCardData, setSelectedCardData] = useState<exercise[]>([]);
   const [exerciseName, setExerciseName] = useState('');
@@ -171,7 +173,7 @@ function Exercise() {
       weight: parseInt(weight),
       arr_keywords: [],
       description: '', // TODO: add functionality to add this
-      difficulty: '', // TODO: add functionality to add this
+      difficulity: '', // TODO: add functionality to add this
       creator: uid
     }
 
