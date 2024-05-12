@@ -396,6 +396,7 @@ async function create_app(): Promise<Array<any>>{
   app.post("/create_user", async (_req, _res) => {
     // get uid from params
     let uid: string;
+    console.log(_req.body)
 
     try{
       uid = getUserQueries(_req.body);
@@ -409,7 +410,6 @@ async function create_app(): Promise<Array<any>>{
       return;
     }
 
-    // fetch user information from api
     try {
       const user = await create_user(client_instance, uid);
       _res.send(user).status(200);
