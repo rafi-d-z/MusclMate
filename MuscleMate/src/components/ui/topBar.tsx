@@ -11,12 +11,17 @@ const TopBar = () => {
         setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
     }, []);
 
-    
+    const goHome = () => {
+        window.location.href = "/";
+    }
+
     return (
         <>
         {/* top bar components */}
         <div className="flex items-center justify-between p-8 lg:px-8">
-            <img src={muscleLogo} width={200} height={200} />
+            <button onClick={goHome}>
+                <img src={muscleLogo} width={200} height={200} />
+            </button>
             <h1 className="text-center text-sm"> {quote} </h1>
             <div className="mt-5 flex lg:ml-4 gap-20">
             <Input placeholder="Search" className="w-[200px] " />
