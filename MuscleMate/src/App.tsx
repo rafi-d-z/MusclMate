@@ -24,6 +24,8 @@ function MainMenu() {
     n_reps: 0,
     n_sets: 0,
     weight: 0,
+    difficulity: "",
+    creator: ""
   });
 
   const [selectedCardData, setSelectedCardData] = useState<exercise[]>([]);
@@ -44,6 +46,8 @@ function MainMenu() {
           n_reps: selectedCard.n_reps,
           n_sets: selectedCard.n_sets,
           weight: selectedCard.weight,
+          difficulity: selectedCard.difficulity,
+          creator: selectedCard.creator
         },
       })
         .then(function (response) {
