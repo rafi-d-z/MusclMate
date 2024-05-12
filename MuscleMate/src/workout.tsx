@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client"
 import React, { useState, useEffect } from "react"
 import { Plus, Minus, Check, ChevronsUpDown, Pencil } from "lucide-react"
@@ -298,9 +299,20 @@ function Workout() {
                 </div>
             </div>
         </>
+=======
+function Workout () {
+    return (
+        <div>
+            <h1>Under Construction</h1>
+        </div>
+>>>>>>> origin/main
     )
 
 }
 
+<<<<<<< HEAD
 
 export default Workout;
+=======
+export default Workout;
+>>>>>>> origin/main

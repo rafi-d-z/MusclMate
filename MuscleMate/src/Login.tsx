@@ -19,9 +19,9 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import config from "../auth/firebase.config";
+import config from "./auth/firebase.config";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 
 const signUpSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -165,6 +165,11 @@ function SignUp() {
 
     createUserWithEmailAndPassword(auth, values.email, values.password)
       .then(() => {
+        axios.post("https://api-muscleman.com/create_user", {
+            uid: auth.currentUser?.uid,
+          }).catch((error) => {
+            console.error(error);
+          });
         goHome();
       })
       .catch((error) => {

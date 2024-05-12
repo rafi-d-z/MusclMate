@@ -13,11 +13,11 @@ export function isString(input: any): Boolean {
 export function toString(input: any): string {
     input = decodeURIComponent(input)
     if (input === null || input === undefined) {
-      throw new Error("Input is not valid");  // Handle null and undefined explicitly if needed
+      throw new Error("Input is not valid");  
     } else if (input === "''" || input === '""'){
       return '';
     }
-    return String(input);  // This converts any input to a string, even objects will be "[object Object]"
+    return String(input);  
 }
 
 /**
@@ -167,4 +167,11 @@ export function getExerciseQueries(query: any): exercise {
   };
   // console.log(exercise_query)
   return exercise_query;
+}
+
+export function getUserQueries(query: any): string {
+  if (query.uid === undefined){
+    throw new Error (`UID not provided, got ${query.uid}`);
+  }
+  return toString(query.uid);
 }

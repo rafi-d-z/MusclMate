@@ -5,7 +5,7 @@ interface workout {
     keywords: Array<string>,
     description?: string,
     difficulity?: string,
-    creator?: string
+    creator: string
 }
 
 export default workout;

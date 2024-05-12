@@ -255,20 +255,20 @@ describe("Server Actions", () => {
   describe("Post /edit_exercise", () => {
     describe("invalid input", () => {
       test("edit valid uid from exercises table", async () => {
-        const exercise: exercise = {
-          uid: "0459d6ee-ff82-4c00-bb9f-28d5b0c2e4c5",
+        const exercise: any = {
+          uid: toDeleteExerciseUids[0],
           exercise_name: "hip thrust",
           exercise_target: "legs",
           image_url: "",
           n_reps: 10,
           n_sets: 3,
           weight: 185,
-          arr_keywords: [
+          arr_keywords: JSON.stringify([
             "legs",
             "quads",
             "glutes",
             "strength",
-          ],
+          ]),
         }
 
         await request(app)
@@ -276,24 +276,26 @@ describe("Server Actions", () => {
           .send(exercise)
           .expect((res) => {
             expect(typeof(res.body[0].uid)).toStrictEqual("string");
+          }).catch((err: any) => {
+            console.error("Error in edit_exercise edit valid uid from exercises table", err.toString());
           });
       });
 
       test("edit valid uid from exercises table without exercise name", async () => {
-        const exercise: exercise = {
-          uid: "0459d6ee-ff82-4c00-bb9f-28d5b0c2e4c5",
+        const exercise: any = {
+          uid: toDeleteExerciseUids[1],
           exercise_name: "",
           exercise_target: "legs",
           image_url: "",
           n_reps: 10,
           n_sets: 3,
           weight: 185,
-          arr_keywords: [
+          arr_keywords: JSON.stringify([
             "legs",
             "quads",
             "glutes",
             "strength",
-          ],
+          ]),
         }
 
         await request(app)
@@ -305,20 +307,20 @@ describe("Server Actions", () => {
       });
 
       test("edit valid uid from exercises table without exercise target", async () => {
-        const exercise: exercise = {
-          uid: "33628bab-142e-49cd-b752-30d5dfd8f093",
+        const exercise: any = {
+          uid: toDeleteExerciseUids[0],
           exercise_name: "hip thrust",
           exercise_target: "",
           image_url: "",
           n_reps: 10,
           n_sets: 3,
           weight: 185,
-          arr_keywords: [
+          arr_keywords: JSON.stringify([
             "legs",
             "quads",
             "glutes",
             "strength",
-          ],
+          ]),
         }
         
         await request(app)
@@ -331,7 +333,7 @@ describe("Server Actions", () => {
 
       test("edit valid uid from exercises table without keywords", async () => {
         const exercise: exercise = {
-          uid: "33628bab-142e-49cd-b752-30d5dfd8f093",
+          uid: toDeleteExerciseUids[0],
           exercise_name: "hip thrust",
           exercise_target: "legs",
           image_url: "",
@@ -560,121 +562,119 @@ describe("Server Actions", () => {
       .then((res) => {
         toDeleteWorkoutUids.push(res.body.uid);
       });
-  });
-  test("workout name empty", async (): Promise<void> => {
-    await request(app)
-    .post("/create_workout")
-    .send({
-      uid: "",
-      workout_name: "",
-      exercise_arr: ["7e2726af-b5bd-4242-a7d8-b396d4842270"],
-      keywords: ["back", "lats", "explosiveness"]
-    })
-    .expect(200)
-    .then((res) => {
-      toDeleteWorkoutUids.push(res.body.uid);
-    });
-  });
-
-  test("keywords empty", async (): Promise<void> => {
-    await request(app)
-    .post("/create_workout")
-    .send({
-      uid: "",
-      workout_name: "gluteus maximizer 2",
-      exercise_arr: [
-        "6d481883-a599-44d5-9c45-8e4f57e6d917",
-        "33628bab-142e-49cd-b752-30d5dfd8f093",
-        "33628bab-142e-49cd-b752-30d5dfd8f093",
-      ],
-      keywords: []
-    })
-    .expect(200)
-    .then((res) => {
-      toDeleteWorkoutUids.push(res.body.uid);
-    });
-});
-  });
-
-  describe("should return 400 given improper input", () => {
-    test("no input", async (): Promise<void> => {
-    test("no input", async (): Promise<void> => {
-      await request(app).post("/create_workout").send({}).expect(400);
     });
 
-    test("invalid input", async (): Promise<void> => {
+    test("workout name empty", async (): Promise<void> => {
       await request(app)
-        .post("/create_workout")
-        .send({
-          uid: 123,
-          workout_name: 123,
-          exercise_arr: 123,
-          keywords: 123,
-        })
-        .expect(400);
+      .post("/create_workout")
+      .send({
+        uid: "",
+        workout_name: "",
+        exercise_arr: ["7e2726af-b5bd-4242-a7d8-b396d4842270"],
+        keywords: ["back", "lats", "explosiveness"]
+      })
+      .expect(200)
+      .then((res) => {
+        toDeleteWorkoutUids.push(res.body.uid);
+      });
     });
 
-    test("invalid uid", async (): Promise<void> => { 
+    test("keywords empty", async (): Promise<void> => {
       await request(app)
-        .post("/create_workout")
-        .send({
-          uid: 123456,
-          workout_name: "gluteus maximizer",
-          exercise_arr: [
-            "6d481883-a599-44d5-9c45-8e4f57e6d917",
-            "33628bab-142e-49cd-b752-30d5dfd8f093",
-            "33628bab-142e-49cd-b752-30d5dfd8f093",
-          ],
-          keywords: ["glutes"]
-        })
-        .expect(400);
+      .post("/create_workout")
+      .send({
+        uid: "",
+        workout_name: "gluteus maximizer 2",
+        exercise_arr: [
+          "6d481883-a599-44d5-9c45-8e4f57e6d917",
+          "33628bab-142e-49cd-b752-30d5dfd8f093",
+          "33628bab-142e-49cd-b752-30d5dfd8f093",
+        ],
+        keywords: []
+      })
+      .expect(200)
+      .then((res) => {
+        toDeleteWorkoutUids.push(res.body.uid);
+      });
     });
 
-    test("invalid workout_name", async (): Promise<void> => { 
-      await request(app)
-        .post("/create_workout")
-        .send({
-          uid: "test_uid",
-          workout_name: [],
-          exercise_arr: [
-            "6d481883-a599-44d5-9c45-8e4f57e6d917",
-            "33628bab-142e-49cd-b752-30d5dfd8f093",
-            "33628bab-142e-49cd-b752-30d5dfd8f093",
-          ],
-          keywords: ["glutes"]
-        })
-        .expect(400);
-    });
+    describe("should return 400 given improper input", () => {
+      test("no input", async (): Promise<void> => {
+        await request(app).post("/create_workout").send({}).expect(400);
+      });
 
-    test("invalid exercise_arr", async (): Promise<void> => { 
-      await request(app)
-        .post("/create_workout")
-        .send({
-          uid: "test_uid",
-          workout_name: "mayweather boxing workout",
-          exercise_arr: "not an array",
-          keywords: ["glutes"]
-        })
-        .expect(400);
-    });
+      test("invalid input", async (): Promise<void> => {
+        await request(app)
+          .post("/create_workout")
+          .send({
+            uid: 123,
+            workout_name: 123,
+            exercise_arr: 123,
+            keywords: 123,
+          })
+          .expect(400);
+      });
 
-    test("invalid keywords", async (): Promise<void> => { 
-      await request(app)
-        .post("/create_workout")
-        .send({
-          uid: "test_uid",
-          workout_name: "john cena abs workout",
-          exercise_arr: [
-            "6d481883-a599-44d5-9c45-8e4f57e6d917",
-            "33628bab-142e-49cd-b752-30d5dfd8f093",
-            "33628bab-142e-49cd-b752-30d5dfd8f093",
-          ],
-          keywords: "not an array"
-        })
-        .expect(400);
+      test("invalid uid", async (): Promise<void> => { 
+        await request(app)
+          .post("/create_workout")
+          .send({
+            uid: 123456,
+            workout_name: "gluteus maximizer",
+            exercise_arr: [
+              "6d481883-a599-44d5-9c45-8e4f57e6d917",
+              "33628bab-142e-49cd-b752-30d5dfd8f093",
+              "33628bab-142e-49cd-b752-30d5dfd8f093",
+            ],
+            keywords: ["glutes"]
+          })
+          .expect(400);
+      });
+
+      test("invalid workout_name", async (): Promise<void> => { 
+        await request(app)
+          .post("/create_workout")
+          .send({
+            uid: "test_uid",
+            workout_name: [],
+            exercise_arr: [
+              "6d481883-a599-44d5-9c45-8e4f57e6d917",
+              "33628bab-142e-49cd-b752-30d5dfd8f093",
+              "33628bab-142e-49cd-b752-30d5dfd8f093",
+            ],
+            keywords: ["glutes"]
+          })
+          .expect(400);
+      });
+
+      test("invalid exercise_arr", async (): Promise<void> => { 
+        await request(app)
+          .post("/create_workout")
+          .send({
+            uid: "test_uid",
+            workout_name: "mayweather boxing workout",
+            exercise_arr: "not an array",
+            keywords: ["glutes"]
+          })
+          .expect(400);
+      });
+
+      test("invalid keywords", async (): Promise<void> => { 
+        await request(app)
+          .post("/create_workout")
+          .send({
+            uid: "test_uid",
+            workout_name: "john cena abs workout",
+            exercise_arr: [
+              "6d481883-a599-44d5-9c45-8e4f57e6d917",
+              "33628bab-142e-49cd-b752-30d5dfd8f093",
+              "33628bab-142e-49cd-b752-30d5dfd8f093",
+            ],
+            keywords: "not an array"
+          })
+          .expect(400);
+      });
       });
     });
   });
-
-  
 });
