@@ -151,6 +151,8 @@ function Workout() {
         setIsPopoverOpen(false);
     };
 
+    
+
     const handleDeleteWorkout = async (e: React.MouseEvent<HTMLButtonElement>, workout_obj: workout) => {
         e.preventDefault();
         console.log(workout_obj);
@@ -173,39 +175,6 @@ function Workout() {
                 console.error("Error connecting to server,", res);
             });
     };
-
-
-
-
-    const listOfExercise = [
-        {
-            name: "workout",
-            Reps: "1",
-            Weight: "1",
-            Sets: "1",
-        },
-        {
-            name: "exercise",
-            Reps: "1",
-            Weight: "1",
-            Sets: "1",
-        },
-    ]
-
-    const exercises = [
-        {
-            value: "pushup",
-            label: "Pushup",
-        },
-        {
-            value: "squat",
-            label: "Sqaut",
-        },
-        {
-            value: "deadlift",
-            label: "Deadlift",
-        },
-    ]
 
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
@@ -277,6 +246,26 @@ function Workout() {
                             <CreateWorkoutCard />
                         </div>
                         {selectedWorkoutData.map((data, index) => (
+                                        <WorkoutComponent
+                                        isPopoverOpen={isPopoverOpen}
+                                        exerciseName={exerciseName}
+                                        setExerciseName={setExerciseName}
+                                        reps={reps}
+                                        sets={sets}
+                                        weight={weight}
+                                        handleWeightChange={handleWeightChange}
+                                        handleRepsChange={handleRepsChange}
+                                        handleSetsChange={handleSetsChange}
+                                        handleCancel={handleCancel}
+                                        handleAddNewExercise={handleAddNewExercise}
+                                        workoutTitle={<h1 key={index}>{data.workout_name}</h1>}
+                                        listOfExercise={data.exercise_arr}
+                                        exerciseArray={data.exercise_arr}
+                                        handleDeleteWorkout={handleDeleteWorkout}
+                                        data={data}
+                                    />
+                                ))}
+                        {selectedWorkoutData.map((data, index) => (
                             <div className="flex flex-col items-center justify-between p-6 lg:px-8">
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <><Button variant="link" size="icon">
@@ -297,21 +286,21 @@ function Workout() {
                                             <img src={exercise.image_url}></img>
                                         </CardContent>
                                         <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                        {exercise.n_reps}/{exercise.n_sets}
-                                        <Button variant="link" size="icon">
-                                            <Minus className="h-4 w-4" />
-                                        </Button>
-                                    </CardFooter>
-                                </Card>))}
+                                            {exercise.n_reps}/{exercise.n_sets}
+                                            <Button variant="link" size="icon">
+                                                <Minus className="h-4 w-4" />
+                                            </Button>
+                                        </CardFooter>
+                                    </Card>))}
                             </div>
                         ))}
                     </div>
                 </div>
-            </div>            
+            </div>
         </>
-        )
-    
+    )
+
 }
-        
-        
+
+
 export default Workout;

@@ -39,6 +39,8 @@ interface WorkoutComponentProps {
     workoutTitle: any;
     listOfExercise: Array<any>;
     exerciseArray: Array<any>;
+    handleDeleteWorkout: (e: React.MouseEvent<HTMLButtonElement>, data: any) => void;
+    data: any;
 }
 
 export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
@@ -54,8 +56,9 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
     handleCancel,
     handleAddNewExercise,
     workoutTitle,
-    listOfExercise,
     exerciseArray,
+    handleDeleteWorkout,
+    data
 }) => {
     return (
         <div className="flex flex-col items-center justify-between p-6 lg:px-8">
@@ -84,12 +87,12 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {listOfExercise.map((listOfExercise) => (
-                                    <TableRow key={listOfExercise.name}>
-                                        <TableCell className="font-medium">{listOfExercise.name}</TableCell>
-                                        <TableCell>{listOfExercise.Sets}</TableCell>
-                                        <TableCell>{listOfExercise.Reps}</TableCell>
-                                        <TableCell>{listOfExercise.Weight}</TableCell>
+                                {exerciseArray.map((exercise, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell className="font-medium">{exercise.name}</TableCell>
+                                        <TableCell>{exercise.n_sets}</TableCell>
+                                        <TableCell>{exercise.n_reps}</TableCell>
+                                        <TableCell>{exercise.weight}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -110,28 +113,28 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                     </DialogContent>
                 </Dialog>
                 <> {workoutTitle} </>
-                <Button variant="link" size="icon">
+                <Button variant="link" size="icon" onClick={(e) => handleDeleteWorkout(e, data)}>
                     <Minus className="h-4 w-4" />
                 </Button>
             </div>
             <div>
-            {exerciseArray.map((exercise, index) => (                    
-            <WorkoutExerciseCard key = {index}
-                isPopoverOpen={isPopoverOpen}
-                exerciseName={exerciseName}
-                setExerciseName={setExerciseName}
-                reps={reps}
-                sets={sets}
-                weight={weight}
-                handleWeightChange={handleWeightChange}
-                handleRepsChange={handleRepsChange}
-                handleSetsChange={handleSetsChange}
-                handleCancel={handleCancel}
-                handleAddNewExercise={handleAddNewExercise}
-                cardTitle={exercise.name}
-                cardContent={exercise.image_url}
-                cardDescription={exercise.exercise_target}
-            />))}
+                {exerciseArray.map((exercise, index) => (
+                    <WorkoutExerciseCard key={index}
+                        isPopoverOpen={isPopoverOpen}
+                        exerciseName={exerciseName}
+                        setExerciseName={setExerciseName}
+                        reps={reps}
+                        sets={sets}
+                        weight={weight}
+                        handleWeightChange={handleWeightChange}
+                        handleRepsChange={handleRepsChange}
+                        handleSetsChange={handleSetsChange}
+                        handleCancel={handleCancel}
+                        handleAddNewExercise={handleAddNewExercise}
+                        cardTitle={exercise.name}
+                        cardContent={exercise.image_url}
+                        cardDescription={exercise.exercise_target}
+                    />))}
             </div>
             <NewExerciseCard />
         </div>
