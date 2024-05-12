@@ -9,8 +9,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import exercise from "../DAO/exercise";
-import TopBar from "./components/ui/topBar";
+import exercise from "@/DAO/exercise";
+import TopBar from "@/components/ui/topBar";
 
 function MainMenu() {
   const [selectedCard, setSelectedCard] = useState<exercise>({

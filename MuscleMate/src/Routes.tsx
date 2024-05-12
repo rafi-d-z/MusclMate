@@ -3,7 +3,7 @@ import MainMenu from "@/App";
 import Workout from "@/workout";
 import Auth from "@/Login";
 import User from "@/User";
-import config from "../auth/firebase.config";
+import config from "./auth/firebase.config";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from 'react';
 import { ReactNode } from 'react';

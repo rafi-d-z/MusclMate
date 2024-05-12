@@ -12,7 +12,7 @@ User edit their exercises
 import TopBar from "@/components/ui/topBar";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import config from "../auth/firebase.config"
+import config from "./auth/firebase.config"
 function User(){
     // get current user
     const [uid, setUID] = useState<string>('notSystem');

@@ -19,7 +19,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import config from "../auth/firebase.config";
+import config from "./auth/firebase.config";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 

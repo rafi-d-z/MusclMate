@@ -33,8 +33,8 @@ import {
 import { useState, useEffect } from "react"
 import axios from 'axios';
 import './App.css'
-import exercise from "DAO/exercise"
-import config from "../auth/firebase.config"
+import exercise from "@/DAO/exercise"
+import config from "@/auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import TopBar from "./components/ui/topBar"
 
