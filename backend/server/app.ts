@@ -396,7 +396,6 @@ async function create_app(): Promise<Array<any>>{
   app.post("/create_user", async (_req, _res) => {
     // get uid from params
     let uid: string;
-    console.log(_req.body)
 
     try{
       uid = getUserQueries(_req.body);
