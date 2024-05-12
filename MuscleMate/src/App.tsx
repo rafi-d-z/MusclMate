@@ -6,12 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState, useEffect } from "react";
-/* import './App.css' */
-import muscleLogo from "./assets/MuscleLogo.png";
-import { Menubar } from "@/components/ui/menubar";
 import axios from "axios";
 import exercise from "../DAO/exercise";
 import TopBar from "./components/ui/topBar";
