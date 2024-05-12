@@ -185,7 +185,7 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
 
 
   // get all exercises for each workout
-  const sql_exercises: string = "SELECT * FROM public.exercises WHERE uid = ANY($1)";
+  const sql_exercises: string = "SELECT * FROM public.exercises WHERE uid = ANY($1::uuid[])";
 
   const workoutsWithExercises:Array<workout> = await Promise.all(workout_without_exercises.map(async (workout: workout) => {
     const query_exercises = {
