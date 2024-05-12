@@ -63,7 +63,6 @@ export async function get_exercises(
     conditions.push(`weight = $${index++}`);
     values.push(exerciseQuery.weight);
   }
-  
 
   const sql_string = "SELECT * FROM public.exercises" + 
                       (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "");
@@ -403,6 +402,7 @@ async function query_db(client: Client, query: any): Promise<Array<any>>{
     return res;
   } catch (err: any) {
     console.error("Problem querying database\n", err.toString());
+    
     throw new Error(`Problem querying database, possible malformed input. Tried to perform ${query.text, query.values}`);
   }
 }
