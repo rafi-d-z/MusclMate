@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use client"
 import React, { useState, useEffect } from "react"
 import { Plus, Minus, Check, ChevronsUpDown, Pencil } from "lucide-react"
@@ -61,10 +60,9 @@ import {
 import { WorkoutExerciseCard } from "@/components/ui/workoutExerciseCard"
 import { CreateWorkoutCard } from "./components/ui/createWorkoutCard"
 import { WorkoutComponent } from "./components/ui/workoutComponent"
+import workout from "./DAO/workout"
 import axios from "axios"
-import workout from '../DAO/workout'
-import exercise from '../DAO/exercise'
-import config from "../auth/firebase.config"
+import config from "./auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Description } from "@radix-ui/react-dialog"
 
@@ -84,6 +82,34 @@ function Workout() {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [exerciseArr, setExerciseArr] = useState([]);
     const [uid, setUID] = useState('notSystem');
+
+    const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault(); 
+    
+        // eslint-disable-next-line prefer-const
+        let workoutToAdd: workout = {
+          uid: "",
+          workout_name: workoutName,
+          exercise_arr: [],
+          keywords: [],
+          description: '', // TODO: add functionality to add this
+          difficulity: '', // TODO: add functionality to add this
+          creator: uid
+        }
+    
+        axios.post("https://api-muscleman.com/create_workout", 
+          workoutToAdd
+        )
+          .then(function (response) {
+            workoutToAdd.uid = response.data.uid;
+            setSelectedWorkoutData([workoutToAdd, ...selectedWorkoutData]);
+            console.log(workoutToAdd);
+            console.log("Data: ", response.data);
+          })
+          .catch((res) => {
+            console.error("Error connecting to server,", res.response.data);
+          });
+      };
 
     useEffect(() => {
         const auth = getAuth(config.app);
@@ -120,37 +146,6 @@ function Workout() {
 
         fetchData();
     }, [selectedWorkout]);
-
-    const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-
-        let obj: workout = {
-            uid: "",
-            workout_name: workoutName,
-            exercise_arr: exerciseArr,
-            keywords: [],
-            creator: uid
-        }
-
-
-        axios.post("https://api-muscleman.com/create_workouts", {
-            uid: "",
-            workout_name: workoutName,
-            exercise_arr: exerciseArr,
-            arr_keywords: JSON.stringify([])
-        })
-            .then(function (response) {
-                obj.uid = response.data.uid;
-                selectedWorkoutData([obj, ...selectedWorkoutData]);
-                console.log(obj);
-                console.log("Data: ", response.data);
-            })
-            .catch((res) => {
-                console.error("Error connecting to server,", res.response.data);
-            });
-
-        setIsPopoverOpen(false);
-    };
 
     
 
@@ -244,7 +239,10 @@ function Workout() {
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '800px' }}>
                         <div className="flex flex-col items-start justify-between p-6 lg:px-8">
-                            <CreateWorkoutCard />
+                            <CreateWorkoutCard 
+                             workoutName={workoutName}
+                             setWorkoutName={setWorkoutName}
+                             handleAddNewWorkout={handleAddNewWorkout}/>
                         </div>
                         {selectedWorkoutData.map((data, index) => (
                                         <WorkoutComponent
@@ -299,20 +297,9 @@ function Workout() {
                 </div>
             </div>
         </>
-=======
-function Workout () {
-    return (
-        <div>
-            <h1>Under Construction</h1>
-        </div>
->>>>>>> origin/main
     )
 
 }
 
-<<<<<<< HEAD
 
 export default Workout;
-=======
-export default Workout;
->>>>>>> origin/main

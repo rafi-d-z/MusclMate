@@ -20,8 +20,18 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+interface CreateWorkoutCardProps {
+    workoutName: string;
+    setWorkoutName: React.Dispatch<React.SetStateAction<string>>;
+    handleAddNewWorkout: (e: React.MouseEvent<HTMLButtonElement>) => any;
 
-export const CreateWorkoutCard: React.FC = () => {
+}
+
+export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
+    { workoutName, setWorkoutName, handleAddNewWorkout}
+
+) => {
+    
     return (
         <Card className="w-[200px] h-[600px] m-4 bg-gray-200">
             <CardHeader style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -41,8 +51,8 @@ export const CreateWorkoutCard: React.FC = () => {
                             </DialogDescription>
                         </DialogHeader>
                         <div className="flex w-full max-w-sm items-center space-x-2">
-                            <Input type="Name" placeholder="Name" />
-                            <Button type="submit">Submit</Button>
+                            <Input type="Name" placeholder="Name" value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} />
+                            <Button type="submit" onClick={handleAddNewWorkout}>Submit</Button>
                         </div>
                         <DialogFooter className="flex justify-between">
                             <DialogClose>
