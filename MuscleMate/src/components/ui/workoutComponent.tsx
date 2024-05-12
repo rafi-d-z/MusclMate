@@ -39,7 +39,7 @@ interface WorkoutComponentProps {
     cardTitle: string;
     cardContent: string;
     cardDescription: string;
-    workoutTitle: string;
+    workoutTitle: any;
     listOfExercise: Array<any>;
 }
 
@@ -73,9 +73,9 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                                     </DialogTrigger>
                                     <DialogContent>
                                         <DialogHeader>
-                                            <DialogTitle>Edit Exercise</DialogTitle>
+                                            <DialogTitle>View Exercise</DialogTitle>
                                             <DialogDescription>
-                                                Select existing exercise to edit or add new exercise.
+                                                The table shows all the exercises in this workout
                                             </DialogDescription>
                                         </DialogHeader>
                                         <Table>
@@ -86,7 +86,6 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                                                     <TableHead>Reps</TableHead>
                                                     <TableHead>Sets</TableHead>
                                                     <TableHead>Weight</TableHead>
-                                                    <TableHead className="text-right">Edit</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
@@ -96,24 +95,16 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                                                         <TableCell>{listOfExercise.Sets}</TableCell>
                                                         <TableCell>{listOfExercise.Reps}</TableCell>
                                                         <TableCell>{listOfExercise.Weight}</TableCell>
-                                                        <TableCell>
-                                                            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                                                <Button variant="link" size="icon">
-                                                                    <Pencil className="h-4 w-4" />
-                                                                </Button>
-                                                            </div>
-                                                        </TableCell>
                                                     </TableRow>
                                                 ))}
                                             </TableBody>
                                             <TableFooter>
                                                 <TableRow>
-                                                    <TableCell colSpan={4}>Table footer</TableCell>
-                                                    <TableCell className="text-right">table footer</TableCell>
+                                                    <TableCell colSpan={3}>Table footer</TableCell>
+                                                    <TableCell>table footer</TableCell>
                                                 </TableRow>
                                             </TableFooter>
                                         </Table>
-                                        <Button type="submit">Submit</Button>
                                         <DialogFooter className="flex justify-between">
                                             <DialogClose>
                                                 <Button variant="outline">
@@ -123,7 +114,7 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                                         </DialogFooter>
                                     </DialogContent>
                                 </Dialog>
-                                <h1>{workoutTitle}</h1>
+                                <> {workoutTitle} </>
                                 <Button variant="link" size="icon">
                                     <Minus className="h-4 w-4" />
                                 </Button>
