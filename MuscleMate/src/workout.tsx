@@ -128,6 +128,7 @@ function Workout() {
             workout_name: workoutName,
             exercise_arr: exerciseArr,
             keywords: [],
+            creator: uid
         }
 
 
