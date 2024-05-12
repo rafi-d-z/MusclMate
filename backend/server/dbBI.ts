@@ -289,7 +289,7 @@ export async function delete_workout(client: Client, workout_to_delete: workout)
 
 /* User Functions */
 export async function get_user(client: Client, uid: string): Promise<Array<any> | undefined> {
-  const sql: string = "SELECT * FROM public.users WHERE uid = $1;";
+  const sql: string = "SELECT * FROM public.user WHERE uid = $1;";
   const values = [uid];
 
   const query = {
@@ -297,13 +297,31 @@ export async function get_user(client: Client, uid: string): Promise<Array<any> 
     values: values,
   };
 
+  let userEmpty;
+
   try {
-    const res = await query_db(client, query);
-    return res;
+    userEmpty = await query_db(client, query);
+    return userEmpty;
   } catch (err) {
     console.error("Problem fetching\n", err);
     throw err;
   }
+
+  // const userWithExercises:Array<workout> = await Promise.all(userEmpty.map(async (user: user) => {
+    
+  //   let exercises;
+  //   try {
+  //     exercises = await query_db(client, query_exercises);
+  //     workout.exercise_arr = exercises;
+
+  //     return workout;
+  //   } catch (err: any) {
+  //     console.error("Problem fetching\n", err.toString());
+  //     throw err;
+  //   }
+  // }));
+
+
 }
 
 export async function create_user(client: Client, uid: string) {
