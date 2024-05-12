@@ -237,8 +237,17 @@ export async function create_workout(client: Client, new_workout: workout): Prom
     values: values
   }
 
-  const result = await query_db(client, query);
-  return result[0].uid;
+  try{
+    const result = await query_db(client, query);
+    
+    // add workout to user
+
+    const _ = await update_user_workouts(client, new_workout.creator, result[0].uid)
+    
+    return result[0].uid;
+  } catch (err: any) {
+    throw err;
+  }
 }
 
 export async function edit_workout(client: Client, updated_workout: workout): Promise<string | undefined> {
@@ -315,12 +324,12 @@ export async function create_user(client: Client, uid: string) {
 
 }
 
-export async function update_user_exercises(client: Client, user: user) {
+export async function update_user_exercises(client: Client, userUID: string, exercises: string) {
   // update user information via user object
   const sql: string = `UPDATE public.users SET exercises = array_append(exercises, $2) `+
                       `WHERE uid = $1 RETURNING uid;`;
 
-  const values = [user.uid, user.exercises];
+  const values = [userUID, exercises];
 
   const query = {
     text: sql,
@@ -335,12 +344,12 @@ export async function update_user_exercises(client: Client, user: user) {
   }
 }
 
-export async function update_user_workouts(client: Client, user: user) {
+export async function update_user_workouts(client: Client, userUID: string, workouts: string) {
   // update user information via user object
   const sql: string = `UPDATE public.users SET workouts = array_append(workouts, $2) `+
                       `WHERE uid = $1 RETURNING uid;`;
 
-  const values = [user.uid, user.workouts];
+  const values = [userUID, workouts];
 
   const query = {
     text: sql,

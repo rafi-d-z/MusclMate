@@ -9,7 +9,7 @@ interface exercise {
     arr_keywords?: Array<string>,
     description?: string,
     difficulity?: string,
-    creator?: string
+    creator: string
 }
 
 export default exercise
