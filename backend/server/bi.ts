@@ -110,7 +110,7 @@ export function getWorkoutQueries(query: any): workout {
   const workout_query: workout = {
     uid: query.uid.toString(),
     workout_name: query.workout_name.toString(),
-    exercise_arr: query.exercise_arr,
+    exercise_arr: JSON.parse(query.exercise_arr),
     keywords: [],
     description: query.description ? query.description.toString() : '',
     difficulity: query.difficulity ? query.difficulity.toString() : '',
