@@ -83,14 +83,13 @@ export function toNumber(input: any): number {
  */
 export function getWorkoutQueries(query: any): workout {
   // if the workout body does not contain the fields (as incomplete body) - throw error
-  console.log(query)
   if (
     query.uid === undefined ||
     query.workout_name === undefined ||
     query.exercise_arr === undefined
   ) {
     throw new Error(
-      "Malformed input! Workout subobject either missing or incomplete",
+      `Malformed input! Workout subobject either missing or incomplete. Got ${query}`,
     );
   } else if (!isString(query.uid)) {
     throw new Error("The 'uid' property of the query object is not a string");
