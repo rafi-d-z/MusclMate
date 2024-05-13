@@ -26,10 +26,10 @@ import workout from "@/DAO/workout"
 import exercise from "@/DAO/exercise"
 
 interface WorkoutComponentProps {
-    workoutTitle: any;
-    exerciseArray: Array<any>;
-    data: any;
-    avaliableExercises: any[];
+    workoutTitle: string;
+    exerciseArray: Array<exercise>;
+    data: workout;
+    avaliableExercises: exercise[];
 }
 
 export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
