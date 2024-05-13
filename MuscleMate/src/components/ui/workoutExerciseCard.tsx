@@ -11,12 +11,13 @@ import {
 import { Button } from "@/components/ui/button"
 
 interface WorkoutExerciseCardProps {
-
     cardTitle: any;
     cardContent: any;
     cardDescription: any;
     reps: any;
     sets: any;
+    uid: string;
+    handleDeleteExerciseWorkout: (e: React.MouseEvent<HTMLButtonElement>, uid: string) => void;
 }
 
 export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
@@ -24,9 +25,13 @@ export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
     cardContent,
     cardDescription,
     reps,
-    sets
-
+    sets,
+    uid,
+    handleDeleteExerciseWorkout
 }) => {
+    const handleBeforeDelete = async (e: React.MouseEvent<HTMLButtonElement>,)  => {
+        handleDeleteExerciseWorkout(e, uid);
+    }
     return (
 
             <Card className="w-[200px] m-4">
@@ -39,7 +44,7 @@ export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
                 </CardContent>
                 <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {reps}/{sets}
-                    <Button variant="link" size="icon">
+                    <Button variant="link" size="icon" onClick={handleBeforeDelete}>
                         <Minus className="h-4 w-4" />
                     </Button>
                 </CardFooter>

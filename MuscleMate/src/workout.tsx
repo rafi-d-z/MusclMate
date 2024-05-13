@@ -27,9 +27,7 @@ function Workout() {
     const [workoutName, setWorkoutName] = useState('');
     const [exerciseArr, setExerciseArr] = useState<string[]>([]);
     const [exercises, setExercises] = useState([]);
-    // const [description, setDescription] = useState('');
-    const [difficulty, setDifficulty] = useState('');
-    const [workoutUID, setWorkoutUID] = useState('');
+    const [difficulity, setDifficulty] = useState(''); 
 
 
     // fetch all exercises & adding to exercises
@@ -94,24 +92,6 @@ function Workout() {
     const handleCheckboxChange = (exercise_uid: string) => {
         setExerciseArr([...exerciseArr, exercise_uid]);
     };
-
-    // what does this do
-    const handleEditDeleteWorkout = async (e: React.MouseEvent<HTMLButtonElement>, workout_obj: workout ) => {
-        e.preventDefault();
-        console.log(workout_obj);
-    
-        axios.delete( "https://api-muscleman.com/edit_workout",{
-          data: workout_obj,
-          }).then((response) => {
-          // since obj delted in selectedCardData array, remove it from array
-          setExerciseArr(exerciseArr.filter((card) => card.uid !== workout_obj.uid));
-          console.log("Response: ", response.data);
-        })
-          .catch((res) => {
-            console.error("Error connecting to server,", res);
-          });
-    };
-
     
     // adds new workout to the database
     const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -122,7 +102,7 @@ function Workout() {
             uid: "",
             workout_name: workoutName,
             exercise_arr: exerciseArr,
-            difficulity: difficulty, // TODO: add functionality to add this
+            difficulity: difficulity, // TODO: add functionality to add this
             creator: uid
         }
 
@@ -139,25 +119,6 @@ function Workout() {
             });
     };
 
-    // adds new exercise to the workout
-    const handleAddNewExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        console.log("Workout UID: ", workoutUID);
-
-        axios.post("https://api-muscleman.com/edit_workout", {
-            data: {
-            uid: workoutUID,
-            workout_name: workoutName,
-            exercise_arr: JSON.stringify(exerciseArr),
-        },})
-            .then(function (response) {
-                console.log("Data: ", response);
-            })
-            .catch((res) => {
-                console.error("Error connecting to server,", res.response.data);
-            });
-
-    }
 
     const handleDeleteWorkout = async (e: React.MouseEvent<HTMLButtonElement>, workout_obj: workout) => {
         e.preventDefault();
@@ -180,30 +141,6 @@ function Workout() {
                 console.error("Error connecting to server,", res);
             });
     };
-
-    const handleEditWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault(); 
- 
-        // eslint-disable-next-line prefer-const
-        let workout_obj: workout = {
-          uid: "",
-          workout_name: workoutName,
-          exercise_arr: exerciseArr,
-          difficulity: difficulty, // TODO: add functionality to add this
-          creator: uid
-        }
-    
-        axios.post("https://api-muscleman.com/edit_workout", workout_obj)
-          .then(function (response) {
-            workout_obj.uid = response.data.uid;
-            setSelectedWorkoutData([workout_obj, ...selectedWorkoutData]);
-            console.log(workout_obj);
-            console.log("Data: ", response.data);
-          })
-          .catch((res) => {
-            console.error("Error connecting to server,", res.response.data);
-          });
-      };
 
     return (
         <>
@@ -232,7 +169,7 @@ function Workout() {
                             <WorkoutComponent
                                 workoutTitle={data.workout_name}
                                 exerciseArray={data.exercise_arr}
-                                handleDeleteWorkout={handleDeleteWorkout}
+                                exerciseArrayHandler={setExerciseArr}
                                 data={data}
                                 avaliableExercises={exercises}
                             />))}

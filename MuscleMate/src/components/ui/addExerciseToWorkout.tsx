@@ -3,12 +3,8 @@ import { Plus } from "lucide-react"
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
-    CardHeader,
-    CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import {
     Dialog,
     DialogClose,
@@ -33,15 +29,11 @@ import {
 import "@/css/exerciseTable.css"
 import axios from 'axios';
 import exercise from "@/DAO/exercise"
+import workout from "@/DAO/workout"
 
 interface AddExerciseToWorkoutProps {
-    avaliableExercises: any[];
-    // handleAddNewExercise: (e: React.MouseEvent<HTMLButtonElement>) => any;
-    // handleCheckboxChange: (exercise_uid: string) => void;
-    data: any;
-    // handleWorkoutUID: React.Dispatch<React.SetStateAction<string>>;
-    // handleWorkoutName: React.Dispatch<React.SetStateAction<string>>;
-
+    avaliableExercises: exercise[];
+    data: workout;
 }
 
 export const AddExerciseToWorkout: React.FC<AddExerciseToWorkoutProps> = (

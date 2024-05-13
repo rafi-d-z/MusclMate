@@ -21,22 +21,54 @@ import {
 } from "@/components/ui/dialog"
 import AddExerciseToWorkout from "@/components/ui/addExerciseToWorkout"
 import "@/css/exerciseTable.css"
+import axios from 'axios';
+import workout from "@/DAO/workout"
 
 interface WorkoutComponentProps {
     workoutTitle: any;
     exerciseArray: Array<any>;
-    handleDeleteWorkout: (e: React.MouseEvent<HTMLButtonElement>, data: any) => void;
     data: any;
     avaliableExercises: any[];
+    setExerciseArray: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
     workoutTitle,
     exerciseArray,
-    handleDeleteWorkout,
     data,
     avaliableExercises,
+    setExerciseArray
 }) => {
+    const handleDeleteWorkout = async (e: React.MouseEvent<HTMLButtonElement>, workout_obj: workout ) => {
+        e.preventDefault();
+    
+        axios.delete( "https://api-muscleman.com/delete_workout",{
+          data: workout_obj,
+          })
+          .catch((res) => {
+            console.error("Error connecting to server,", res);
+          });
+    };
+    
+    const handleDeleteExerciseWorkout = async (e: React.MouseEvent<HTMLButtonElement>, exerciseToRemoveUID: string) => {
+        e.preventDefault();
+        console.log("array", exerciseArray)
+        setExerciseArray(exerciseArray.filter((exercise) => exercise.uid !== exerciseToRemoveUID))
+        console.log("array", exerciseArray)
+        // console.log("Workout Object: ", workout_obj);
+        // axios.post("https://api-muscleman.com/edit_workout", {
+        //     data: workout_obj})
+        //     .then(function (response) {
+        //         console.log("Data: ", response);
+        //     })
+        //     .catch((res) => {
+        //         console.error("Error connecting to server,", res.response.data);
+        //     });
+
+    }
+
+
+
     return (
         <div className="flex flex-col items-center justify-between p-6 lg:px-8">
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -89,7 +121,10 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                         cardDescription={exercise.exercise_target}
                         reps={exercise.n_reps}
                         sets={exercise.n_sets}
-                    />))}
+                        uid={exercise.uid}
+                        handleDeleteExerciseWorkout={handleDeleteExerciseWorkout}
+                    />
+                    ))}
             </div>
             <AddExerciseToWorkout
             avaliableExercises = {avaliableExercises}
