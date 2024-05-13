@@ -1,4 +1,12 @@
-.table {
-max-height: 10px; /* Adjust as needed */
-  overflow-y: auto;
-  }
+.TableBody {
+    display: block;
+    max-height: 300px;  /* Adjust based on your requirement */
+    overflow-y: auto;
+}
+.TableHeader, .TableBody {
+    width: 100%;
+}
+table {
+    table-layout: fixed;
+    width: 100%;
+}

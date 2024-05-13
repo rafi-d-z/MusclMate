@@ -31,6 +31,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import "@/css/exerciseTable.css"
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
 
@@ -70,9 +71,10 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                 Enter the name of the workout.
                             </DialogDescription>
                         </DialogHeader>
+
                         <Table>
                             <TableCaption>A list of your recent invoices.</TableCaption>
-                            <div className="table">
+                            <div className="table"></div>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className="w-[100px]">Exercise Name</TableHead>
@@ -82,20 +84,17 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                     <TableHead className="text-right">Weight</TableHead>
                                 </TableRow>
                             </TableHeader>
-                                <TableBody>
-                                    {avaliableExercises.map((exercise) => (
-                                        <TableRow>
-                                            <>
-                                                <TableCell className="font-medium">{exercise.exercise_name}</TableCell>
-                                                <TableCell>{exercise.exercise_target}</TableCell>
-                                                <TableCell>{exercise.n_reps}</TableCell>
-                                                <TableCell>{exercise.n_sets}</TableCell>
-                                                <TableCell className="text-right">{exercise.weight}</TableCell>
-                                            </>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </div>
+                            <TableBody className="TableBody">
+                                {avaliableExercises.map((exercise) => (
+                                <TableRow >
+                                        <><TableCell className="font-medium">{exercise.exercise_name}</TableCell>
+                                        <TableCell>{exercise.exercise_target}</TableCell>
+                                        <TableCell>{exercise.n_reps}</TableCell>
+                                        <TableCell>{exercise.n_sets}</TableCell>
+                                        <TableCell className="text-right">{exercise.weight}</TableCell></>
+                                </TableRow>
+                                ))}
+                            </TableBody>
                         </Table>
 
 
