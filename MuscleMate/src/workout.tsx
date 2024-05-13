@@ -185,16 +185,8 @@ function Workout() {
         fetchData();
     }, [selectedWorkout]);
 
-    const handleCheckboxChange = (e: any, exercise_uid: string) => {
-        e.preventDefault();
-
-        console.log(exercise_uid);
-
-        if (e.target.checked)
-        {
-            setExerciseArr([...exerciseArr, exercise_uid]);
-        }
-        
+    const handleCheckboxChange = (exercise_uid: string) => {
+        setExerciseArr([...exerciseArr, exercise_uid]);
     };
 
     const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -210,11 +202,8 @@ function Workout() {
           creator: uid
         }
     
-        axios.post("https://api-muscleman.com/create_workout", 
-          workoutToAdd
-        )
-          .then(function (response) 
-          {
+        axios.post("https://api-muscleman.com/create_workout", workoutToAdd)
+          .then(function (response) {
             console.log(exerciseArr);
 
             workoutToAdd.uid = response.data.uid;
