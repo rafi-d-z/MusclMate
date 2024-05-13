@@ -40,8 +40,7 @@ interface CreateWorkoutCardProps {
     setWorkoutName: React.Dispatch<React.SetStateAction<string>>;
     handleAddNewWorkout: (e: React.MouseEvent<HTMLButtonElement>) => any;
     avaliableExercises: exercise[];
-    handleCheckboxChange: (e, exercise_uid: string) => any;
-
+    handleCheckboxChange: (exercise_uid: string) => void;
 }
 
 export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
@@ -87,7 +86,7 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                         <TableCell>{exercise.n_reps}</TableCell>
                                         <TableCell>{exercise.n_sets}</TableCell>
                                         <TableCell>{exercise.weight}</TableCell>
-                                        <TableCell className="text-right"><Checkbox onClick={(e) => handleCheckboxChange(e, exercise.uid)} /></TableCell>
+                                        <TableCell className="text-right"><Checkbox onCheckedChange={() => handleCheckboxChange(exercise.uid)} /></TableCell>
                                 </TableRow>
                                 ))}
                             </TableBody>
