@@ -36,7 +36,7 @@ async function create_app(): Promise<Array<any>>{
   const app: express.Application = express();
   app.use(
     cors({
-      origin: ["https://muscl-mate-26j1.vercel.app", "http://localhost:5173"],
+      origin: ["http://localhost:5173", "https://muscl-mate.vercel.app"],
     }),
   );
   app.use(express.json());

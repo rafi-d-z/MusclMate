@@ -60,37 +60,86 @@ import {
 import { WorkoutExerciseCard } from "@/components/ui/workoutExerciseCard"
 import { CreateWorkoutCard } from "./components/ui/createWorkoutCard"
 import { WorkoutComponent } from "./components/ui/workoutComponent"
+import workout from "./DAO/workout"
 import axios from "axios"
-import workout from '../DAO/workout'
-import config from "../auth/firebase.config"
+import config from "./auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Description } from "@radix-ui/react-dialog"
-import TopBar from "./components/ui/topBar"
-
+import exercise from "./DAO/exercise";
+import { Checkbox } from "./components/ui/checkbox"
+import { any } from "zod"
 function Workout() {
     const [selectedWorkout, setSelectedWorkout] = useState<workout>({
         uid: "",
         workout_name: "",
         exercise_arr: [],
-        keywords: [],
         difficulity: "",
         description: "",
         creator: "",
-
     });
+    const [uid, setUID] = useState('notSystem');
     const [selectedWorkoutData, setSelectedWorkoutData] = useState<workout[]>([]);
     const [workoutName, setWorkoutName] = useState('');
+    const [exerciseArr, setExerciseArr] = useState<string[]>([]);
+    const [exercises, setExercises] = useState([]);
+    const [description, setDescription] = useState('');
+    const [difficulty, setDifficulty] = useState('');
+    const [workoutNameEdit, setWorkoutNameEdit] = useState('');
+    const [exerciseArrEdit, setExerciseArrEdit] = useState<exercise[]>([]);
+    const [exercisesEdit, setExerciesEdit] = useState([]);
+    const [descriptionEdit, setDescriptionEdit] = useState('');
+    const [difficultyEdit, setDifficultyEdit] = useState('');
+    const [exerciseName, setExerciseName] = useState('Pull ups');
+    const [reps, setReps] = useState('12');
+    const [sets, setSets] = useState('3');
+    const [weight, setWeight] = useState('none');
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-    const [exerciseArr, setExerciseArr] = useState([]);
-    const [uid, setUID] = useState('notSystem');
-
+    
+    const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        value = value.replace(/\D/g, '');
+        setReps(value);
+    };
+    const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        value = value.replace(/\D/g, '');
+        setSets(value);
+    };
+    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        value = value.replace(/\D/g, '');
+        value = value + ' lbs';
+        setWeight(value);
+    };
+    // fetch all exercises & adding to exercises
+    useEffect(() => {
+        const exercise = {
+            uid: '',
+            exercise_name: '',
+            exercise_target: '',
+            image_url: '',
+            n_reps: 0,
+            n_sets: 0,
+            weight: 0,
+            description: '',
+            difficulity: '',
+            creator: ''
+        }
+        axios.get("https://api-muscleman.com/get_exercises", {
+            params: exercise
+        }).then((response) => {
+            setExercises(response.data);
+            console.log(response.data);
+        }).catch((err) => {
+            console.error(err);
+        });
+    }, []);
     useEffect(() => {
         const auth = getAuth(config.app);
         onAuthStateChanged(auth, user => {
             setUID(user?.uid || 'notSystem');
         })
     });
-
     useEffect(() => {
         const fetchData = async () => {
             console.log("Type:", selectedWorkout)
@@ -116,53 +165,50 @@ function Workout() {
                 });
             }
         };
-
         fetchData();
     }, [selectedWorkout]);
-
-    const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-
-        let obj: workout = {
-            uid: "",
-            workout_name: workoutName,
-            exercise_arr: exerciseArr,
-            keywords: [],
-        }
-
-
-        axios.post("https://api-muscleman.com/create_workouts", {
-            uid: "",
-            workout_name: workoutName,
-            exercise_arr: exerciseArr,
-            arr_keywords: JSON.stringify([])
-        })
-            .then(function (response) {
-                obj.uid = response.data.uid;
-                selectedWorkoutData([obj, ...selectedWorkoutData]);
-                console.log(obj);
-                console.log("Data: ", response.data);
-            })
-            .catch((res) => {
-                console.error("Error connecting to server,", res.response.data);
-            });
-
-        setIsPopoverOpen(false);
+    const handleCheckboxChange = (exercise_uid: string) => {
+        setExerciseArr([...exerciseArr, exercise_uid]);
     };
-
+    const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault(); 
+    
+        // eslint-disable-next-line prefer-const
+        let workoutToAdd: workout = {
+          uid: "",
+          workout_name: workoutName,
+          exercise_arr: exerciseArr,
+          description: description, // TODO: add functionality to add this
+          difficulity: difficulty, // TODO: add functionality to add this
+          creator: uid
+        }
+    
+        axios.post("https://api-muscleman.com/create_workout", workoutToAdd)
+          .then(function (response) {
+            console.log(exerciseArr);
+            workoutToAdd.uid = response.data.uid;
+            setSelectedWorkoutData([workoutToAdd, ...selectedWorkoutData]);
+            console.log(workoutToAdd);
+            console.log("Data: ", response.data);
+          })
+          .catch((res) => {
+            console.error("Error connecting to server,", res.response.data);
+          });
+      };
     const handleDeleteWorkout = async (e: React.MouseEvent<HTMLButtonElement>, workout_obj: workout) => {
         e.preventDefault();
         console.log(workout_obj);
-
         axios.delete("https://api-muscleman.com/delete_workout", {
             data: {
                 uid: workout_obj.uid,
                 workout_name: workout_obj.workout_name,
-                exercise_arr: workout_obj.exercise_arr,
-                keywords: JSON.stringify(workout_obj.keywords)
+                exercise_arr: JSON.stringify(workout_obj.exercise_arr),
+                keywords: JSON.stringify(workout_obj.keywords),
+                difficulity: workout_obj.difficulity,
+                description: workout_obj.description,
+                creator: workout_obj.creator,
             },
         }).then((response) => {
-            // since obj delted in selectedCardData array, remove it from array
             setSelectedWorkoutData(selectedWorkoutData.filter((card) => card.uid !== workout_obj.uid));
             console.log("Response: ", response.data);
         })
@@ -170,237 +216,91 @@ function Workout() {
                 console.error("Error connecting to server,", res);
             });
     };
-
-
-
-
-    const listOfExercise = [
-        {
-            name: "workout",
-            Reps: "1",
-            Weight: "1",
-            Sets: "1",
-        },
-        {
-            name: "exercise",
-            Reps: "1",
-            Weight: "1",
-            Sets: "1",
-        },
-    ]
-
-    const exercises = [
-        {
-            value: "pushup",
-            label: "Pushup",
-        },
-        {
-            value: "squat",
-            label: "Sqaut",
-        },
-        {
-            value: "deadlift",
-            label: "Deadlift",
-        },
-    ]
-
-    const [open, setOpen] = React.useState(false)
-    const [value, setValue] = React.useState("")
-
-
-    const [exerciseName, setExerciseName] = useState('Pull ups');
-    const [reps, setReps] = useState('12');
-    const [sets, setSets] = useState('3');
-    const [weight, setWeight] = useState('none');
-    const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        setReps(value);
-    };
-
-    const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        setSets(value);
-    };
-
-    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        value = value + ' lbs';
-        setWeight(value);
-    };
-
     const handleAddNewExercise = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-
-
         const exercise = {
             name: exerciseName,
             reps: reps,
             sets: sets,
             weight: weight
         };
-
         console.log('New Exercise:', exercise);
         setIsPopoverOpen(false);
-
     };
-
     const handleCancel = () => {
-
         setExerciseName('Pull ups');
         setReps('3');
         setSets('12');
         setWeight('none');
-
         setIsPopoverOpen(false);
     };
 
+    const [checkedExercises, setCheckedExercises] = useState<exercise[]>([]);
+
     return (
         <>
-        <TopBar />
-        
+            {/* top bar components */}
+            <div className="flex items-center justify-between p-8 lg:px-8">
+                <img src={muscleLogo} width={200} height={200} />
+                <div className="mt-5 flex lg:ml-4 gap-20">
+                    <Input placeholder="Search" className="w-[200px] " />
+                    <Menubar />
+                </div>
+            </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '360px' }}>
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '800px' }}>
                         <div className="flex flex-col items-start justify-between p-6 lg:px-8">
-                            <CreateWorkoutCard />
+                            <CreateWorkoutCard
+                             avaliableExercises={exercises} 
+                             workoutName={workoutName}
+                             setWorkoutName={setWorkoutName}
+                             handleAddNewWorkout={handleAddNewWorkout}
+                             handleCheckboxChange={handleCheckboxChange}/>
                         </div>
-                        <div className="flex flex-col items-center justify-between p-6 lg:px-8">
-                            <WorkoutExerciseCard
-                                isPopoverOpen={isPopoverOpen}
-                                exerciseName={exerciseName}
-                                setExerciseName={setExerciseName}
-                                reps={reps}
-                                sets={sets}
-                                weight={weight}
-                                handleWeightChange={handleWeightChange}
-                                handleRepsChange={handleRepsChange}
-                                handleSetsChange={handleSetsChange}
-                                handleCancel={handleCancel}
-                                handleAddNewExercise={handleAddNewExercise}
-                                cardTitle={"asdfasf"}
-                                cardContent={"cardContent"}
-                                cardDescription={"cardDescription"}
-
+                        {selectedWorkoutData.map((data, index) => (
+                            <WorkoutComponent
+                                workoutTitle={<h1 key={index}>{data.workout_name}</h1>}
+                                listOfExercise={data.exercise_arr}
+                                exerciseArray={data.exercise_arr}
+                                handleDeleteWorkout={handleDeleteWorkout}
+                                data={data}
+                                avaliableExercises={exercises}
                             />
-                            <WorkoutExerciseCard
-                                isPopoverOpen={isPopoverOpen}
-                                exerciseName={exerciseName}
-                                setExerciseName={setExerciseName}
-                                reps={reps}
-                                sets={sets}
-                                weight={weight}
-                                handleWeightChange={handleWeightChange}
-                                handleRepsChange={handleRepsChange}
-                                handleSetsChange={handleSetsChange}
-                                handleCancel={handleCancel}
-                                handleAddNewExercise={handleAddNewExercise}
-                                cardTitle={"cardTitle"}
-                                cardContent={"cardContent"}
-                                cardDescription={"cardDescription"}
-
-                            />
-                        </div>
+                        ))}
                         {selectedWorkoutData.map((data, index) => (
                             <div className="flex flex-col items-center justify-between p-6 lg:px-8">
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <><Button variant="link" size="icon">
-                                            <Plus className="h-4 w-4" />
-                                        </Button>
-                                            <h1 key={index}>{data.workout_name}</h1>
-                                            <Button variant="link" size="icon" onClick={(e) => handleDeleteWorkout(e, data)}>
+                                    <><Button variant="link" size="icon">
+                                        <Plus className="h-4 w-4" />
+                                    </Button>
+                                        <h1 key={index}>{data.workout_name}</h1>
+                                        <Button variant="link" size="icon" onClick={(e) => handleDeleteWorkout(e, data)}>
+                                            <Minus className="h-4 w-4" />
+                                        </Button></>
+                                </div>
+                                {data.exercise_arr.map((exercise, index) => (
+                                    <Card className="w-[200px] m-4" key={index}>
+                                        <CardHeader>
+                                            <CardTitle>{exercise.exercise_name}</CardTitle>
+                                            <CardDescription>{exercise.exercise_target}</CardDescription>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <img src={exercise.image_url}></img>
+                                        </CardContent>
+                                        <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                            {exercise.n_reps}/{exercise.n_sets}
+                                            <Button variant="link" size="icon">
                                                 <Minus className="h-4 w-4" />
-                                            </Button></>
-                            </div>
-                            {data.exercise_arr.map((exercise, index) => (
-                                <Card className="w-[200px] m-4" key ={index}>
-                                    <CardHeader>
-                                        <CardTitle>{exercise.exercise_name}</CardTitle>
-                                        <CardDescription>Trends For You</CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p>Card Content</p>
-                                    </CardContent>
-                                    <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                        <Button variant="link" size="icon">
-                                            <Minus className="h-4 w-4" />
-                                        </Button>
-                                    </CardFooter>
-                                </Card>))}
-                                <Card className="w-[200px] m-4">
-                                    <CardHeader>
-                                        <CardTitle>Exercise 2</CardTitle>
-                                        <CardDescription>Trends For You</CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p>Card Content</p>
-                                    </CardContent>
-                                    <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                        <Popover>
-                                            <PopoverTrigger asChild>
-                                                <Button variant="link" size="icon">
-                                                    <Pencil className="h-4 w-4" />
-                                                </Button>
-                                            </PopoverTrigger>
-                                            {isPopoverOpen && (
-                                                <PopoverContent className="w-80">
-                                                    <div className="grid gap-4">
-                                                        <div className="space-y-2">
-                                                            <h4 className="font-medium leading-none">Create Exercise</h4>
-                                                            <p className="text-sm text-muted-foreground">Add exercise details here</p>
-                                                        </div>
-                                                        <div className="grid gap-2">
-                                                            <div className="grid grid-cols-3 items-center gap-4">
-                                                                <Label htmlFor="exerciseName">Name: </Label>
-                                                                <Input id="exerciseName" value={exerciseName} onChange={(e) => setExerciseName(e.target.value)} className="col-span-2 h-8" />
-                                                            </div>
-                                                            <div className="grid grid-cols-3 items-center gap-4">
-                                                                <Label htmlFor="targetMuscles">Target Muscles:</Label>
-                                                                <Select>
-                                                                    <SelectTrigger className="w-[180px]">
-                                                                        <SelectValue placeholder="Arms" />
-                                                                    </SelectTrigger>
-                                                                    <SelectContent>
-                                                                        <SelectItem value="light">Arms</SelectItem>
-                                                                        <SelectItem value="dark">Legs</SelectItem>
-                                                                        <SelectItem value="system">Chest</SelectItem>
-                                                                        <SelectItem value="part">Back</SelectItem>
-                                                                    </SelectContent>
-                                                                </Select>
-                                                            </div>
-                                                            <div className="grid grid-cols-3 items-center gap-4">
-                                                                <Label htmlFor="reps">Reps:</Label>
-                                                                <Input id="reps" value={reps} onChange={handleRepsChange} className="col-span-2 h-8" />
-                                                            </div>
-                                                            <div className="grid grid-cols-3 items-center gap-4">
-                                                                <Label htmlFor="sets">Sets:</Label>
-                                                                <Input id="sets" value={sets} onChange={handleSetsChange} className="col-span-2 h-8" />
-                                                            </div>
-                                                            <div className="grid grid-cols-3 items-center gap-4">
-                                                                <Label htmlFor="weight">Weight:</Label>
-                                                                <Input id="weight" value={weight} onChange={handleWeightChange} className="col-span-2 h-8" />
-                                                            </div>
-                                                            <Button variant="outline" onClick={handleCancel}>Cancel</Button>
-                                                            <Button onClick={handleAddNewExercise}>Submit</Button>
-                                                        </div>
-                                                    </div>
-                                                </PopoverContent>
-                                            )}
-
-                                        </Popover>
-                                        <Button variant="link" size="icon">
-                                            <Minus className="h-4 w-4" />
-                                        </Button>
-                                    </CardFooter>
-                                </Card>
+                                            </Button>
+                                        </CardFooter>
+                                    </Card>))}
                             </div>
                         ))}
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     )
 }
-export default Workout
+export default Workout;

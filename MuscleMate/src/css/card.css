@@ -1,0 +1,11 @@
+.low-priority {
+    background-color: #FFFFFF;
+}
+
+.medium-priority {
+    background-color: #f7f0db !important;
+}
+
+.high-priority {
+    background-color: #d9b4b4 !important;
+}

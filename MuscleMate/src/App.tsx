@@ -8,10 +8,9 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState, useEffect } from "react";
-/* import './App.css' */
 import axios from "axios";
-import exercise from "../DAO/exercise";
-import TopBar from "./components/ui/topBar";
+import exercise from "@/DAO/exercise";
+import TopBar from "@/components/ui/topBar";
 
 function MainMenu() {
   const [selectedCard, setSelectedCard] = useState<exercise>({
@@ -74,7 +73,7 @@ function MainMenu() {
         <TabsContent value={selectedCard.exercise_target} className="grid grid-cols-5 gap-10">
           {(selectedCard.exercise_target === "" ? selectedCardData
             : selectedCardData.filter(data => data.exercise_target === selectedCard.exercise_target)).map((data, index) => (
-              <Card key={index}>
+              <Card key={index} priority={data.difficulity}>
                 <CardHeader>
                   <CardTitle>{data.exercise_name}</CardTitle>
                   <CardDescription>{data.exercise_target}</CardDescription>

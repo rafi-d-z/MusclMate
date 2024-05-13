@@ -28,8 +28,11 @@
       ]
     },
     "esModuleInterop": true,
+
+    "composite": true,
+    "allowSyntheticDefaultImports": true,
+
   },
   "include": ["src", "tests/*.test.tsx"],
-  "references": [{ "path": "./tsconfig.node.json" }],
 }
 
