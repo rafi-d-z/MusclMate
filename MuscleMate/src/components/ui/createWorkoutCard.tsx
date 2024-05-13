@@ -21,20 +21,37 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+
+type Checked = DropdownMenuCheckboxItemProps["checked"]
+
 
 interface CreateWorkoutCardProps {
     workoutName: string;
     setWorkoutName: React.Dispatch<React.SetStateAction<string>>;
     handleAddNewWorkout: (e: React.MouseEvent<HTMLButtonElement>) => any;
-    avaliableExercises: string[];
+    avaliableExercises: any[];
 
 }
 
 export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
-    { workoutName, avaliableExercises, setWorkoutName, handleAddNewWorkout}
+    { workoutName, avaliableExercises, setWorkoutName, handleAddNewWorkout }
 
 ) => {
-    
+
+    const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true)
+    const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false)
+    const [showPanel, setShowPanel] = React.useState<Checked>(false)
+
     return (
         <Card className="w-[200px] h-[600px] m-4 bg-gray-200">
             <CardHeader style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -53,9 +70,33 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                 Enter the name of the workout.
                             </DialogDescription>
                         </DialogHeader>
+                        <Table>
+                            <TableCaption>A list of your recent invoices.</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="w-[100px]">Exercise Name</TableHead>
+                                    <TableHead>Target</TableHead>
+                                    <TableHead>Reps</TableHead>
+                                    <TableHead>Sets</TableHead>
+                                    <TableHead className="text-right">Weight</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <div className="table">
+                            <TableBody>
+                            {avaliableExercises.map((exercise) => (
+                                <TableRow >
+                                        <><TableCell className="font-medium">{exercise.exercise_name}</TableCell>
+                                        <TableCell>{exercise.exercise_target}</TableCell>
+                                        <TableCell>{exercise.n_reps}</TableCell>
+                                        <TableCell>{exercise.n_sets}</TableCell>
+                                        <TableCell className="text-right">{exercise.weight}</TableCell></>
+                                </TableRow>
+                                ))}
+                            </TableBody>
+                            </div>
+                        </Table>
+                        
 
-                        {/* drop down menu of exercises */}
-                        {}
 
                         <div className="flex w-full max-w-sm items-center space-x-2">
                             <Input type="Name" placeholder="Name" value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} />
