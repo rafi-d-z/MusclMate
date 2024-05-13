@@ -119,29 +119,6 @@ function Workout() {
             });
     };
 
-
-    const handleDeleteWorkout = async (e: React.MouseEvent<HTMLButtonElement>, workout_obj: workout) => {
-        e.preventDefault();
-        console.log(workout_obj);
-        axios.delete("https://api-muscleman.com/delete_workout", {
-            data: {
-                uid: workout_obj.uid,
-                workout_name: workout_obj.workout_name,
-                exercise_arr: JSON.stringify(workout_obj.exercise_arr),
-                keywords: JSON.stringify(workout_obj.keywords),
-                difficulity: workout_obj.difficulity,
-                description: workout_obj.description,
-                creator: workout_obj.creator,
-            },
-        }).then((response) => {
-            setSelectedWorkoutData(selectedWorkoutData.filter((card) => card.uid !== workout_obj.uid));
-            console.log("Response: ", response.data);
-        })
-            .catch((res) => {
-                console.error("Error connecting to server,", res);
-            });
-    };
-
     return (
         <>
             {/* top bar components */}
