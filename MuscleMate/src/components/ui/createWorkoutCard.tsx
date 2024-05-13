@@ -72,6 +72,7 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                         </DialogHeader>
                         <Table>
                             <TableCaption>A list of your recent invoices.</TableCaption>
+                            <div className="table">
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className="w-[100px]">Exercise Name</TableHead>
@@ -81,21 +82,22 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                     <TableHead className="text-right">Weight</TableHead>
                                 </TableRow>
                             </TableHeader>
-                            <div className="table">
-                            <TableBody>
-                            {avaliableExercises.map((exercise) => (
-                                <TableRow >
-                                        <><TableCell className="font-medium">{exercise.exercise_name}</TableCell>
-                                        <TableCell>{exercise.exercise_target}</TableCell>
-                                        <TableCell>{exercise.n_reps}</TableCell>
-                                        <TableCell>{exercise.n_sets}</TableCell>
-                                        <TableCell className="text-right">{exercise.weight}</TableCell></>
-                                </TableRow>
-                                ))}
-                            </TableBody>
+                                <TableBody>
+                                    {avaliableExercises.map((exercise) => (
+                                        <TableRow>
+                                            <>
+                                                <TableCell className="font-medium">{exercise.exercise_name}</TableCell>
+                                                <TableCell>{exercise.exercise_target}</TableCell>
+                                                <TableCell>{exercise.n_reps}</TableCell>
+                                                <TableCell>{exercise.n_sets}</TableCell>
+                                                <TableCell className="text-right">{exercise.weight}</TableCell>
+                                            </>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
                             </div>
                         </Table>
-                        
+
 
 
                         <div className="flex w-full max-w-sm items-center space-x-2">

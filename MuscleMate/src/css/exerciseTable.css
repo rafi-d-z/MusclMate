@@ -1,4 +1,4 @@
 .table {
-    overflow-y: auto;
-    max-height: 50%;
+max-height: 10px; /* Adjust as needed */
+  overflow-y: auto;
   }
