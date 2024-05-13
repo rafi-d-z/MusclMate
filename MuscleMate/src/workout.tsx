@@ -9,6 +9,7 @@ import workout from "./DAO/workout"
 import axios from "axios"
 import config from "./auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import TopBar from "./components/ui/topBar"
 
 function Workout() {
     const selectedWorkout: workout = {
@@ -103,12 +104,9 @@ function Workout() {
 
         axios.post("https://api-muscleman.com/create_workout", workoutToAdd)
             .then(function (response) {
-                console.log(exerciseArr);
                 workoutToAdd.uid = response.data.uid;
                 setSelectedWorkoutData([workoutToAdd, ...selectedWorkoutData]);
-                console.log(workoutToAdd);
-                console.log("Data: ", response);
-            })
+            })            
             .catch((res) => {
                 console.error("Error connecting to server,", res.response.data);
             });
@@ -116,14 +114,7 @@ function Workout() {
 
     return (
         <>
-            {/* top bar components */}
-            <div className="flex items-center justify-between p-8 lg:px-8">
-                <img src={muscleLogo} width={200} height={200} />
-                <div className="mt-5 flex lg:ml-4 gap-20">
-                    <Input placeholder="Search" className="w-[200px] " />
-                    <Menubar />
-                </div>
-            </div>
+            <TopBar />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '360px' }}>
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '800px' }}>
