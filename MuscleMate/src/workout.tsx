@@ -10,7 +10,8 @@ import workout from "./DAO/workout"
 import axios from "axios"
 import config from "./auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import exercise from "./DAO/exercise"
+import exercise from "./DAO/exercise";
+
 function Workout() {
     const [selectedWorkout, setSelectedWorkout] = useState<workout>({
         uid: "",
@@ -20,13 +21,15 @@ function Workout() {
         description: "",
         creator: "",
     });
+
     const [uid, setUID] = useState('notSystem');
     const [selectedWorkoutData, setSelectedWorkoutData] = useState<workout[]>([]);
     const [workoutName, setWorkoutName] = useState('');
     const [exerciseArr, setExerciseArr] = useState<string[]>([]);
     const [exercises, setExercises] = useState([]);
-    const [description, setDescription] = useState('');
+    // const [description, setDescription] = useState('');
     const [difficulty, setDifficulty] = useState('');
+    const [workoutUID, setWorkoutUID] = useState('');
 
 
     // fetch all exercises & adding to exercises
@@ -92,6 +95,7 @@ function Workout() {
         setExerciseArr([...exerciseArr, exercise_uid]);
     };
 
+    // what does this do
     const handleEditDeleteWorkout = async (e: React.MouseEvent<HTMLButtonElement>, workout_obj: workout ) => {
         e.preventDefault();
         console.log(workout_obj);
@@ -106,9 +110,10 @@ function Workout() {
           .catch((res) => {
             console.error("Error connecting to server,", res);
           });
-      };
+    };
 
-
+    
+    // adds new workout to the database
     const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
@@ -117,7 +122,6 @@ function Workout() {
             uid: "",
             workout_name: workoutName,
             exercise_arr: exerciseArr,
-            description: description, // TODO: add functionality to add this
             difficulity: difficulty, // TODO: add functionality to add this
             creator: uid
         }
@@ -135,18 +139,16 @@ function Workout() {
             });
     };
 
+    // adds new exercise to the workout
     const handleAddNewExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        console.log("selected workout::::", workoutUID, exerciseArr, workoutName);
 
         axios.post("https://api-muscleman.com/edit_workout", {
             data: {
-            uid: selectedWorkout.uid,
-            workout_name: selectedWorkout.workout_name,
-            exercise_arr: JSON.stringify(selectedWorkout.exercise_arr),
-            keywords: JSON.stringify(selectedWorkout.keywords),
-            difficulity: selectedWorkout.difficulity,
-            description: selectedWorkout.description,
-            creator: selectedWorkout.creator,
+            uid: workoutUID,
+            workout_name: workoutName,
+            exercise_arr: JSON.stringify(exerciseArr),
         },})
             .then(function (response) {
                 console.log(exerciseArr);
@@ -191,7 +193,6 @@ function Workout() {
           uid: "",
           workout_name: workoutName,
           exercise_arr: exerciseArr,
-          description: description, // TODO: add functionality to add this
           difficulity: difficulty, // TODO: add functionality to add this
           creator: uid
         }
@@ -240,7 +241,8 @@ function Workout() {
                                 avaliableExercises={exercises}
                                 handleAddNewExercise={handleAddNewExercise}
                                 handleCheckboxChange={handleCheckboxChange}
-                            
+                                handleWorkoutUID={setWorkoutUID}
+                                handleWorkoutName={setWorkoutName}
                             />))}
                     </div>
                 </div>

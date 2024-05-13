@@ -30,6 +30,8 @@ interface WorkoutComponentProps {
     avaliableExercises: any[];
     handleAddNewExercise: (e: React.MouseEvent<HTMLButtonElement>) => any;
     handleCheckboxChange: (exercise_uid: string) => void;
+    handleWorkoutUID: React.Dispatch<React.SetStateAction<string>>;
+    handleWorkoutName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
@@ -39,8 +41,12 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
     data,
     handleAddNewExercise,
     handleCheckboxChange,
-    avaliableExercises
+    avaliableExercises,
+    handleWorkoutUID,
+    handleWorkoutName
 }) => {
+    handleWorkoutUID(data.uid);
+    handleWorkoutName(data.workout_name)
     return (
         <div className="flex flex-col items-center justify-between p-6 lg:px-8">
             <div style={{ display: 'flex', alignItems: 'center' }}>

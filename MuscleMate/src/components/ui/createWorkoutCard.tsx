@@ -38,15 +38,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 interface CreateWorkoutCardProps {
     workoutName: string;
     setWorkoutName: React.Dispatch<React.SetStateAction<string>>;
-    handleAddNewWorkout: (e: React.MouseEvent<HTMLButtonElement>) => any;
+    handleAddNewWorkout: (e: React.MouseEvent<HTMLButtonElement>) => void;
     avaliableExercises: exercise[];
     handleCheckboxChange: (exercise_uid: string) => void;
     setDifficulty: React.Dispatch<React.SetStateAction<string>>;
 }
 
+
 export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
-    { workoutName, avaliableExercises, setWorkoutName, handleAddNewWorkout, handleCheckboxChange, setDifficulty }
-) => {
+    { workoutName, avaliableExercises, setWorkoutName, handleAddNewWorkout, handleCheckboxChange, setDifficulty}
+) => {    
 
     return (
         <Card className="w-[200px] h-[600px] m-4 bg-gray-200">
