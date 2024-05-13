@@ -1,5 +1,5 @@
 import React from "react"
-import { Pencil, Minus, Eye } from "lucide-react"
+import { Minus, Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { WorkoutExerciseCard } from "@/components/ui/workoutExerciseCard"
 import {
@@ -7,28 +7,23 @@ import {
     TableBody,
     TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { NewExerciseCard } from "@/components/ui/newExerciseCard"
 import AddExerciseToWorkout from "@/components/ui/addExerciseToWorkout"
 import "@/css/exerciseTable.css"
 
 interface WorkoutComponentProps {
     workoutTitle: any;
-    listOfExercise: Array<any>;
     exerciseArray: Array<any>;
     handleDeleteWorkout: (e: React.MouseEvent<HTMLButtonElement>, data: any) => void;
     data: any;
@@ -71,7 +66,7 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                             <TableBody className="TableBody">
                                 {exerciseArray.map((exercise, index) => (
                                     <TableRow key={index}>
-                                        <TableCell className="font-medium">{exercise.name}</TableCell>
+                                        <TableCell className="font-medium">{exercise.exercise_name}</TableCell>
                                         <TableCell>{exercise.n_sets}</TableCell>
                                         <TableCell>{exercise.n_reps}</TableCell>
                                         <TableCell>{exercise.weight}</TableCell>
@@ -89,9 +84,11 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
             <div>
                 {exerciseArray.map((exercise, index) => (
                     <WorkoutExerciseCard key={index}
-                        cardTitle={exercise.name}
+                        cardTitle={exercise.exercise_name}
                         cardContent={exercise.image_url}
                         cardDescription={exercise.exercise_target}
+                        reps={exercise.n_reps}
+                        sets={exercise.n_sets}
                     />))}
             </div>
             <AddExerciseToWorkout
