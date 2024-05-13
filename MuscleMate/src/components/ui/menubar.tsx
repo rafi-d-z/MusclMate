@@ -12,7 +12,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { Label } from "@/components/ui/label"
 import { FaGear } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
-import "../../css/menuBar.css";
+import "@/css/menuBar.css";
 import { useNavigate } from 'react-router';
 import { ReactNode } from 'react';
 
@@ -50,39 +50,43 @@ const Redirect = ({ to, children }: RedirectProps) => {
   );
 };
 
+const goToUser = () => {
+  window.location.href = "/user";
+}
+
 export const Menubar: React.FC = () => {
-    return (
-        <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" className ="text-sm font-semibold leading-6 text-gray-900"><GiHamburgerMenu /></Button>
-            </SheetTrigger>
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline" className ="text-sm font-semibold leading-6 text-gray-900"><GiHamburgerMenu /></Button>
+      </SheetTrigger>
 
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Get Pumped</SheetTitle>
-              </SheetHeader>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Get Pumped</SheetTitle>
+        </SheetHeader>
 
-                <div className="flex flex-col space-y-4">
-                    <Redirect to="/workout">
-                        <MyLabel labelName='My Workouts'/>
-                    </Redirect>
+        <div className="flex flex-col space-y-4">
+          <Redirect to="/workout">
+              <MyLabel labelName='My Workouts'/>
+          </Redirect>
 
-                    <Redirect to="/exercise">
-                        <MyLabel labelName='Exercises'/>
-                    </Redirect>
+          <Redirect to="/exercise">
+              <MyLabel labelName='Exercises'/>
+          </Redirect>
 
-                    <MyLabel labelName='Favorites' />
-                    <MyLabel labelName='My Progress' />
-                </div>
+          <MyLabel labelName='Favorites' />
+          <MyLabel labelName='My Progress' />
+        </div>
 
-                <SheetFooter>
-                  <div className='bottom'>
-                    <a><FaGear size={40}/></a>
-                    <a><CgProfile size={40} /></a>
-                  </div>
-                </SheetFooter>
+        <SheetFooter>
+          <div className='bottom'>
+            <a><FaGear size={40}/></a>
+            <button onClick={goToUser}><CgProfile size={40} /></button>
+          </div>
+        </SheetFooter>
 
-            </SheetContent>
-        </Sheet>
-    );
+      </SheetContent>
+    </Sheet>
+  );
 }

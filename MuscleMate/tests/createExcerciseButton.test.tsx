@@ -1,19 +1,19 @@
 //import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import {NewExerciseCard} from '@/components/ui/newExerciseCard';
+import Exercise from '../src/Exercise';
 
 describe('Exercise component', () => {
   it('create exercise works', () => {
-    render(<NewExerciseCard />);
+    render(<Exercise/>);
 
     const createExerciseButton = screen.getByText('+');
     fireEvent.click(createExerciseButton);
 
-    //const exerciseNameInput = screen.getByLabelText('exerciseName');
-    //fireEvent.change(exerciseNameInput, { target: { value: 'New Exercise' } });
+    const exerciseNameInput = screen.getByLabelText('exerciseName');
+    fireEvent.change(exerciseNameInput, { target: { value: 'New Exercise' } });
 
-    //const targetMuscleSelect = screen.getByLabelText('targetMuscles');
-    //fireEvent.change(targetMuscleSelect, { target: { value: 'Arms' } });
+    const targetMuscleSelect = screen.getByLabelText('targetMuscles');
+    fireEvent.change(targetMuscleSelect, { target: { value: 'Arms' } });
 
     const repsInput = screen.getByLabelText('reps');
     fireEvent.change(repsInput, { target: { value: '10' } });
@@ -29,6 +29,7 @@ describe('Exercise component', () => {
 
     expect(console.log).toHaveBeenCalledWith('New Exercise:', {
       name: 'New Exercise',
+      target: 'Arms',
       reps: '10',
       sets: '5',
       weight: '15 lbs'

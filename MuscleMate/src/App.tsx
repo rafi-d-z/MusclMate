@@ -6,14 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState, useEffect } from "react";
-/* import './App.css' */
-import muscleLogo from "./assets/MuscleLogo.png";
-import { Menubar } from "@/components/ui/menubar";
 import axios from "axios";
-import exercise from "../DAO/exercise";
+import exercise from "@/DAO/exercise";
+import TopBar from "@/components/ui/topBar";
 
 function MainMenu() {
   const [selectedCard, setSelectedCard] = useState<exercise>({
@@ -24,6 +21,8 @@ function MainMenu() {
     n_reps: 0,
     n_sets: 0,
     weight: 0,
+    difficulity: "",
+    creator: "",
   });
 
   const [selectedCardData, setSelectedCardData] = useState<exercise[]>([]);
@@ -60,15 +59,8 @@ function MainMenu() {
 
   return (
     <>
-      {/* top bar components */}
-      <div className="flex items-center justify-between p-8 lg:px-8">
-        <img src={muscleLogo} width={200} height={200} />
-        <div className="mt-5 flex lg:ml-4 gap-20">
-          <Input placeholder="Search" className="w-[200px] " />
-          <Menubar />
-        </div>
-      </div>
-
+      <TopBar />
+      
       <Tabs defaultValue="" className="w-[1200px]">
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="" onClick={() => setSelectedCard({ ...selectedCard, exercise_target: '' })}>Trending</TabsTrigger>
@@ -81,7 +73,7 @@ function MainMenu() {
         <TabsContent value={selectedCard.exercise_target} className="grid grid-cols-5 gap-10">
           {(selectedCard.exercise_target === "" ? selectedCardData
             : selectedCardData.filter(data => data.exercise_target === selectedCard.exercise_target)).map((data, index) => (
-              <Card key={index}>
+              <Card key={index} priority={data.difficulity}>
                 <CardHeader>
                   <CardTitle>{data.exercise_name}</CardTitle>
                   <CardDescription>{data.exercise_target}</CardDescription>
