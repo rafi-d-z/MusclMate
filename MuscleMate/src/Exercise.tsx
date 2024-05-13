@@ -37,7 +37,8 @@ import muscleLogo from './assets/MuscleLogo.png'
 import axios from 'axios';
 import './App.css'
 import exercise from "./DAO/exercise"
-
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import config from "@/auth/firebase.config";
 
 function Exercise() {
   const [selectedCard, setSelectedCard] = useState<exercise>({
