@@ -183,6 +183,31 @@ function Workout() {
             });
     };
 
+    const handleEditWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault(); 
+ 
+        // eslint-disable-next-line prefer-const
+        let workout_obj: workout = {
+          uid: "",
+          workout_name: workoutName,
+          exercise_arr: exerciseArr,
+          description: description, // TODO: add functionality to add this
+          difficulity: difficulty, // TODO: add functionality to add this
+          creator: uid
+        }
+    
+        axios.post("https://api-muscleman.com/edit_workout", workout_obj)
+          .then(function (response) {
+            workout_obj.uid = response.data.uid;
+            setSelectedWorkoutData([workout_obj, ...selectedWorkoutData]);
+            console.log(workout_obj);
+            console.log("Data: ", response.data);
+          })
+          .catch((res) => {
+            console.error("Error connecting to server,", res.response.data);
+          });
+      };
+
     return (
         <>
             {/* top bar components */}
