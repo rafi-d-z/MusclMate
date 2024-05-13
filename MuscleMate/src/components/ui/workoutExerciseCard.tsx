@@ -11,11 +11,11 @@ import {
 import { Button } from "@/components/ui/button"
 
 interface WorkoutExerciseCardProps {
-    cardTitle: any;
-    cardContent: any;
-    cardDescription: any;
-    reps: any;
-    sets: any;
+    cardTitle: string;
+    cardContent: string;
+    cardDescription: string;
+    reps: number;
+    sets: number;
     uid: string;
     handleDeleteExerciseWorkout: (e: React.MouseEvent<HTMLButtonElement>, uid: string) => void;
 }
