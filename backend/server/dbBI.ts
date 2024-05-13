@@ -235,12 +235,12 @@ export async function create_workout(client: Client, new_workout: workout): Prom
   }
 
   try{
-    const result = await query_db(client, query);
-    console.log(result[0].uid)
-    const _ = await update_user_workouts(client, new_workout.creator, result[0].uid)
-    
-    return result[0].uid;
-  } catch (err: any) {
+    const result = await query_db(client, query).then(async (res) => {
+      await update_user_workouts(client, new_workout.creator, res[0].uid)
+
+      return res[0].uid;
+    });
+    } catch (err: any) {
     throw err;
   }
 }
@@ -333,6 +333,7 @@ export async function get_user(client: Client, uid: string): Promise<Array<any> 
   return userWithExercises;
 }
 
+
 export async function create_user(client: Client, uid: string) {
   const sql: string = "INSERT INTO public.user (uid) VALUES ($1);";
   const values = [uid];
@@ -384,8 +385,7 @@ export async function update_user_workouts(client: Client, userUID: string, work
   }
 
   try {
-    const res = await query_db(client, query);
-    return res[0].uid;
+    const _ = await query_db(client, query);
   } catch (err: any) {
     throw err;
   }
