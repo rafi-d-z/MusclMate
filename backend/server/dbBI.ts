@@ -182,10 +182,6 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
   conditions.push(`exercise_arr = $${index++}`);
   values_workout.push(search_criteria.exercise_arr);
   }
-  if (search_criteria.keywords.length > 0 && allowOthers) {
-    conditions.push(`keywords = $${index++}`);
-    values_workout.push(search_criteria.keywords);
-  }
   
   const sql_workout: string =
     "SELECT * FROM public.workout_plans" +
