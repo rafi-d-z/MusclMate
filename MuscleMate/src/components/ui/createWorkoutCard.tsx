@@ -74,7 +74,7 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
 
                         <Table>
                             <TableCaption>A list of your recent invoices.</TableCaption>
-                            <TableHeader>
+                            <TableHeader className="TableBody">
                                 <TableRow>
                                     <TableHead className="w-[100px]">Exercise Name</TableHead>
                                     <TableHead>Target</TableHead>
