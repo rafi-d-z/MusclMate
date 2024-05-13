@@ -31,6 +31,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import "@/css/exerciseTable.css"
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
 
@@ -70,6 +71,7 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                 Enter the name of the workout.
                             </DialogDescription>
                         </DialogHeader>
+
                         <Table>
                             <TableCaption>A list of your recent invoices.</TableCaption>
                             <TableHeader>
@@ -81,9 +83,8 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                     <TableHead className="text-right">Weight</TableHead>
                                 </TableRow>
                             </TableHeader>
-                            <div className="table">
-                            <TableBody>
-                            {avaliableExercises.map((exercise) => (
+                            <TableBody className="TableBody">
+                                {avaliableExercises.map((exercise) => (
                                 <TableRow >
                                         <><TableCell className="font-medium">{exercise.exercise_name}</TableCell>
                                         <TableCell>{exercise.exercise_target}</TableCell>
@@ -93,7 +94,6 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                 </TableRow>
                                 ))}
                             </TableBody>
-                            </div>
                         </Table>
                         
 
