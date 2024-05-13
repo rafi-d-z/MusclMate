@@ -12,10 +12,10 @@ User edit their exercises
 import TopBar from "@/components/ui/topBar";
 import { SetStateAction, useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import config from "../auth/firebase.config"
+import config from "@/auth/firebase.config"
 import axios from "axios";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./components/ui/card";
-import exercise from "DAO/exercise";
+import exercise from "@/DAO/exercise";
 
 function User(){
     const [userExercises, setUserExercises] = useState<Array<any> | undefined>(undefined);
