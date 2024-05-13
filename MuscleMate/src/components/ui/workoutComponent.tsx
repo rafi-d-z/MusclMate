@@ -79,9 +79,7 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Dialog>
                     <DialogTrigger>
-                        <Button variant="link" size="icon">
                             <Eye className="h-4 w-4" />
-                        </Button>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogHeader>

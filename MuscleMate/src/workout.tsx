@@ -166,12 +166,15 @@ function Workout() {
                             />
                         </div>
                         {selectedWorkoutData.map((data) => (
-                            <WorkoutComponent
+                            <div key={data.uid}>
+                            <WorkoutComponent 
                                 workoutTitle={data.workout_name}
                                 exerciseArray={data.exercise_arr}
                                 data={data}
                                 avaliableExercises={exercises}
-                            />))}
+                            />
+                            </div>
+                            ))}
                     </div>
                 </div>
             </div>

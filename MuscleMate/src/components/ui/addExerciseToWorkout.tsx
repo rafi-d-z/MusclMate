@@ -68,9 +68,9 @@ export const AddExerciseToWorkout: React.FC<AddExerciseToWorkoutProps> = (
         <Card className="w-[200px] m-4">
             <CardContent style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Dialog>
-                <DialogTrigger><Button variant="ghost" size="icon">
+                <DialogTrigger>
                     <Plus className="h-20 w-20" />
-                </Button></DialogTrigger>
+                </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Select exercises to be added</DialogTitle>
@@ -92,6 +92,7 @@ export const AddExerciseToWorkout: React.FC<AddExerciseToWorkoutProps> = (
                         </TableHeader>
                         <TableBody className="TableBody">
                             {avaliableExercises.map((exercise) => (
+                                <div key={exercise.uid}>
                                 <TableRow >
                                     <TableCell className="font-medium">{exercise.exercise_name}</TableCell>
                                     <TableCell>{exercise.exercise_target}</TableCell>
@@ -100,6 +101,7 @@ export const AddExerciseToWorkout: React.FC<AddExerciseToWorkoutProps> = (
                                     <TableCell>{exercise.weight}</TableCell>
                                     <TableCell className="text-right"><Checkbox onCheckedChange={() => handleCheckboxChange(exercise.uid)}/></TableCell>
                                 </TableRow>
+                                </div>
                             ))}
                         </TableBody>
                     </Table>
