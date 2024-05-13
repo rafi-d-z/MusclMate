@@ -142,7 +142,7 @@ function Workout() {
     // adds new exercise to the workout
     const handleAddNewExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        console.log("selected workout::::", workoutUID, exerciseArr, workoutName);
+        console.log("Workout UID: ", workoutUID);
 
         axios.post("https://api-muscleman.com/edit_workout", {
             data: {
@@ -151,10 +151,6 @@ function Workout() {
             exercise_arr: JSON.stringify(exerciseArr),
         },})
             .then(function (response) {
-                console.log(exerciseArr);
-                selectedWorkout.exercise_arr = response.data.uid;
-                setSelectedWorkoutData([selectedWorkout, ...selectedWorkoutData]);
-                console.log(selectedWorkout);
                 console.log("Data: ", response);
             })
             .catch((res) => {
@@ -239,10 +235,6 @@ function Workout() {
                                 handleDeleteWorkout={handleDeleteWorkout}
                                 data={data}
                                 avaliableExercises={exercises}
-                                handleAddNewExercise={handleAddNewExercise}
-                                handleCheckboxChange={handleCheckboxChange}
-                                handleWorkoutUID={setWorkoutUID}
-                                handleWorkoutName={setWorkoutName}
                             />))}
                     </div>
                 </div>

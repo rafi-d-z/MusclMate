@@ -31,16 +31,47 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import "@/css/exerciseTable.css"
+import axios from 'axios';
+import exercise from "@/DAO/exercise"
 
 interface AddExerciseToWorkoutProps {
     avaliableExercises: any[];
-    handleAddNewExercise: (e: React.MouseEvent<HTMLButtonElement>) => any;
-    handleCheckboxChange: (exercise_uid: string) => void;
+    // handleAddNewExercise: (e: React.MouseEvent<HTMLButtonElement>) => any;
+    // handleCheckboxChange: (exercise_uid: string) => void;
+    data: any;
+    // handleWorkoutUID: React.Dispatch<React.SetStateAction<string>>;
+    // handleWorkoutName: React.Dispatch<React.SetStateAction<string>>;
+
 }
 
 export const AddExerciseToWorkout: React.FC<AddExerciseToWorkoutProps> = (
-    { avaliableExercises, handleAddNewExercise, handleCheckboxChange}
+    { avaliableExercises, data}
 ) => {
+    const [exerciseArr, setExerciseArr] = React.useState<string[]>(data.exercise_arr.map((exercise: exercise) => exercise.uid));
+    
+    const handleCheckboxChange = (exercise_uid: string) => {
+        setExerciseArr([...exerciseArr, exercise_uid]);
+    };
+
+    const handleAddNewExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        console.log("Workout UID: ", data.uid);
+
+        axios.post("https://api-muscleman.com/edit_workout", {
+            data: {
+            uid: data.uid,
+            workout_name: data.workout_name,
+            exercise_arr: JSON.stringify(exerciseArr),
+        },})
+            .then(function (response) {
+                console.log("Data: ", response);
+            })
+            .catch((res) => {
+                console.error("Error connecting to server,", res.response.data);
+            });
+
+    }
+
     return (
         <Card className="w-[200px] m-4">
             <CardContent style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
