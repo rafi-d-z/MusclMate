@@ -55,6 +55,11 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
         console.log("array", exerciseArray)
         setExerciseArray(exerciseArray.filter((exercise) => exercise.uid !== exerciseToRemoveUID))
         console.log("array", exerciseArray)
+
+        // remove uid from the workout.exercise_arr
+        // post edit endpoint with the new workout
+
+        
         // console.log("Workout Object: ", workout_obj);
         // axios.post("https://api-muscleman.com/edit_workout", {
         //     data: workout_obj})
