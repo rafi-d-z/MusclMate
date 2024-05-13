@@ -1,4 +1,3 @@
-"use client"
 import React, { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import './App.css'
@@ -10,17 +9,16 @@ import workout from "./DAO/workout"
 import axios from "axios"
 import config from "./auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import exercise from "./DAO/exercise";
 
 function Workout() {
-    const [selectedWorkout, setSelectedWorkout] = useState<workout>({
+    const selectedWorkout: workout = {
         uid: "",
         workout_name: "",
         exercise_arr: [],
         difficulity: "",
         description: "",
         creator: "",
-    });
+    };
 
     const [uid, setUID] = useState('notSystem');
     const [selectedWorkoutData, setSelectedWorkoutData] = useState<workout[]>([]);
@@ -63,31 +61,28 @@ function Workout() {
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("Type:", selectedWorkout)
-            if (selectedWorkout) {
-                axios({
-                    method: 'get',
-                    url: 'https://api-muscleman.com/get_workouts',
-                    params: {
-                        uid: selectedWorkout.uid,
-                        workout_name: selectedWorkout.workout_name,
-                        exercise_arr: JSON.stringify(selectedWorkout.exercise_arr),
-                        keywords: JSON.stringify(selectedWorkout.keywords),
-                        difficulity: selectedWorkout.difficulity,
-                        description: selectedWorkout.description,
-                        creator: selectedWorkout.creator,
-                    },
-                }).then(function (response) {
-                    setSelectedWorkoutData(response.data);
-                    console.log("Data:", response.data);
-                }).catch((error) => {
-                    // Handle error
-                    console.error('Error fetching data:', error.response.data);
-                });
-            }
-        };
+            axios({
+                method: 'get',
+                url: 'https://api-muscleman.com/get_workouts',
+                params: {
+                    uid: selectedWorkout.uid,
+                    workout_name: selectedWorkout.workout_name,
+                    exercise_arr: JSON.stringify(selectedWorkout.exercise_arr),
+                    keywords: JSON.stringify(selectedWorkout.keywords),
+                    difficulity: selectedWorkout.difficulity,
+                    description: selectedWorkout.description,
+                    creator: selectedWorkout.creator,
+                },
+            }).then(function (response) {
+                setSelectedWorkoutData(response.data);
+                console.log("Data:", response.data);
+            }).catch((error) => {
+                // Handle error
+                console.error('Error fetching data:', error.response.data);
+            });
+        }
         fetchData();
-    }, [selectedWorkout]);
+    }, []);
 
     const handleCheckboxChange = (exercise_uid: string) => {
         setExerciseArr([...exerciseArr, exercise_uid]);
