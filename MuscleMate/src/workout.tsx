@@ -1,73 +1,15 @@
 "use client"
 import React, { useState, useEffect } from "react"
-import { Plus, Minus, Check, ChevronsUpDown, Pencil } from "lucide-react"
-import { cn } from "@/lib/utils"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
 import './App.css'
 import muscleLogo from './assets/MuscleLogo.png'
 import { Menubar } from "@/components/ui/menubar"
-import { NewExerciseCard } from "./components/ui/newExerciseCard"
-import { Label } from "@/components/ui/label"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { WorkoutExerciseCard } from "@/components/ui/workoutExerciseCard"
 import { CreateWorkoutCard } from "./components/ui/createWorkoutCard"
 import { WorkoutComponent } from "./components/ui/workoutComponent"
 import workout from "./DAO/workout"
 import axios from "axios"
 import config from "./auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { Description } from "@radix-ui/react-dialog"
-import exercise from "./DAO/exercise";
-import { Checkbox } from "./components/ui/checkbox"
-import { any } from "zod"
 function Workout() {
     const [selectedWorkout, setSelectedWorkout] = useState<workout>({
         uid: "",
@@ -84,33 +26,8 @@ function Workout() {
     const [exercises, setExercises] = useState([]);
     const [description, setDescription] = useState('');
     const [difficulty, setDifficulty] = useState('');
-    const [workoutNameEdit, setWorkoutNameEdit] = useState('');
-    const [exerciseArrEdit, setExerciseArrEdit] = useState<exercise[]>([]);
-    const [exercisesEdit, setExerciesEdit] = useState([]);
-    const [descriptionEdit, setDescriptionEdit] = useState('');
-    const [difficultyEdit, setDifficultyEdit] = useState('');
-    const [exerciseName, setExerciseName] = useState('Pull ups');
-    const [reps, setReps] = useState('12');
-    const [sets, setSets] = useState('3');
-    const [weight, setWeight] = useState('none');
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
-    const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        setReps(value);
-    };
-    const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        setSets(value);
-    };
-    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        value = value + ' lbs';
-        setWeight(value);
-    };
+    
+    
     // fetch all exercises & adding to exercises
     useEffect(() => {
         const exercise = {
@@ -192,7 +109,7 @@ function Workout() {
             workoutToAdd.uid = response.data.uid;
             setSelectedWorkoutData([workoutToAdd, ...selectedWorkoutData]);
             console.log(workoutToAdd);
-            console.log("Data: ", response.data);
+            console.log("Data: ", response);
           })
           .catch((res) => {
             console.error("Error connecting to server,", res.response.data);
@@ -243,38 +160,17 @@ function Workout() {
                              setDifficulty={setDifficulty}
                              />
                         </div>
-                        {selectedWorkoutData.map((data, index) => (
-                            <div className="flex flex-col items-center justify-between p-6 lg:px-8">
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <><Button variant="link" size="icon">
-                                        <Plus className="h-4 w-4" />
-                                    </Button>
-                                        <h1 key={index}>{data.workout_name}</h1>
-                                        <Button variant="link" size="icon" onClick={(e) => handleDeleteWorkout(e, data)}>
-                                            <Minus className="h-4 w-4" />
-                                        </Button></>
-                                </div>
-                                {data.exercise_arr.map((exercise, index) => (
-                                    <Card className="w-[200px] m-4" key={index}>
-                                        <CardHeader>
-                                            <CardTitle>{exercise.exercise_name}</CardTitle>
-                                            <CardDescription>{exercise.exercise_target}</CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <img src={exercise.image_url}></img>
-                                        </CardContent>
-                                        <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                            {exercise.n_reps}/{exercise.n_sets}
-                                            <Button variant="link" size="icon">
-                                                <Minus className="h-4 w-4" />
-                                            </Button>
-                                        </CardFooter>
-                                    </Card>))}
+                        {selectedWorkoutData.map((data) => (
+                            <WorkoutComponent
+                                workoutTitle={data.workout_name}
+                                exerciseArray={data.exercise_arr}
+                                handleDeleteWorkout={handleDeleteWorkout}
+                                data={data}
+                                avaliableExercises={exercises}
+                            />))}
                             </div>
-                        ))}
                     </div>
                 </div>
-            </div>
         </>
     )
 }

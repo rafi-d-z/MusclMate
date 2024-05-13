@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { Plus } from "lucide-react"
 import {
     Card,
@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import {
     Table,
     TableBody,
@@ -33,7 +32,6 @@ import {
 } from "@/components/ui/table"
 import "@/css/exerciseTable.css"
 import exercise from "@/DAO/exercise";
-import workout from "@/DAO/workout"
 import { Label } from "./label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select"
 
@@ -63,14 +61,14 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                     </Button></DialogTrigger>
                     <DialogContent>
                         <DialogHeader>
-                            <DialogTitle>Input Workout Name</DialogTitle>
+                            <DialogTitle>Create Workout</DialogTitle>
                             <DialogDescription>
-                                Enter the name of the workout.
+                                Select the exercises you want to include in your workout and enter the name of the workout, then click submit.
                             </DialogDescription>
                         </DialogHeader>
 
                         <Table>
-                            <TableCaption>A list of your recent invoices.</TableCaption>
+                            <TableCaption>A list of exercises to add</TableCaption>
                             <TableHeader className="TableBody">
                                 <TableRow>
                                     <TableHead className="w-[100px]">Exercise Name</TableHead>
