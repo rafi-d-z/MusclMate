@@ -20,7 +20,7 @@ import exercise from "@/DAO/exercise";
 function User(){
     const [userExercises, setUserExercises] = useState<Array<any> | undefined>(undefined);
     const [userWorkouts, setUserWorkouts] = useState<Array<any> | undefined>(undefined);
-    const [uid, setUID] = useState<string | undefined>("");
+    
     
 
     useEffect(() => {
@@ -28,7 +28,7 @@ function User(){
         onAuthStateChanged(authState, user => {
             if (user) {
                 console.log(user.uid)
-                setUID(user.uid);
+                
     
                 axios({
                     method: 'get',
@@ -45,58 +45,65 @@ function User(){
             }
         });
     }, []); 
-    console.log(userExercises)
-    console.log(userWorkouts)
+        console.log(userExercises)
+        console.log(userWorkouts)
 
-    // get user information via user api (includes exercise and workouts)
-    return (
-        <>
-            <TopBar />
-            {/* user information
-                user workouts
-                user exercises */}
-            <div key="exercises">
-                <h1>Your Exercises</h1>
-                {userExercises && userExercises.length > 0 && 
-                    <div className="flex flex-row space-x-4 overflow-x-auto">
-                        {userExercises.map((exercise: exercise) => {
-                            return (
-                                <div key={exercise.uid} className="w-52">
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>{exercise.exercise_name}</CardTitle>
-                                            <CardDescription>{exercise.exercise_target}</CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <img src={exercise.image_url}></img>
-                                        </CardContent>
-                                        <CardFooter>
-                                            Reps: {exercise.n_reps} / Sets: {exercise.n_sets} / Weight: {exercise.weight}
-                                        </CardFooter>
-                                    </Card>
-                                </div>
-                            )
-                        })}
-                    </div>
-                }
-            </div>
+        // get user information via user api (includes exercise and workouts)
+        return (
+            <>
+                <TopBar />
+                {/* user information
+                    user workouts
+                    user exercises */}
+                <div key="exercises">
+                    <h1>Your Exercises</h1>
+                    {userExercises && userExercises.length > 0 && 
+                        <div className="flex flex-row space-x-4 overflow-x-auto">
+                            {userExercises.map((exercise: exercise) => {
+                                return (
+                                    <div key={exercise.uid} className="w-52">
+                                        <Card>
+                                            <CardHeader>
+                                                <CardTitle>{exercise.exercise_name}</CardTitle>
+                                                <CardDescription>{exercise.exercise_target}</CardDescription>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <img src={exercise.image_url}></img>
+                                            </CardContent>
+                                            <CardFooter>
+                                                Reps: {exercise.n_reps} / Sets: {exercise.n_sets} / Weight: {exercise.weight}
+                                            </CardFooter>
+                                        </Card>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    }
+                </div>
 
-            <div key="workouts">
-                <h1>Your Workouts</h1>
-                {userWorkouts && userWorkouts.length > 0 &&
-                    <div className="flex flex-wrap space-x-4">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Workout Name</CardTitle>
-                                <CardDescription>Workout Description</CardDescription>
-                            </CardHeader>
-                        </Card>
-                    </div>
-                    
-                }
-            </div>
-        </>
-    )
-}
+                <div key="workouts">
+                    <h1>Your Workouts</h1>
+                    {userWorkouts && userWorkouts.length > 0 &&
+                        <div className="flex flex-wrap space-x-4">
+                            {userWorkouts.map((workout: any) => {
+                                return (
+                                    <div key={workout.uid} className="w-52">
+                                        <Card>
+                                            <CardHeader>
+                                                <CardTitle>{workout.workout_name}</CardTitle>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <p>Exercise Count: {workout.exercise_arr.length}</p>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    }
+                </div>
+            </>
+        )
+    }
 
-export default User;
+    export default User;
