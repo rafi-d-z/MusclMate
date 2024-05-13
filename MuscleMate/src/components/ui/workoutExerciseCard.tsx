@@ -15,12 +15,16 @@ interface WorkoutExerciseCardProps {
     cardTitle: any;
     cardContent: any;
     cardDescription: any;
+    reps: any;
+    sets: any;
 }
 
 export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
     cardTitle,
     cardContent,
     cardDescription,
+    reps,
+    sets
 
 }) => {
     return (
@@ -34,6 +38,7 @@ export const WorkoutExerciseCard: React.FC<WorkoutExerciseCardProps> = ({
                     <img src={cardContent}></img>
                 </CardContent>
                 <CardFooter style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                {reps}/{sets}
                     <Button variant="link" size="icon">
                         <Minus className="h-4 w-4" />
                     </Button>

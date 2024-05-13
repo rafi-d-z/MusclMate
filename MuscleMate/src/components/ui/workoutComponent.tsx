@@ -84,9 +84,11 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
             <div>
                 {exerciseArray.map((exercise, index) => (
                     <WorkoutExerciseCard key={index}
-                        cardTitle={exercise.name}
+                        cardTitle={exercise.exercise_name}
                         cardContent={exercise.image_url}
                         cardDescription={exercise.exercise_target}
+                        reps={exercise.n_reps}
+                        sets={exercise.n_sets}
                     />))}
             </div>
             <AddExerciseToWorkout

@@ -90,6 +90,7 @@ function Workout() {
     const handleCheckboxChange = (exercise_uid: string) => {
         setExerciseArr([...exerciseArr, exercise_uid]);
     };
+
     const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault(); 
     

@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import {
     Table,
     TableBody,
@@ -49,9 +48,9 @@ export const AddExerciseToWorkout: React.FC<AddExerciseToWorkoutProps> = (
                 </Button></DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Input Workout Name</DialogTitle>
+                        <DialogTitle>Select exercises to be added</DialogTitle>
                         <DialogDescription>
-                            Enter the name of the workout.
+                            These are the avaliable exercises to be added to the workout.
                         </DialogDescription>
                     </DialogHeader>
 
