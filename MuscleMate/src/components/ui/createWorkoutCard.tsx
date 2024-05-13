@@ -94,7 +94,7 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                             </TableBody>
                         </Table>
                         <div className="grid grid-cols-3 items-center gap-4">
-                          <Label htmlFor="targetMuscles">Target Muscles:</Label>
+                          <Label htmlFor="targetMuscles">Difficulty:</Label>
                           <Select onValueChange={setDifficulty}>
                             <SelectTrigger className="w-[180px]">
                               <SelectValue placeholder="low" />
