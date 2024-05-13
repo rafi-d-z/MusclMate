@@ -236,7 +236,7 @@ export async function create_workout(client: Client, new_workout: workout): Prom
 
   try{
     const result = await query_db(client, query);
-    console.log("Result:", result[0])
+    console.log(result[0].uid)
     const _ = await update_user_workouts(client, new_workout.creator, result[0].uid)
     
     return result[0].uid;
