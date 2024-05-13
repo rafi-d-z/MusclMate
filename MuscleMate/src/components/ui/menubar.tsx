@@ -71,11 +71,12 @@ export const Menubar: React.FC = () => {
                         <MyLabel labelName='My Exercises'/>
                     </Redirect>
 
-                    <MyLabel labelName='Favorites' />
-                    <MyLabel labelName='My Progress' />
-
                     <Redirect to="/">
                         <MyLabel labelName='Main Menu'/>
+                    </Redirect>
+
+                    <Redirect to="/login">
+                        <MyLabel labelName='Login'/>
                     </Redirect>
                 </div>
 
