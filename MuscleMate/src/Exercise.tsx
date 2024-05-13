@@ -353,7 +353,16 @@ function Exercise() {
                   <div className="absolute bottom-0 right-0 mb-2 mr-2">
                     <Popover>
                       <PopoverTrigger asChild>
-                        <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
+                        {data.creator == uid ?
+                        <div className="relative">
+                          <button
+                            className="absolute top-0 right-0 -mt-3 -mr-4 text-black focus:outline-none"
+                          >
+                            <FontAwesomeIcon icon={faPencilAlt} className="w-6 h-6 text-black" />
+                          </button>
+                        </div>:
+                        <div></div>}
+                        
                       </PopoverTrigger>
 
                       <PopoverContent className="w-80">
