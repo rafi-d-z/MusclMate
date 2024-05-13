@@ -75,18 +75,54 @@ function Workout() {
         uid: "",
         workout_name: "",
         exercise_arr: [],
-        keywords: [],
         difficulity: "",
         description: "",
         creator: "",
 
     });
+    const [uid, setUID] = useState('notSystem');
+
     const [selectedWorkoutData, setSelectedWorkoutData] = useState<workout[]>([]);
     const [workoutName, setWorkoutName] = useState('');
+    const [exerciseArr, setExerciseArr] = useState<string[]>([]);
+    const [exercises, setExercises] = useState([]);
+    const [description, setDescription] = useState('');
+    const [difficulty, setDifficulty] = useState('');
+
+    const [workoutNameEdit, setWorkoutNameEdit] = useState('');
+    const [exerciseArrEdit, setExerciseArrEdit] = useState<exercise[]>([]);
+    const [exercisesEdit, setExerciesEdit] = useState([]);
+    const [descriptionEdit, setDescriptionEdit] = useState('');
+    const [difficultyEdit, setDifficultyEdit] = useState('');
+
+
+    const [exerciseName, setExerciseName] = useState('Pull ups');
+    const [reps, setReps] = useState('12');
+    const [sets, setSets] = useState('3');
+    const [weight, setWeight] = useState('none');
+
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-    const [exerciseArr, setExerciseArr] = useState([]);
-    const [uid, setUID] = useState('notSystem');
-    const [exercises, setExercies] = useState([]);
+    
+
+    const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        value = value.replace(/\D/g, '');
+        setReps(value);
+    };
+
+    const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        value = value.replace(/\D/g, '');
+        setSets(value);
+    };
+
+    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value;
+        value = value.replace(/\D/g, '');
+        value = value + ' lbs';
+        setWeight(value);
+    };
+
 
     // fetch all exercises & adding to exercises
     useEffect(() => {
@@ -106,40 +142,12 @@ function Workout() {
         axios.get("https://api-muscleman.com/get_exercises", {
             params: exercise
         }).then((response) => {
-            setExercies(response.data);
+            setExercises(response.data);
             console.log(response.data);
         }).catch((err) => {
             console.error(err);
         });
     }, []);
-
-    const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-
-        // eslint-disable-next-line prefer-const
-        let workoutToAdd: workout = {
-            uid: "",
-            workout_name: workoutName,
-            exercise_arr: exerciseArr,
-            keywords: [],
-            description: '', // TODO: add functionality to add this
-            difficulity: '', // TODO: add functionality to add this
-            creator: uid
-        }
-
-        axios.post("https://api-muscleman.com/create_workout",
-            workoutToAdd
-        )
-            .then(function (response) {
-                workoutToAdd.uid = response.data.uid;
-                setSelectedWorkoutData([workoutToAdd, ...selectedWorkoutData]);
-                console.log(workoutToAdd);
-                console.log("Data: ", response.data);
-            })
-            .catch((res) => {
-                console.error("Error connecting to server,", res.response.data);
-            });
-    };
 
     useEffect(() => {
         const auth = getAuth(config.app);
@@ -177,7 +185,47 @@ function Workout() {
         fetchData();
     }, [selectedWorkout]);
 
+    const handleCheckboxChange = (e: any, exercise_uid: string) => {
+        e.preventDefault();
 
+        console.log(exercise_uid);
+
+        if (e.target.checked)
+        {
+            setExerciseArr([...exerciseArr, exercise_uid]);
+        }
+        
+    };
+
+    const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault(); 
+    
+        // eslint-disable-next-line prefer-const
+        let workoutToAdd: workout = {
+          uid: "",
+          workout_name: workoutName,
+          exercise_arr: exerciseArr,
+          description: description, // TODO: add functionality to add this
+          difficulity: difficulty, // TODO: add functionality to add this
+          creator: uid
+        }
+    
+        axios.post("https://api-muscleman.com/create_workout", 
+          workoutToAdd
+        )
+          .then(function (response) 
+          {
+            console.log(exerciseArr);
+
+            workoutToAdd.uid = response.data.uid;
+            setSelectedWorkoutData([workoutToAdd, ...selectedWorkoutData]);
+            console.log(workoutToAdd);
+            console.log("Data: ", response.data);
+          })
+          .catch((res) => {
+            console.error("Error connecting to server,", res.response.data);
+          });
+      };
 
     const handleDeleteWorkout = async (e: React.MouseEvent<HTMLButtonElement>, workout_obj: workout) => {
         e.preventDefault();
@@ -202,33 +250,6 @@ function Workout() {
             });
     };
 
-    const [open, setOpen] = React.useState(false)
-    const [value, setValue] = React.useState("")
-
-
-    const [exerciseName, setExerciseName] = useState('Pull ups');
-    const [reps, setReps] = useState('12');
-    const [sets, setSets] = useState('3');
-    const [weight, setWeight] = useState('none');
-
-    const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        setReps(value);
-    };
-
-    const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        setSets(value);
-    };
-
-    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        value = value + ' lbs';
-        setWeight(value);
-    };
 
     const handleAddNewExercise = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -245,6 +266,7 @@ function Workout() {
         setIsPopoverOpen(false);
 
     };
+
 
     const handleCancel = () => {
 
@@ -282,65 +304,12 @@ function Workout() {
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '800px' }}>
                         <div className="flex flex-col items-start justify-between p-6 lg:px-8">
-                            <Card className="w-[200px] h-[600px] m-4 bg-gray-200">
-                                <CardHeader style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <CardTitle><h1>Create Workout</h1></CardTitle>
-                                    <CardDescription></CardDescription>
-                                </CardHeader>
-                                <CardContent style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Dialog>
-                                        <DialogTrigger><Button variant="ghost" size="icon">
-                                            <Plus className="h-20 w-20" />
-                                        </Button></DialogTrigger>
-                                        <DialogContent>
-                                            <DialogHeader>
-                                                <DialogTitle>Input Workout Name</DialogTitle>
-                                                <DialogDescription>
-                                                    Enter the name of the workout.
-                                                </DialogDescription>
-                                            </DialogHeader>
-
-                                            <Table>
-                                                <TableCaption>A list of your recent invoices.</TableCaption>
-                                                <TableHeader className="TableBody">
-                                                    <TableRow>
-                                                        <TableHead className="w-[100px]">Exercise Name</TableHead>
-                                                        <TableHead>Target</TableHead>
-                                                        <TableHead>Reps</TableHead>
-                                                        <TableHead>Sets</TableHead>
-                                                        <TableHead className="text-right">Weight</TableHead>
-                                                    </TableRow>
-                                                </TableHeader>
-                                                <TableBody className="TableBody">
-                                                    {exercises.map((exercise: { exercise_name: string, exercise_target: string, n_reps: string, n_sets: string, weight: string }) => (
-                                                        <TableRow key={exercise.exercise_name}>
-                                                            <TableCell className="font-medium">{exercise.exercise_name}</TableCell>
-                                                            <TableCell>{exercise.exercise_target}</TableCell>
-                                                            <TableCell>{exercise.n_reps}</TableCell>
-                                                            <TableCell>{exercise.n_sets}</TableCell>
-                                                            <TableCell>{exercise.weight}</TableCell>
-                                                            <TableCell className="text-right"><Checkbox onChange = {handleCheckboxChange} /></TableCell>
-                                                        </TableRow>
-                                                    ))}
-                                                </TableBody>
-                                            </Table>
-                                            <div className="flex w-full max-w-sm items-center space-x-2">
-                                                <Input type="Name" placeholder="Name" value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} />
-                                                <Button type="submit" onClick={handleAddNewWorkout}>Submit</Button>
-                                            </div>
-                                            <DialogFooter className="flex justify-between">
-                                                <DialogClose>
-                                                    <Button variant="outline">
-                                                        Close
-                                                    </Button>
-                                                </DialogClose>
-                                            </DialogFooter>
-                                        </DialogContent>
-                                    </Dialog>
-                                </CardContent>
-                                <CardFooter>
-                                </CardFooter>
-                            </Card>
+                            <CreateWorkoutCard
+                             avaliableExercises={exercises} 
+                             workoutName={workoutName}
+                             setWorkoutName={setWorkoutName}
+                             handleAddNewWorkout={handleAddNewWorkout}
+                             handleCheckboxChange={handleCheckboxChange}/>
                         </div>
                         {selectedWorkoutData.map((data, index) => (
                             <WorkoutComponent
