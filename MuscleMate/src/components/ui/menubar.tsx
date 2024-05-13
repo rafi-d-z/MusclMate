@@ -85,12 +85,12 @@ export const Menubar: React.FC = () => {
         </div>
 
         <SheetFooter>
-          <Redirect to='/user'>
           <div className='bottom'>
             <a><FaGear size={40}/></a>
+            <Redirect to='/user'>
             <button><CgProfile size={40} /></button>
+            </Redirect>
           </div>
-          </Redirect>
         </SheetFooter>
 
       </SheetContent>
