@@ -10,34 +10,34 @@ User edit their workouts
 User edit their exercises
 */
 import TopBar from "@/components/ui/topBar";
-import { SetStateAction, useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth"
-import config from "@/auth/firebase.config"
+// import { SetStateAction, useEffect, useState } from "react";
+// import { getAuth, onAuthStateChanged } from "firebase/auth"
+// import config from "@/auth/firebase.config"
 function User(){
-    const [userInfo, setUserInfo] = useState([]);
-    const [uid, setUID] = useState<string | undefined>("");
+    // const [userInfo, setUserInfo] = useState([]);
+    // const [uid, setUID] = useState<string | undefined>("");
 
-    useEffect(() => {
-        const authState = getAuth(config.app);
-        onAuthStateChanged(authState, user => {
-            if (user) {
-                console.log(user.uid)
-                setUID(user.uid);
+    // useEffect(() => {
+    //     const authState = getAuth(config.app);
+    //     onAuthStateChanged(authState, user => {
+    //         if (user) {
+    //             console.log(user.uid)
+    //             setUID(user.uid);
 
-                axios({
-                    method: 'get',
-                    url: 'https://api-muscleman.com/get_user',
-                    params: {
-                        uid: uid
-                    }
-                })
-                .then(function (response: { data: SetStateAction<any[]>; }) {
-                    setUserInfo(response.data)
-                    console.log(response)
-                })
-            }
-        });
-    }, []);    
+    //             axios({
+    //                 method: 'get',
+    //                 url: 'https://api-muscleman.com/get_user',
+    //                 params: {
+    //                     uid: uid
+    //                 }
+    //             })
+    //             .then(function (response: { data: SetStateAction<any[]>; }) {
+    //                 setUserInfo(response.data)
+    //                 console.log(response)
+    //             })
+    //         }
+    //     });
+    // }, []);    
         // get user information via user api (includes exercise and workouts)
     return (
         <>
