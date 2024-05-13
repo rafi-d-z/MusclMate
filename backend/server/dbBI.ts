@@ -27,6 +27,28 @@ export async function get_exercise_by_uid(
   }
 }
 
+export async function get_workout_by_uid(
+  client: Client,
+  uid: string | string[],
+): Promise<Array<any>> {
+  const sql: string = "SELECT * FROM public.workout_plans WHERE uid = ANY($1);";
+  const values = [uid];
+
+  const query = {
+    name: "fetch-workout-uid",
+    text: sql,
+    values: values,
+  };
+
+  try {
+    const res = await query_db(client, query);
+    return res;
+  } catch (err: any) {
+    console.error("Problem fetching\n", err.toString());
+    throw err;
+  }
+}
+
 export async function get_exercises(
   client: Client,
   exerciseQuery: exercise
@@ -63,7 +85,6 @@ export async function get_exercises(
     conditions.push(`weight = $${index++}`);
     values.push(exerciseQuery.weight);
   }
-  
 
   const sql_string = "SELECT * FROM public.exercises" + 
                       (conditions.length > 0 ? ` WHERE ${conditions.join(" OR ")}` : "");
@@ -319,7 +340,7 @@ export async function get_user(client: Client, uid: string): Promise<Array<any> 
   const userWithWorkouts = await Promise.all(userWithExercises.map(async (user: user) => { 
     let workouts;
     try {
-      workouts = await get_exercise_by_uid(client, user.workouts);
+      workouts = await get_workout_by_uid(client, user.workouts);
 
       user.workouts = workouts;
 
@@ -330,7 +351,7 @@ export async function get_user(client: Client, uid: string): Promise<Array<any> 
     }
   }));
 
-  return userWithExercises;
+  return userWithWorkouts;
 }
 
 export async function create_user(client: Client, uid: string) {
@@ -401,6 +422,7 @@ async function query_db(client: Client, query: any): Promise<Array<any>>{
     return res;
   } catch (err: any) {
     console.error("Problem querying database\n", err.toString());
+    
     throw new Error(`Problem querying database, possible malformed input. Tried to perform ${query.text, query.values}`);
   }
 }
