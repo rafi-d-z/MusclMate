@@ -1,9 +1,9 @@
 # event
 on:
-  push: 
-    branches: database-functions
   pull_request:
-    branches: main
+    branches: [ main ]
+    paths:
+      - 'backend/*'
 
 jobs:
   run-backend-tests:

@@ -1,22 +1,30 @@
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
+import "@/css/card.css";
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
-      className
-    )}
-    {...props}
-  />
-))
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  priority?: string;
+}
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, priority = 'low', ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(
+        "rounded-lg border bg-card text-card-foreground shadow-sm",
+        className,
+        {
+          'low-priority': priority === 'low',
+          'medium-priority': priority === 'medium',
+          'high-priority': priority === 'hard',
+        }
+      )}
+      {...props}
+    />
+  )
+)
+
 Card.displayName = "Card"
-
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
