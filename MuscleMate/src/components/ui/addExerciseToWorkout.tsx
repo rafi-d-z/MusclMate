@@ -34,10 +34,12 @@ import "@/css/exerciseTable.css"
 
 interface AddExerciseToWorkoutProps {
     avaliableExercises: any[];
+    handleAddNewExercise: (e: React.MouseEvent<HTMLButtonElement>) => any;
+    handleCheckboxChange: (exercise_uid: string) => void;
 }
 
 export const AddExerciseToWorkout: React.FC<AddExerciseToWorkoutProps> = (
-    { avaliableExercises }
+    { avaliableExercises, handleAddNewExercise, handleCheckboxChange}
 ) => {
     return (
         <Card className="w-[200px] m-4">
@@ -73,13 +75,13 @@ export const AddExerciseToWorkout: React.FC<AddExerciseToWorkoutProps> = (
                                     <TableCell>{exercise.n_reps}</TableCell>
                                     <TableCell>{exercise.n_sets}</TableCell>
                                     <TableCell>{exercise.weight}</TableCell>
-                                    <TableCell className="text-right"><Checkbox /></TableCell>
+                                    <TableCell className="text-right"><Checkbox onCheckedChange={() => handleCheckboxChange(exercise.uid)}/></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                     <div className="flex w-full max-w-sm items-center space-x-2">
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit" onClick={handleAddNewExercise}>Submit</Button>
                     </div>
                     <DialogFooter className="flex justify-between">
                         <DialogClose>

@@ -10,6 +10,7 @@ import workout from "./DAO/workout"
 import axios from "axios"
 import config from "./auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import exercise from "./DAO/exercise"
 function Workout() {
     const [selectedWorkout, setSelectedWorkout] = useState<workout>({
         uid: "",
@@ -26,8 +27,8 @@ function Workout() {
     const [exercises, setExercises] = useState([]);
     const [description, setDescription] = useState('');
     const [difficulty, setDifficulty] = useState('');
-    
-    
+
+
     // fetch all exercises & adding to exercises
     useEffect(() => {
         const exercise = {
@@ -51,7 +52,7 @@ function Workout() {
             console.error(err);
         });
     }, []);
-    
+
     useEffect(() => {
         const auth = getAuth(config.app);
         onAuthStateChanged(auth, user => {
@@ -91,31 +92,75 @@ function Workout() {
         setExerciseArr([...exerciseArr, exercise_uid]);
     };
 
-    const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault(); 
+    const handleEditDeleteWorkout = async (e: React.MouseEvent<HTMLButtonElement>, workout_obj: workout ) => {
+        e.preventDefault();
+        console.log(workout_obj);
     
-        // eslint-disable-next-line prefer-const
-        let workoutToAdd: workout = {
-          uid: "",
-          workout_name: workoutName,
-          exercise_arr: exerciseArr,
-          description: description, // TODO: add functionality to add this
-          difficulity: difficulty, // TODO: add functionality to add this
-          creator: uid
-        }
-    
-        axios.post("https://api-muscleman.com/create_workout", workoutToAdd)
-          .then(function (response) {
-            console.log(exerciseArr);
-            workoutToAdd.uid = response.data.uid;
-            setSelectedWorkoutData([workoutToAdd, ...selectedWorkoutData]);
-            console.log(workoutToAdd);
-            console.log("Data: ", response);
-          })
+        axios.delete( "https://api-muscleman.com/edit_workout",{
+          data: workout_obj,
+          }).then((response) => {
+          // since obj delted in selectedCardData array, remove it from array
+          setExerciseArr(exerciseArr.filter((card) => card.uid !== workout_obj.uid));
+          console.log("Response: ", response.data);
+        })
           .catch((res) => {
-            console.error("Error connecting to server,", res.response.data);
+            console.error("Error connecting to server,", res);
           });
       };
+
+
+    const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        // eslint-disable-next-line prefer-const
+        let workoutToAdd: workout = {
+            uid: "",
+            workout_name: workoutName,
+            exercise_arr: exerciseArr,
+            description: description, // TODO: add functionality to add this
+            difficulity: difficulty, // TODO: add functionality to add this
+            creator: uid
+        }
+
+        axios.post("https://api-muscleman.com/create_workout", workoutToAdd)
+            .then(function (response) {
+                console.log(exerciseArr);
+                workoutToAdd.uid = response.data.uid;
+                setSelectedWorkoutData([workoutToAdd, ...selectedWorkoutData]);
+                console.log(workoutToAdd);
+                console.log("Data: ", response);
+            })
+            .catch((res) => {
+                console.error("Error connecting to server,", res.response.data);
+            });
+    };
+
+    const handleAddNewExercise = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        axios.post("https://api-muscleman.com/edit_workout", {
+            data: {
+            uid: selectedWorkout.uid,
+            workout_name: selectedWorkout.workout_name,
+            exercise_arr: JSON.stringify(selectedWorkout.exercise_arr),
+            keywords: JSON.stringify(selectedWorkout.keywords),
+            difficulity: selectedWorkout.difficulity,
+            description: selectedWorkout.description,
+            creator: selectedWorkout.creator,
+        },})
+            .then(function (response) {
+                console.log(exerciseArr);
+                selectedWorkout.exercise_arr = response.data.uid;
+                setSelectedWorkoutData([selectedWorkout, ...selectedWorkoutData]);
+                console.log(selectedWorkout);
+                console.log("Data: ", response);
+            })
+            .catch((res) => {
+                console.error("Error connecting to server,", res.response.data);
+            });
+
+    }
+
     const handleDeleteWorkout = async (e: React.MouseEvent<HTMLButtonElement>, workout_obj: workout) => {
         e.preventDefault();
         console.log(workout_obj);
@@ -153,13 +198,13 @@ function Workout() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '800px' }}>
                         <div className="flex flex-cobl items-start justify-between p-6 lg:px-8">
                             <CreateWorkoutCard
-                             avaliableExercises={exercises} 
-                             workoutName={workoutName}
-                             setWorkoutName={setWorkoutName}
-                             handleAddNewWorkout={handleAddNewWorkout}
-                             handleCheckboxChange={handleCheckboxChange}
-                             setDifficulty={setDifficulty}
-                             />
+                                avaliableExercises={exercises}
+                                workoutName={workoutName}
+                                setWorkoutName={setWorkoutName}
+                                handleAddNewWorkout={handleAddNewWorkout}
+                                handleCheckboxChange={handleCheckboxChange}
+                                setDifficulty={setDifficulty}
+                            />
                         </div>
                         {selectedWorkoutData.map((data) => (
                             <WorkoutComponent
@@ -168,10 +213,13 @@ function Workout() {
                                 handleDeleteWorkout={handleDeleteWorkout}
                                 data={data}
                                 avaliableExercises={exercises}
+                                handleAddNewExercise={handleAddNewExercise}
+                                handleCheckboxChange={handleCheckboxChange}
+                            
                             />))}
-                            </div>
                     </div>
                 </div>
+            </div>
         </>
     )
 }

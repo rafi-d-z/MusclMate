@@ -28,6 +28,8 @@ interface WorkoutComponentProps {
     handleDeleteWorkout: (e: React.MouseEvent<HTMLButtonElement>, data: any) => void;
     data: any;
     avaliableExercises: any[];
+    handleAddNewExercise: (e: React.MouseEvent<HTMLButtonElement>) => any;
+    handleCheckboxChange: (exercise_uid: string) => void;
 }
 
 export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
@@ -35,6 +37,8 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
     exerciseArray,
     handleDeleteWorkout,
     data,
+    handleAddNewExercise,
+    handleCheckboxChange,
     avaliableExercises
 }) => {
     return (
@@ -92,7 +96,10 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                     />))}
             </div>
             <AddExerciseToWorkout
-            avaliableExercises = {avaliableExercises}/>
+            avaliableExercises = {avaliableExercises}
+            handleAddNewExercise={handleAddNewExercise}
+            handleCheckboxChange={handleCheckboxChange}
+            />
         </div>
     )
 }
