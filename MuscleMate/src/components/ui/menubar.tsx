@@ -50,10 +50,6 @@ const Redirect = ({ to, children }: RedirectProps) => {
   );
 };
 
-const goToUser = () => {
-  window.location.href = "/user";
-}
-
 export const Menubar: React.FC = () => {
   return (
     <Sheet>
