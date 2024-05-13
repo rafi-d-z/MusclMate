@@ -224,7 +224,7 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
   return workoutsWithExercises;
 }
 
-export async function create_workout(client: Client, new_workout: workout): Promise<string | undefined>{
+export async function create_workout(client: Client, new_workout: workout) {
   const sql: string = `INSERT INTO public.workout_plans (uid, exercise_arr, keywords, workout_name, difficulity, description, creator)` +
                       ` VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5, $6) RETURNING uid`;
   const values = [new_workout.exercise_arr, new_workout.keywords, new_workout.workout_name, new_workout.difficulity, new_workout.description, new_workout.creator]
@@ -235,7 +235,7 @@ export async function create_workout(client: Client, new_workout: workout): Prom
   }
 
   try{
-    const result = await query_db(client, query).then(async (res) => {
+    await query_db(client, query).then(async (res) => {
       await update_user_workouts(client, new_workout.creator, res[0].uid)
 
       return res[0].uid;
