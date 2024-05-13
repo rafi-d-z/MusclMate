@@ -94,7 +94,7 @@ function Workout() {
     const [sets, setSets] = useState('3');
     const [weight, setWeight] = useState('none');
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-    
+
     const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
         value = value.replace(/\D/g, '');
@@ -134,12 +134,14 @@ function Workout() {
             console.error(err);
         });
     }, []);
+    
     useEffect(() => {
         const auth = getAuth(config.app);
         onAuthStateChanged(auth, user => {
             setUID(user?.uid || 'notSystem');
         })
     });
+
     useEffect(() => {
         const fetchData = async () => {
             console.log("Type:", selectedWorkout)
@@ -167,6 +169,7 @@ function Workout() {
         };
         fetchData();
     }, [selectedWorkout]);
+
     const handleCheckboxChange = (exercise_uid: string) => {
         setExerciseArr([...exerciseArr, exercise_uid]);
     };
@@ -256,7 +259,9 @@ function Workout() {
                              workoutName={workoutName}
                              setWorkoutName={setWorkoutName}
                              handleAddNewWorkout={handleAddNewWorkout}
-                             handleCheckboxChange={handleCheckboxChange}/>
+                             handleCheckboxChange={handleCheckboxChange}
+                             setDifficulty={setDifficulty}
+                             />
                         </div>
                         {selectedWorkoutData.map((data, index) => (
                             <WorkoutComponent

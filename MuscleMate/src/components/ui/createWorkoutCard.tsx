@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Plus } from "lucide-react"
 import {
     Card,
@@ -34,6 +34,8 @@ import {
 import "@/css/exerciseTable.css"
 import exercise from "@/DAO/exercise";
 import workout from "@/DAO/workout"
+import { Label } from "./label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select"
 
 interface CreateWorkoutCardProps {
     workoutName: string;
@@ -41,11 +43,11 @@ interface CreateWorkoutCardProps {
     handleAddNewWorkout: (e: React.MouseEvent<HTMLButtonElement>) => any;
     avaliableExercises: exercise[];
     handleCheckboxChange: (exercise_uid: string) => void;
+    setDifficulty: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
-    { workoutName, avaliableExercises, setWorkoutName, handleAddNewWorkout, handleCheckboxChange }
-
+    { workoutName, avaliableExercises, setWorkoutName, handleAddNewWorkout, handleCheckboxChange, setDifficulty }
 ) => {
 
     return (
@@ -91,6 +93,20 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                 ))}
                             </TableBody>
                         </Table>
+                        <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="targetMuscles">Target Muscles:</Label>
+                          <Select onValueChange={setDifficulty}>
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="low" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="low">Low</SelectItem>
+                              <SelectItem value="medium">Medium</SelectItem>
+                              <SelectItem value="hard">Hard</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
                         <div className="flex w-full max-w-sm items-center space-x-2">
                             <Input type="Name" placeholder="Name" value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} />
                             <Button type="submit" onClick={handleAddNewWorkout}>Submit</Button>
