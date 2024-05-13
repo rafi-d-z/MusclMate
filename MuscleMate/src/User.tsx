@@ -10,27 +10,49 @@ User edit their workouts
 User edit their exercises
 */
 import TopBar from "@/components/ui/topBar";
-import { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth"
-import config from "./auth/firebase.config"
+// import { SetStateAction, useEffect, useState } from "react";
+// import { getAuth, onAuthStateChanged } from "firebase/auth"
+// import config from "@/auth/firebase.config"
 function User(){
-    // get current user
-    const [uid, setUID] = useState<string>('notSystem');
-    useEffect(() => {
-        const authState = getAuth(config.app);
-        onAuthStateChanged(authState, user => {
-        setUID(user?.uid || 'not logged in');
-        console.log(uid)
-        });
-    })
+    // const [userInfo, setUserInfo] = useState([]);
+    // const [uid, setUID] = useState<string | undefined>("");
 
-    // get user information via user api (includes exercise and workouts)
+    // useEffect(() => {
+    //     const authState = getAuth(config.app);
+    //     onAuthStateChanged(authState, user => {
+    //         if (user) {
+    //             console.log(user.uid)
+    //             setUID(user.uid);
+
+    //             axios({
+    //                 method: 'get',
+    //                 url: 'https://api-muscleman.com/get_user',
+    //                 params: {
+    //                     uid: uid
+    //                 }
+    //             })
+    //             .then(function (response: { data: SetStateAction<any[]>; }) {
+    //                 setUserInfo(response.data)
+    //                 console.log(response)
+    //             })
+    //         }
+    //     });
+    // }, []);    
+        // get user information via user api (includes exercise and workouts)
     return (
         <>
             <TopBar />
             {/* user information
                 user workouts
                 user exercises */}
+            <div>
+                <h1>Your Exercises</h1>
+                {/* <ul>
+                    {userInfo.map((exercise: { name: string; }) => (
+                        <li>{exercise.name}</li>
+                    ))}
+                </ul> */}
+            </div>
         </>
     );
 }

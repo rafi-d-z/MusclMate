@@ -50,6 +50,10 @@ const Redirect = ({ to, children }: RedirectProps) => {
   );
 };
 
+const goToUser = () => {
+  window.location.href = "/user";
+}
+
 export const Menubar: React.FC = () => {
   return (
     <Sheet>
@@ -78,7 +82,7 @@ export const Menubar: React.FC = () => {
         <SheetFooter>
           <div className='bottom'>
             <a><FaGear size={40}/></a>
-            <a><CgProfile size={40} /></a>
+            <button onClick={goToUser}><CgProfile size={40} /></button>
           </div>
         </SheetFooter>
 

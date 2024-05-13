@@ -60,6 +60,24 @@ function Exercise() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [exerciseTarget, setExerciseTarget] = useState('arms');
   const [image_url, setImageUrl] = useState('https://via.placeholder.com/150');
+  const [exerciseNameEdit, setExerciseNameEdit] = useState('');
+  const [repsEdit, setRepsEdit] = useState('');
+  const [setsEdit, setSetsEdit] = useState('');
+  const [weightEdit, setWeightEdit] = useState('');
+  const [image_urlEdit, setImageUrlEdit] = useState('');
+  const [exerciseTargetEdit, setExerciseTargetEdit] = useState('');
+  const [uid, setUID] = useState<string | undefined>(undefined);
+  const [difficulty, setDifficulty] = useState('');
+
+  useEffect(() => {
+    const authState = getAuth(config.app);
+    const unsubscribe = onAuthStateChanged(authState, user => {
+      setUID(user ? user.uid : undefined);
+    });
+
+    return () => unsubscribe();
+  });
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -129,19 +147,13 @@ function Exercise() {
       n_reps: parseInt(reps),
       n_sets: parseInt(sets),
       weight: parseInt(weight),
-      arr_keywords: []
+      arr_keywords: [],
+      description: '', // TODO: add functionality to add this
+      difficulity: difficulty, 
+      creator: String(uid)
     }
 
-    axios.post("https://api-muscleman.com/create_exercise", {
-      uid: "",
-      exercise_name: exerciseName,
-      exercise_target: exerciseTarget,
-      image_url: image_url,
-      n_reps: reps,
-      n_sets: sets,
-      weight: weight,
-      arr_keywords: JSON.stringify([])
-    })
+    axios.post("https://api-muscleman.com/create_exercise", cardToAdd)
       .then(function (response) {
         obj.uid = response.data.uid;
         setSelectedCardData([obj, ...selectedCardData]);
@@ -228,17 +240,6 @@ function Exercise() {
       });
   };
 
-  const handleCheckboxChange = (exerciseName) => (event) => {
-    if (event.target.checked) {
-      // If checked, add exercise to the array
-      setCheckedExercises([...checkedExercises, exerciseName]);
-    } else {
-      // If unchecked, remove exercise from the array
-      setCheckedExercises(checkedExercises.filter(exercise => exercise !== exerciseName));
-    }
-  };
-
-
   return (
     <>
       <div className="flex items-center justify-between p-8 lg:px-8">
@@ -292,6 +293,19 @@ function Exercise() {
                           </Select>
                         </div>
                         <div className="grid grid-cols-3 items-center gap-4">
+                          <Label htmlFor="targetMuscles">Difficulty:</Label>
+                          <Select onValueChange={setDifficulty}>
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="low" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="low">Low</SelectItem>
+                              <SelectItem value="medium">Medium</SelectItem>
+                              <SelectItem value="hard">Hard</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid grid-cols-3 items-center gap-4">
                           <Label htmlFor="reps">Reps:</Label>
                           <Input id="reps" value={reps} onChange={handleRepsChange} className="col-span-2 h-8" />
                         </div>
@@ -320,16 +334,19 @@ function Exercise() {
           {(selectedCard.exercise_target === "" ? selectedCardData // If "Trending" tab is selected, render all cards
             : selectedCardData.filter(data => data.exercise_target === selectedCard.exercise_target)) // Otherwise, filter the data based on the selected exercise target
             .map((data, index) => (
-              <Card key={index}>
+              <Card key={index} priority={data.difficulity}>
                 <CardHeader>
-                  <div className="relative">
-                    <button
-                      className="absolute top-0 right-0 -mt-3 -mr-4 text-black focus:outline-none"
-                      onClick={(e) => handleDeleteCard(e, data)}
-                    >
-                      <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
-                    </button>
-                  </div>
+                  {data.creator == uid ? 
+                    <div className="relative">
+                      <button
+                        className="absolute top-0 right-0 -mt-3 -mr-4 text-black focus:outline-none"
+                        onClick={(e) => handleDeleteCard(e, data)}
+                      >
+                        <FontAwesomeIcon icon={faTimes} className="w-6 h-5" />
+                      </button>
+                    </div> 
+                    : <div></div>}
+                  
                   <CardTitle>{data.exercise_name}</CardTitle>
                   <CardDescription>{data.exercise_target}</CardDescription>
                 </CardHeader>

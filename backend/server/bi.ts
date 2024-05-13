@@ -86,8 +86,7 @@ export function getWorkoutQueries(query: any): workout {
   if (
     query.uid === undefined ||
     query.workout_name === undefined ||
-    query.exercise_arr === undefined ||
-    query.keywords === undefined
+    query.exercise_arr === undefined
   ) {
     throw new Error(
       "Malformed input! Workout subobject either missing or incomplete",
@@ -102,11 +101,7 @@ export function getWorkoutQueries(query: any): workout {
     throw new Error(
       "The 'exercise_arr' property of the query object is not an array",
     );
-  } else if (!isArray(query.keywords)) {
-    throw new Error(
-      "The 'keywords' property of the query object is not an array",
-    );
-  }
+  } 
   query.exercise_arr == "[]" ? query.exercise_arr = [] : query.exercise_arr;
   
   // save new data if not empty

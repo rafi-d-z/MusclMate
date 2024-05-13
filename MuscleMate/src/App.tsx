@@ -73,7 +73,7 @@ function MainMenu() {
         <TabsContent value={selectedCard.exercise_target} className="grid grid-cols-5 gap-10">
           {(selectedCard.exercise_target === "" ? selectedCardData
             : selectedCardData.filter(data => data.exercise_target === selectedCard.exercise_target)).map((data, index) => (
-              <Card key={index}>
+              <Card key={index} priority={data.difficulity}>
                 <CardHeader>
                   <CardTitle>{data.exercise_name}</CardTitle>
                   <CardDescription>{data.exercise_target}</CardDescription>

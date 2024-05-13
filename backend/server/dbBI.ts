@@ -182,10 +182,6 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
   conditions.push(`exercise_arr = $${index++}`);
   values_workout.push(search_criteria.exercise_arr);
   }
-  if (search_criteria.keywords.length > 0 && allowOthers) {
-    conditions.push(`keywords = $${index++}`);
-    values_workout.push(search_criteria.keywords);
-  }
   
   const sql_workout: string =
     "SELECT * FROM public.workout_plans" +
@@ -229,9 +225,9 @@ export async function get_workouts(client: Client, search_criteria: workout): Pr
 }
 
 export async function create_workout(client: Client, new_workout: workout): Promise<string | undefined>{
-  const sql: string = `INSERT INTO public.workout_plans (uid, exercise_arr, keywords, workout_name)` +
-                      ` VALUES (uuid_generate_v4(), $1, $2, $3) RETURNING uid`;
-  const values = [new_workout.exercise_arr, new_workout.keywords, new_workout.workout_name]
+  const sql: string = `INSERT INTO public.workout_plans (uid, exercise_arr, keywords, workout_name, difficulity, description, creator)` +
+                      ` VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5, $6) RETURNING uid`;
+  const values = [new_workout.exercise_arr, new_workout.keywords, new_workout.workout_name, new_workout.difficulity, new_workout.description, new_workout.creator]
   const query = {
     name: "create-workout",
     text: sql,
@@ -260,6 +256,7 @@ export async function edit_workout(client: Client, updated_workout: workout): Pr
 
   try {
     const res = await query_db(client, query);
+    console.log("Result:", res)
     return res[0].uid;
   } catch (err: any) {
     console.error("Problem fetching\n", err.toString());
