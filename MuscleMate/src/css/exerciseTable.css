@@ -1,0 +1,8 @@
+.TableBody {
+    display: block;
+    max-height: 300px;  /* Adjust based on your requirement */
+    overflow-y: auto;
+}
+.TableHeader, .TableBody {
+    width: 100%;
+}
