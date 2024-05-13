@@ -68,11 +68,15 @@ export const Menubar: React.FC = () => {
                     </Redirect>
 
                     <Redirect to="/exercise">
-                        <MyLabel labelName='Exercises'/>
+                        <MyLabel labelName='My Exercises'/>
                     </Redirect>
 
                     <MyLabel labelName='Favorites' />
                     <MyLabel labelName='My Progress' />
+
+                    <Redirect to="/">
+                        <MyLabel labelName='Main Menu'/>
+                    </Redirect>
                 </div>
 
                 <SheetFooter>
