@@ -269,16 +269,6 @@ function Workout() {
 
     const [checkedExercises, setCheckedExercises] = useState<exercise[]>([]);
 
-    const handleCheckboxChange = (exerciseName) => (event) => {
-        if (event.target.checked) {
-          // If checked, add exercise to the array
-          setCheckedExercises([...checkedExercises, exerciseName]);
-        } else {
-          // If unchecked, remove exercise from the array
-          setCheckedExercises(checkedExercises.filter(exercise => exercise !== exerciseName));
-        }
-      };
-
     return (
         <>
             {/* top bar components */}
