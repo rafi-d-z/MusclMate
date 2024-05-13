@@ -50,9 +50,9 @@ const Redirect = ({ to, children }: RedirectProps) => {
   );
 };
 
-const goToUser = () => {
+/* const goToUser = () => {
   window.location.href = "/user";
-}
+} */
 
 export const Menubar: React.FC = () => {
   return (
@@ -75,15 +75,22 @@ export const Menubar: React.FC = () => {
               <MyLabel labelName='Exercises'/>
           </Redirect>
 
-          <MyLabel labelName='Favorites' />
-          <MyLabel labelName='My Progress' />
+          <Redirect to="/">
+            <MyLabel labelName='Main Menu'/>
+          </Redirect>
+
+          <Redirect to="/login">
+            <MyLabel labelName='Login'/>
+         </Redirect>
         </div>
 
         <SheetFooter>
+          <Redirect to='/user'>
           <div className='bottom'>
             <a><FaGear size={40}/></a>
-            <button onClick={goToUser}><CgProfile size={40} /></button>
+            <button><CgProfile size={40} /></button>
           </div>
+          </Redirect>
         </SheetFooter>
 
       </SheetContent>
