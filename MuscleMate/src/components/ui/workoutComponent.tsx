@@ -136,7 +136,6 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                         cardDescription={exercise.exercise_target}
                     />))}
             </div>
-            <NewExerciseCard />
         </div>
     )
 }
