@@ -89,7 +89,7 @@ export function getWorkoutQueries(query: any): workout {
     query.exercise_arr === undefined
   ) {
     throw new Error(
-      `Malformed input! Workout subobject either missing or incomplete. Got ${query}`,
+      `Malformed input! Workout subobject either missing or incomplete. Got ${query.uid, query.workout_name, query.exercise_arr}`,
     );
   } else if (!isString(query.uid)) {
     throw new Error("The 'uid' property of the query object is not a string");
