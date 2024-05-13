@@ -20,15 +20,18 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+
 interface CreateWorkoutCardProps {
     workoutName: string;
     setWorkoutName: React.Dispatch<React.SetStateAction<string>>;
     handleAddNewWorkout: (e: React.MouseEvent<HTMLButtonElement>) => any;
+    avaliableExercises: string[];
 
 }
 
 export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
-    { workoutName, setWorkoutName, handleAddNewWorkout}
+    { workoutName, avaliableExercises, setWorkoutName, handleAddNewWorkout}
 
 ) => {
     
@@ -50,6 +53,10 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                 Enter the name of the workout.
                             </DialogDescription>
                         </DialogHeader>
+
+                        {/* drop down menu of exercises */}
+                        {}
+
                         <div className="flex w-full max-w-sm items-center space-x-2">
                             <Input type="Name" placeholder="Name" value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} />
                             <Button type="submit" onClick={handleAddNewWorkout}>Submit</Button>

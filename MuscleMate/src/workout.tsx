@@ -65,6 +65,7 @@ import axios from "axios"
 import config from "./auth/firebase.config"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Description } from "@radix-ui/react-dialog"
+import exercise from "./DAO/exercise";
 
 function Workout() {
     const [selectedWorkout, setSelectedWorkout] = useState<workout>({
@@ -82,6 +83,32 @@ function Workout() {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [exerciseArr, setExerciseArr] = useState([]);
     const [uid, setUID] = useState('notSystem');
+    const [exercises, setExercies] = useState([]);
+
+    // fetch all exercises & adding to exercises
+    useEffect(() => {
+        const exercise =  {
+            uid: '',
+            exercise_name: '',
+            exercise_target: '',
+            image_url: '',
+            n_reps: 0,
+            n_sets: 0,
+            weight: 0,
+            description: '',
+            difficulity: '',
+            creator: ''
+        }
+
+        axios.get("https://api-muscleman.com/get_exercises", {
+            params: exercise
+        }).then((response) => {
+            setExercies(response.data);
+            console.log(response.data);
+        }).catch((err) => {
+            console.error(err);
+        });
+    }, []);
 
     const handleAddNewWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault(); 
@@ -118,34 +145,34 @@ function Workout() {
         })
     });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            console.log("Type:", selectedWorkout)
-            if (selectedWorkout) {
-                axios({
-                    method: 'get',
-                    url: 'https://api-muscleman.com/get_workouts',
-                    params: {
-                        uid: selectedWorkout.uid,
-                        workout_name: selectedWorkout.workout_name,
-                        exercise_arr: JSON.stringify(selectedWorkout.exercise_arr),
-                        keywords: JSON.stringify(selectedWorkout.keywords),
-                        difficulity: selectedWorkout.difficulity,
-                        description: selectedWorkout.description,
-                        creator: selectedWorkout.creator,
-                    },
-                }).then(function (response) {
-                    setSelectedWorkoutData(response.data);
-                    console.log("Data:", response.data);
-                }).catch((error) => {
-                    // Handle error
-                    console.error('Error fetching data:', error.response.data);
-                });
-            }
-        };
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         console.log("Type:", selectedWorkout)
+    //         if (selectedWorkout) {
+    //             axios({
+    //                 method: 'get',
+    //                 url: 'https://api-muscleman.com/get_workouts',
+    //                 params: {
+    //                     uid: selectedWorkout.uid,
+    //                     workout_name: selectedWorkout.workout_name,
+    //                     exercise_arr: JSON.stringify(selectedWorkout.exercise_arr),
+    //                     keywords: JSON.stringify(selectedWorkout.keywords),
+    //                     difficulity: selectedWorkout.difficulity,
+    //                     description: selectedWorkout.description,
+    //                     creator: selectedWorkout.creator,
+    //                 },
+    //             }).then(function (response) {
+    //                 setSelectedWorkoutData(response.data);
+    //                 console.log("Data:", response.data);
+    //             }).catch((error) => {
+    //                 // Handle error
+    //                 console.error('Error fetching data:', error.response.data);
+    //             });
+    //         }
+    //     };
 
-        fetchData();
-    }, [selectedWorkout]);
+    //     fetchData();
+    // }, [selectedWorkout]);
 
     
 
@@ -239,7 +266,8 @@ function Workout() {
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '800px' }}>
                         <div className="flex flex-col items-start justify-between p-6 lg:px-8">
-                            <CreateWorkoutCard 
+                            <CreateWorkoutCard
+                             avaliableExercises={exercises} 
                              workoutName={workoutName}
                              setWorkoutName={setWorkoutName}
                              handleAddNewWorkout={handleAddNewWorkout}/>
