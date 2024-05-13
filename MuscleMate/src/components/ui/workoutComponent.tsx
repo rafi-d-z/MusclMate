@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dialog"
 import { NewExerciseCard } from "@/components/ui/newExerciseCard"
 import AddExerciseToWorkout from "@/components/ui/addExerciseToWorkout"
+import "@/css/exerciseTable.css"
 
 interface WorkoutComponentProps {
     isPopoverOpen: boolean;
@@ -89,7 +90,7 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                                     <TableHead>Weight</TableHead>
                                 </TableRow>
                             </TableHeader>
-                            <TableBody>
+                            <TableBody className="TableBody">
                                 {exerciseArray.map((exercise, index) => (
                                     <TableRow key={index}>
                                         <TableCell className="font-medium">{exercise.name}</TableCell>
@@ -99,20 +100,7 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                                     </TableRow>
                                 ))}
                             </TableBody>
-                            <TableFooter>
-                                <TableRow>
-                                    <TableCell colSpan={3}>Table footer</TableCell>
-                                    <TableCell>table footer</TableCell>
-                                </TableRow>
-                            </TableFooter>
                         </Table>
-                        <DialogFooter className="flex justify-between">
-                            <DialogClose>
-                                <Button variant="outline">
-                                    Close
-                                </Button>
-                            </DialogClose>
-                        </DialogFooter>
                     </DialogContent>
                 </Dialog>
                 <> {workoutTitle} </>

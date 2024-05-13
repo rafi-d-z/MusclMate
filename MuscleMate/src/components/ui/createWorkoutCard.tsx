@@ -86,7 +86,7 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                         <TableCell>{exercise.n_reps}</TableCell>
                                         <TableCell>{exercise.n_sets}</TableCell>
                                         <TableCell>{exercise.weight}</TableCell>
-                                        <TableCell className="text-right"><Checkbox onChange={(e) => handleCheckboxChange(e, exercise)} /></TableCell>
+                                        <TableCell className="text-right"><Checkbox/></TableCell>
                                 </TableRow>
                                 ))}
                             </TableBody>
