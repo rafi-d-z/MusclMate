@@ -14,12 +14,14 @@ import { SetStateAction, useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import config from "../auth/firebase.config"
 import axios from "axios";
-import { Card } from "./components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./components/ui/card";
 import exercise from "DAO/exercise";
 
 function User(){
     const [userExercises, setUserExercises] = useState<Array<any> | undefined>(undefined);
+    const [userWorkouts, setUserWorkouts] = useState<Array<any> | undefined>(undefined);
     const [uid, setUID] = useState<string | undefined>("");
+    
 
     useEffect(() => {
         const authState = getAuth(config.app);
@@ -38,6 +40,7 @@ function User(){
                 .then(function (response) {
                     console.log(response.data)
                     setUserExercises(response.data[0].exercises)
+                    setUserWorkouts(response.data[0].workouts)
                 })
             }
         });
@@ -54,19 +57,32 @@ function User(){
             <div key="exercises">
                 <h1>Your Exercises</h1>
                 {userExercises && userExercises.length > 0 && 
-                userExercises.map((exercise: exercise) => {
-                    return (
-                        <div key={exercise.uid}>
-                            <Card className='w-[210px]'>
-                                <div key="exercise-content">
-                                    <h2>{exercise.exercise_name}</h2>
-                                    <p>{exercise.exercise_target}</p>
+                    <div className="flex flex-wrap space-x-4">
+                        {userExercises.map((exercise: exercise) => {
+                            return (
+                                <div key={exercise.uid} className="w-52">
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>{exercise.exercise_name}</CardTitle>
+                                            <CardDescription>{exercise.exercise_target}</CardDescription>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <img src={exercise.image_url}></img>
+                                        </CardContent>
+                                        <CardFooter>
+                                            Reps: {exercise.n_reps} / Sets: {exercise.n_sets} / Weight: {exercise.weight}
+                                        </CardFooter>
+                                    </Card>
                                 </div>
-                            </Card>
-                        </div>
-                    )
-                })
+                            )
+                        })}
+                    </div>
                 }
+            </div>
+
+            <div key="workouts">
+                <h1>Your Workouts</h1>
+
             </div>
         </>
     );
