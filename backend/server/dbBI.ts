@@ -83,8 +83,7 @@ export async function get_exercises(
 
 export async function create_exercise(
   client: Client,
-  exercise: exercise
-  ): Promise<string | null> {
+  exercise: exercise) {
   const sql: string =
     `INSERT INTO public.exercises (uid, exercise_name, exercise_target, n_reps, n_sets,` +
     ` arr_keywords, weight, image_url, description, difficulity, creator) VALUES (uuid_generate_v4(), $1, $2,` +
@@ -108,9 +107,11 @@ export async function create_exercise(
   }
 
   try {
-    const res = await query_db(client, query);
-    const _ = await update_user_exercises(client, exercise.creator, res[0].uid)
-    return res[0].uid;
+    await query_db(client, query).then(async (res) => {
+      await update_user_exercises(client, exercise.creator, res[0].uid)
+
+      return res[0].uid;
+    })
   } catch (err: any) {
     console.error("Problem fetching\n", err.toString());
     throw err;
