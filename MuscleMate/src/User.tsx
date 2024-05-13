@@ -10,7 +10,7 @@ User edit their workouts
 User edit their exercises
 */
 import TopBar from "@/components/ui/topBar";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import config from "@/auth/firebase.config"
 import axios from "axios";

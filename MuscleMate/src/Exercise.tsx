@@ -61,12 +61,6 @@ function Exercise() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [exerciseTarget, setExerciseTarget] = useState('arms');
   const [image_url, setImageUrl] = useState('https://via.placeholder.com/150');
-  const [exerciseNameEdit, setExerciseNameEdit] = useState('');
-  const [repsEdit, setRepsEdit] = useState('');
-  const [setsEdit, setSetsEdit] = useState('');
-  const [weightEdit, setWeightEdit] = useState('');
-  const [image_urlEdit, setImageUrlEdit] = useState('');
-  const [exerciseTargetEdit, setExerciseTargetEdit] = useState('');
   const [uid, setUID] = useState<string | undefined>(undefined);
   const [difficulty, setDifficulty] = useState('');
 
@@ -148,13 +142,12 @@ function Exercise() {
       n_reps: parseInt(reps),
       n_sets: parseInt(sets),
       weight: parseInt(weight),
-      arr_keywords: [],
       description: '', // TODO: add functionality to add this
       difficulity: difficulty, 
       creator: String(uid)
     }
 
-    axios.post("https://api-muscleman.com/create_exercise", cardToAdd)
+    axios.post("https://api-muscleman.com/create_exercise", obj)
       .then(function (response) {
         obj.uid = response.data.uid;
         setSelectedCardData([obj, ...selectedCardData]);
@@ -179,7 +172,9 @@ function Exercise() {
       n_reps: parseInt(reps),
       n_sets: parseInt(sets),
       weight: parseInt(weight),
-      arr_keywords: []
+      arr_keywords: [],
+      difficulity: difficulty,
+      creator: String(uid)
     }
 
     axios.post("https://api-muscleman.com/edit_exercise", {
