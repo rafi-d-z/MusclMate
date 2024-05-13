@@ -88,6 +88,7 @@ export function getWorkoutQueries(query: any): workout {
     query.workout_name === undefined ||
     query.exercise_arr === undefined
   ) {
+    console.log("undefined spotted", query.uid, query.workout_name, query.exercise_arr)
     throw new Error(
       `Malformed input! Workout subobject either missing or incomplete. Got ${query.uid, query.workout_name, query.exercise_arr}`,
     );
