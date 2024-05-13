@@ -84,6 +84,7 @@ function Workout() {
     const [exercises, setExercises] = useState([]);
     const [description, setDescription] = useState('');
     const [difficulty, setDifficulty] = useState('');
+
     const [workoutNameEdit, setWorkoutNameEdit] = useState('');
     const [exerciseArrEdit, setExerciseArrEdit] = useState<exercise[]>([]);
     const [exercisesEdit, setExerciesEdit] = useState([]);
@@ -95,22 +96,6 @@ function Workout() {
     const [weight, setWeight] = useState('none');
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
-    const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        setReps(value);
-    };
-    const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        setSets(value);
-    };
-    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        value = value + ' lbs';
-        setWeight(value);
-    };
     // fetch all exercises & adding to exercises
     useEffect(() => {
         const exercise = {
@@ -219,6 +204,31 @@ function Workout() {
                 console.error("Error connecting to server,", res);
             });
     };
+
+    const handleEditWorkout = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault(); 
+ 
+        // eslint-disable-next-line prefer-const
+        let workout_obj: workout = {
+          uid: "",
+          workout_name: workoutName,
+          exercise_arr: exerciseArr,
+          description: description, // TODO: add functionality to add this
+          difficulity: difficulty, // TODO: add functionality to add this
+          creator: uid
+        }
+    
+        axios.post("https://api-muscleman.com/edit_workout", workout_obj)
+          .then(function (response) {
+            workout_obj.uid = response.data.uid;
+            setSelectedWorkoutData([workout_obj, ...selectedWorkoutData]);
+            console.log(workout_obj);
+            console.log("Data: ", response.data);
+          })
+          .catch((res) => {
+            console.error("Error connecting to server,", res.response.data);
+          });
+      };
 
     return (
         <>
