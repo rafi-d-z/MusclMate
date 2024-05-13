@@ -1,11 +1,14 @@
 .low-priority {
     background-color: #FFFFFF;
+    border: 2px solid #00FF00; /* Green border */
 }
 
 .medium-priority {
-    background-color: #f7f0db !important;
+    background-color: #f7f0db;
+    border: 2px solid #FFA500; /* Orange border */
 }
 
 .high-priority {
-    background-color: #d9b4b4 !important;
+    background-color: #d9b4b4;
+    border: 2px solid #FF0000; /* Red border */
 }
