@@ -82,19 +82,26 @@ function User(){
             </div>
 
             <div key="workouts">
-                <h1>Your Workouts</h1>
-                {userWorkouts && userWorkouts.length > 0 &&
-                    <div className="flex flex-wrap space-x-4">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Workout Name</CardTitle>
-                                <CardDescription>Workout Description</CardDescription>
-                            </CardHeader>
-                        </Card>
-                    </div>
-                    
-                }
-            </div>
+                    <h1>Your Workouts</h1>
+                    {userWorkouts && userWorkouts.length > 0 &&
+                        <div className="flex flex-wrap space-x-4">
+                            {userWorkouts.map((workout: any) => {
+                                return (
+                                    <div key={workout.uid} className="w-52">
+                                        <Card>
+                                            <CardHeader>
+                                                <CardTitle>{workout.workout_name}</CardTitle>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <p>Exercise Count: {workout.exercise_arr.length}</p>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    }
+                </div>
         </>
     )
 }

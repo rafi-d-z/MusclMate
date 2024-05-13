@@ -69,14 +69,6 @@ const Routes = createBrowserRouter([
     path: "/login",
     element: <Auth />,  
   },
-  {
-    path: '/user',
-    element: (
-      <ProtectedRoute>
-        <User/>
-      </ProtectedRoute>
-    )
-  }
 ]);
 
 export default Routes;
