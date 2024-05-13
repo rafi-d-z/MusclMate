@@ -26,6 +26,7 @@ function User(){
                 console.log(user.uid)
                 setUID(user.uid);
 
+                if(uid !== undefined){
                 axios({
                     method: 'get',
                     url: 'https://api-muscleman.com/get_user',
@@ -33,10 +34,10 @@ function User(){
                         uid: uid
                     }
                 })
-                .then(function (response: { data: SetStateAction<any[]>; }) {
-                    setUserInfo(response.data)
-                    console.log(response)
+                .then(function (response) {
+                    console.log(response.data)
                 })
+            }
             }
         });
     }, []);    
@@ -49,11 +50,11 @@ function User(){
                 user exercises */}
             <div>
                 <h1>Your Exercises</h1>
-                {/* <ul>
-                    {userInfo.map((exercise: { name: string; }) => (
+                <ul>
+                    {/* {userInfo.map((exercise: { name: string; }) => (
                         <li>{exercise.name}</li>
-                    ))}
-                </ul> */}
+                    ))} */}
+                </ul>
             </div>
         </>
     );

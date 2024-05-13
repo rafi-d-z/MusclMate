@@ -68,7 +68,8 @@ async function create_app(): Promise<Array<any>>{
       n_reps: 0,
       n_sets: 0,
       weight: 0,
-      arr_keywords: []
+      arr_keywords: [],
+      creator: ""
     }
 
     try{
@@ -185,7 +186,8 @@ async function create_app(): Promise<Array<any>>{
       n_reps: 0,
       n_sets: 0,
       weight: 0,
-      arr_keywords: []
+      arr_keywords: [],
+      creator: ""
     }
 
     try{
