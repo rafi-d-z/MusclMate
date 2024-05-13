@@ -23,13 +23,13 @@ import AddExerciseToWorkout from "@/components/ui/addExerciseToWorkout"
 import "@/css/exerciseTable.css"
 import axios from 'axios';
 import workout from "@/DAO/workout"
+import exercise from "@/DAO/exercise"
 
 interface WorkoutComponentProps {
     workoutTitle: any;
     exerciseArray: Array<any>;
     data: any;
     avaliableExercises: any[];
-    setExerciseArray: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
@@ -37,8 +37,9 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
     exerciseArray,
     data,
     avaliableExercises,
-    setExerciseArray
 }) => {
+    const [workout_obj, setWorkoutObj] = React.useState<workout>(data);
+
     const handleDeleteWorkout = async (e: React.MouseEvent<HTMLButtonElement>, workout_obj: workout ) => {
         e.preventDefault();
     
@@ -52,23 +53,22 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
     
     const handleDeleteExerciseWorkout = async (e: React.MouseEvent<HTMLButtonElement>, exerciseToRemoveUID: string) => {
         e.preventDefault();
-        console.log("array", exerciseArray)
-        setExerciseArray(exerciseArray.filter((exercise) => exercise.uid !== exerciseToRemoveUID))
-        console.log("array", exerciseArray)
+        workout_obj.exercise_arr = workout_obj.exercise_arr.filter((exercise: exercise) => exercise.uid !== exerciseToRemoveUID);
+        setWorkoutObj(workout_obj);
+        const newWorkoutObj = workout_obj.exercise_arr.map((exercise: exercise) => exercise.uid);
 
-        // remove uid from the workout.exercise_arr
-        // post edit endpoint with the new workout
-
-        
-        // console.log("Workout Object: ", workout_obj);
-        // axios.post("https://api-muscleman.com/edit_workout", {
-        //     data: workout_obj})
-        //     .then(function (response) {
-        //         console.log("Data: ", response);
-        //     })
-        //     .catch((res) => {
-        //         console.error("Error connecting to server,", res.response.data);
-        //     });
+        axios.post("https://api-muscleman.com/edit_workout", {data: {
+            uid: workout_obj.uid,
+            workout_name: workout_obj.workout_name,
+            exercise_arr: JSON.stringify(newWorkoutObj),
+        },
+        })
+        .then(function (response) {
+            console.log("Data: ", response);
+        })
+        .catch((res) => {
+            console.error("Error connecting to server,", res.response.data);
+        });
 
     }
 
@@ -101,7 +101,7 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                                 </TableRow>
                             </TableHeader>
                             <TableBody className="TableBody">
-                                {exerciseArray.map((exercise, index) => (
+                                {workout_obj.exercise_arr.map((exercise, index) => (
                                     <TableRow key={index}>
                                         <TableCell className="font-medium">{exercise.exercise_name}</TableCell>
                                         <TableCell>{exercise.n_sets}</TableCell>

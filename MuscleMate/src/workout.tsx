@@ -169,7 +169,6 @@ function Workout() {
                             <WorkoutComponent
                                 workoutTitle={data.workout_name}
                                 exerciseArray={data.exercise_arr}
-                                exerciseArrayHandler={setExerciseArr}
                                 data={data}
                                 avaliableExercises={exercises}
                             />))}
