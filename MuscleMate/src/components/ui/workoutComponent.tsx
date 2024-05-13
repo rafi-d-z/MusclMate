@@ -27,17 +27,6 @@ import AddExerciseToWorkout from "@/components/ui/addExerciseToWorkout"
 import "@/css/exerciseTable.css"
 
 interface WorkoutComponentProps {
-    isPopoverOpen: boolean;
-    exerciseName: string;
-    setExerciseName: (value: any) => void;
-    reps: string;
-    sets: string;
-    weight: string;
-    handleWeightChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleRepsChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleSetsChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCancel: () => void;
-    handleAddNewExercise: (e: React.MouseEvent<HTMLButtonElement>) => void;
     workoutTitle: any;
     listOfExercise: Array<any>;
     exerciseArray: Array<any>;
@@ -47,17 +36,6 @@ interface WorkoutComponentProps {
 }
 
 export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
-    isPopoverOpen,
-    exerciseName,
-    setExerciseName,
-    reps,
-    sets,
-    weight,
-    handleWeightChange,
-    handleRepsChange,
-    handleSetsChange,
-    handleCancel,
-    handleAddNewExercise,
     workoutTitle,
     exerciseArray,
     handleDeleteWorkout,
@@ -111,17 +89,6 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
             <div>
                 {exerciseArray.map((exercise, index) => (
                     <WorkoutExerciseCard key={index}
-                        isPopoverOpen={isPopoverOpen}
-                        exerciseName={exerciseName}
-                        setExerciseName={setExerciseName}
-                        reps={reps}
-                        sets={sets}
-                        weight={weight}
-                        handleWeightChange={handleWeightChange}
-                        handleRepsChange={handleRepsChange}
-                        handleSetsChange={handleSetsChange}
-                        handleCancel={handleCancel}
-                        handleAddNewExercise={handleAddNewExercise}
                         cardTitle={exercise.name}
                         cardContent={exercise.image_url}
                         cardDescription={exercise.exercise_target}
