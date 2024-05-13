@@ -219,26 +219,6 @@ function Workout() {
                 console.error("Error connecting to server,", res);
             });
     };
-    const handleAddNewExercise = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        const exercise = {
-            name: exerciseName,
-            reps: reps,
-            sets: sets,
-            weight: weight
-        };
-        console.log('New Exercise:', exercise);
-        setIsPopoverOpen(false);
-    };
-    const handleCancel = () => {
-        setExerciseName('Pull ups');
-        setReps('3');
-        setSets('12');
-        setWeight('none');
-        setIsPopoverOpen(false);
-    };
-
-    const [checkedExercises, setCheckedExercises] = useState<exercise[]>([]);
 
     return (
         <>
