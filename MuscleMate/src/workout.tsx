@@ -253,7 +253,7 @@ function Workout() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '360px' }}>
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', maxWidth: '800px' }}>
-                        <div className="flex flex-col items-start justify-between p-6 lg:px-8">
+                        <div className="flex flex-cobl items-start justify-between p-6 lg:px-8">
                             <CreateWorkoutCard
                              avaliableExercises={exercises} 
                              workoutName={workoutName}
@@ -263,16 +263,6 @@ function Workout() {
                              setDifficulty={setDifficulty}
                              />
                         </div>
-                        {selectedWorkoutData.map((data, index) => (
-                            <WorkoutComponent
-                                workoutTitle={<h1 key={index}>{data.workout_name}</h1>}
-                                listOfExercise={data.exercise_arr}
-                                exerciseArray={data.exercise_arr}
-                                handleDeleteWorkout={handleDeleteWorkout}
-                                data={data}
-                                avaliableExercises={exercises}
-                            />
-                        ))}
                         {selectedWorkoutData.map((data, index) => (
                             <div className="flex flex-col items-center justify-between p-6 lg:px-8">
                                 <div style={{ display: 'flex', alignItems: 'center' }}>

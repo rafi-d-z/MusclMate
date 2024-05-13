@@ -93,6 +93,7 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                 ))}
                             </TableBody>
                         </Table>
+
                         <div className="grid grid-cols-3 items-center gap-4">
                           <Label htmlFor="targetMuscles">Difficulty:</Label>
                           <Select onValueChange={setDifficulty}>
@@ -106,6 +107,8 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                             </SelectContent>
                           </Select>
                         </div>
+
+                        
 
                         <div className="flex w-full max-w-sm items-center space-x-2">
                             <Input type="Name" placeholder="Name" value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} />
