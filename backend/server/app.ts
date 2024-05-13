@@ -307,6 +307,7 @@ async function create_app(): Promise<Array<any>>{
 
   app.post("/edit_workout", async (_req, _res) => {
     const query = _req.body;
+    console.log(query)
     let workoutQuery: workout = {
       uid: "",
       workout_name: "",
