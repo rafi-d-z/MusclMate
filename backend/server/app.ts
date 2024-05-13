@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import dotenv from "dotenv";
 import { Client } from "pg";
 import cors from "cors";
-import { isArray, isString, toNumber, getWorkoutQueries, getExerciseQueries } from "./bi";
+import { isArray, isString, toNumber, getWorkoutQueries, getExerciseQueries, getUserQueries } from "./bi";
 import activate_db from "./db";
 import fs from "fs";
 import exercise from './DAO/exercise';
@@ -16,7 +16,9 @@ import {
   get_workouts,
   create_workout,
   edit_workout,
-  delete_workout
+  delete_workout,
+  get_user,
+  create_user
 } from "./dbBI";
 
 dotenv.config();
@@ -34,7 +36,7 @@ async function create_app(): Promise<Array<any>>{
   const app: express.Application = express();
   app.use(
     cors({
-      origin: ["https://muscl-mate-26j1.vercel.app", "http://localhost:5173"],
+      origin: ["http://localhost:5173", "https://muscl-mate.vercel.app"],
     }),
   );
   app.use(express.json());
@@ -66,7 +68,8 @@ async function create_app(): Promise<Array<any>>{
       n_reps: 0,
       n_sets: 0,
       weight: 0,
-      arr_keywords: []
+      arr_keywords: [],
+      creator: ""
     }
 
     try{
@@ -106,7 +109,7 @@ async function create_app(): Promise<Array<any>>{
       weight: 0,
       arr_keywords: [],
       description: "",
-      difficulty: "",
+      difficulity: "",
       creator: ""
     }
 
@@ -146,7 +149,7 @@ async function create_app(): Promise<Array<any>>{
       weight: 0,
       arr_keywords: [],
       description: "",
-      difficulty: "",
+      difficulity: "",
       creator: ""
     }
 
@@ -183,7 +186,8 @@ async function create_app(): Promise<Array<any>>{
       n_reps: 0,
       n_sets: 0,
       weight: 0,
-      arr_keywords: []
+      arr_keywords: [],
+      creator: ""
     }
 
     try{
@@ -244,7 +248,8 @@ async function create_app(): Promise<Array<any>>{
       uid: "",
       workout_name: "",
       exercise_arr: [],
-      keywords: []
+      keywords: [],
+      creator: ""
     };
 
     try{
@@ -275,7 +280,8 @@ async function create_app(): Promise<Array<any>>{
       uid: "",
       workout_name: "",
       exercise_arr: [],
-      keywords: []
+      keywords: [],
+      creator: ""
     };
 
     try{
@@ -294,7 +300,6 @@ async function create_app(): Promise<Array<any>>{
       res = await create_workout(client_instance, workoutQuery);
       _res.send(res).status(200);
     } catch(err: any){
-       
       _res.send(err.toString()).status(400);
       return;
     }
@@ -306,7 +311,8 @@ async function create_app(): Promise<Array<any>>{
       uid: "",
       workout_name: "",
       exercise_arr: [],
-      keywords: []
+      keywords: [],
+      creator: ""
     };
 
     try{
@@ -331,13 +337,14 @@ async function create_app(): Promise<Array<any>>{
     }
   });
 
-  app.post("/delete_workout", async (_req, _res) => {
+  app.delete("/delete_workout", async (_req, _res) => {
     const query = _req.body;
     let workoutQuery: workout = {
       uid: "",
       workout_name: "",
       exercise_arr: [],
-      keywords: []
+      keywords: [],
+      creator: ""
     };
 
     try{
@@ -362,7 +369,56 @@ async function create_app(): Promise<Array<any>>{
     }
   });
 
+  app.get("/get_user", async (_req, _res) => {
+    // get uid from params
+    let uid: string;
 
+    try{
+      uid = getUserQueries(_req.query);
+    } catch (err: any) {
+      _res.send(err.toString()).status(400);
+      return;
+    }
+
+    if (client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      return;
+    }
+
+    // fetch user information from api
+    try {
+      const user = await get_user(client_instance, uid);
+      _res.send(user).status(200);
+    } catch(err: any){
+      _res.send(err.toString()).status(400);
+      return;
+    }
+  });
+
+  app.post("/create_user", async (_req, _res) => {
+    // get uid from params
+    let uid: string;
+
+    try{
+      uid = getUserQueries(_req.body);
+    } catch (err: any) {
+      _res.send(err.toString()).status(400);
+      return;
+    }
+
+    if (client_instance === undefined){
+      _res.send("Database not connected").status(500);
+      return;
+    }
+
+    try {
+      const user = await create_user(client_instance, uid);
+      _res.send(user).status(200);
+    } catch(err: any){
+      _res.send(err.toString()).status(400);
+      return;
+    }
+  });
 
   return [app, client_instance];
 }

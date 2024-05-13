@@ -13,11 +13,11 @@ export function isString(input: any): Boolean {
 export function toString(input: any): string {
     input = decodeURIComponent(input)
     if (input === null || input === undefined) {
-      throw new Error("Input is not valid");  // Handle null and undefined explicitly if needed
+      throw new Error("Input is not valid");  
     } else if (input === "''" || input === '""'){
       return '';
     }
-    return String(input);  // This converts any input to a string, even objects will be "[object Object]"
+    return String(input);  
 }
 
 /**
@@ -82,19 +82,11 @@ export function toNumber(input: any): number {
  * @returns workout object
  */
 export function getWorkoutQueries(query: any): workout {
-  let workout_query: workout = {
-    uid: "",
-    workout_name: "",
-    exercise_arr: [],
-    keywords: [],
-  };
-
   // if the workout body does not contain the fields (as incomplete body) - throw error
   if (
     query.uid === undefined ||
     query.workout_name === undefined ||
-    query.exercise_arr === undefined ||
-    query.keywords === undefined
+    query.exercise_arr === undefined
   ) {
     throw new Error(
       "Malformed input! Workout subobject either missing or incomplete",
@@ -109,17 +101,19 @@ export function getWorkoutQueries(query: any): workout {
     throw new Error(
       "The 'exercise_arr' property of the query object is not an array",
     );
-  } else if (!isArray(query.keywords)) {
-    throw new Error(
-      "The 'keywords' property of the query object is not an array",
-    );
-  }
-
+  } 
+  query.exercise_arr == "[]" ? query.exercise_arr = [] : query.exercise_arr;
+  
   // save new data if not empty
-  workout_query.uid = toString(query.uid);
-  workout_query.workout_name = toString(query.workout_name);
-  workout_query.exercise_arr = (query.exercise_arr);
-  workout_query.keywords = (query.keywords);
+  const workout_query: workout = {
+    uid: query.uid.toString(),
+    workout_name: query.workout_name.toString(),
+    exercise_arr: query.exercise_arr,
+    keywords: [],
+    description: query.description ? query.description.toString() : '',
+    difficulity: query.difficulity ? query.difficulity.toString() : '',
+    creator: query.creator ? query.creator.toString() : '',
+  };
 
   return workout_query;
 }
@@ -163,9 +157,16 @@ export function getExerciseQueries(query: any): exercise {
     weight: toNumber(query.weight),
     arr_keywords: query.arr_keywords ? query.arr_keywords : [],
     description: query.description ? query.description.toString() : '',
-    difficulty: query.difficulty ? query.difficulty.toString() : ''  ,
+    difficulity: query.difficulity ? query.difficulity.toString() : ''  ,
     creator: query.creator ? query.creator.toString() : ''
   };
   // console.log(exercise_query)
   return exercise_query;
+}
+
+export function getUserQueries(query: any): string {
+  if (query.uid === undefined){
+    throw new Error (`UID not provided, got ${query.uid}`);
+  }
+  return toString(query.uid);
 }
