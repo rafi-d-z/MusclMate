@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Input } from "@/components/ui/input"
 import './App.css'
-import muscleLogo from './assets/MuscleLogo.png'
-import { Menubar } from "@/components/ui/menubar"
 import { CreateWorkoutCard } from "./components/ui/createWorkoutCard"
 import { WorkoutComponent } from "./components/ui/workoutComponent"
 import workout from "./DAO/workout"
