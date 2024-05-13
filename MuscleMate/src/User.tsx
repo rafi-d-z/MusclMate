@@ -46,6 +46,7 @@ function User(){
         });
     }, []); 
     console.log(userExercises)
+    console.log(userWorkouts)
 
     // get user information via user api (includes exercise and workouts)
     return (
@@ -57,7 +58,7 @@ function User(){
             <div key="exercises">
                 <h1>Your Exercises</h1>
                 {userExercises && userExercises.length > 0 && 
-                    <div className="flex flex-wrap space-x-4">
+                    <div className="flex flex-row space-x-4 overflow-x-auto">
                         {userExercises.map((exercise: exercise) => {
                             return (
                                 <div key={exercise.uid} className="w-52">
@@ -82,10 +83,20 @@ function User(){
 
             <div key="workouts">
                 <h1>Your Workouts</h1>
-
+                {userWorkouts && userWorkouts.length > 0 &&
+                    <div className="flex flex-wrap space-x-4">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Workout Name</CardTitle>
+                                <CardDescription>Workout Description</CardDescription>
+                            </CardHeader>
+                        </Card>
+                    </div>
+                    
+                }
             </div>
         </>
-    );
+    )
 }
 
 export default User;
