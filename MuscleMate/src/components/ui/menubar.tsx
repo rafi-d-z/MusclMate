@@ -82,7 +82,9 @@ export const Menubar: React.FC = () => {
         <SheetFooter>
           <div className='bottom'>
             <a><FaGear size={40}/></a>
-            <button onClick={goToUser}><CgProfile size={40} /></button>
+            <Redirect to="/user">
+            <button ><CgProfile size={40} /></button>
+            </Redirect>
           </div>
         </SheetFooter>
 
