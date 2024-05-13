@@ -83,6 +83,7 @@ export function toNumber(input: any): number {
  */
 export function getWorkoutQueries(query: any): workout {
   // if the workout body does not contain the fields (as incomplete body) - throw error
+  console.log(query)
   if (
     query.uid === undefined ||
     query.workout_name === undefined ||
