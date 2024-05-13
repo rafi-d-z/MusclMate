@@ -32,14 +32,15 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import "@/css/exerciseTable.css"
-
+import exercise from "@/DAO/exercise";
+import workout from "@/DAO/workout"
 
 interface CreateWorkoutCardProps {
     workoutName: string;
     setWorkoutName: React.Dispatch<React.SetStateAction<string>>;
     handleAddNewWorkout: (e: React.MouseEvent<HTMLButtonElement>) => any;
-    avaliableExercises: any[];
-    handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>, exercise: DropdownMenuCheckboxItemProps) => any;
+    avaliableExercises: exercise[];
+    handleCheckboxChange: (e, exercise_uid: string) => any;
 
 }
 
@@ -86,7 +87,7 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                                         <TableCell>{exercise.n_reps}</TableCell>
                                         <TableCell>{exercise.n_sets}</TableCell>
                                         <TableCell>{exercise.weight}</TableCell>
-                                        <TableCell className="text-right"><Checkbox onChange={(e) => handleCheckboxChange(e, exercise)} /></TableCell>
+                                        <TableCell className="text-right"><Checkbox onClick={(e) => handleCheckboxChange(e, exercise.uid)} /></TableCell>
                                 </TableRow>
                                 ))}
                             </TableBody>
