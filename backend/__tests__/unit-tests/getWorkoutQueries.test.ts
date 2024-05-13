@@ -11,7 +11,10 @@ describe("getWorkoutQueries unit tests", () => {
           "5442fc3c-bcb0-4ba0-87a3-a05e3186b298",
           "6d481883-a599-44d5-9c45-8e4f57e6d917",
         ],
-        keywords: ["unit-test", "unit-test", "unit-test", "edited-unit-test"],
+        keywords: [],
+        creator: '',
+        description: '',
+        difficulity: ''
       };
 
       const result: workout = getWorkoutQueries(workout);
@@ -24,6 +27,9 @@ describe("getWorkoutQueries unit tests", () => {
         workout_name: "",
         exercise_arr: [],
         keywords: [],
+        creator: '',
+        description: '',
+        difficulity: ''
       };
 
       const result: workout = getWorkoutQueries(workout);
@@ -36,6 +42,9 @@ describe("getWorkoutQueries unit tests", () => {
         workout_name: "unit_test",
         exercise_arr: [],
         keywords: [],
+        creator: '',
+        description: '',
+        difficulity: ''
       };
 
       const result: workout = getWorkoutQueries(workout);
@@ -48,6 +57,9 @@ describe("getWorkoutQueries unit tests", () => {
         workout_name: "",
         exercise_arr: [],
         keywords: [],
+        creator: '',
+        description: '',
+        difficulity: ''
       };
 
       const result: workout = getWorkoutQueries(workout);
