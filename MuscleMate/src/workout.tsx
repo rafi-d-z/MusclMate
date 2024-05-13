@@ -145,34 +145,34 @@ function Workout() {
         })
     });
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         console.log("Type:", selectedWorkout)
-    //         if (selectedWorkout) {
-    //             axios({
-    //                 method: 'get',
-    //                 url: 'https://api-muscleman.com/get_workouts',
-    //                 params: {
-    //                     uid: selectedWorkout.uid,
-    //                     workout_name: selectedWorkout.workout_name,
-    //                     exercise_arr: JSON.stringify(selectedWorkout.exercise_arr),
-    //                     keywords: JSON.stringify(selectedWorkout.keywords),
-    //                     difficulity: selectedWorkout.difficulity,
-    //                     description: selectedWorkout.description,
-    //                     creator: selectedWorkout.creator,
-    //                 },
-    //             }).then(function (response) {
-    //                 setSelectedWorkoutData(response.data);
-    //                 console.log("Data:", response.data);
-    //             }).catch((error) => {
-    //                 // Handle error
-    //                 console.error('Error fetching data:', error.response.data);
-    //             });
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, [selectedWorkout]);
+    useEffect(() => {
+        const fetchData = async () => {
+            console.log("Type:", selectedWorkout)
+            if (selectedWorkout) {
+                axios({
+                    method: 'get',
+                    url: 'https://api-muscleman.com/get_workouts',
+                    params: {
+                        uid: selectedWorkout.uid,
+                        workout_name: selectedWorkout.workout_name,
+                        exercise_arr: JSON.stringify(selectedWorkout.exercise_arr),
+                        keywords: JSON.stringify(selectedWorkout.keywords),
+                        difficulity: selectedWorkout.difficulity,
+                        description: selectedWorkout.description,
+                        creator: selectedWorkout.creator,
+                    },
+                }).then(function (response) {
+                    setSelectedWorkoutData(response.data);
+                    console.log("Data:", response.data);
+                }).catch((error) => {
+                    // Handle error
+                    console.error('Error fetching data:', error.response.data);
+                });
+            }
+        };
+    
+        fetchData();
+    }, [selectedWorkout]);
 
     
 
@@ -290,6 +290,7 @@ function Workout() {
                                         exerciseArray={data.exercise_arr}
                                         handleDeleteWorkout={handleDeleteWorkout}
                                         data={data}
+                                        avaliableExercises={exercises}
                                     />
                                 ))}
                         {selectedWorkoutData.map((data, index) => (

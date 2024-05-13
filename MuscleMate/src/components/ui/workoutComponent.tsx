@@ -23,6 +23,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { NewExerciseCard } from "@/components/ui/newExerciseCard"
+import AddExerciseToWorkout from "@/components/ui/addExerciseToWorkout"
 
 interface WorkoutComponentProps {
     isPopoverOpen: boolean;
@@ -41,6 +42,7 @@ interface WorkoutComponentProps {
     exerciseArray: Array<any>;
     handleDeleteWorkout: (e: React.MouseEvent<HTMLButtonElement>, data: any) => void;
     data: any;
+    avaliableExercises: any[];
 }
 
 export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
@@ -58,7 +60,8 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
     workoutTitle,
     exerciseArray,
     handleDeleteWorkout,
-    data
+    data,
+    avaliableExercises
 }) => {
     return (
         <div className="flex flex-col items-center justify-between p-6 lg:px-8">
@@ -136,6 +139,8 @@ export const WorkoutComponent: React.FC<WorkoutComponentProps> = ({
                         cardDescription={exercise.exercise_target}
                     />))}
             </div>
+            <AddExerciseToWorkout
+            avaliableExercises = {avaliableExercises}/>
         </div>
     )
 }

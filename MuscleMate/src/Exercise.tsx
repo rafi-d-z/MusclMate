@@ -146,6 +146,12 @@ function Exercise() {
     setWeightEdit(value);
   };
 
+  const handleAddExerciseToWorkout = (e: React.MouseEvent<HTMLButtonElement>) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
+    setSetsEdit(value);
+  };
+
   const onClickEdit = (e: React.MouseEvent<HTMLButtonElement>, exercise_card: exercise) => {
     e.preventDefault();
     console.log(exercise_card.exercise_name);

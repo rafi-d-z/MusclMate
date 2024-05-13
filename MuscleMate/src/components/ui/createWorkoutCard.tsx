@@ -33,25 +33,20 @@ import {
 } from "@/components/ui/table"
 import "@/css/exerciseTable.css"
 
-type Checked = DropdownMenuCheckboxItemProps["checked"]
-
 
 interface CreateWorkoutCardProps {
     workoutName: string;
     setWorkoutName: React.Dispatch<React.SetStateAction<string>>;
     handleAddNewWorkout: (e: React.MouseEvent<HTMLButtonElement>) => any;
     avaliableExercises: any[];
+    handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>, exercise: DropdownMenuCheckboxItemProps) => any;
 
 }
 
 export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
-    { workoutName, avaliableExercises, setWorkoutName, handleAddNewWorkout }
+    { workoutName, avaliableExercises, setWorkoutName, handleAddNewWorkout, handleCheckboxChange }
 
 ) => {
-
-    const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true)
-    const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false)
-    const [showPanel, setShowPanel] = React.useState<Checked>(false)
 
     return (
         <Card className="w-[200px] h-[600px] m-4 bg-gray-200">
@@ -86,18 +81,16 @@ export const CreateWorkoutCard: React.FC<CreateWorkoutCardProps> = (
                             <TableBody className="TableBody">
                                 {avaliableExercises.map((exercise) => (
                                 <TableRow >
-                                        <><TableCell className="font-medium">{exercise.exercise_name}</TableCell>
+                                        <TableCell className="font-medium">{exercise.exercise_name}</TableCell>
                                         <TableCell>{exercise.exercise_target}</TableCell>
                                         <TableCell>{exercise.n_reps}</TableCell>
                                         <TableCell>{exercise.n_sets}</TableCell>
-                                        <TableCell className="text-right">{exercise.weight}</TableCell></>
+                                        <TableCell>{exercise.weight}</TableCell>
+                                        <TableCell className="text-right"><Checkbox onChange={(e) => handleCheckboxChange(e, exercise)} /></TableCell>
                                 </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
-
-
-
                         <div className="flex w-full max-w-sm items-center space-x-2">
                             <Input type="Name" placeholder="Name" value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} />
                             <Button type="submit" onClick={handleAddNewWorkout}>Submit</Button>
