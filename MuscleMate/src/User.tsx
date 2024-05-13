@@ -14,9 +14,11 @@ import { SetStateAction, useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import config from "../auth/firebase.config"
 import axios from "axios";
+import { Card } from "./components/ui/card";
+import exercise from "DAO/exercise";
 
 function User(){
-    const [userInfo, setUserInfo] = useState([]);
+    const [userExercises, setUserExercises] = useState<Array<any> | undefined>(undefined);
     const [uid, setUID] = useState<string | undefined>("");
 
     useEffect(() => {
@@ -25,36 +27,46 @@ function User(){
             if (user) {
                 console.log(user.uid)
                 setUID(user.uid);
-
-                if(uid !== undefined){
+    
                 axios({
                     method: 'get',
                     url: 'https://api-muscleman.com/get_user',
                     params: {
-                        uid: uid
+                        uid: user.uid
                     }
                 })
                 .then(function (response) {
                     console.log(response.data)
+                    setUserExercises(response.data[0].exercises)
                 })
             }
-            }
         });
-    }, []);    
-        // get user information via user api (includes exercise and workouts)
+    }, []); 
+    console.log(userExercises)
+
+    // get user information via user api (includes exercise and workouts)
     return (
         <>
             <TopBar />
             {/* user information
                 user workouts
                 user exercises */}
-            <div>
+            <div key="exercises">
                 <h1>Your Exercises</h1>
-                <ul>
-                    {/* {userInfo.map((exercise: { name: string; }) => (
-                        <li>{exercise.name}</li>
-                    ))} */}
-                </ul>
+                {userExercises && userExercises.length > 0 && 
+                userExercises.map((exercise: exercise) => {
+                    return (
+                        <div key={exercise.uid}>
+                            <Card className='w-[210px]'>
+                                <div key="exercise-content">
+                                    <h2>{exercise.exercise_name}</h2>
+                                    <p>{exercise.exercise_target}</p>
+                                </div>
+                            </Card>
+                        </div>
+                    )
+                })
+                }
             </div>
         </>
     );
